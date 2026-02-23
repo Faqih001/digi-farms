@@ -1,0 +1,548 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===========================================================================
+// ENUMS
+// ===========================================================================
+
+enum Role {
+  FARMER
+  SUPPLIER
+  LENDER
+  ADMIN
+}
+
+enum CropStatus {
+  HEALTHY
+  DISEASED
+  AT_RISK
+  UNKNOWN
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum LoanStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  DISBURSED
+  REPAID
+  DEFAULTED
+}
+
+enum InsuranceStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  CLAIMED
+}
+
+enum SubscriptionTier {
+  FREE
+  BASIC
+  PRO
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  CANCELLED
+  PAST_DUE
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+// ===========================================================================
+// USERS & AUTH
+// ===========================================================================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          Role      @default(FARMER)
+  phone         String?
+  country       String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts       Account[]
+  sessions       Session[]
+  farm           Farm?
+  supplier       Supplier?
+  orders         Order[]
+  loanApplications LoanApplication[]
+  insurancePolicies InsurancePolicies[]
+  subscription   Subscription?
+  notifications  Notification[]
+  reviews        Review[]
+  payments       Payment[]
+  activityLogs   ActivityLog[]
+  supportTickets SupportTicket[]
+
+  @@index([email])
+  @@index([role])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ===========================================================================
+// FARMS & CROPS
+// ===========================================================================
+
+model Farm {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  name        String
+  location    String
+  latitude    Float?
+  longitude   Float?
+  sizeHectares Float
+  soilType    String?
+  waterSource String?
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  crops       Crop[]
+  diagnostics Diagnostic[]
+  soilReports SoilReport[]
+
+  @@index([userId])
+  @@index([latitude, longitude])
+}
+
+model Crop {
+  id          String     @id @default(cuid())
+  farmId      String
+  name        String
+  variety     String?
+  plantedAt   DateTime
+  harvestedAt DateTime?
+  areaHectares Float
+  expectedYield Float?
+  actualYield  Float?
+  status      CropStatus @default(HEALTHY)
+  season      String?
+  notes       String?    @db.Text
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  farm        Farm         @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  diagnostics Diagnostic[]
+
+  @@index([farmId])
+  @@index([status])
+}
+
+model Diagnostic {
+  id          String     @id @default(cuid())
+  farmId      String
+  cropId      String?
+  imageUrl    String
+  disease     String?
+  confidence  Float?
+  severity    String?
+  recommendations String? @db.Text
+  status      CropStatus @default(UNKNOWN)
+  aiModelVersion String?
+  createdAt   DateTime   @default(now())
+
+  farm        Farm  @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  crop        Crop? @relation(fields: [cropId], references: [id])
+
+  @@index([farmId])
+  @@index([cropId])
+  @@index([createdAt])
+}
+
+model SoilReport {
+  id          String   @id @default(cuid())
+  farmId      String
+  ph          Float?
+  nitrogen    Float?
+  phosphorus  Float?
+  potassium   Float?
+  organicMatter Float?
+  moisture    Float?
+  recommendations String? @db.Text
+  testedAt    DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  farm        Farm @relation(fields: [farmId], references: [id], onDelete: Cascade)
+
+  @@index([farmId])
+}
+
+// ===========================================================================
+// MARKETPLACE
+// ===========================================================================
+
+model Supplier {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  companyName  String
+  description  String?  @db.Text
+  logoUrl      String?
+  website      String?
+  phone        String?
+  address      String?
+  isVerified   Boolean  @default(false)
+  rating       Float    @default(0)
+  totalSales   Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products     Product[]
+  payouts      Payout[]
+
+  @@index([userId])
+  @@index([isVerified])
+}
+
+model Product {
+  id           String   @id @default(cuid())
+  supplierId   String
+  name         String
+  description  String?  @db.Text
+  category     String
+  subcategory  String?
+  price        Float
+  unit         String   @default("unit")
+  stock        Int      @default(0)
+  imageUrls    String[] 
+  tags         String[]
+  isActive     Boolean  @default(true)
+  isFeatured   Boolean  @default(false)
+  isAntiCounterfeit Boolean @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  supplier     Supplier    @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  orderItems   OrderItem[]
+  reviews      Review[]
+
+  @@index([supplierId])
+  @@index([category])
+  @@index([isActive])
+  @@index([isFeatured])
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  userId      String
+  totalAmount Float
+  status      OrderStatus @default(PENDING)
+  paymentStatus PaymentStatus @default(PENDING)
+  shippingAddress String?
+  notes       String?     @db.Text
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  user        User        @relation(fields: [userId], references: [id])
+  items       OrderItem[]
+  payment     Payment?
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Float
+
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+// ===========================================================================
+// FINANCING & INSURANCE
+// ===========================================================================
+
+model LoanApplication {
+  id              String     @id @default(cuid())
+  userId          String
+  amount          Float
+  purpose         String
+  tenure          Int        // months
+  interestRate    Float?
+  status          LoanStatus @default(DRAFT)
+  farmData        Json?      // Snapshot of farm data at application time
+  riskScore       Float?
+  approvedAmount  Float?
+  disbursedAt     DateTime?
+  repaidAt        DateTime?
+  dueDate         DateTime?
+  notes           String?    @db.Text
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  user            User    @relation(fields: [userId], references: [id])
+  payments        Payment[]
+
+  @@index([userId])
+  @@index([status])
+}
+
+model InsurancePolicies {
+  id              String          @id @default(cuid())
+  userId          String
+  policyNumber    String          @unique
+  provider        String
+  cropCovered     String
+  coverageAmount  Float
+  premium         Float
+  startDate       DateTime
+  endDate         DateTime
+  status          InsuranceStatus @default(ACTIVE)
+  claimAmount     Float?
+  claimedAt       DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  user            User    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@index([policyNumber])
+}
+
+// ===========================================================================
+// SUBSCRIPTIONS & PAYMENTS
+// ===========================================================================
+
+model Subscription {
+  id          String             @id @default(cuid())
+  userId      String             @unique
+  tier        SubscriptionTier   @default(FREE)
+  status      SubscriptionStatus @default(ACTIVE)
+  startDate   DateTime           @default(now())
+  endDate     DateTime?
+  renewsAt    DateTime?
+  price       Float              @default(0)
+  stripeSubId String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Payment {
+  id              String        @id @default(cuid())
+  userId          String
+  orderId         String?       @unique
+  loanId          String?
+  amount          Float
+  currency        String        @default("USD")
+  status          PaymentStatus @default(PENDING)
+  method          String?
+  reference       String?       @unique
+  failureReason   String?
+  processedAt     DateTime?
+  createdAt       DateTime      @default(now())
+
+  user            User             @relation(fields: [userId], references: [id])
+  order           Order?           @relation(fields: [orderId], references: [id])
+  loanApplication LoanApplication? @relation(fields: [loanId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Payout {
+  id          String        @id @default(cuid())
+  supplierId  String
+  amount      Float
+  currency    String        @default("USD")
+  status      PaymentStatus @default(PENDING)
+  reference   String?
+  processedAt DateTime?
+  createdAt   DateTime      @default(now())
+
+  supplier    Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  @@index([supplierId])
+}
+
+// ===========================================================================
+// NOTIFICATIONS & COMMUNICATION
+// ===========================================================================
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String   @db.Text
+  type      String   @default("info") // info | warning | success | error
+  isRead    Boolean  @default(false)
+  link      String?
+  createdAt DateTime @default(now())
+
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isRead])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  rating    Int      // 1-5
+  comment   String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User    @relation(fields: [userId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([productId])
+  @@index([rating])
+}
+
+model SupportTicket {
+  id          String       @id @default(cuid())
+  userId      String
+  subject     String
+  description String       @db.Text
+  status      TicketStatus @default(OPEN)
+  priority    String       @default("medium") // low | medium | high | critical
+  category    String?
+  resolvedAt  DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  user        User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+}
+
+// ===========================================================================
+// ACTIVITY LOGS (Audit)
+// ===========================================================================
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String
+  action    String
+  entity    String
+  entityId  String?
+  metadata  Json?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  user      User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+// ===========================================================================
+// AGROVETS
+// ===========================================================================
+
+model Agrovet {
+  id          String   @id @default(cuid())
+  name        String
+  address     String
+  latitude    Float
+  longitude   Float
+  phone       String?
+  email       String?
+  services    String[]
+  isVerified  Boolean  @default(false)
+  rating      Float    @default(0)
+  openingHours String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([latitude, longitude])
+  @@index([isVerified])
+}
