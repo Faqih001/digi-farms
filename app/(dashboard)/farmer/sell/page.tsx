@@ -12,6 +12,7 @@ import { Store, TrendingUp, Package, Plus, X, ShoppingCart, Loader2, Clock } fro
 import { getFarmerOrders } from "@/lib/actions/order";
 
 type FarmerOrder = Awaited<ReturnType<typeof getFarmerOrders>>[number];
+type FarmerOrderItem = FarmerOrder['items'][number];
 
 const STATUS_STYLES: Record<string, { label: string; variant: "secondary" | "success" | "destructive" | "info" }> = {
   PENDING:   { label: "Pending",   variant: "secondary"   },
@@ -240,7 +241,7 @@ export default function SellProducePage() {
                         </div>
                       </div>
                       <div className="space-y-1">
-                        {order.items.map((item) => (
+                        {order.items.map((item: FarmerOrderItem) => (
                           <div key={item.id} className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                             <span>{item.product.name} × {item.quantity}</span>
                             <span>KES {(item.price * item.quantity).toLocaleString()}</span>

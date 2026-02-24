@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { getAdminOrders, updateAdminOrderStatus } from "@/lib/actions/admin";
 
 type Order = Awaited<ReturnType<typeof getAdminOrders>>[number];
+type OrderItem = Order['items'][number];
 
 const STATUS_OPTIONS = ["all", "PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELLED"];
 
@@ -196,7 +197,7 @@ export default function AdminOrdersPage() {
               <div>
                 <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Items</p>
                 <div className="space-y-2">
-                  {selectedOrder.items.map((item) => (
+                  {selectedOrder.items.map((item: OrderItem) => (
                     <div key={item.id} className="flex items-center justify-between bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
                       <div>
                         <p className="text-sm font-medium">{item.product.name}</p>
