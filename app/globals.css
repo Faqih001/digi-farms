@@ -98,11 +98,12 @@ body {
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(15, 31, 61, 0.06);
+  color: var(--foreground);
+  box-shadow: 0 6px 30px rgba(2, 6, 23, 0.06);
   border-radius: var(--radius-lg);
 }
 .dark .glass-card {
@@ -112,7 +113,9 @@ body {
 
 /* ---- Gradient backgrounds ---- */
 .gradient-hero {
-  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 40%, #d1fae5 70%, #a7f3d0 100%);
+  background: linear-gradient(135deg, #d2ffe8 0%, #b3f6d0 35%, #7fe8b0 65%, #38c07f 100%);
+  /* subtle radial to anchor center for better card contrast */
+  background-image: linear-gradient(135deg, #d2ffe8 0%, #b3f6d0 35%, #7fe8b0 65%, #38c07f 100%), radial-gradient(600px 300px at 75% 35%, rgba(0,0,0,0.04), transparent 30%);
 }
 .dark .gradient-hero {
   background: linear-gradient(135deg, #03110a 0%, #0a2218 40%, #0d3020 70%, #0f3d28 100%);
@@ -162,7 +165,7 @@ body {
 
 /* ---- Text gradient ---- */
 .text-gradient {
-  background: linear-gradient(135deg, #22c55e, #4ade80, #86efac);
+  background: linear-gradient(135deg, #16a34a, #15803d, #14532d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
