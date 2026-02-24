@@ -129,7 +129,7 @@ export default function FarmProfilePage() {
     try {
       const data = await getUserFarms();
       setFarms(data);
-      if (selectedFarm) setSelectedFarm(data.find(f => f.id === selectedFarm.id) ?? data[0] ?? null);
+      if (selectedFarm) setSelectedFarm(data.find((f: Farm) => f.id === selectedFarm.id) ?? data[0] ?? null);
       else if (data.length > 0) setSelectedFarm(data[0]);
     } catch { toast.error("Failed to load farms"); }
   };
