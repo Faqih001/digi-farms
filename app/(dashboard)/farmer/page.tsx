@@ -23,7 +23,7 @@ export default async function FarmerOverviewPage() {
     db.crop.findMany({ where: { farm: { userId } }, take: 6, orderBy: { plantedAt: "desc" } }),
   ]);
 
-  const totalHectares = farms.reduce((s, f) => s + (f.sizeHectares ?? 0), 0);
+  const totalHectares = farms.reduce((s: number, f: any) => s + (f.sizeHectares ?? 0), 0);
   const activeCrops = crops.filter((c) => c.status === "HEALTHY").length;
 
   return (
