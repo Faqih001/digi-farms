@@ -84,7 +84,7 @@ export default function Header() {
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-4">
               {navLinks.map((link) =>
                 link.children ? (
                   <div
@@ -93,9 +93,9 @@ export default function Header() {
                     onMouseEnter={() => setOpenDropdown(link.label)}
                     onMouseLeave={() => setOpenDropdown(null)}
                   >
-                    <button className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-950 transition-all">
+                    <button className="flex items-center gap-2 px-4 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-950 transition-all">
                       {link.label}
-                      <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-200", openDropdown === link.label && "rotate-180")} />
+                      <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", openDropdown === link.label && "rotate-180")} />
                     </button>
 
                     {openDropdown === link.label && (
@@ -120,7 +120,7 @@ export default function Header() {
                   <Link
                     key={link.label}
                     href={link.href}
-                    className="px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-950 transition-all"
+                    className="px-4 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-950 transition-all"
                   >
                     {link.label}
                   </Link>
@@ -129,7 +129,7 @@ export default function Header() {
             </nav>
 
             {/* CTA Buttons */}
-            <div className="hidden lg:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-5">
               {mounted && (
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
@@ -139,13 +139,13 @@ export default function Header() {
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                 </button>
               )}
-              <Button variant="outline" size="sm" asChild>
+              <Button variant="outline" size="lg" asChild>
                 <Link href="/login">
                   <LogIn className="w-4 h-4" />
                   Sign In
                 </Link>
               </Button>
-              <Button size="sm" asChild>
+              <Button size="lg" asChild>
                 <Link href="/register">Get Started Free</Link>
               </Button>
             </div>
