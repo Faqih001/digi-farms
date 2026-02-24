@@ -210,7 +210,7 @@ export default function TechnologyPage() {
                 ))}
               </div>
             </div>
-            <div className="bg-slate-900 rounded-2xl p-6 text-white">
+            <div className="bg-green-800 dark:bg-slate-900 rounded-2xl p-6 text-white">
               <div className="text-sm text-slate-400 mb-4">Farm Performance — Season Overview</div>
               <div className="grid grid-cols-3 gap-3 mb-6">
                 {[{ label: "Yield Score", value: "87/100", color: "text-green-400" }, { label: "Profitability", value: "KES 124K", color: "text-amber-400" }, { label: "Season Rank", value: "Top 15%", color: "text-blue-400" }].map(({ label, value, color }) => (
