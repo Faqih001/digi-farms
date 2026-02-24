@@ -101,7 +101,7 @@ export default function OrdersPage() {
               {filtered.map(o => {
                 const sc = statusConfig[o.status] ?? statusConfig.PENDING;
                 const actions = nextActions[o.status] ?? [];
-                const total = o.items.reduce((s, i) => s + i.quantity * i.unitPrice, 0);
+                const total = o.items.reduce((s, i) => s + i.quantity * i.price, 0);
                 return (
                   <div key={o.id} className="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -152,13 +152,13 @@ export default function OrdersPage() {
                 {detailOrder.items.map(i => (
                   <div key={i.id} className="flex justify-between text-sm">
                     <span>{i.product.name} × {i.quantity}</span>
-                    <span className="font-medium">KES {(i.quantity * i.unitPrice).toLocaleString()}</span>
+                    <span className="font-medium">KES {(i.quantity * i.price).toLocaleString()}</span>
                   </div>
                 ))}
               </div>
               <div className="flex justify-between text-sm font-bold border-t border-slate-200 dark:border-slate-700 pt-3">
                 <span>Total</span>
-                <span>KES {detailOrder.items.reduce((s, i) => s + i.quantity * i.unitPrice, 0).toLocaleString()}</span>
+                <span>KES {detailOrder.items.reduce((s, i) => s + i.quantity * i.price, 0).toLocaleString()}</span>
               </div>
             </div>
           )}
