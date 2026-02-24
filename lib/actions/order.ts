@@ -52,3 +52,63 @@ export async function getSupplierOrders() {
     orderBy: { createdAt: "desc" },
   });
 }
+
+export async function createOrder(
+  items: { productId: string; quantity: number }[],
+  shippingAddress?: string
+) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  if (!items.length) throw new Error("Cart is empty");
+
+  // Fetch all products to calculate price and validate stock
+  const products = await db.product.findMany({
+    where: { id: { in: items.map((i) => i.productId) }, isActive: true },
+  });
+
+  const productMap = new Map(products.map((p) => [p.id, p]));
+
+  for (const item of items) {
+    const product = productMap.get(item.productId);
+    if (!product) throw new Error(`Product not found`);
+    if (product.stock < item.quantity) throw new Error(`Insufficient stock for ${product.name}`);
+  }
+
+  const totalAmount = items.reduce((sum, item) => {
+    const product = productMap.get(item.productId)!;
+    return sum + product.price * item.quantity;
+  }, 0);
+
+  const order = await db.order.create({
+    data: {
+      userId: session.user.id,
+      totalAmount,
+      status: "PENDING",
+      paymentStatus: "PENDING",
+      shippingAddress: shippingAddress ?? null,
+      items: {
+        create: items.map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          price: productMap.get(item.productId)!.price,
+        })),
+      },
+    },
+    include: { items: true },
+  });
+
+  // Decrement stock
+  await Promise.all(
+    items.map((item) =>
+      db.product.update({
+        where: { id: item.productId },
+        data: { stock: { decrement: item.quantity } },
+      })
+    )
+  );
+
+  revalidatePath("/farmer/buy");
+  revalidatePath("/farmer/orders");
+  return { success: true, order };
+}

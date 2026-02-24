@@ -71,3 +71,35 @@ export async function getSupplierProducts() {
     orderBy: { createdAt: "desc" },
   });
 }
+
+export async function getMarketplaceProducts(filters?: { category?: string; search?: string }) {
+  return db.product.findMany({
+    where: {
+      isActive: true,
+      ...(filters?.category && filters.category !== "all" ? { category: filters.category } : {}),
+      ...(filters?.search
+        ? { OR: [{ name: { contains: filters.search, mode: "insensitive" } }, { description: { contains: filters.search, mode: "insensitive" } }] }
+        : {}),
+    },
+    include: { supplier: { select: { companyName: true, rating: true, isVerified: true } } },
+    orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
+    take: 100,
+  });
+}
+
+export async function updateProductStock(productId: string, stock: number) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  const supplier = await db.supplier.findUnique({ where: { userId: session.user.id } });
+  if (!supplier) throw new Error("Supplier profile not found");
+
+  const existing = await db.product.findUnique({ where: { id: productId } });
+  if (!existing || existing.supplierId !== supplier.id) throw new Error("Not found or forbidden");
+
+  const product = await db.product.update({ where: { id: productId }, data: { stock } });
+
+  revalidatePath("/supplier/inventory");
+  revalidatePath("/supplier/products");
+  return { success: true, product };
+}

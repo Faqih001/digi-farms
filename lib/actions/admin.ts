@@ -84,3 +84,76 @@ export async function verifySupplier(supplierId: string, isVerified: boolean) {
   revalidatePath("/admin/marketplace");
   return { success: true };
 }
+
+export async function getAdminOrders(filters?: { status?: string; search?: string }) {
+  await requireAdmin();
+  return db.order.findMany({
+    where: {
+      ...(filters?.status && filters.status !== "all" ? { status: filters.status as "PENDING" | "CONFIRMED" | "SHIPPED" | "DELIVERED" | "CANCELLED" } : {}),
+      ...(filters?.search
+        ? {
+            OR: [
+              { id: { contains: filters.search, mode: "insensitive" } },
+              { user: { name: { contains: filters.search, mode: "insensitive" } } },
+              { user: { email: { contains: filters.search, mode: "insensitive" } } },
+            ],
+          }
+        : {}),
+    },
+    include: {
+      user: { select: { name: true, email: true } },
+      items: { include: { product: { select: { name: true, supplierId: true } } } },
+    },
+    orderBy: { createdAt: "desc" },
+    take: 200,
+  });
+}
+
+export async function updateAdminOrderStatus(
+  orderId: string,
+  status: "PENDING" | "CONFIRMED" | "SHIPPED" | "DELIVERED" | "CANCELLED"
+) {
+  await requireAdmin();
+  await db.order.update({ where: { id: orderId }, data: { status } });
+  revalidatePath("/admin/orders");
+  return { success: true };
+}
+
+export async function getSupportTickets(filters?: { status?: string; priority?: string }) {
+  await requireAdmin();
+  return db.supportTicket.findMany({
+    where: {
+      ...(filters?.status && filters.status !== "all" ? { status: filters.status as "OPEN" | "IN_PROGRESS" | "RESOLVED" | "CLOSED" } : {}),
+      ...(filters?.priority && filters.priority !== "all" ? { priority: filters.priority } : {}),
+    },
+    include: { user: { select: { name: true, email: true } } },
+    orderBy: { createdAt: "desc" },
+    take: 200,
+  });
+}
+
+export async function updateSupportTicketStatus(
+  ticketId: string,
+  status: "OPEN" | "IN_PROGRESS" | "RESOLVED" | "CLOSED"
+) {
+  await requireAdmin();
+  await db.supportTicket.update({
+    where: { id: ticketId },
+    data: {
+      status,
+      ...(status === "RESOLVED" || status === "CLOSED" ? { resolvedAt: new Date() } : {}),
+    },
+  });
+  revalidatePath("/admin/support");
+  return { success: true };
+}
+
+export async function getAdminSubscriptions() {
+  await requireAdmin();
+  return db.subscription.findMany({
+    include: { user: { select: { name: true, email: true, role: true } } },
+    orderBy: { createdAt: "desc" },
+    take: 200,
+  });
+}
+
