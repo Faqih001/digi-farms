@@ -77,7 +77,10 @@ export default function MarketplacePage() {
       </section>
 
       {/* Categories */}
-      <section className="py-20 bg-slate-50 dark:bg-slate-950">
+      <section
+        className="py-20 bg-image-overlay"
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=1600&q=80&auto=format&fit=crop')" }}
+      >
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-14">
             <Badge variant="secondary" className="mb-4">Browse Categories</Badge>

@@ -84,7 +84,10 @@ export default function AnalyticsPage() {
       </section>
 
       {/* Features */}
-      <section className="py-20 bg-slate-50 dark:bg-slate-950">
+      <section
+        className="py-20 bg-image-overlay"
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?w=1600&q=80&auto=format&fit=crop')" }}
+      >
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-14">
             <Badge variant="secondary" className="mb-4">Capabilities</Badge>
