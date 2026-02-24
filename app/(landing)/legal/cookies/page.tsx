@@ -81,7 +81,7 @@ export default function CookiePolicyPage() {
 
       {/* Content */}
       <section className="py-16 bg-white dark:bg-slate-900">
-        <div className="container mx-auto px-4 max-w-4xl">
+        <div className="container mx-auto px-4 max-w-7xl">
           <Card className="dark:bg-slate-800/50 border-slate-200 dark:border-slate-800">
             <CardContent className="p-6 lg:p-10">
               <div className="flex items-center gap-3 mb-8 pb-6 border-b border-slate-200 dark:border-slate-700">
@@ -145,7 +145,7 @@ export default function CookiePolicyPage() {
                 </h3>
                 <div className="grid sm:grid-cols-2 gap-4">
                   {managementOptions.map((m) => (
-                    <div key={m.title} className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                    <div key={m.title} className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                       <h4 className="font-semibold text-sm text-slate-800 dark:text-slate-200 mb-1 flex items-center gap-1.5">
                         <CheckCircle className="w-4 h-4 text-green-500" />
                         {m.title}
