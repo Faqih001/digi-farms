@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown, Leaf, LogIn, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -43,6 +43,7 @@ export default function Header() {
   useEffect(() => setMounted(true), []);
   const [lang, setLang] = useState<string>("EN");
   const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const langMenuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -68,6 +69,19 @@ export default function Header() {
     }
   }
 
+  // Close the language menu when clicking outside
+  useEffect(() => {
+    function onDocClick(e: MouseEvent) {
+      if (!langMenuRef.current) return;
+      const el = e.target as Node;
+      if (langMenuOpen && !langMenuRef.current.contains(el)) {
+        setLangMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, [langMenuOpen]);
+
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
@@ -86,9 +100,13 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <span>🌍 Kenya · East Africa</span>
             <span className="text-sm">Office Hours: Mon–Fri 08:00–17:00</span>
-            <div className="relative">
+            <div className="relative" ref={langMenuRef}>
               <button
-                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLangMenuOpen(!langMenuOpen);
+                }}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-100 dark:bg-green-800 text-sm font-semibold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-green-700 transition-colors"
                 aria-haspopup="true"
                 aria-expanded={langMenuOpen}
@@ -98,15 +116,23 @@ export default function Header() {
               </button>
 
               {langMenuOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 p-1">
+                <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 p-1 z-50">
                   <button
-                    onClick={() => selectLang("EN")}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      selectLang("EN");
+                    }}
                     className="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-green-50 dark:hover:bg-green-950/30 transition-colors"
                   >
                     English
                   </button>
                   <button
-                    onClick={() => selectLang("SW")}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      selectLang("SW");
+                    }}
                     className="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-green-50 dark:hover:bg-green-950/30 transition-colors"
                   >
                     Kiswahili

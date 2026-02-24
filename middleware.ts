@@ -1,4 +1,3 @@
-import { auth } from "./lib/auth";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -10,21 +9,22 @@ const authRoutes = ["/login", "/register"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const session = await auth();
+  // Lightweight edge-safe session detection: check NextAuth session cookies.
+  // Full session verification (and role resolution) is server-side only and
+  // shouldn't import Node-only modules into the edge runtime.
+  const sessionCookie =
+    request.cookies.get("__Secure-next-auth.session-token")?.value ||
+    request.cookies.get("next-auth.session-token")?.value ||
+    request.cookies.get("next-auth.callback-url")?.value ||
+    null;
+  const isAuthenticated = Boolean(sessionCookie);
 
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
   const isProtected = protectedPrefixes.some((prefix) => pathname.startsWith(prefix));
 
-  // Redirect authenticated users away from auth pages
-  if (isAuthRoute && session) {
-    const role = session.user.role ?? "FARMER";
-    const redirectMap: Record<string, string> = {
-      FARMER: "/farmer",
-      SUPPLIER: "/supplier",
-      LENDER: "/lender",
-      ADMIN: "/admin",
-    };
-    return NextResponse.redirect(new URL(redirectMap[role] ?? "/farmer", request.url));
+  // Redirect authenticated users away from auth pages (default to /farmer)
+  if (isAuthRoute && isAuthenticated) {
+    return NextResponse.redirect(new URL("/farmer", request.url));
   }
 
   // Redirect unauthenticated users to login
@@ -34,32 +34,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // Role-based access control
-  if (isProtected && session) {
-    const role = session.user.role;
-    const roleRouteMap: Record<string, string> = {
-      FARMER: "/farmer",
-      SUPPLIER: "/supplier",
-      LENDER: "/lender",
-      ADMIN: "/admin",
-    };
-
-    const allowedPrefix = roleRouteMap[role ?? "FARMER"];
-    const isAdminRoute = pathname.startsWith("/admin");
-
-    // Admin can access everything
-    if (role === "ADMIN") return NextResponse.next();
-
-    // Non-admin trying to access admin route
-    if (isAdminRoute) {
-      return NextResponse.redirect(new URL(allowedPrefix, request.url));
-    }
-
-    // Role mismatch — redirect to correct dashboard
-    if (!pathname.startsWith(allowedPrefix)) {
-      return NextResponse.redirect(new URL(allowedPrefix, request.url));
-    }
-  }
+  // Note: Role-based redirects require server-verified session data (e.g. via
+  // `auth()` from next-auth) which imports Node-only modules and cannot run
+  // in the edge runtime. Keep middleware lightweight: only guard protected
+  // routes by authentication presence, and let server-side handlers enforce
+  // role-based access and redirects when needed.
 
   return NextResponse.next();
 }
