@@ -117,7 +117,10 @@ export default function Header() {
               </button>
 
               {langMenuOpen && (
-                <div className="absolute right-0 mt-2 w-28 bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 p-1 z-50 pointer-events-auto">
+                <div
+                  className="absolute right-0 mt-2 w-28 bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-1 z-60 pointer-events-auto"
+                  style={{ backgroundColor: mounted && theme === "dark" ? "#0f1724" : "#ffffff" }}
+                >
                   <button
                     type="button"
                     onClick={(e) => {
@@ -130,8 +133,11 @@ export default function Header() {
                     className={cn(
                       "w-full text-left px-3 py-2 text-sm rounded-md transition-colors cursor-pointer",
                       lang === "EN"
-                        ? "bg-green-50 dark:bg-green-950/30"
-                        : "hover:bg-green-50 dark:hover:bg-green-950/30"
+                        ? "bg-green-600 text-white dark:bg-green-600"
+                        : cn(
+                            mounted && theme === "dark" ? "text-slate-200" : "text-slate-900",
+                            "hover:bg-green-50 dark:hover:bg-green-800/40"
+                          )
                     )}
                   >
                     English
@@ -148,8 +154,11 @@ export default function Header() {
                     className={cn(
                       "w-full text-left px-3 py-2 text-sm rounded-md transition-colors cursor-pointer",
                       lang === "SW"
-                        ? "bg-green-50 dark:bg-green-950/30"
-                        : "hover:bg-green-50 dark:hover:bg-green-950/30"
+                        ? "bg-green-600 text-white dark:bg-green-600"
+                        : cn(
+                            mounted && theme === "dark" ? "text-slate-200" : "text-slate-900",
+                            "hover:bg-green-50 dark:hover:bg-green-800/40"
+                          )
                     )}
                   >
                     Kiswahili
