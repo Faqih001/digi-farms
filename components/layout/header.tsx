@@ -50,16 +50,18 @@ export default function Header() {
   return (
     <>
       {/* Topbar */}
-      <div className="hidden md:flex items-center justify-between bg-green-800 text-green-100 text-xs px-6 py-1.5">
-        <div className="flex items-center gap-6">
-          <span>📞 +254 (0) 700 DIGI-FARM</span>
-          <span>✉️ hello@digi-farms.com</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <span>🌍 Kenya · East Africa</span>
-          <Link href="/login" className="hover:text-white transition-colors">Sign In</Link>
-          <span>|</span>
-          <Link href="/register" className="hover:text-white transition-colors font-semibold">Register Free</Link>
+      <div className="hidden md:block bg-green-700 dark:bg-slate-900 border-b border-green-600/50 dark:border-slate-700 text-white dark:text-slate-300 text-xs">
+        <div className="container mx-auto px-4 max-w-7xl flex items-center justify-between py-1.5">
+          <div className="flex items-center gap-6">
+            <span>📞 +254 (0) 700 DIGI-FARM</span>
+            <span>✉️ hello@digi-farms.com</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <span>🌍 Kenya · East Africa</span>
+            <Link href="/login" className="hover:text-green-200 dark:hover:text-white transition-colors">Sign In</Link>
+            <span className="opacity-50">|</span>
+            <Link href="/register" className="hover:text-green-200 dark:hover:text-white transition-colors font-semibold">Register Free</Link>
+          </div>
         </div>
       </div>
 
@@ -136,13 +138,13 @@ export default function Header() {
               {mounted && (
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="p-2 rounded-lg text-slate-600 dark:text-slate-400 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                   aria-label="Toggle theme"
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                 </button>
               )}
-              <Button variant="ghost" size="sm" asChild>
+              <Button variant="outline" size="sm" asChild>
                 <Link href="/login">
                   <LogIn className="w-4 h-4" />
                   Sign In

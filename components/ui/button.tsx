@@ -10,9 +10,9 @@ const buttonVariants = cva(
       variant: {
         default: "bg-green-600 text-white shadow hover:bg-green-700 active:scale-[0.98]",
         destructive: "bg-red-600 text-white shadow hover:bg-red-700 active:scale-[0.98]",
-        outline: "border-2 border-green-600 text-green-600 bg-transparent hover:bg-green-50 dark:hover:bg-green-950 active:scale-[0.98]",
+        outline: "border-2 border-green-600 text-green-600 bg-transparent hover:bg-green-50 dark:border-green-500 dark:text-green-400 dark:hover:bg-green-950 active:scale-[0.98]",
         secondary: "bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700 active:scale-[0.98]",
-        ghost: "hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50",
+        ghost: "text-slate-700 dark:text-slate-200 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50",
         link: "text-green-600 underline-offset-4 hover:underline p-0",
         hero: "bg-white text-green-800 shadow-lg hover:bg-green-50 font-bold active:scale-[0.98]",
         "hero-outline": "border-2 border-white text-white hover:bg-white/10 font-bold active:scale-[0.98]",

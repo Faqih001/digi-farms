@@ -178,7 +178,7 @@ export default function MediaKitPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-green-700 dark:bg-green-900">
+      <section className="py-20 bg-gradient-to-br from-green-500 to-green-700 dark:from-green-800 dark:to-green-950">
         <div className="container mx-auto px-4 max-w-3xl text-center">
           <Globe className="w-14 h-14 text-green-300 mx-auto mb-4" />
           <h2 className="text-3xl lg:text-4xl font-black text-white mb-4">Media Inquiries</h2>
