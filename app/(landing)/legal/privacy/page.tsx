@@ -107,7 +107,7 @@ export default function PrivacyPolicyPage() {
           <p className="text-lg text-green-800 dark:text-green-100 max-w-2xl mx-auto mb-4">
             Your privacy matters to us. This policy explains how we handle your personal data.
           </p>
-          <div className="flex items-center justify-center gap-2 text-green-200 text-sm">
+          <div className="flex items-center justify-center gap-2 text-green-700 dark:text-green-200 text-sm">
             <Calendar className="w-4 h-4" />
             <span>Last updated: {lastUpdated}</span>
           </div>

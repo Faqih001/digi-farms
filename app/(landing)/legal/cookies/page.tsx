@@ -72,7 +72,7 @@ export default function CookiePolicyPage() {
           <p className="text-lg text-green-800 dark:text-green-100 max-w-2xl mx-auto mb-4">
             How we use cookies and similar technologies on the DIGI-FARMS platform.
           </p>
-          <div className="flex items-center justify-center gap-2 text-green-200 text-sm">
+          <div className="flex items-center justify-center gap-2 text-green-700 dark:text-green-200 text-sm">
             <Calendar className="w-4 h-4" />
             <span>Last updated: {lastUpdated}</span>
           </div>
