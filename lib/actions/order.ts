@@ -16,7 +16,7 @@ export async function updateOrderStatus(orderId: string, status: "CONFIRMED" | "
     include: { items: { include: { product: true } } },
   });
   if (!order) throw new Error("Not found");
-  const belongsToSupplier = order.items.some((item) => item.product.supplierId === supplier.id);
+  const belongsToSupplier = order.items.some((item: { product: { supplierId: string } }) => item.product.supplierId === supplier.id);
   if (!belongsToSupplier) throw new Error("Forbidden");
 
   const updated = await db.order.update({
