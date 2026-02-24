@@ -323,7 +323,7 @@ export default function MarketplacePage() {
                 ))}
               </div>
             </div>
-            <div className="bg-slate-900 dark:bg-slate-800 rounded-2xl p-8 text-white text-center">
+            <div className="bg-green-800 dark:bg-slate-900 rounded-2xl p-8 text-white text-center">
               <QrCode className="w-24 h-24 mx-auto mb-4 text-green-400" />
               <div className="text-green-400 font-bold mb-2">✓ Product Verified</div>
               <div className="text-slate-300 text-sm mb-1">DK8031 Hybrid Maize Seed</div>
