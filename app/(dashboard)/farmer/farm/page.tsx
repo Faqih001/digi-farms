@@ -252,7 +252,7 @@ export default function FarmProfilePage() {
                   <Card className="p-10 text-center"><Sprout className="w-12 h-12 mx-auto mb-3 text-slate-300" /><p className="text-slate-500 dark:text-slate-400">No crops recorded yet.</p><Button size="sm" className="mt-4" onClick={() => setCropModalOpen(true)}><Plus className="w-4 h-4 mr-1" /> Add First Crop</Button></Card>
                 ) : (
                   <div className="space-y-3">
-                    {selectedFarm.crops.map(crop => (
+                    {selectedFarm.crops.map((crop: Crop) => (
                       <Card key={crop.id} className="p-4">
                         <CardContent className="p-0">
                           <div className="flex items-start justify-between">
