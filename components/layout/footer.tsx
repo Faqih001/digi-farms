@@ -70,13 +70,13 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
           {/* Brand column */}
           <div className="col-span-2 md:col-span-3 lg:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-4">
-              <div className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center">
-                  <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={64} height={64} quality={90} />
-                </div>
+            <Link href="/" className="flex items-center gap-4 mb-4">
+              <div className="w-20 h-20 rounded-xl overflow-hidden flex items-center justify-center">
+                <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={80} height={80} quality={90} />
+              </div>
               <div className="leading-none">
-                <span className="font-black text-2xl text-white tracking-tight">DIGI</span>
-                <span className="font-black text-2xl text-green-400 tracking-tight">-FARMS</span>
+                <span className="font-black text-3xl text-white tracking-tight">DIGI</span>
+                <span className="font-black text-3xl text-green-400 tracking-tight">-FARMS</span>
               </div>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed mb-5 max-w-xs">
