@@ -51,6 +51,17 @@ export async function getFarmerLoans() {
   });
 }
 
+export async function cancelLoanApplication(applicationId: string) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+  const existing = await db.loanApplication.findUnique({ where: { id: applicationId } });
+  if (!existing || existing.userId !== session.user.id) throw new Error("Forbidden");
+  if (!["DRAFT", "SUBMITTED"].includes(existing.status)) throw new Error("Cannot cancel at this stage");
+  await db.loanApplication.delete({ where: { id: applicationId } });
+  revalidatePath("/farmer/loans");
+  return { success: true };
+}
+
 export async function getLenderApplications() {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
