@@ -71,9 +71,9 @@ export default function Footer() {
           {/* Brand column */}
           <div className="col-span-2 md:col-span-3 lg:col-span-2">
             <Link href="/" className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl overflow-hidden flex items-center justify-center">
-                <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={48} height={48} quality={90} />
-              </div>
+              <div className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center">
+                  <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={64} height={64} quality={90} />
+                </div>
               <div className="leading-none">
                 <span className="font-black text-2xl text-white tracking-tight">DIGI</span>
                 <span className="font-black text-2xl text-green-400 tracking-tight">-FARMS</span>

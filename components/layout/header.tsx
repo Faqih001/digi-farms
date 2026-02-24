@@ -78,13 +78,13 @@ export default function Header() {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-4 group">
-              <div className="w-14 h-14 rounded-xl overflow-hidden flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-                <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={56} height={56} quality={90} priority />
+              <div className="w-20 h-20 rounded-xl overflow-hidden flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={80} height={80} quality={90} priority />
               </div>
               <div className="leading-none">
-                <span className="font-black text-2xl text-slate-900 dark:text-white tracking-tight">DIGI</span>
-                <span className="font-black text-2xl text-green-600 tracking-tight">-FARMS</span>
-                <div className="text-xs text-slate-400 font-medium tracking-widest uppercase">Precision Agriculture</div>
+                <span className="font-black text-3xl md:text-4xl text-slate-900 dark:text-white tracking-tight">DIGI</span>
+                <span className="font-black text-3xl md:text-4xl text-green-600 tracking-tight">-FARMS</span>
+                <div className="text-sm md:text-xs text-slate-400 font-medium tracking-widest uppercase">Precision Agriculture</div>
               </div>
             </Link>
 
