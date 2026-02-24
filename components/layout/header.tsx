@@ -91,7 +91,7 @@ export default function Header() {
   return (
     <>
       {/* Topbar */}
-      <div className="hidden md:block bg-white dark:bg-green-700 border-b border-slate-200 dark:border-green-600 text-slate-700 dark:text-white text-xs">
+      <div className="hidden md:block relative z-60 bg-white dark:bg-green-700 border-b border-slate-200 dark:border-green-600 text-slate-700 dark:text-white text-xs">
         <div className="container mx-auto px-4 max-w-7xl flex items-center justify-between py-1.5">
           <div className="flex items-center gap-6">
             <span>📞 +254 (0) 700 DIGI-FARM</span>
@@ -104,8 +104,9 @@ export default function Header() {
               <button
                 type="button"
                 onClick={(e) => {
+                  console.debug("lang button clicked", { langMenuOpen });
                   e.stopPropagation();
-                  setLangMenuOpen(!langMenuOpen);
+                  setLangMenuOpen((s) => !s);
                 }}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-100 dark:bg-green-800 text-sm font-semibold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-green-700 transition-colors"
                 aria-haspopup="true"
@@ -116,24 +117,40 @@ export default function Header() {
               </button>
 
               {langMenuOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 p-1 z-50">
+                <div className="absolute right-0 mt-2 w-28 bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 p-1 z-50 pointer-events-auto">
                   <button
                     type="button"
                     onClick={(e) => {
+                      console.debug("selectLang EN");
                       e.stopPropagation();
                       selectLang("EN");
                     }}
-                    className="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-green-50 dark:hover:bg-green-950/30 transition-colors"
+                    role="menuitem"
+                    tabIndex={0}
+                    className={cn(
+                      "w-full text-left px-3 py-2 text-sm rounded-md transition-colors cursor-pointer",
+                      lang === "EN"
+                        ? "bg-green-50 dark:bg-green-950/30"
+                        : "hover:bg-green-50 dark:hover:bg-green-950/30"
+                    )}
                   >
                     English
                   </button>
                   <button
                     type="button"
                     onClick={(e) => {
+                      console.debug("selectLang SW");
                       e.stopPropagation();
                       selectLang("SW");
                     }}
-                    className="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-green-50 dark:hover:bg-green-950/30 transition-colors"
+                    role="menuitem"
+                    tabIndex={0}
+                    className={cn(
+                      "w-full text-left px-3 py-2 text-sm rounded-md transition-colors cursor-pointer",
+                      lang === "SW"
+                        ? "bg-green-50 dark:bg-green-950/30"
+                        : "hover:bg-green-50 dark:hover:bg-green-950/30"
+                    )}
                   >
                     Kiswahili
                   </button>
