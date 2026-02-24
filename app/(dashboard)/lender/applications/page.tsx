@@ -121,7 +121,7 @@ export default function LoanApplicationsPage() {
         <Card>
           <CardContent className="p-0">
             <div className="divide-y divide-slate-200 dark:divide-slate-700">
-              {filtered.map(a => {
+              {filtered.map((a: Application) => {
                 const sc = statusConfig[a.status] ?? statusConfig.SUBMITTED;
                 const farmerName = (a.user as { name?: string | null })?.name ?? "Unknown Farmer";
                 const canAct = ["SUBMITTED", "UNDER_REVIEW"].includes(a.status);

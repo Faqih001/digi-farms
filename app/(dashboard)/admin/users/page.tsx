@@ -113,7 +113,7 @@ export default function AdminUsersPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {users.map(u => (
+                  {users.map((u: User) => (
                     <tr key={u.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                       <td className="px-4 py-3">
                         <p className="font-semibold text-slate-900 dark:text-white">{u.name ?? "—"}</p>

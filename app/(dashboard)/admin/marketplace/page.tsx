@@ -98,7 +98,7 @@ export default function AdminMarketplacePage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {products.map(p => (
+                  {products.map((p: Product) => (
                     <tr key={p.id} className={`hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors ${!p.isActive ? "opacity-60" : ""}`}>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-1.5">

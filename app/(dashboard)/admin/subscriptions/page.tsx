@@ -67,7 +67,7 @@ export default function AdminSubscriptionsPage() {
   const active     = subs.filter((s) => s.status === "ACTIVE").length;
   const enterprise = subs.filter((s) => s.tier   === "ENTERPRISE").length;
   const cancelled  = subs.filter((s) => s.status === "CANCELLED").length;
-  const mrr        = subs.filter((s) => s.status === "ACTIVE").reduce((acc, s) => acc + s.price, 0);
+  const mrr        = subs.filter((s) => s.status === "ACTIVE").reduce((acc: number, s: Subscription) => acc + s.price, 0);
 
   const statCards = [
     { label: "Total Subscribers", value: total,      icon: <Users      className="w-5 h-5 text-blue-500"   />, filter: "ALL_TIER",       color: "text-blue-600"   },
@@ -218,7 +218,7 @@ export default function AdminSubscriptionsPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {filtered.map((s) => {
+                  {filtered.map((s: Subscription) => {
                     const tierCfg   = TIER_STYLES[s.tier]   ?? TIER_STYLES.FREE;
                     const statusCfg = STATUS_STYLES[s.status] ?? STATUS_STYLES.ACTIVE;
                     return (

@@ -136,7 +136,7 @@ export default function InventoryPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filtered.map((product) => {
+                  {filtered.map((product: Product) => {
                     const { label, cls } = stockStatus(product.stock);
                     const maxStock = Math.max(product.stock, 50);
                     return (

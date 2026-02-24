@@ -97,7 +97,7 @@ export default function ProductsPage() {
         </Card>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filtered.map(p => {
+          {filtered.map((p: Product) => {
             const stockStatus = p.stock === 0 ? "Out of Stock" : p.stock < 10 ? "Low Stock" : "Active";
             return (
               <Card key={p.id} className="card-hover">

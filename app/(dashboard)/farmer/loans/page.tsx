@@ -68,7 +68,7 @@ export default function LoanApplicationsPage() {
     });
   };
 
-  const totalApproved = loans.filter(l => ["APPROVED", "DISBURSED"].includes(l.status)).reduce((s, l) => s + l.amount, 0);
+  const totalApproved = loans.filter(l => ["APPROVED", "DISBURSED"].includes(l.status)).reduce((s: number, l: Loan) => s + l.amount, 0);
   const pending_ = loans.filter(l => ["SUBMITTED", "UNDER_REVIEW"].includes(l.status)).length;
 
   if (loading) return <div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-green-600" /></div>;
@@ -130,7 +130,7 @@ export default function LoanApplicationsPage() {
         </Card>
       ) : (
         <div className="space-y-3">
-          {loans.map(loan => {
+          {loans.map((loan: Loan) => {
             const sc = statusConfig[loan.status] ?? statusConfig.SUBMITTED;
             const Icon = sc.icon;
             const canCancel = ["DRAFT", "SUBMITTED"].includes(loan.status);
