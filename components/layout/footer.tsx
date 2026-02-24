@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Leaf, Twitter, Linkedin, Facebook, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -69,13 +70,13 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
           {/* Brand column */}
           <div className="col-span-2 md:col-span-3 lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center">
-                <Leaf className="w-5 h-5 text-white" />
+            <Link href="/" className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl overflow-hidden flex items-center justify-center">
+                <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={48} height={48} quality={90} />
               </div>
               <div className="leading-none">
-                <span className="font-black text-xl text-white tracking-tight">DIGI</span>
-                <span className="font-black text-xl text-green-400 tracking-tight">-FARMS</span>
+                <span className="font-black text-2xl text-white tracking-tight">DIGI</span>
+                <span className="font-black text-2xl text-green-400 tracking-tight">-FARMS</span>
               </div>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed mb-5 max-w-xs">
