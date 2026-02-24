@@ -89,9 +89,9 @@ export default function BuyPage() {
   }
 
   function stockLabel(stock: number) {
-    if (stock === 0) return { label: "Out of Stock", cls: "bg-red-100 text-red-700" };
-    if (stock < 10) return { label: "Low Stock", cls: "bg-amber-100 text-amber-700" };
-    return { label: "In Stock", cls: "bg-green-100 text-green-700" };
+    if (stock === 0) return { label: "Out of Stock", cls: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400" };
+    if (stock < 10) return { label: "Low Stock", cls: "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400" };
+    return { label: "In Stock", cls: "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400" };
   }
 
   return (
@@ -150,7 +150,7 @@ export default function BuyPage() {
             className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
               category === c
                 ? "bg-green-600 text-white"
-                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 dark:text-slate-300 hover:bg-green-50 dark:hover:bg-slate-700"
+                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-green-50 dark:hover:bg-slate-700"
             }`}
           >
             {c === "all" ? "All" : c}
@@ -184,7 +184,7 @@ export default function BuyPage() {
                     </span>
                   )}
                   {product.isAntiCounterfeit && (
-                    <span className="absolute top-2 right-2 bg-blue-100 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+                    <span className="absolute top-2 right-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
                       <ShieldCheck className="w-3 h-3" /> Verified
                     </span>
                   )}
@@ -205,14 +205,14 @@ export default function BuyPage() {
 
                   {inCart ? (
                     <div className="flex items-center gap-2">
-                      <button onClick={() => updateQuantity(product.id, -1)} className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-red-100 text-slate-600 dark:text-slate-400 transition-colors">
+                      <button onClick={() => updateQuantity(product.id, -1)} className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-red-100 dark:hover:bg-red-900/30 text-slate-600 dark:text-slate-400 transition-colors">
                         <Minus className="w-3 h-3" />
                       </button>
                       <span className="text-sm font-bold text-slate-900 dark:text-white flex-1 text-center">{inCart.quantity}</span>
                       <button
                         onClick={() => updateQuantity(product.id, 1)}
                         disabled={inCart.quantity >= product.stock}
-                        className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-green-100 text-slate-600 dark:text-slate-400 transition-colors disabled:opacity-40"
+                        className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-green-100 dark:hover:bg-green-900/30 text-slate-600 dark:text-slate-400 transition-colors disabled:opacity-40"
                       >
                         <Plus className="w-3 h-3" />
                       </button>
