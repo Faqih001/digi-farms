@@ -138,8 +138,8 @@ export default function Footer() {
         <div className="container mx-auto px-4 max-w-7xl py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500">
           <p>© {new Date().getFullYear()} DIGI-FARMS Ltd. All rights reserved. Built for the Hult Prize 2026.</p>
           <div className="flex items-center gap-4">
-            <Link href="/privacy" className="hover:text-green-400 transition-colors">Privacy</Link>
-            <Link href="/terms" className="hover:text-green-400 transition-colors">Terms</Link>
+            <Link href="/legal/privacy" className="hover:text-green-400 transition-colors">Privacy</Link>
+            <Link href="/legal/terms" className="hover:text-green-400 transition-colors">Terms</Link>
             <span className="flex items-center gap-1">Made with <span className="text-green-500">♥</span> in Kenya</span>
           </div>
         </div>
