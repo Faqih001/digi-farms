@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,12 +11,78 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
-import { User, Bell, Shield, Palette, Globe, Phone, Mail, Save, Camera } from "lucide-react";
+import { User, Bell, Shield, Phone, Mail, Save, Loader2 } from "lucide-react";
+import { getUserProfile, updateUserProfile, updatePassword } from "@/lib/actions/user";
+
+type Profile = Awaited<ReturnType<typeof getUserProfile>>;
 
 export default function SettingsPage() {
+  const [profile, setProfile] = useState<Profile>(null);
+  const [loadingProfile, setLoadingProfile] = useState(true);
+
+  // Profile form state
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState("");
+
+  // Password form state
+  const [currentPwd, setCurrentPwd] = useState("");
+  const [newPwd, setNewPwd] = useState("");
+  const [confirmPwd, setConfirmPwd] = useState("");
+
+  // Notification prefs (local only — no model for this)
   const [notifications, setNotifications] = useState({
     email: true, sms: false, push: true, weather: true, marketplace: true, diagnostics: true,
   });
+
+  const [isPendingProfile, startProfileTransition] = useTransition();
+  const [isPendingPwd, startPwdTransition] = useTransition();
+
+  useEffect(() => {
+    getUserProfile()
+      .then((data) => {
+        if (data) {
+          setProfile(data);
+          setName(data.name ?? "");
+          setPhone(data.phone ?? "");
+          setCountry(data.country ?? "");
+        }
+      })
+      .catch(() => toast.error("Failed to load profile"))
+      .finally(() => setLoadingProfile(false));
+  }, []);
+
+  function saveProfile() {
+    startProfileTransition(async () => {
+      try {
+        await updateUserProfile({ name, phone, country });
+        toast.success("Profile updated successfully");
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : "Failed to update profile");
+      }
+    });
+  }
+
+  function savePassword() {
+    if (newPwd !== confirmPwd) { toast.error("Passwords do not match"); return; }
+    if (newPwd.length < 8) { toast.error("Password must be at least 8 characters"); return; }
+    startPwdTransition(async () => {
+      try {
+        await updatePassword(currentPwd, newPwd);
+        toast.success("Password updated successfully");
+        setCurrentPwd(""); setNewPwd(""); setConfirmPwd("");
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : "Failed to update password");
+      }
+    });
+  }
+
+  const initials = name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join("") || "?";
 
   return (
     <div className="space-y-6">
@@ -37,40 +103,49 @@ export default function SettingsPage() {
           <Card>
             <CardHeader><CardTitle>Personal Information</CardTitle></CardHeader>
             <CardContent className="space-y-6">
-              <div className="flex items-center gap-4">
-                <Avatar className="w-20 h-20">
-                  <AvatarImage src="" />
-                  <AvatarFallback className="text-xl">JK</AvatarFallback>
-                </Avatar>
-                <div>
-                  <Button variant="outline" size="sm"><Camera className="w-4 h-4" /> Change Photo</Button>
-                  <p className="text-xs text-slate-400 mt-1">JPG, PNG up to 2MB</p>
+              {loadingProfile ? (
+                <div className="flex items-center gap-3 py-4">
+                  <Loader2 className="w-5 h-5 animate-spin text-green-600" />
+                  <span className="text-sm text-slate-500">Loading profile…</span>
                 </div>
-              </div>
-              <Separator />
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" defaultValue="John" />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" defaultValue="Kamau" />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" defaultValue="john.farmer@digi-farms.com" />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" defaultValue="+254 700 123 456" />
-                </div>
-                <div className="space-y-1.5 sm:col-span-2">
-                  <Label htmlFor="county">County</Label>
-                  <Input id="county" defaultValue="Nakuru" />
-                </div>
-              </div>
-              <Button onClick={() => toast.success("Profile updated!")}><Save className="w-4 h-4" /> Save Changes</Button>
+              ) : (
+                <>
+                  <div className="flex items-center gap-4">
+                    <Avatar className="w-20 h-20">
+                      <AvatarImage src={profile?.image ?? ""} />
+                      <AvatarFallback className="text-xl bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300">{initials}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900 dark:text-white">{name || "—"}</p>
+                      <p className="text-xs text-slate-500">{profile?.email}</p>
+                      <Badge className="mt-1 text-xs" variant="outline">{profile?.role}</Badge>
+                    </div>
+                  </div>
+                  <Separator />
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5 sm:col-span-2">
+                      <Label htmlFor="name">Full Name</Label>
+                      <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your full name" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="email">Email</Label>
+                      <Input id="email" type="email" value={profile?.email ?? ""} disabled className="opacity-60" />
+                      <p className="text-xs text-slate-400">Contact support to change email</p>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="phone">Phone</Label>
+                      <Input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+254 700 000 000" />
+                    </div>
+                    <div className="space-y-1.5 sm:col-span-2">
+                      <Label htmlFor="county">County / Region</Label>
+                      <Input id="county" value={country} onChange={(e) => setCountry(e.target.value)} placeholder="e.g. Nakuru" />
+                    </div>
+                  </div>
+                  <Button onClick={saveProfile} disabled={isPendingProfile} className="bg-green-600 hover:bg-green-700 text-white">
+                    {isPendingProfile ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Saving…</> : <><Save className="w-4 h-4 mr-2" /> Save Changes</>}
+                  </Button>
+                </>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -83,7 +158,7 @@ export default function SettingsPage() {
               <div className="space-y-6">
                 <div>
                   <h3 className="font-semibold text-slate-900 dark:text-white mb-3">Channels</h3>
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {[
                       { key: "email", icon: Mail, label: "Email Notifications", desc: "Receive updates via email" },
                       { key: "sms", icon: Phone, label: "SMS Notifications", desc: "Get alerts on your phone" },
@@ -97,10 +172,7 @@ export default function SettingsPage() {
                             <p className="text-xs text-slate-500">{desc}</p>
                           </div>
                         </div>
-                        <Switch
-                          checked={notifications[key as keyof typeof notifications]}
-                          onCheckedChange={(v) => setNotifications({ ...notifications, [key]: v })}
-                        />
+                        <Switch checked={notifications[key as keyof typeof notifications]} onCheckedChange={(v) => setNotifications({ ...notifications, [key]: v })} />
                       </div>
                     ))}
                   </div>
@@ -108,7 +180,7 @@ export default function SettingsPage() {
                 <Separator />
                 <div>
                   <h3 className="font-semibold text-slate-900 dark:text-white mb-3">Alert Types</h3>
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {[
                       { key: "weather", label: "Weather Alerts", desc: "Severe weather & frost warnings" },
                       { key: "marketplace", label: "Marketplace Updates", desc: "New orders & price changes" },
@@ -119,14 +191,14 @@ export default function SettingsPage() {
                           <p className="text-sm font-medium text-slate-900 dark:text-white">{label}</p>
                           <p className="text-xs text-slate-500">{desc}</p>
                         </div>
-                        <Switch
-                          checked={notifications[key as keyof typeof notifications]}
-                          onCheckedChange={(v) => setNotifications({ ...notifications, [key]: v })}
-                        />
+                        <Switch checked={notifications[key as keyof typeof notifications]} onCheckedChange={(v) => setNotifications({ ...notifications, [key]: v })} />
                       </div>
                     ))}
                   </div>
                 </div>
+                <Button onClick={() => toast.success("Notification preferences saved")} className="bg-green-600 hover:bg-green-700 text-white">
+                  <Save className="w-4 h-4 mr-2" /> Save Preferences
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -140,17 +212,20 @@ export default function SettingsPage() {
               <CardContent className="space-y-4 max-w-md">
                 <div className="space-y-1.5">
                   <Label htmlFor="currentPassword">Current Password</Label>
-                  <Input id="currentPassword" type="password" />
+                  <Input id="currentPassword" type="password" value={currentPwd} onChange={(e) => setCurrentPwd(e.target.value)} />
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="newPassword">New Password</Label>
-                  <Input id="newPassword" type="password" />
+                  <Input id="newPassword" type="password" value={newPwd} onChange={(e) => setNewPwd(e.target.value)} />
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="confirmPassword">Confirm New Password</Label>
-                  <Input id="confirmPassword" type="password" />
+                  <Input id="confirmPassword" type="password" value={confirmPwd} onChange={(e) => setConfirmPwd(e.target.value)} />
+                  {confirmPwd && newPwd !== confirmPwd && <p className="text-xs text-red-500">Passwords do not match</p>}
                 </div>
-                <Button onClick={() => toast.success("Password updated!")}>Update Password</Button>
+                <Button onClick={savePassword} disabled={isPendingPwd || !currentPwd || !newPwd || !confirmPwd} className="bg-green-600 hover:bg-green-700 text-white">
+                  {isPendingPwd ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Updating…</> : "Update Password"}
+                </Button>
               </CardContent>
             </Card>
 
@@ -175,7 +250,7 @@ export default function SettingsPage() {
                     <p className="font-medium text-red-700 dark:text-red-400">Delete Account</p>
                     <p className="text-xs text-red-500">Permanently delete your account and all data</p>
                   </div>
-                  <Button variant="destructive" size="sm">Delete</Button>
+                  <Button variant="destructive" size="sm" onClick={() => toast.error("Please contact support to delete your account")}>Delete</Button>
                 </div>
               </CardContent>
             </Card>
