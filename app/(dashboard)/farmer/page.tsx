@@ -23,8 +23,8 @@ export default async function FarmerOverviewPage() {
     db.crop.findMany({ where: { farm: { userId } }, take: 6, orderBy: { plantedAt: "desc" } }),
   ]);
 
-  const totalAcres = farms.reduce((s, f) => s + (f.sizeAcres ?? 0), 0);
-  const activeCrops = crops.filter((c) => c.status === "GROWING").length;
+  const totalHectares = farms.reduce((s, f) => s + (f.sizeHectares ?? 0), 0);
+  const activeCrops = crops.filter((c) => c.status === "HEALTHY").length;
 
   return (
     <div className="space-y-6">
@@ -44,7 +44,7 @@ export default async function FarmerOverviewPage() {
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { icon: Sprout, label: "Total Farms", value: farms.length, sub: `${totalAcres.toFixed(1)} acres`, color: "text-green-600" },
+          { icon: Sprout, label: "Total Farms", value: farms.length, sub: `${totalHectares.toFixed(1)} ha`, color: "text-green-600" },
           { icon: TrendingUp, label: "Active Crops", value: activeCrops, sub: `${crops.length} total`, color: "text-blue-600" },
           { icon: ScanLine, label: "Scans This Month", value: recentScans.length, sub: "Last 30 days", color: "text-purple-600" },
           { icon: CheckCircle, label: "Health Score", value: "87%", sub: "Farm average", color: "text-amber-600" },
@@ -84,9 +84,9 @@ export default async function FarmerOverviewPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="font-semibold text-sm text-slate-900 dark:text-white truncate">{crop.name}</div>
-                  <div className="text-xs text-slate-400">{crop.variety || "—"} · {crop.fieldSize ? `${crop.fieldSize} acres` : "—"}</div>
+                  <div className="text-xs text-slate-400">{crop.variety || "—"} · {crop.areaHectares ? `${crop.areaHectares} ha` : "—"}</div>
                 </div>
-                <Badge variant={crop.status === "GROWING" ? "success" : "secondary"} className="text-xs">{crop.status}</Badge>
+                <Badge variant={crop.status === "HEALTHY" ? "success" : crop.status === "DISEASED" ? "destructive" : "warning"} className="text-xs">{crop.status}</Badge>
               </div>
             ))}
             {crops.length === 0 && null}
@@ -136,7 +136,7 @@ export default async function FarmerOverviewPage() {
                     <ScanLine className="w-4 h-4 text-purple-600" />
                   </div>
                   <div className="flex-1">
-                    <div className="text-sm font-medium text-slate-900 dark:text-white">{scan.diagnosis || "Scan result"}</div>
+                    <div className="text-sm font-medium text-slate-900 dark:text-white">{scan.disease || "Scan result"}</div>
                     <div className="text-xs text-slate-400">{scan.farm.name} · {new Date(scan.createdAt).toLocaleDateString()}</div>
                   </div>
                   <Badge variant={scan.severity === "HIGH" ? "destructive" : scan.severity === "MEDIUM" ? "warning" : "success"} className="text-xs">
