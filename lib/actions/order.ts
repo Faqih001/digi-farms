@@ -67,7 +67,7 @@ export async function createOrder(
     where: { id: { in: items.map((i) => i.productId) }, isActive: true },
   });
 
-  const productMap = new Map(products.map((p: any) => [p.id, p]));
+  const productMap = new Map<string, (typeof products)[number]>(products.map((p) => [p.id, p]));
 
   for (const item of items) {
     const product = productMap.get(item.productId);
