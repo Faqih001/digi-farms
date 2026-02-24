@@ -181,7 +181,7 @@ export default function AboutPage() {
       </section>
 
       {/* Section 5: AI Engine */}
-      <section className="py-24 bg-gradient-to-br from-green-900 to-green-950 text-white">
+      <section className="py-24 bg-gradient-to-br from-green-700 to-green-800 dark:from-green-900 dark:to-green-950 text-white">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>

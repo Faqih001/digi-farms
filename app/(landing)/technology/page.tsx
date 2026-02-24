@@ -61,7 +61,7 @@ export default function TechnologyPage() {
                 ))}
               </div>
             </div>
-            <div className="bg-gradient-to-br from-slate-900 to-green-950 rounded-3xl p-8 text-white">
+            <div className="bg-gradient-to-br from-green-700 to-green-800 dark:from-slate-900 dark:to-green-950 rounded-3xl p-8 text-white">
               <div className="text-6xl mb-4 text-center">🚁</div>
               <h3 className="text-xl font-black text-center mb-6">Drone Scouting Dashboard</h3>
               <div className="space-y-3">

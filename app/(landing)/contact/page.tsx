@@ -266,7 +266,7 @@ export default function ContactPage() {
                 ))}
               </div>
             </div>
-            <div className="bg-gradient-to-br from-green-700 to-green-900 rounded-3xl p-8 text-white">
+            <div className="bg-gradient-to-br from-green-500 to-green-700 dark:from-green-700 dark:to-green-900 rounded-3xl p-8 text-white">
               <h3 className="text-2xl font-black mb-3">Partnership Inquiry</h3>
               <p className="text-green-200/80 text-sm mb-6">Tell us about your organization and how you&apos;d like to collaborate.</p>
               <div className="space-y-4">

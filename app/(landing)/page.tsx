@@ -230,7 +230,7 @@ function SolutionSection() {
           </div>
 
           {/* Solution visual */}
-          <div className="bg-gradient-to-br from-green-700 to-green-900 rounded-3xl p-8 text-white shadow-2xl">
+          <div className="bg-gradient-to-br from-green-500 to-green-700 dark:from-green-700 dark:to-green-900 rounded-3xl p-8 text-white shadow-2xl">
             <div className="text-center mb-8">
               <div className="w-20 h-20 mx-auto rounded-2xl bg-white/20 flex items-center justify-center mb-3 backdrop-blur-sm">
                 <Leaf className="w-10 h-10 text-white" />
@@ -508,7 +508,7 @@ function AgrovetSection() {
 // ── Section 8: Financing & Insurance ─────────────────────────────────────────
 function FinancingSection() {
   return (
-    <section className="py-24 bg-gradient-to-br from-green-900 to-green-950 text-white">
+    <section className="py-24 bg-gradient-to-br from-green-700 to-green-800 dark:from-green-900 dark:to-green-950 text-white">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge className="mb-4 bg-white/20 text-white border-white/30">Finance & Insurance</Badge>

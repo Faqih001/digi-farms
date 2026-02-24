@@ -265,7 +265,7 @@ export default function MarketplacePage() {
       <section className="py-20 bg-white dark:bg-slate-900">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="bg-gradient-to-br from-green-700 to-green-900 rounded-3xl p-8 text-white">
+            <div className="bg-gradient-to-br from-green-500 to-green-700 dark:from-green-700 dark:to-green-900 rounded-3xl p-8 text-white">
               <div className="text-6xl mb-4">🌾</div>
               <h3 className="text-3xl font-black mb-3">Sell Your Harvest</h3>
               <p className="text-green-200/80 mb-6">List your produce directly on the marketplace. Reach restaurants, wholesalers, and processors paying fair market prices.</p>
@@ -342,7 +342,7 @@ export default function MarketplacePage() {
       </section>
 
       {/* Section 11: Financing Integration */}
-      <section className="py-20 bg-gradient-to-br from-green-900 to-green-950 text-white">
+      <section className="py-20 bg-gradient-to-br from-green-700 to-green-800 dark:from-green-900 dark:to-green-950 text-white">
         <div className="container mx-auto px-4 max-w-7xl text-center">
           <Badge className="mb-4 bg-white/20 text-white border-white/30">Purchase Financing</Badge>
           <h2 className="text-4xl font-black mb-6">Buy Now, Pay at Harvest</h2>
