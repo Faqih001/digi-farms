@@ -113,9 +113,10 @@ body {
 
 /* ---- Gradient backgrounds ---- */
 .gradient-hero {
-  background: linear-gradient(135deg, #d2ffe8 0%, #b3f6d0 35%, #7fe8b0 65%, #38c07f 100%);
-  /* subtle radial to anchor center for better card contrast */
-  background-image: linear-gradient(135deg, #d2ffe8 0%, #b3f6d0 35%, #7fe8b0 65%, #38c07f 100%), radial-gradient(600px 300px at 75% 35%, rgba(0,0,0,0.04), transparent 30%);
+  /* darker green gradient for light theme hero */
+  background: linear-gradient(135deg, #ecf7f0 0%, #16a34a 35%, #166534 65%, #14532d 100%);
+  /* subtle radial to anchor center and add contrast */
+  background-image: linear-gradient(135deg, #ecf7f0 0%, #16a34a 35%, #166534 65%, #14532d 100%), radial-gradient(600px 300px at 75% 35%, rgba(0,0,0,0.06), transparent 30%);
 }
 .dark .gradient-hero {
   background: linear-gradient(135deg, #03110a 0%, #0a2218 40%, #0d3020 70%, #0f3d28 100%);
