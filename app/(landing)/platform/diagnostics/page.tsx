@@ -87,7 +87,7 @@ export default function DiagnosticsPage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 bg-slate-50 dark:bg-slate-950">
+      <section className="py-20 bg-image-overlay" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1600&q=80&auto=format&fit=crop')" }}>
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-14">
             <Badge variant="secondary" className="mb-4">How It Works</Badge>
