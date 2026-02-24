@@ -168,18 +168,3 @@ export default function OrdersPage() {
   );
 }
 
-const orders = [
-  { id: "ORD-4021", customer: "John Kamau", phone: "+254 700 123 456", items: [{ name: "NPK Fertilizer x5", price: "KES 12,500" }], total: "KES 12,500", status: "Processing", date: "Feb 24, 2026", county: "Nakuru" },
-  { id: "ORD-4020", customer: "Mary Wanjiku", phone: "+254 711 234 567", items: [{ name: "Maize Seeds (10kg)", price: "KES 3,200" }], total: "KES 3,200", status: "Shipped", date: "Feb 24, 2026", county: "Kiambu" },
-  { id: "ORD-4019", customer: "Peter Odhiambo", phone: "+254 722 345 678", items: [{ name: "Pesticide Bundle", price: "KES 8,750" }], total: "KES 8,750", status: "Delivered", date: "Feb 23, 2026", county: "Kisumu" },
-  { id: "ORD-4018", customer: "Grace Akinyi", phone: "+254 733 456 789", items: [{ name: "Drip Kit", price: "KES 45,000" }], total: "KES 45,000", status: "Processing", date: "Feb 23, 2026", county: "Nairobi" },
-  { id: "ORD-4017", customer: "James Mwangi", phone: "+254 744 567 890", items: [{ name: "DAP Fertilizer x10", price: "KES 28,000" }], total: "KES 28,000", status: "Delivered", date: "Feb 22, 2026", county: "Meru" },
-  { id: "ORD-4016", customer: "Alice Chebet", phone: "+254 755 678 901", items: [{ name: "Tomato Seeds x3", price: "KES 5,400" }], total: "KES 5,400", status: "Cancelled", date: "Feb 22, 2026", county: "Uasin Gishu" },
-];
-
-const statusConfig: Record<string, { variant: "success" | "info" | "warning" | "destructive"; icon: typeof CheckCircle }> = {
-  Delivered: { variant: "success", icon: CheckCircle },
-  Shipped: { variant: "info", icon: Truck },
-  Processing: { variant: "warning", icon: Clock },
-  Cancelled: { variant: "destructive", icon: XCircle },
-};
