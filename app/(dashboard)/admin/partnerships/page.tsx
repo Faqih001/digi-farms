@@ -54,7 +54,7 @@ export default function AdminPartnershipsPage() {
       </div>
 
       <div className="grid gap-4">
-        {partners.map((p) => (
+        {partners.map((p: any) => (
           <Card key={p.name}>
             <CardContent className="p-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">

@@ -65,7 +65,7 @@ export default function RiskProfilesPage() {
       </Card>
 
       <div className="space-y-4">
-        {farmers.map((f) => (
+        {farmers.map((f: any) => (
           <Card key={f.name} className="card-hover">
             <CardContent className="p-5">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">

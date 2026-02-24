@@ -53,7 +53,7 @@ export default function AdminReportsPage() {
       </div>
 
       <div className="grid gap-4">
-        {reports.map((r) => (
+        {reports.map((r: any) => (
           <Card key={r.name}>
             <CardContent className="p-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">

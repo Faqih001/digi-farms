@@ -186,7 +186,7 @@ export default function FarmProfilePage() {
       {farms.length > 0 && (
         <>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {farms.map(farm => (
+            {farms.map((farm: any) => (
               <Card key={farm.id} className={`cursor-pointer transition-all ${selectedFarm?.id === farm.id ? "ring-2 ring-green-500" : "hover:shadow-md"}`} onClick={() => setSelectedFarm(farm)}>
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between mb-2">

@@ -15,13 +15,13 @@ function fmt(n: number) {
   return `KES ${(n / 1000).toFixed(0)}K`;
 }
 
-const maxTotal = Math.max(...monthly.map((m) => m.total));
+const maxTotal = Math.max(...monthly.map((m: any) => m.total));
 
 export default function AdminRevenuePage() {
-  const totalRevenue = monthly.reduce((s, m) => s + m.total, 0);
-  const totalSubs = monthly.reduce((s, m) => s + m.subscriptions, 0);
-  const totalMarket = monthly.reduce((s, m) => s + m.marketplace, 0);
-  const totalLoans = monthly.reduce((s, m) => s + m.loans, 0);
+  const totalRevenue = monthly.reduce((s: any, m: any) => s + m.total, 0);
+  const totalSubs = monthly.reduce((s: any, m: any) => s + m.subscriptions, 0);
+  const totalMarket = monthly.reduce((s: any, m: any) => s + m.marketplace, 0);
+  const totalLoans = monthly.reduce((s: any, m: any) => s + m.loans, 0);
 
   return (
     <div className="space-y-6">
@@ -57,7 +57,7 @@ export default function AdminRevenuePage() {
         </CardHeader>
         <CardContent>
           <div className="flex items-end gap-2 h-36">
-            {monthly.map((m) => (
+            {monthly.map((m: any) => (
               <div key={m.month} className="flex-1 flex flex-col items-center gap-1">
                 <div className="flex-1 flex items-end w-full gap-0.5">
                   <div className="flex-1 bg-blue-400 rounded-t" style={{ height: `${(m.subscriptions / maxTotal) * 100}%` }} />
@@ -85,13 +85,13 @@ export default function AdminRevenuePage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-200 dark:border-slate-700">
-                  {["Month", "Subscriptions", "Marketplace", "Loan Fees", "Total"].map((h) => (
+                  {["Month", "Subscriptions", "Marketplace", "Loan Fees", "Total"].map((h: any) => (
                     <th key={h} className="px-4 py-3 text-left font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wide">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {[...monthly].reverse().map((m) => (
+                {[...monthly].reverse().map((m: any) => (
                   <tr key={m.month} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                     <td className="px-4 py-3 font-medium text-slate-800 dark:text-slate-200">{m.month}</td>
                     <td className="px-4 py-3 text-blue-600">{fmt(m.subscriptions)}</td>

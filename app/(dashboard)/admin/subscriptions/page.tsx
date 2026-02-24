@@ -55,7 +55,7 @@ export default function AdminSubscriptionsPage() {
 
   useEffect(() => { load(); }, []);
 
-  const filtered = subs.filter((s) => {
+  const filtered = subs.filter((s: any) => {
     const matchTier   = tierFilter   === "ALL" || s.tier   === tierFilter;
     const matchStatus = statusFilter === "ALL" || s.status === statusFilter;
     const matchSearch = !search || s.user.name?.toLowerCase().includes(search.toLowerCase()) || s.user.email?.toLowerCase().includes(search.toLowerCase());
@@ -64,10 +64,10 @@ export default function AdminSubscriptionsPage() {
 
   // stats
   const total      = subs.length;
-  const active     = subs.filter((s) => s.status === "ACTIVE").length;
-  const enterprise = subs.filter((s) => s.tier   === "ENTERPRISE").length;
-  const cancelled  = subs.filter((s) => s.status === "CANCELLED").length;
-  const mrr        = subs.filter((s) => s.status === "ACTIVE").reduce((acc: number, s: Subscription) => acc + s.price, 0);
+  const active     = subs.filter((s: any) => s.status === "ACTIVE").length;
+  const enterprise = subs.filter((s: any) => s.tier   === "ENTERPRISE").length;
+  const cancelled  = subs.filter((s: any) => s.status === "CANCELLED").length;
+  const mrr        = subs.filter((s: any) => s.status === "ACTIVE").reduce((acc: number, s: Subscription) => acc + s.price, 0);
 
   const statCards = [
     { label: "Total Subscribers", value: total,      icon: <Users      className="w-5 h-5 text-blue-500"   />, filter: "ALL_TIER",       color: "text-blue-600"   },
@@ -97,7 +97,7 @@ export default function AdminSubscriptionsPage() {
 
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {statCards.map((s) => (
+        {statCards.map((s: any) => (
           <Card
             key={s.label}
             className="cursor-pointer hover:shadow-md transition-shadow"
@@ -123,7 +123,7 @@ export default function AdminSubscriptionsPage() {
           </div>
           <div className="text-right">
             <p className="text-sm opacity-80">Active paying subscribers</p>
-            <p className="text-2xl font-bold">{subs.filter((s) => s.status === "ACTIVE" && s.price > 0).length}</p>
+            <p className="text-2xl font-bold">{subs.filter((s: any) => s.status === "ACTIVE" && s.price > 0).length}</p>
           </div>
         </CardContent>
       </Card>
@@ -132,7 +132,7 @@ export default function AdminSubscriptionsPage() {
       <div className="grid sm:grid-cols-3 gap-4">
         {planDetails.map(({ tier, price, features }) => {
           const cfg = TIER_STYLES[tier];
-          const count = subs.filter((s) => s.tier === tier).length;
+          const count = subs.filter((s: any) => s.tier === tier).length;
           return (
             <Card key={tier} className={`border-2 ${cfg.border}`}>
               <CardContent className="p-4">
@@ -143,7 +143,7 @@ export default function AdminSubscriptionsPage() {
                 <p className="text-xl font-black text-slate-800 dark:text-slate-200 mb-1">{price}</p>
                 <p className={`text-sm font-semibold mb-3 ${cfg.color}`}>{count} subscribers</p>
                 <ul className="space-y-1">
-                  {features.map((f) => (
+                  {features.map((f: any) => (
                     <li key={f} className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400">
                       <div className="w-1.5 h-1.5 rounded-full bg-green-400 flex-shrink-0" />
                       {f}
@@ -212,7 +212,7 @@ export default function AdminSubscriptionsPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-slate-200 dark:border-slate-700">
-                    {["User", "Role", "Tier", "Price", "Start Date", "Renews At", "Status", ""].map((h) => (
+                    {["User", "Role", "Tier", "Price", "Start Date", "Renews At", "Status", ""].map((h: any) => (
                       <th key={h} className="px-4 py-3 text-left font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wide whitespace-nowrap">{h}</th>
                     ))}
                   </tr>

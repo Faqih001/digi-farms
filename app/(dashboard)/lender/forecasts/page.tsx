@@ -50,7 +50,7 @@ export default function ForecastsPage() {
       </Card>
 
       <div className="grid gap-4">
-        {forecasts.map((f) => (
+        {forecasts.map((f: any) => (
           <Card key={f.farmer}>
             <CardContent className="p-4">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">

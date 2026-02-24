@@ -69,7 +69,7 @@ export default function SupplierOverviewPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {recentOrders.map((o) => (
+              {recentOrders.map((o: any) => (
                 <div key={o.id} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
                   <div>
                     <div className="flex items-center gap-2">

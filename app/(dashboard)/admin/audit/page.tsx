@@ -78,7 +78,7 @@ export default function AdminAuditPage() {
       <Card>
         <CardContent className="p-0">
           <div className="divide-y divide-slate-100 dark:divide-slate-800">
-            {auditLogs.map((log) => {
+            {auditLogs.map((log: any) => {
               const Icon = actionIcons[log.action] || Eye;
               return (
                 <div key={log.id} className="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">

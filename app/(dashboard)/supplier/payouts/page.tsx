@@ -63,7 +63,7 @@ export default function PayoutsPage() {
         <CardHeader><CardTitle>Payout History</CardTitle></CardHeader>
         <CardContent className="p-0">
           <div className="divide-y divide-slate-200 dark:divide-slate-700">
-            {payouts.map((p) => (
+            {payouts.map((p: any) => (
               <div key={p.id} className="p-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50">
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${p.status === "Completed" ? "bg-green-100 dark:bg-green-900/30" : "bg-amber-100 dark:bg-amber-900/30"}`}>

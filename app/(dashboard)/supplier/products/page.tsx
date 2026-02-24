@@ -30,7 +30,7 @@ export default function ProductsPage() {
   const load = () => getSupplierProducts().then(setProducts).finally(() => setLoading(false));
   useEffect(() => { load(); }, []);
 
-  const filtered = products.filter(p =>
+  const filtered = products.filter((p: any) =>
     p.name.toLowerCase().includes(search.toLowerCase()) ||
     p.category.toLowerCase().includes(search.toLowerCase())
   );

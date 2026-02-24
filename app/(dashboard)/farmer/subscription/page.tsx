@@ -80,7 +80,7 @@ export default function SubscriptionPage() {
         <CardHeader><CardTitle>Current Usage</CardTitle></CardHeader>
         <CardContent>
           <div className="space-y-5">
-            {usage.map((u) => (
+            {usage.map((u: any) => (
               <div key={u.label}>
                 <div className="flex justify-between mb-1.5">
                   <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{u.label}</span>
@@ -97,7 +97,7 @@ export default function SubscriptionPage() {
       <div>
         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Choose Your Plan</h2>
         <div className="grid md:grid-cols-3 gap-6">
-          {tiers.map((tier) => (
+          {tiers.map((tier: any) => (
             <Card key={tier.name} className={tier.badge === "Most Popular" ? "border-green-500 border-2 relative" : ""}>
               {tier.badge && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -114,7 +114,7 @@ export default function SubscriptionPage() {
                   <span className="text-sm text-slate-500 dark:text-slate-400">{tier.period}</span>
                 </div>
                 <ul className="space-y-2 mb-6">
-                  {tier.features.map((f) => (
+                  {tier.features.map((f: any) => (
                     <li key={f} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400">
                       <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" /> {f}
                     </li>

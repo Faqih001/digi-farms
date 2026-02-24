@@ -28,7 +28,7 @@ export default function ScanHistoryPage() {
       <Card>
         <CardContent className="p-0">
           <div className="divide-y divide-slate-100 dark:divide-slate-800">
-            {scans.map((scan) => (
+            {scans.map((scan: any) => (
               <div key={scan.id} className="flex items-center gap-4 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
                   scan.severity === "HIGH" ? "bg-red-100 dark:bg-red-900/20" :

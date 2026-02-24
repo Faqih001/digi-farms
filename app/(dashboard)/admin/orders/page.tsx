@@ -64,9 +64,9 @@ export default function AdminOrdersPage() {
   }
 
   const totalOrders = orders.length;
-  const pendingCount = orders.filter((o) => o.status === "PENDING").length;
-  const deliveredCount = orders.filter((o) => o.status === "DELIVERED").length;
-  const cancelledCount = orders.filter((o) => o.status === "CANCELLED").length;
+  const pendingCount = orders.filter((o: any) => o.status === "PENDING").length;
+  const deliveredCount = orders.filter((o: any) => o.status === "DELIVERED").length;
+  const cancelledCount = orders.filter((o: any) => o.status === "CANCELLED").length;
 
   return (
     <div className="space-y-6">
@@ -108,7 +108,7 @@ export default function AdminOrdersPage() {
             onChange={(e) => setFilterStatus(e.target.value)}
             className="appearance-none h-10 pl-3 pr-8 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
           >
-            {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{s === "all" ? "All Status" : s}</option>)}
+            {STATUS_OPTIONS.map((s: any) => <option key={s} value={s}>{s === "all" ? "All Status" : s}</option>)}
           </select>
           <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
         </div>
@@ -129,13 +129,13 @@ export default function AdminOrdersPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-slate-200 dark:border-slate-700">
-                    {["Order ID", "Buyer", "Items", "Total (KES)", "Date", "Status", ""].map((h) => (
+                    {["Order ID", "Buyer", "Items", "Total (KES)", "Date", "Status", ""].map((h: any) => (
                       <th key={h} className="px-4 py-3 text-left font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wide">{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {orders.map((order) => (
+                  {orders.map((order: any) => (
                     <tr key={order.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                       <td className="px-4 py-3 font-mono text-xs text-slate-600 dark:text-slate-400">{order.id.slice(0, 10)}…</td>
                       <td className="px-4 py-3">
@@ -211,7 +211,7 @@ export default function AdminOrdersPage() {
               <div>
                 <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Update Status</p>
                 <div className="flex flex-wrap gap-2">
-                  {(["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELLED"] as const).map((s) => (
+                  {(["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELLED"] as const).map((s: any) => (
                     <button
                       key={s}
                       disabled={isPending || selectedOrder.status === s}

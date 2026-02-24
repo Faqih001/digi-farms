@@ -39,7 +39,7 @@ export default function LoanApplicationsPage() {
   const load = () => getLenderApplications().then(setApplications).finally(() => setLoading(false));
   useEffect(() => { load(); }, []);
 
-  const filtered = applications.filter(a => {
+  const filtered = applications.filter((a: any) => {
     const name = (a.user as { name?: string | null })?.name ?? "";
     const matchSearch = !search || name.toLowerCase().includes(search.toLowerCase()) || a.purpose.toLowerCase().includes(search.toLowerCase());
     const matchStatus = statusFilter === "ALL" || a.status === statusFilter;
@@ -71,9 +71,9 @@ export default function LoanApplicationsPage() {
 
   const stats = {
     total: applications.length,
-    review: applications.filter(a => ["SUBMITTED", "UNDER_REVIEW"].includes(a.status)).length,
-    approved: applications.filter(a => a.status === "APPROVED").length,
-    rejected: applications.filter(a => a.status === "REJECTED").length,
+    review: applications.filter((a: any) => ["SUBMITTED", "UNDER_REVIEW"].includes(a.status)).length,
+    approved: applications.filter((a: any) => a.status === "APPROVED").length,
+    rejected: applications.filter((a: any) => a.status === "REJECTED").length,
   };
 
   if (loading) return <div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-green-600" /></div>;

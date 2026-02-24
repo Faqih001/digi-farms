@@ -36,7 +36,7 @@ export default function OrdersPage() {
   const load = () => getSupplierOrders().then(setOrders).finally(() => setLoading(false));
   useEffect(() => { load(); }, []);
 
-  const filtered = orders.filter(o => {
+  const filtered = orders.filter((o: any) => {
     const matchSearch = !search || o.id.includes(search) || (o.user?.name ?? "").toLowerCase().includes(search.toLowerCase());
     const matchStatus = statusFilter === "ALL" || o.status === statusFilter;
     return matchSearch && matchStatus;
@@ -52,7 +52,7 @@ export default function OrdersPage() {
     });
   };
 
-  const totals = { total: orders.length, pending: orders.filter(o => o.status === "PENDING").length, shipped: orders.filter(o => o.status === "SHIPPED").length, cancelled: orders.filter(o => o.status === "CANCELLED").length };
+  const totals = { total: orders.length, pending: orders.filter((o: any) => o.status === "PENDING").length, shipped: orders.filter((o: any) => o.status === "SHIPPED").length, cancelled: orders.filter((o: any) => o.status === "CANCELLED").length };
 
   if (loading) return <div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-green-600" /></div>;
 
@@ -83,7 +83,7 @@ export default function OrdersPage() {
             </div>
             <select className="h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 text-sm" value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
               <option value="ALL">All Status</option>
-              {Object.keys(statusConfig).map(s => <option key={s} value={s}>{statusConfig[s].label}</option>)}
+              {Object.keys(statusConfig).map((s: any) => <option key={s} value={s}>{statusConfig[s].label}</option>)}
             </select>
           </div>
         </CardContent>
@@ -99,10 +99,10 @@ export default function OrdersPage() {
         <Card>
           <CardContent className="p-0">
             <div className="divide-y divide-slate-200 dark:divide-slate-700">
-              {filtered.map(o => {
+              {filtered.map((o: any) => {
                 const sc = statusConfig[o.status] ?? statusConfig.PENDING;
                 const actions = nextActions[o.status] ?? [];
-                const total = o.items.reduce((s, i) => s + i.quantity * i.price, 0);
+                const total = o.items.reduce((s: any, i: any) => s + i.quantity * i.price, 0);
                 return (
                   <div key={o.id} className="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -124,7 +124,7 @@ export default function OrdersPage() {
                         </div>
                         <div className="flex gap-1.5 flex-wrap">
                           <Button variant="outline" size="sm" onClick={() => setDetailOrder(o)}>Details</Button>
-                          {actions.map(a => (
+                          {actions.map((a: any) => (
                             <Button key={a.status} size="sm" variant={a.variant} disabled={pending} onClick={() => handleStatus(o.id, a.status)}>
                               {pending ? <Loader2 className="w-3 h-3 animate-spin" /> : a.label}
                             </Button>

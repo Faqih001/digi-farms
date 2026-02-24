@@ -52,7 +52,7 @@ export default function AgrovetLocatorPage() {
                 </div>
               </div>
               <div className="flex flex-wrap gap-1 mb-3">
-                {services.map((s) => <Badge key={s} variant="secondary" className="text-xs">{s}</Badge>)}
+                {services.map((s: any) => <Badge key={s} variant="secondary" className="text-xs">{s}</Badge>)}
               </div>
               <div className="flex gap-2">
                 <Button size="sm" variant="outline" className="flex-1"><Phone className="w-3.5 h-3.5" /> {phone}</Button>

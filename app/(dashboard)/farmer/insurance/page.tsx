@@ -60,7 +60,7 @@ export default function InsurancePage() {
         <CardHeader><CardTitle>My Policies</CardTitle></CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {policies.map((p) => (
+            {policies.map((p: any) => (
               <div key={p.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-xl gap-3">
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
@@ -90,7 +90,7 @@ export default function InsurancePage() {
         <CardHeader><CardTitle>Recent Claims</CardTitle></CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {claims.map((c) => (
+            {claims.map((c: any) => (
               <div key={c.id} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
                 <div className="flex items-center gap-3">
                   <c.icon className="w-5 h-5 text-slate-400" />
@@ -121,7 +121,7 @@ export default function InsurancePage() {
                 <p className="text-sm text-green-600 font-semibold mt-1">{plan.coverage}</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">{plan.premium}</p>
                 <ul className="space-y-2 mb-6">
-                  {plan.features.map((f) => (
+                  {plan.features.map((f: any) => (
                     <li key={f} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                       <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" /> {f}
                     </li>

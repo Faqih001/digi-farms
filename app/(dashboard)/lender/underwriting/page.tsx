@@ -80,7 +80,7 @@ export default function UnderwritingPage() {
       </Card>
 
       <div className="space-y-4">
-        {decisions.map((d) => {
+        {decisions.map((d: any) => {
           const rc = recConfig[d.recommendation];
           return (
             <Card key={d.id}>
@@ -100,7 +100,7 @@ export default function UnderwritingPage() {
                       <ScoreBar label="Weather Risk" value={100 - d.weatherRisk} />
                     </div>
                     <div className="flex flex-wrap gap-1.5 mt-2">
-                      {d.factors.map((f) => (
+                      {d.factors.map((f: any) => (
                         <span key={f} className="text-xs px-2 py-0.5 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-600 dark:text-slate-400">{f}</span>
                       ))}
                     </div>

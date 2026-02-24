@@ -56,7 +56,7 @@ export default function LenderAnalyticsPage() {
           </CardHeader>
           <CardContent className="p-0">
             <div className="divide-y divide-slate-100 dark:divide-slate-800">
-              {riskMetrics.map((r) => (
+              {riskMetrics.map((r: any) => (
                 <div key={r.region} className="flex items-center justify-between px-4 py-3">
                   <div>
                     <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{r.region}</p>
@@ -81,7 +81,7 @@ export default function LenderAnalyticsPage() {
           </CardHeader>
           <CardContent className="p-0">
             <div className="divide-y divide-slate-100 dark:divide-slate-800">
-              {cropRisk.map((c) => (
+              {cropRisk.map((c: any) => (
                 <div key={c.crop} className="flex items-center justify-between px-4 py-3">
                   <div>
                     <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{c.crop}</p>

@@ -74,9 +74,9 @@ export default function SellProducePage() {
     setProduceName(""); setQuantity(""); setPrice(""); setUnit(""); setDescription("");
   }
 
-  const activeListings = listings.filter((l) => l.status === "Active").length;
-  const totalViews     = listings.reduce((a, l) => a + l.views, 0);
-  const totalInquiries = listings.reduce((a, l) => a + l.inquiries, 0);
+  const activeListings = listings.filter((l: any) => l.status === "Active").length;
+  const totalViews     = listings.reduce((a: any, l: any) => a + l.views, 0);
+  const totalInquiries = listings.reduce((a: any, l: any) => a + l.inquiries, 0);
 
   return (
     <div className="space-y-6">
@@ -114,7 +114,7 @@ export default function SellProducePage() {
 
       {/* Tab Switcher */}
       <div className="flex gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl w-fit">
-        {(["listings", "orders"] as const).map((tab) => (
+        {(["listings", "orders"] as const).map((tab: any) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -220,7 +220,7 @@ export default function SellProducePage() {
               </div>
             ) : (
               <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                {orders.map((order) => {
+                {orders.map((order: any) => {
                   const cfg = STATUS_STYLES[order.status] ?? STATUS_STYLES.PENDING;
                   return (
                     <div key={order.id} className="px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">

@@ -68,8 +68,8 @@ export default function LoanApplicationsPage() {
     });
   };
 
-  const totalApproved = loans.filter(l => ["APPROVED", "DISBURSED"].includes(l.status)).reduce((s: number, l: Loan) => s + l.amount, 0);
-  const pending_ = loans.filter(l => ["SUBMITTED", "UNDER_REVIEW"].includes(l.status)).length;
+  const totalApproved = loans.filter((l: any) => ["APPROVED", "DISBURSED"].includes(l.status)).reduce((s: number, l: Loan) => s + l.amount, 0);
+  const pending_ = loans.filter((l: any) => ["SUBMITTED", "UNDER_REVIEW"].includes(l.status)).length;
 
   if (loading) return <div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-green-600" /></div>;
 
@@ -114,7 +114,7 @@ export default function LoanApplicationsPage() {
         {[
           { label: "Total Applications", value: loans.length, color: "text-blue-600" },
           { label: "Pending Review", value: pending_, color: "text-amber-600" },
-          { label: "Approved/Active", value: loans.filter(l => ["APPROVED", "DISBURSED"].includes(l.status)).length, color: "text-green-600" },
+          { label: "Approved/Active", value: loans.filter((l: any) => ["APPROVED", "DISBURSED"].includes(l.status)).length, color: "text-green-600" },
           { label: "Total Approved", value: `KES ${(totalApproved / 1000).toFixed(0)}K`, color: "text-purple-600" },
         ].map(({ label, value, color }) => (
           <Card key={label}><CardContent className="p-4 text-center"><p className={`text-2xl font-bold ${color}`}>{value}</p><p className="text-xs text-slate-500 dark:text-slate-400">{label}</p></CardContent></Card>

@@ -16,12 +16,12 @@ function fmt(n: number) {
   return `KES ${(n / 1000).toFixed(0)}K`;
 }
 
-const maxNet = Math.max(...months.map((m) => m.net));
+const maxNet = Math.max(...months.map((m: any) => m.net));
 
 export default function LenderRevenuePage() {
-  const totalInterest = months.reduce((s, m) => s + m.interest, 0);
-  const totalFees = months.reduce((s, m) => s + m.fees, 0);
-  const totalNet = months.reduce((s, m) => s + m.net, 0);
+  const totalInterest = months.reduce((s: any, m: any) => s + m.interest, 0);
+  const totalFees = months.reduce((s: any, m: any) => s + m.fees, 0);
+  const totalNet = months.reduce((s: any, m: any) => s + m.net, 0);
 
   return (
     <div className="space-y-6">
@@ -57,7 +57,7 @@ export default function LenderRevenuePage() {
         </CardHeader>
         <CardContent>
           <div className="flex items-end gap-2 h-32">
-            {months.map((m) => (
+            {months.map((m: any) => (
               <div key={m.month} className="flex-1 flex flex-col items-center gap-1">
                 <div className="flex-1 flex items-end w-full">
                   <div
@@ -81,13 +81,13 @@ export default function LenderRevenuePage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-200 dark:border-slate-700">
-                  {["Month", "Disbursed", "Repaid", "Interest Income", "Fees", "Net Revenue"].map((h) => (
+                  {["Month", "Disbursed", "Repaid", "Interest Income", "Fees", "Net Revenue"].map((h: any) => (
                     <th key={h} className="px-4 py-3 text-left font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wide">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {[...months].reverse().map((m) => (
+                {[...months].reverse().map((m: any) => (
                   <tr key={m.month} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                     <td className="px-4 py-3 font-medium text-slate-800 dark:text-slate-200">{m.month}</td>
                     <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{fmt(m.disbursed)}</td>
@@ -99,8 +99,8 @@ export default function LenderRevenuePage() {
                 ))}
                 <tr className="bg-slate-50 dark:bg-slate-800 font-semibold">
                   <td className="px-4 py-3 text-slate-800 dark:text-slate-200">Total</td>
-                  <td className="px-4 py-3">{fmt(months.reduce((s, m) => s + m.disbursed, 0))}</td>
-                  <td className="px-4 py-3">{fmt(months.reduce((s, m) => s + m.repaid, 0))}</td>
+                  <td className="px-4 py-3">{fmt(months.reduce((s: any, m: any) => s + m.disbursed, 0))}</td>
+                  <td className="px-4 py-3">{fmt(months.reduce((s: any, m: any) => s + m.repaid, 0))}</td>
                   <td className="px-4 py-3 text-green-600">{fmt(totalInterest)}</td>
                   <td className="px-4 py-3 text-blue-600">{fmt(totalFees)}</td>
                   <td className="px-4 py-3 text-green-700">{fmt(totalNet)}</td>

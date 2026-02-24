@@ -53,7 +53,7 @@ export default function AdminSupportPage() {
 
   useEffect(() => { load(); }, [filterStatus, filterPriority]);
 
-  const filtered = tickets.filter((t) =>
+  const filtered = tickets.filter((t: any) =>
     !search ||
     t.subject.toLowerCase().includes(search.toLowerCase()) ||
     (t.user.name ?? "").toLowerCase().includes(search.toLowerCase()) ||
@@ -75,9 +75,9 @@ export default function AdminSupportPage() {
     });
   }
 
-  const openCount = tickets.filter((t) => t.status === "OPEN").length;
-  const inProgressCount = tickets.filter((t) => t.status === "IN_PROGRESS").length;
-  const resolvedCount = tickets.filter((t) => t.status === "RESOLVED").length;
+  const openCount = tickets.filter((t: any) => t.status === "OPEN").length;
+  const inProgressCount = tickets.filter((t: any) => t.status === "IN_PROGRESS").length;
+  const resolvedCount = tickets.filter((t: any) => t.status === "RESOLVED").length;
 
   return (
     <div className="space-y-6">
@@ -115,13 +115,13 @@ export default function AdminSupportPage() {
         </div>
         <div className="relative">
           <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className="appearance-none h-10 pl-3 pr-8 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-            {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{s === "all" ? "All Status" : s.replace("_", " ")}</option>)}
+            {STATUS_OPTIONS.map((s: any) => <option key={s} value={s}>{s === "all" ? "All Status" : s.replace("_", " ")}</option>)}
           </select>
           <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
         </div>
         <div className="relative">
           <select value={filterPriority} onChange={(e) => setFilterPriority(e.target.value)} className="appearance-none h-10 pl-3 pr-8 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-            {PRIORITY_OPTIONS.map((p) => <option key={p} value={p}>{p === "all" ? "All Priority" : p.charAt(0).toUpperCase() + p.slice(1)}</option>)}
+            {PRIORITY_OPTIONS.map((p: any) => <option key={p} value={p}>{p === "all" ? "All Priority" : p.charAt(0).toUpperCase() + p.slice(1)}</option>)}
           </select>
           <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
         </div>
@@ -139,7 +139,7 @@ export default function AdminSupportPage() {
         <Card>
           <CardContent className="p-0">
             <div className="divide-y divide-slate-100 dark:divide-slate-800">
-              {filtered.map((ticket) => (
+              {filtered.map((ticket: any) => (
                 <div key={ticket.id} className="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
                     <div className="flex-1 min-w-0">
@@ -226,7 +226,7 @@ export default function AdminSupportPage() {
               <div>
                 <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Update Status</p>
                 <div className="flex flex-wrap gap-2">
-                  {(["OPEN", "IN_PROGRESS", "RESOLVED", "CLOSED"] as const).map((s) => (
+                  {(["OPEN", "IN_PROGRESS", "RESOLVED", "CLOSED"] as const).map((s: any) => (
                     <button
                       key={s}
                       disabled={isPending || selectedTicket.status === s}

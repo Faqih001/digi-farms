@@ -67,7 +67,7 @@ export default function LenderOverviewPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {recentApplications.map((a) => (
+              {recentApplications.map((a: any) => (
                 <div key={a.id} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
                   <div>
                     <div className="flex items-center gap-2">

@@ -69,13 +69,13 @@ export default function PortfolioPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-200 dark:border-slate-700">
-                  {["Loan ID / Farmer", "Amount", "Outstanding", "Progress", "Rate", "Next Payment", "Status", ""].map((h) => (
+                  {["Loan ID / Farmer", "Amount", "Outstanding", "Progress", "Rate", "Next Payment", "Status", ""].map((h: any) => (
                     <th key={h} className="px-4 py-3 text-left font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wide">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {loans.map((l) => (
+                {loans.map((l: any) => (
                   <tr key={l.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                     <td className="px-4 py-3">
                       <p className="font-semibold text-slate-900 dark:text-white">{l.farmer}</p>

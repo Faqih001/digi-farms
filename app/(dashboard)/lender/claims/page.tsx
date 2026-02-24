@@ -61,7 +61,7 @@ export default function ClaimsPage() {
       </Card>
 
       <div className="space-y-4">
-        {claims.map((c) => {
+        {claims.map((c: any) => {
           const sc = statusConfig[c.status];
           const Icon = sc.icon;
           return (

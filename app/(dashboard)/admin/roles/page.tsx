@@ -106,7 +106,7 @@ export default function AdminRolesPage() {
               <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">{description}</p>
               <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2 uppercase tracking-wide">Permissions</p>
               <div className="grid grid-cols-1 gap-1">
-                {permissions.map((p) => (
+                {permissions.map((p: any) => (
                   <div key={p} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-400 flex-shrink-0" />
                     {p}

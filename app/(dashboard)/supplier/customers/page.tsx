@@ -64,7 +64,7 @@ export default function CustomersPage() {
                 </tr>
               </thead>
               <tbody>
-                {customers.map((c) => (
+                {customers.map((c: any) => (
                   <tr key={c.email} className="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50">
                     <td className="p-4">
                       <div>

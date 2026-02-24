@@ -57,7 +57,7 @@ export default function InventoryPage() {
     });
   }
 
-  const filtered = products.filter((p) => {
+  const filtered = products.filter((p: any) => {
     const { label } = stockStatus(p.stock);
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.category.toLowerCase().includes(search.toLowerCase());
     const matchStatus = filterStatus === "all" || label === filterStatus;
@@ -65,9 +65,9 @@ export default function InventoryPage() {
   });
 
   const totalProducts = products.length;
-  const inStockCount = products.filter((p) => p.stock > 10).length;
-  const lowStockCount = products.filter((p) => p.stock > 0 && p.stock <= 10).length;
-  const outOfStockCount = products.filter((p) => p.stock === 0).length;
+  const inStockCount = products.filter((p: any) => p.stock > 10).length;
+  const lowStockCount = products.filter((p: any) => p.stock > 0 && p.stock <= 10).length;
+  const outOfStockCount = products.filter((p: any) => p.stock === 0).length;
 
   return (
     <div className="space-y-6">

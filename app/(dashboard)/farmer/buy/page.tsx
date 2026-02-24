@@ -47,8 +47,8 @@ export default function BuyPage() {
 
   function addToCart(product: Product) {
     setCart((prev) => {
-      const existing = prev.find((i) => i.product.id === product.id);
-      if (existing) return prev.map((i) => i.product.id === product.id ? { ...i, quantity: i.quantity + 1 } : i);
+      const existing = prev.find((i: any) => i.product.id === product.id);
+      if (existing) return prev.map((i: any) => i.product.id === product.id ? { ...i, quantity: i.quantity + 1 } : i);
       return [...prev, { product, quantity: 1 }];
     });
     toast.success(`${product.name} added to cart`);
@@ -57,24 +57,24 @@ export default function BuyPage() {
   function updateQuantity(productId: string, delta: number) {
     setCart((prev) =>
       prev
-        .map((i) => i.product.id === productId ? { ...i, quantity: i.quantity + delta } : i)
-        .filter((i) => i.quantity > 0)
+        .map((i: any) => i.product.id === productId ? { ...i, quantity: i.quantity + delta } : i)
+        .filter((i: any) => i.quantity > 0)
     );
   }
 
   function removeFromCart(productId: string) {
-    setCart((prev) => prev.filter((i) => i.product.id !== productId));
+    setCart((prev) => prev.filter((i: any) => i.product.id !== productId));
   }
 
-  const cartTotal = cart.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
-  const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
+  const cartTotal = cart.reduce((sum: any, i: any) => sum + i.product.price * i.quantity, 0);
+  const cartCount = cart.reduce((sum: any, i: any) => sum + i.quantity, 0);
 
   function handlePlaceOrder() {
     if (!shippingAddress.trim()) { toast.error("Please enter a shipping address"); return; }
     startTransition(async () => {
       try {
         await createOrder(
-          cart.map((i) => ({ productId: i.product.id, quantity: i.quantity })),
+          cart.map((i: any) => ({ productId: i.product.id, quantity: i.quantity })),
           shippingAddress
         );
         toast.success("Order placed successfully!");
@@ -133,7 +133,7 @@ export default function BuyPage() {
             onChange={(e) => setCategory(e.target.value)}
             className="appearance-none h-10 pl-3 pr-8 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-green-500"
           >
-            {CATEGORIES.map((c) => (
+            {CATEGORIES.map((c: any) => (
               <option key={c} value={c}>{c === "all" ? "All Categories" : c}</option>
             ))}
           </select>
@@ -143,7 +143,7 @@ export default function BuyPage() {
 
       {/* Category pills */}
       <div className="flex gap-2 overflow-x-auto pb-1">
-        {CATEGORIES.map((c) => (
+        {CATEGORIES.map((c: any) => (
           <button
             key={c}
             onClick={() => setCategory(c)}
@@ -171,8 +171,8 @@ export default function BuyPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {products.map((product) => {
-            const inCart = cart.find((i) => i.product.id === product.id);
+          {products.map((product: any) => {
+            const inCart = cart.find((i: any) => i.product.id === product.id);
             const outOfStock = product.stock === 0;
             const { label: stockLbl, cls: stockCls } = stockLabel(product.stock);
             return (
@@ -254,7 +254,7 @@ export default function BuyPage() {
                   <p className="text-slate-500 dark:text-slate-400 font-medium">Your cart is empty</p>
                 </div>
               ) : (
-                cart.map((item) => (
+                cart.map((item: any) => (
                   <div key={item.product.id} className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{item.product.name}</p>
@@ -311,7 +311,7 @@ export default function BuyPage() {
             <div className="p-5 space-y-4">
               <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 space-y-2">
                 <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Order Summary</p>
-                {cart.map((item) => (
+                {cart.map((item: any) => (
                   <div key={item.product.id} className="flex justify-between text-sm">
                     <span className="text-slate-600 dark:text-slate-400 dark:text-slate-300">{item.product.name} × {item.quantity}</span>
                     <span className="font-medium">KES {(item.product.price * item.quantity).toLocaleString()}</span>

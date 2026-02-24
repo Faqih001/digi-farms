@@ -48,7 +48,7 @@ export default function AdminAIPage() {
       </div>
 
       <div className="grid gap-4">
-        {aiModels.map((m) => (
+        {aiModels.map((m: any) => (
           <Card key={m.name}>
             <CardContent className="p-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">

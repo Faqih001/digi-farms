@@ -55,7 +55,7 @@ export default function RevenuePage() {
                 </tr>
               </thead>
               <tbody>
-                {monthlyRevenue.map((m) => (
+                {monthlyRevenue.map((m: any) => (
                   <tr key={m.month} className="border-b border-slate-100 dark:border-slate-800">
                     <td className="p-3 font-medium text-slate-900 dark:text-white">{m.month}</td>
                     <td className="p-3 font-bold text-green-600">{m.revenue}</td>

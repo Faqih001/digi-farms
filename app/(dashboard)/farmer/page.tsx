@@ -81,7 +81,7 @@ export default async function FarmerOverviewPage() {
                 <Sprout className="w-10 h-10 mx-auto mb-2 opacity-30" />
                 <p className="text-sm">No crops yet. <Link href="/farmer/farm" className="text-green-600 hover:underline">Add your farm</Link></p>
               </div>
-            ) : crops.slice(0, 4).map((crop) => (
+            ) : crops.slice(0, 4).map((crop: any) => (
               <div key={crop.id} className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800">
                 <div className="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
                   <Sprout className="w-4 h-4 text-green-600" />
@@ -134,7 +134,7 @@ export default async function FarmerOverviewPage() {
             </div>
           ) : (
             <div className="divide-y divide-slate-100 dark:divide-slate-800">
-              {recentScans.map((scan) => (
+              {recentScans.map((scan: any) => (
                 <div key={scan.id} className="flex items-center gap-4 py-3">
                   <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
                     <ScanLine className="w-4 h-4 text-purple-600" />

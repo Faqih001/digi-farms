@@ -55,7 +55,7 @@ export default function AdminUsersPage() {
     });
   };
 
-  const stats = { total: users.length, farmers: users.filter(u => u.role === "FARMER").length, suppliers: users.filter(u => u.role === "SUPPLIER").length, lenders: users.filter(u => u.role === "LENDER").length };
+  const stats = { total: users.length, farmers: users.filter((u: any) => u.role === "FARMER").length, suppliers: users.filter((u: any) => u.role === "SUPPLIER").length, lenders: users.filter((u: any) => u.role === "LENDER").length };
 
   if (loading) return <div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-green-600" /></div>;
 
@@ -107,7 +107,7 @@ export default function AdminUsersPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-slate-200 dark:border-slate-700">
-                    {["User", "Role", "Joined", "Actions"].map(h => (
+                    {["User", "Role", "Joined", "Actions"].map((h: any) => (
                       <th key={h} className="px-4 py-3 text-left font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wide">{h}</th>
                     ))}
                   </tr>
@@ -126,7 +126,7 @@ export default function AdminUsersPage() {
                           onChange={e => handleRoleChange(u.id, e.target.value as "FARMER" | "SUPPLIER" | "LENDER" | "ADMIN")}
                           disabled={pending}
                         >
-                          {["FARMER", "SUPPLIER", "LENDER", "ADMIN"].map(r => <option key={r} value={r}>{r}</option>)}
+                          {["FARMER", "SUPPLIER", "LENDER", "ADMIN"].map((r: any) => <option key={r} value={r}>{r}</option>)}
                         </select>
                       </td>
                       <td className="px-4 py-3 text-slate-500 dark:text-slate-400 text-xs">{new Date(u.createdAt).toLocaleDateString()}</td>

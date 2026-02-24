@@ -81,7 +81,7 @@ export default function SettingsPage() {
     .split(" ")
     .filter(Boolean)
     .slice(0, 2)
-    .map((w) => w[0].toUpperCase())
+    .map((w: any) => w[0].toUpperCase())
     .join("") || "?";
 
   return (

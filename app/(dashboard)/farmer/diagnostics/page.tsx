@@ -79,7 +79,7 @@ export default function DiagnosticsPage() {
                   <span className="font-bold text-green-800 dark:text-green-400">AI Capabilities</span>
                 </div>
                 <ul className="space-y-2 text-sm text-green-700 dark:text-green-300">
-                  {["200+ crop diseases detected", "Pest identification", "Nutrient deficiency analysis", "94% average accuracy", "Instant treatment recommendations"].map((f) => (
+                  {["200+ crop diseases detected", "Pest identification", "Nutrient deficiency analysis", "94% average accuracy", "Instant treatment recommendations"].map((f: any) => (
                     <li key={f} className="flex items-center gap-2"><CheckCircle className="w-3.5 h-3.5 flex-shrink-0" />{f}</li>
                   ))}
                 </ul>
@@ -90,7 +90,7 @@ export default function DiagnosticsPage() {
               <CardContent className="p-4">
                 <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-3 uppercase tracking-wide">Tips for best results</p>
                 <ul className="space-y-1.5 text-xs text-slate-500 dark:text-slate-400">
-                  {["Take photos in natural daylight", "Focus on affected leaves/stems", "Include close-up and wide shots", "Avoid blurry or dark images"].map((t) => (
+                  {["Take photos in natural daylight", "Focus on affected leaves/stems", "Include close-up and wide shots", "Avoid blurry or dark images"].map((t: any) => (
                     <li key={t} className="flex items-center gap-2"><Info className="w-3 h-3 flex-shrink-0 text-blue-400" />{t}</li>
                   ))}
                 </ul>

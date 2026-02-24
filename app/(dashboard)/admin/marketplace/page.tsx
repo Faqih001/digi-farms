@@ -46,9 +46,9 @@ export default function AdminMarketplacePage() {
 
   const stats = {
     total: products.length,
-    active: products.filter(p => p.isActive).length,
-    featured: products.filter(p => p.isFeatured).length,
-    inactive: products.filter(p => !p.isActive).length,
+    active: products.filter((p: any) => p.isActive).length,
+    featured: products.filter((p: any) => p.isFeatured).length,
+    inactive: products.filter((p: any) => !p.isActive).length,
   };
 
   if (loading) return <div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-green-600" /></div>;
@@ -92,7 +92,7 @@ export default function AdminMarketplacePage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-slate-200 dark:border-slate-700">
-                    {["Product", "Supplier", "Category", "Price", "Stock", "Status", "Actions"].map(h => (
+                    {["Product", "Supplier", "Category", "Price", "Stock", "Status", "Actions"].map((h: any) => (
                       <th key={h} className="px-4 py-3 text-left font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wide">{h}</th>
                     ))}
                   </tr>
