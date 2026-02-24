@@ -141,7 +141,7 @@ export default function AnalyticsPage() {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-800 dark:to-green-950">
         <div className="container mx-auto px-4 max-w-3xl text-center">
-          <Zap className="w-12 h-12 text-green-600 dark:text-green-300 mx-auto mb-4" />
+          <Zap className="w-12 h-12 text-green-600 dark:text-green-600 dark:text-green-300 mx-auto mb-4" />
           <h2 className="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">Unlock Your Farm&apos;s Potential</h2>
           <p className="text-slate-600 dark:text-green-100 mb-8">Free tier includes basic analytics for up to 5 acres. Upgrade for satellite imagery and AI recommendations.</p>
           <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">

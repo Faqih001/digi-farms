@@ -174,7 +174,7 @@ export default function ApiReferencePage() {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-800 dark:to-green-950">
         <div className="container mx-auto px-4 max-w-3xl text-center">
-          <Code className="w-14 h-14 text-green-600 dark:text-green-300 mx-auto mb-4" />
+          <Code className="w-14 h-14 text-green-600 dark:text-green-600 dark:text-green-300 mx-auto mb-4" />
           <h2 className="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">Ready to Integrate?</h2>
           <p className="text-slate-600 dark:text-green-100 mb-8">Create a free developer account and start building with the DIGI-FARMS API today.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

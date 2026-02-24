@@ -173,7 +173,7 @@ export default function PartnershipsPage() {
       {/* CTA */}
       <section id="partner-form" className="py-20 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-800 dark:to-green-950 scroll-mt-20">
         <div className="container mx-auto px-4 max-w-3xl text-center">
-          <Handshake className="w-14 h-14 text-green-600 dark:text-green-300 mx-auto mb-4" />
+          <Handshake className="w-14 h-14 text-green-600 dark:text-green-600 dark:text-green-300 mx-auto mb-4" />
           <h2 className="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">Ready to Partner?</h2>
           <p className="text-slate-600 dark:text-green-100 mb-8">Get in touch with our partnerships team. We&apos;ll schedule a call within 48 hours.</p>
           <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
