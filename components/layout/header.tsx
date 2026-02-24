@@ -81,11 +81,6 @@ export default function Header() {
               <div className="w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
                 <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={112} height={112} quality={90} priority />
               </div>
-              <div className="leading-none">
-                <span className="font-black text-4xl md:text-5xl text-slate-900 dark:text-white tracking-tight">DIGI</span>
-                <span className="font-black text-4xl md:text-5xl text-green-600 tracking-tight">-FARMS</span>
-                <div className="text-sm md:text-sm text-slate-400 font-medium tracking-widest uppercase">Precision Agriculture</div>
-              </div>
             </Link>
 
             {/* Desktop Nav */}
