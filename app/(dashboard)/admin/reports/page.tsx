@@ -16,7 +16,7 @@ const typeColors: Record<string, string> = {
   Farmer: "text-green-600 bg-green-50 dark:bg-green-950",
   Supplier: "text-blue-600 bg-blue-50 dark:bg-blue-950",
   Lender: "text-amber-600 bg-amber-50 dark:bg-amber-950",
-  Technical: "text-slate-600 bg-slate-100 dark:bg-slate-800",
+  Technical: "text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800",
   Financial: "text-red-600 bg-red-50 dark:bg-red-950",
 };
 

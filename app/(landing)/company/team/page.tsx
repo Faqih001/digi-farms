@@ -95,7 +95,7 @@ export default function TeamPage() {
             {advisors.map((a) => (
               <Card key={a.name} className="text-center dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
-                  <div className="w-16 h-16 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center mx-auto mb-3 text-slate-600 dark:text-slate-300 font-bold">
+                  <div className="w-16 h-16 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center mx-auto mb-3 text-slate-600 dark:text-slate-400 dark:text-slate-300 font-bold">
                     {a.initials}
                   </div>
                   <h3 className="font-bold text-slate-900 dark:text-white">{a.name}</h3>

@@ -149,7 +149,7 @@ export default function CaseStudiesPage() {
                       {/* Quote */}
                       <div className="border-l-4 border-green-500 pl-4">
                         <Quote className="w-4 h-4 text-green-400 mb-1" />
-                        <p className="text-sm italic text-slate-600 dark:text-slate-300">&ldquo;{cs.quote}&rdquo;</p>
+                        <p className="text-sm italic text-slate-600 dark:text-slate-400 dark:text-slate-300">&ldquo;{cs.quote}&rdquo;</p>
                         <p className="text-xs text-green-600 font-medium mt-1">— {cs.author}</p>
                       </div>
                     </div>

@@ -63,7 +63,7 @@ export default function BlogPage() {
             {categories.map((c, i) => (
               <button
                 key={c.name}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all ${i === 0 ? "bg-green-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-green-50 dark:hover:bg-green-950/50"}`}
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all ${i === 0 ? "bg-green-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 dark:text-slate-300 hover:bg-green-50 dark:hover:bg-green-950/50"}`}
               >
                 <c.icon className="w-3.5 h-3.5" />
                 {c.name}

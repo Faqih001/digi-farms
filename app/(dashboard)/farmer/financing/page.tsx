@@ -98,7 +98,7 @@ export default function FinancingProfilePage() {
             { done: false, tip: "Achieve 90%+ yield forecast accuracy" },
           ].map(({ done, tip }) => (
             <div key={tip} className="flex items-center gap-3 text-sm">
-              <CheckCircle className={`w-4 h-4 flex-shrink-0 ${done ? "text-green-500" : "text-slate-300 dark:text-slate-600"}`} />
+              <CheckCircle className={`w-4 h-4 flex-shrink-0 ${done ? "text-green-500" : "text-slate-300 dark:text-slate-600 dark:text-slate-400"}`} />
               <span className={done ? "text-slate-500 dark:text-slate-400 line-through" : "text-slate-700 dark:text-slate-300"}>{tip}</span>
             </div>
           ))}

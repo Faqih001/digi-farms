@@ -24,7 +24,7 @@ const priorityCls: Record<string, string> = {
   critical: "bg-red-100 text-red-700",
   high: "bg-orange-100 text-orange-700",
   medium: "bg-amber-100 text-amber-700",
-  low: "bg-slate-100 text-slate-600",
+  low: "bg-slate-100 text-slate-600 dark:text-slate-400",
 };
 
 export default function AdminSupportPage() {
@@ -234,7 +234,7 @@ export default function AdminSupportPage() {
                       className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors disabled:opacity-40 ${
                         selectedTicket.status === s
                           ? `${statusCls[s]} ring-2 ring-current ring-offset-1`
-                          : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                          : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
                       }`}
                     >
                       {s.replace("_", " ")}

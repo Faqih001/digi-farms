@@ -155,7 +155,7 @@ export default function InventoryPage() {
                         <td className="p-4">
                           <span className={`text-xs font-semibold px-2 py-1 rounded-full ${cls}`}>{label}</span>
                         </td>
-                        <td className="p-4 text-slate-600 dark:text-slate-300 hidden md:table-cell">KES {product.price.toLocaleString()}</td>
+                        <td className="p-4 text-slate-600 dark:text-slate-400 dark:text-slate-300 hidden md:table-cell">KES {product.price.toLocaleString()}</td>
                         <td className="p-4 text-right">
                           <button
                             onClick={() => { setEditProduct(product); setNewStock(String(product.stock)); }}

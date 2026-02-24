@@ -96,7 +96,7 @@ export default function AdminAuditPage() {
                         <span>{log.user}</span>
                         <span>IP: {log.ip}</span>
                         <span>{log.time}</span>
-                        <span className="text-slate-300 dark:text-slate-600">{log.id}</span>
+                        <span className="text-slate-300 dark:text-slate-600 dark:text-slate-400">{log.id}</span>
                       </div>
                     </div>
                     <Button variant="ghost" size="sm"><Eye className="w-3 h-3" /></Button>
