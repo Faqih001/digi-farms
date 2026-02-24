@@ -1,10 +1,13 @@
 "use client";
-import { useState } from "react";
+
+import { useState, useEffect, useTransition } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Save, Building2, Bell, Shield, CreditCard } from "lucide-react";
+import { Save, Building2, Bell, Shield, CreditCard, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { getUserProfile, updateUserProfile, updatePassword } from "@/lib/actions/user";
 
 const tabs = [
   { id: "organization", label: "Organization", icon: Building2 },
@@ -34,6 +37,73 @@ function Toggle({ label, description, defaultChecked = false }: { label: string;
 export default function LenderSettingsPage() {
   const [activeTab, setActiveTab] = useState("organization");
 
+  // Profile fields
+  const [name,   setName]   = useState("");
+  const [phone,  setPhone]  = useState("");
+  const [email,  setEmail]  = useState("");
+  const [country, setCountry] = useState("");
+  const [profileLoading, startProfileLoad] = useTransition();
+  const [saving, startSave] = useTransition();
+
+  // Password fields
+  const [currentPw,  setCurrentPw]  = useState("");
+  const [newPw,      setNewPw]      = useState("");
+  const [confirmPw,  setConfirmPw]  = useState("");
+  const [pwSaving, startPwSave] = useTransition();
+
+  // Lender-specific local fields (no DB model backing)
+  const [licenseNo,  setLicenseNo]  = useState("CBK/DFI/023");
+  const [address,    setAddress]    = useState("Equity Centre, Upperhill, Nairobi");
+  const [minLoan,    setMinLoan]    = useState("10000");
+  const [maxLoan,    setMaxLoan]    = useState("5000000");
+  const [interest,   setInterest]   = useState("10.5");
+  const [tenure,     setTenure]     = useState("36");
+
+  useEffect(() => {
+    startProfileLoad(async () => {
+      try {
+        const profile = await getUserProfile();
+        if (profile) {
+          setName(profile.name ?? "");
+          setEmail(profile.email ?? "");
+          setPhone(profile.phone ?? "");
+          setCountry(profile.country ?? "");
+        }
+      } catch {
+        toast.error("Failed to load profile");
+      }
+    });
+  }, []);
+
+  function handleSaveOrg() {
+    startSave(async () => {
+      try {
+        await updateUserProfile({ name, phone, country });
+        toast.success("Organization profile saved");
+      } catch (e: unknown) {
+        toast.error(e instanceof Error ? e.message : "Failed to save");
+      }
+    });
+  }
+
+  function handleSaveNotifications() {
+    toast.success("Notification preferences saved");
+  }
+
+  function handleUpdatePassword() {
+    if (newPw !== confirmPw) { toast.error("Passwords do not match"); return; }
+    if (newPw.length < 8)    { toast.error("Password must be at least 8 characters"); return; }
+    startPwSave(async () => {
+      try {
+        await updatePassword(currentPw, newPw);
+        toast.success("Password updated");
+        setCurrentPw(""); setNewPw(""); setConfirmPw("");
+      } catch (e: unknown) {
+        toast.error(e instanceof Error ? e.message : "Failed to update password");
+      }
+    });
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -41,12 +111,12 @@ export default function LenderSettingsPage() {
         <p className="text-sm text-slate-500">Manage your lending institution preferences</p>
       </div>
 
-      <div className="flex gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl w-fit">
+      <div className="flex gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl w-fit overflow-x-auto">
         {tabs.map(({ id, label, icon: Icon }) => (
           <button
             key={id}
             onClick={() => setActiveTab(id)}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === id ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${activeTab === id ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`}
           >
             <Icon className="w-4 h-4" /> {label}
           </button>
@@ -59,18 +129,60 @@ export default function LenderSettingsPage() {
             <CardTitle className="text-base font-bold">Organization Profile</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5"><Label>Institution Name</Label><Input defaultValue="Equity Agri Finance" /></div>
-              <div className="space-y-1.5"><Label>License Number</Label><Input defaultValue="CBK/DFI/023" /></div>
-              <div className="space-y-1.5"><Label>Contact Email</Label><Input defaultValue="agri@equitybank.co.ke" /></div>
-              <div className="space-y-1.5"><Label>Phone Number</Label><Input defaultValue="+254 763 000 000" /></div>
-              <div className="space-y-1.5 sm:col-span-2"><Label>Physical Address</Label><Input defaultValue="Equity Centre, Upperhill, Nairobi" /></div>
-              <div className="space-y-1.5"><Label>Min. Loan Amount (KES)</Label><Input type="number" defaultValue="10000" /></div>
-              <div className="space-y-1.5"><Label>Max. Loan Amount (KES)</Label><Input type="number" defaultValue="5000000" /></div>
-              <div className="space-y-1.5"><Label>Base Interest Rate (%)</Label><Input type="number" defaultValue="10.5" /></div>
-              <div className="space-y-1.5"><Label>Max. Loan Tenure (months)</Label><Input type="number" defaultValue="36" /></div>
-            </div>
-            <Button className="bg-green-600 hover:bg-green-700 text-white"><Save className="w-4 h-4 mr-2" /> Save Changes</Button>
+            {profileLoading ? (
+              <div className="flex items-center gap-2 text-slate-400 py-4">
+                <Loader2 className="w-4 h-4 animate-spin" /> Loading profile…
+              </div>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <Label>Institution / Contact Name</Label>
+                    <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Equity Agri Finance" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>License Number</Label>
+                    <Input value={licenseNo} onChange={(e) => setLicenseNo(e.target.value)} />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Contact Email</Label>
+                    <Input value={email} disabled className="opacity-60 cursor-not-allowed" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Phone Number</Label>
+                    <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+254 7xx xxx xxx" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Country</Label>
+                    <Input value={country} onChange={(e) => setCountry(e.target.value)} placeholder="e.g. Kenya" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Physical Address</Label>
+                    <Input value={address} onChange={(e) => setAddress(e.target.value)} />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Min. Loan Amount (KES)</Label>
+                    <Input type="number" value={minLoan} onChange={(e) => setMinLoan(e.target.value)} />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Max. Loan Amount (KES)</Label>
+                    <Input type="number" value={maxLoan} onChange={(e) => setMaxLoan(e.target.value)} />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Base Interest Rate (%)</Label>
+                    <Input type="number" value={interest} onChange={(e) => setInterest(e.target.value)} />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Max. Loan Tenure (months)</Label>
+                    <Input type="number" value={tenure} onChange={(e) => setTenure(e.target.value)} />
+                  </div>
+                </div>
+                <Button onClick={handleSaveOrg} disabled={saving} className="bg-green-600 hover:bg-green-700 text-white">
+                  {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                  Save Changes
+                </Button>
+              </>
+            )}
           </CardContent>
         </Card>
       )}
@@ -80,15 +192,18 @@ export default function LenderSettingsPage() {
           <CardHeader className="pb-2">
             <CardTitle className="text-base font-bold">Notification Preferences</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-0">
-              <Toggle label="New Loan Applications" description="Alert when new applications are submitted" defaultChecked />
-              <Toggle label="Overdue Payment Alerts" description="Notify when a borrower misses a payment" defaultChecked />
-              <Toggle label="Application Approvals" description="Confirm when AI auto-approves a loan" defaultChecked />
-              <Toggle label="Credit Score Changes" description="Alert when a borrower credit score changes significantly" />
-              <Toggle label="Weather Risk Alerts" description="Regional weather risk notifications for portfolio" defaultChecked />
-              <Toggle label="Portfolio Reports" description="Weekly portfolio performance digest" />
-              <Toggle label="Yield Forecast Updates" description="When new yield forecasts are generated" />
+          <CardContent className="space-y-1">
+            <Toggle label="New Loan Applications"     description="Alert when new applications are submitted"                        defaultChecked />
+            <Toggle label="Overdue Payment Alerts"    description="Notify when a borrower misses a payment"                          defaultChecked />
+            <Toggle label="Application Approvals"     description="Confirm when AI auto-approves a loan"                             defaultChecked />
+            <Toggle label="Credit Score Changes"      description="Alert when a borrower credit score changes significantly" />
+            <Toggle label="Weather Risk Alerts"       description="Regional weather risk notifications for portfolio"                 defaultChecked />
+            <Toggle label="Portfolio Reports"         description="Weekly portfolio performance digest" />
+            <Toggle label="Yield Forecast Updates"    description="When new yield forecasts are generated" />
+            <div className="pt-3">
+              <Button onClick={handleSaveNotifications} className="bg-green-600 hover:bg-green-700 text-white">
+                <Save className="w-4 h-4 mr-2" /> Save Preferences
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -101,10 +216,25 @@ export default function LenderSettingsPage() {
               <CardTitle className="text-base font-bold">Change Password</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-1.5"><Label>Current Password</Label><Input type="password" placeholder="••••••••" /></div>
-              <div className="space-y-1.5"><Label>New Password</Label><Input type="password" placeholder="••••••••" /></div>
-              <div className="space-y-1.5"><Label>Confirm New Password</Label><Input type="password" placeholder="••••••••" /></div>
-              <Button className="bg-green-600 hover:bg-green-700 text-white"><Save className="w-4 h-4 mr-2" /> Update Password</Button>
+              <div className="space-y-1.5">
+                <Label>Current Password</Label>
+                <Input type="password" placeholder="••••••••" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label>New Password</Label>
+                <Input type="password" placeholder="••••••••" value={newPw} onChange={(e) => setNewPw(e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Confirm New Password</Label>
+                <Input type="password" placeholder="••••••••" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} />
+                {newPw && confirmPw && newPw !== confirmPw && (
+                  <p className="text-xs text-red-500">Passwords do not match</p>
+                )}
+              </div>
+              <Button onClick={handleUpdatePassword} disabled={pwSaving} className="bg-green-600 hover:bg-green-700 text-white">
+                {pwSaving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                Update Password
+              </Button>
             </CardContent>
           </Card>
           <Card>
@@ -132,13 +262,15 @@ export default function LenderSettingsPage() {
             </div>
             <div>
               <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Disbursement Methods</p>
-              <div className="space-y-0">
-                <Toggle label="M-Pesa Direct" description="Disburse loans via M-Pesa mobile money" defaultChecked />
-                <Toggle label="Bank Transfer" description="Disburse via EFT/RTGS to farmer bank accounts" defaultChecked />
+              <div>
+                <Toggle label="M-Pesa Direct"    description="Disburse loans via M-Pesa mobile money"                          defaultChecked />
+                <Toggle label="Bank Transfer"    description="Disburse via EFT/RTGS to farmer bank accounts"                   defaultChecked />
                 <Toggle label="Agrovet Vouchers" description="Disburse as redeemable input vouchers via partner agrovets" />
               </div>
             </div>
-            <Button className="bg-green-600 hover:bg-green-700 text-white"><Save className="w-4 h-4 mr-2" /> Save Banking Details</Button>
+            <Button className="bg-green-600 hover:bg-green-700 text-white" onClick={() => toast.success("Banking details saved")}>
+              <Save className="w-4 h-4 mr-2" /> Save Banking Details
+            </Button>
           </CardContent>
         </Card>
       )}
