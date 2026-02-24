@@ -183,7 +183,7 @@ export default function MarketplacePage() {
               <Card key={name} className="p-5 text-center card-hover">
                 <CardContent className="p-0">
                   <div className="w-14 h-14 mx-auto rounded-xl bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900/30 dark:to-green-800/30 flex items-center justify-center mb-3 text-2xl">🏪</div>
-                  <div className={`inline-block text-xs font-bold px-2 py-0.5 rounded-full mb-2 ${badge === "Platinum" ? "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200" : "bg-amber-100 text-amber-700"}`}>{badge}</div>
+                  <div className={`inline-block text-xs font-bold px-2 py-0.5 rounded-full mb-2 ${badge === "Platinum" ? "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200" : "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300"}`}>{badge}</div>
                   <h3 className="font-bold text-slate-900 dark:text-white text-sm mb-1">{name}</h3>
                   <p className="text-xs text-slate-400 mb-3">{location}</p>
                   <div className="flex justify-around text-center">

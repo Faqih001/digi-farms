@@ -114,13 +114,13 @@ export default function LenderOverviewPage() {
         <CardContent>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { label: "PAR > 30 Days", value: "4.1%", status: "success", icon: CheckCircle },
-              { label: "Average Loan Duration", value: "8.5 months", status: "info", icon: TrendingUp },
-              { label: "Collection Rate", value: "96.8%", status: "success", icon: DollarSign },
-              { label: "At-Risk Loans", value: "12", status: "warning", icon: AlertTriangle },
-            ].map(({ label, value, status, icon: Icon }) => (
+              { label: "PAR > 30 Days", value: "4.1%", status: "success", icon: CheckCircle, iconColor: "text-green-600" },
+              { label: "Average Loan Duration", value: "8.5 months", status: "info", icon: TrendingUp, iconColor: "text-blue-600" },
+              { label: "Collection Rate", value: "96.8%", status: "success", icon: DollarSign, iconColor: "text-green-600" },
+              { label: "At-Risk Loans", value: "12", status: "warning", icon: AlertTriangle, iconColor: "text-amber-500" },
+            ].map(({ label, value, status, icon: Icon, iconColor }) => (
               <div key={label} className="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl text-center">
-                <Icon className="w-6 h-6 text-green-600 mx-auto mb-2" />
+                <Icon className={`w-6 h-6 ${iconColor} mx-auto mb-2`} />
                 <p className="text-xl font-bold text-slate-900 dark:text-white">{value}</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
               </div>

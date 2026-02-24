@@ -586,7 +586,10 @@ function ImpactSection() {
   ];
 
   return (
-    <section className="py-24 bg-slate-50 dark:bg-slate-950">
+    <section
+      className="py-24 bg-image-overlay"
+      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=1600&q=80&auto=format&fit=crop')" }}
+    >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge className="mb-4">Impact</Badge>
@@ -643,7 +646,10 @@ function TestimonialsSection() {
   ];
 
   return (
-    <section className="py-24 bg-white dark:bg-slate-900">
+    <section
+      className="py-24 bg-image-overlay"
+      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?w=1600&q=80&auto=format&fit=crop')" }}
+    >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge variant="earth" className="mb-4">Testimonials</Badge>
@@ -696,7 +702,10 @@ function PartnersSection() {
   ];
 
   return (
-    <section className="py-20 bg-slate-50 dark:bg-slate-950 border-y border-slate-200 dark:border-slate-800">
+    <section
+      className="py-20 bg-image-overlay border-y border-slate-200 dark:border-slate-800"
+      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1600&q=80&auto=format&fit=crop')" }}
+    >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-12">
           <p className="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-2">Backed by world-class partners</p>
