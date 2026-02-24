@@ -44,12 +44,12 @@ export default function PartnershipsPage() {
       {/* Hero */}
       <section className="gradient-hero py-20 lg:py-28">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <Badge className="mb-6 bg-white/20 text-white border-white/30">Partnerships</Badge>
-          <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
+          <Badge className="mb-6 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">Partnerships</Badge>
+          <h1 className="text-4xl lg:text-6xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
             Grow Together. <br className="hidden sm:block" />
-            <span className="text-green-300">Impact Together.</span>
+            <span className="text-green-600 dark:text-green-300">Impact Together.</span>
           </h1>
-          <p className="text-lg text-green-100 max-w-2xl mx-auto mb-8">
+          <p className="text-lg text-green-800 dark:text-green-100 max-w-2xl mx-auto mb-8">
             Join 30+ organizations partnering with DIGI-FARMS to reach millions of smallholder farmers across East Africa. Together, we can transform agriculture.
           </p>
           <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
@@ -135,7 +135,7 @@ export default function PartnershipsPage() {
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div>
                 <h2 className="text-3xl font-black text-white mb-4">Why Partner With DIGI-FARMS?</h2>
-                <p className="text-green-100 mb-6">Access the largest network of digitally-connected smallholder farmers in East Africa.</p>
+                <p className="text-slate-600 dark:text-green-100 mb-6">Access the largest network of digitally-connected smallholder farmers in East Africa.</p>
                 <ul className="space-y-3 mb-6">
                   {[
                     "50,000+ active farmers on the platform",
@@ -171,11 +171,11 @@ export default function PartnershipsPage() {
       </section>
 
       {/* CTA */}
-      <section id="partner-form" className="py-20 bg-gradient-to-br from-green-500 to-green-700 dark:from-green-800 dark:to-green-950 scroll-mt-20">
+      <section id="partner-form" className="py-20 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-800 dark:to-green-950 scroll-mt-20">
         <div className="container mx-auto px-4 max-w-3xl text-center">
-          <Handshake className="w-14 h-14 text-green-300 mx-auto mb-4" />
-          <h2 className="text-3xl lg:text-4xl font-black text-white mb-4">Ready to Partner?</h2>
-          <p className="text-green-100 mb-8">Get in touch with our partnerships team. We&apos;ll schedule a call within 48 hours.</p>
+          <Handshake className="w-14 h-14 text-green-600 dark:text-green-300 mx-auto mb-4" />
+          <h2 className="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">Ready to Partner?</h2>
+          <p className="text-slate-600 dark:text-green-100 mb-8">Get in touch with our partnerships team. We&apos;ll schedule a call within 48 hours.</p>
           <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
             <Link href="/contact">Contact Partnerships Team <ArrowRight className="ml-2 w-4 h-4" /></Link>
           </Button>

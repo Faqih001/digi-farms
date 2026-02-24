@@ -44,18 +44,18 @@ export default function MarketplacePage() {
       {/* Hero */}
       <section className="gradient-hero py-20 lg:py-28">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <Badge className="mb-6 bg-white/20 text-white border-white/30">Marketplace</Badge>
-          <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
-            Buy Smart. <span className="text-green-300">Sell Direct.</span>
+          <Badge className="mb-6 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">Marketplace</Badge>
+          <h1 className="text-4xl lg:text-6xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
+            Buy Smart. <span className="text-green-600 dark:text-green-300">Sell Direct.</span>
           </h1>
-          <p className="text-lg text-green-100 max-w-2xl mx-auto mb-8">
+          <p className="text-lg text-green-800 dark:text-green-100 max-w-2xl mx-auto mb-8">
             East Africa&apos;s most trusted agricultural marketplace. Verified inputs, transparent prices, and direct market access — all in one platform.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
               <Link href="/register">Start Shopping <ShoppingCart className="ml-2 w-4 h-4" /></Link>
             </Button>
-            <Button size="lg" variant="outline" asChild className="border-white/40 text-white hover:bg-white/10">
+            <Button size="lg" variant="outline" asChild className="border-green-600 text-green-700 hover:bg-green-50 dark:border-white/40 dark:text-white dark:hover:bg-white/10">
               <Link href="/register">List Your Produce</Link>
             </Button>
           </div>
@@ -180,10 +180,10 @@ export default function MarketplacePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-green-500 to-green-700 dark:from-green-800 dark:to-green-950">
+      <section className="py-20 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-800 dark:to-green-950">
         <div className="container mx-auto px-4 max-w-3xl text-center">
-          <h2 className="text-3xl lg:text-4xl font-black text-white mb-4">Join the Marketplace</h2>
-          <p className="text-green-100 mb-8">Whether you&apos;re buying inputs or selling your harvest — get started in under 2 minutes.</p>
+          <h2 className="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">Join the Marketplace</h2>
+          <p className="text-slate-600 dark:text-green-100 mb-8">Whether you&apos;re buying inputs or selling your harvest — get started in under 2 minutes.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
               <Link href="/register">Create Free Account <ArrowRight className="ml-2 w-4 h-4" /></Link>

@@ -62,12 +62,12 @@ export default function MediaKitPage() {
       {/* Hero */}
       <section className="gradient-hero py-20 lg:py-28">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <Badge className="mb-6 bg-white/20 text-white border-white/30">Media Kit</Badge>
-          <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
+          <Badge className="mb-6 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">Media Kit</Badge>
+          <h1 className="text-4xl lg:text-6xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
             Brand Assets & <br className="hidden sm:block" />
-            <span className="text-green-300">Press Resources</span>
+            <span className="text-green-600 dark:text-green-300">Press Resources</span>
           </h1>
-          <p className="text-lg text-green-100 max-w-2xl mx-auto mb-8">
+          <p className="text-lg text-green-800 dark:text-green-100 max-w-2xl mx-auto mb-8">
             Everything you need to represent DIGI-FARMS in media, publications, and partnership materials.
           </p>
           <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
@@ -178,11 +178,11 @@ export default function MediaKitPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-green-500 to-green-700 dark:from-green-800 dark:to-green-950">
+      <section className="py-20 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-800 dark:to-green-950">
         <div className="container mx-auto px-4 max-w-3xl text-center">
-          <Globe className="w-14 h-14 text-green-300 mx-auto mb-4" />
-          <h2 className="text-3xl lg:text-4xl font-black text-white mb-4">Media Inquiries</h2>
-          <p className="text-green-100 mb-8">For press inquiries, interviews, or additional materials, contact our communications team.</p>
+          <Globe className="w-14 h-14 text-green-600 dark:text-green-300 mx-auto mb-4" />
+          <h2 className="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">Media Inquiries</h2>
+          <p className="text-slate-600 dark:text-green-100 mb-8">For press inquiries, interviews, or additional materials, contact our communications team.</p>
           <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
             <Link href="/contact">Contact Press Team <ArrowRight className="ml-2 w-4 h-4" /></Link>
           </Button>

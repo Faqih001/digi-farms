@@ -44,11 +44,11 @@ export default function AnalyticsPage() {
       {/* Hero */}
       <section className="gradient-hero py-20 lg:py-28">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <Badge className="mb-6 bg-white/20 text-white border-white/30">Farm Analytics</Badge>
-          <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
-            Data-Driven <span className="text-green-300">Farming</span>
+          <Badge className="mb-6 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">Farm Analytics</Badge>
+          <h1 className="text-4xl lg:text-6xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
+            Data-Driven <span className="text-green-600 dark:text-green-300">Farming</span>
           </h1>
-          <p className="text-lg text-green-100 max-w-2xl mx-auto mb-8">
+          <p className="text-lg text-green-800 dark:text-green-100 max-w-2xl mx-auto mb-8">
             Transform raw farm data into actionable insights. Track yields, monitor soil health, and make every acre more productive with AI-powered analytics.
           </p>
           <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
@@ -139,11 +139,11 @@ export default function AnalyticsPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-green-500 to-green-700 dark:from-green-800 dark:to-green-950">
+      <section className="py-20 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-800 dark:to-green-950">
         <div className="container mx-auto px-4 max-w-3xl text-center">
-          <Zap className="w-12 h-12 text-green-300 mx-auto mb-4" />
-          <h2 className="text-3xl lg:text-4xl font-black text-white mb-4">Unlock Your Farm&apos;s Potential</h2>
-          <p className="text-green-100 mb-8">Free tier includes basic analytics for up to 5 acres. Upgrade for satellite imagery and AI recommendations.</p>
+          <Zap className="w-12 h-12 text-green-600 dark:text-green-300 mx-auto mb-4" />
+          <h2 className="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">Unlock Your Farm&apos;s Potential</h2>
+          <p className="text-slate-600 dark:text-green-100 mb-8">Free tier includes basic analytics for up to 5 acres. Upgrade for satellite imagery and AI recommendations.</p>
           <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
             <Link href="/register">Create Free Account <ArrowRight className="ml-2 w-4 h-4" /></Link>
           </Button>

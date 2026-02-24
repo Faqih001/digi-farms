@@ -43,11 +43,11 @@ export default function ContactPage() {
       {/* Section 1: Hero */}
       <section className="gradient-hero py-20">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <Badge className="mb-6 bg-white/20 text-white border-white/30">Get in Touch</Badge>
-          <h1 className="text-5xl lg:text-7xl font-black text-white mb-6">
+          <Badge className="mb-6 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">Get in Touch</Badge>
+          <h1 className="text-5xl lg:text-7xl font-black text-slate-900 dark:text-white mb-6">
             Let&apos;s Build the <span className="text-gradient">Future of Farming</span>
           </h1>
-          <p className="text-xl text-green-100/80 max-w-2xl mx-auto">
+          <p className="text-xl text-green-800 dark:text-green-100/80 max-w-2xl mx-auto">
             Whether you&apos;re a farmer seeking support, an investor, a partner, or a journalist — we want to hear from you.
           </p>
         </div>
@@ -364,10 +364,10 @@ export default function ContactPage() {
       {/* Section 12: Final CTA */}
       <section className="py-24 gradient-mesh">
         <div className="container mx-auto px-4 max-w-4xl text-center">
-          <h2 className="text-5xl font-black text-white mb-6">
+          <h2 className="text-5xl font-black text-slate-900 dark:text-white mb-6">
             Still Have Questions?
           </h2>
-          <p className="text-xl text-green-200/80 mb-10">
+          <p className="text-xl text-green-800 dark:text-green-200/80 mb-10">
             Our team is here to help. Reach out via any channel and we&apos;ll respond within 24 hours.
           </p>
           <Button variant="hero" size="xl" asChild>

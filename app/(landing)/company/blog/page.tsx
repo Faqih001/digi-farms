@@ -46,11 +46,11 @@ export default function BlogPage() {
       {/* Hero */}
       <section className="gradient-hero py-20 lg:py-24">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <Badge className="mb-6 bg-white/20 text-white border-white/30">Blog</Badge>
-          <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
-            Insights & <span className="text-green-300">Stories</span>
+          <Badge className="mb-6 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">Blog</Badge>
+          <h1 className="text-4xl lg:text-6xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
+            Insights & <span className="text-green-600 dark:text-green-300">Stories</span>
           </h1>
-          <p className="text-lg text-green-100 max-w-2xl mx-auto">
+          <p className="text-lg text-green-800 dark:text-green-100 max-w-2xl mx-auto">
             Agritech innovation, farmer success stories, market analysis, and lessons from the field.
           </p>
         </div>
@@ -143,10 +143,10 @@ export default function BlogPage() {
       </section>
 
       {/* Newsletter CTA */}
-      <section className="py-20 bg-gradient-to-br from-green-500 to-green-700 dark:from-green-800 dark:to-green-950">
+      <section className="py-20 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-800 dark:to-green-950">
         <div className="container mx-auto px-4 max-w-3xl text-center">
-          <h2 className="text-3xl lg:text-4xl font-black text-white mb-4">Stay Updated</h2>
-          <p className="text-green-100 mb-8">Get weekly agritech insights, market reports, and farmer stories delivered to your inbox.</p>
+          <h2 className="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">Stay Updated</h2>
+          <p className="text-slate-600 dark:text-green-100 mb-8">Get weekly agritech insights, market reports, and farmer stories delivered to your inbox.</p>
           <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
             <Link href="/register">Subscribe to Newsletter <ArrowRight className="ml-2 w-4 h-4" /></Link>
           </Button>

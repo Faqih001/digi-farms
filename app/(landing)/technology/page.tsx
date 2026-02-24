@@ -19,11 +19,11 @@ export default function TechnologyPage() {
       {/* Section 1: Hero */}
       <section className="gradient-hero py-24">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <Badge className="mb-6 bg-white/20 text-white border-white/30">Our Technology</Badge>
-          <h1 className="text-5xl lg:text-7xl font-black text-white mb-6 leading-tight">
+          <Badge className="mb-6 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">Our Technology</Badge>
+          <h1 className="text-5xl lg:text-7xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
             Precision Agriculture <br /><span className="text-gradient">Powered by AI</span>
           </h1>
-          <p className="text-xl text-green-100/80 max-w-3xl mx-auto mb-10">
+          <p className="text-xl text-green-800 dark:text-green-100/80 max-w-3xl mx-auto mb-10">
             Six integrated technology modules working in harmony — from satellite imagery and AI diagnostics to climate forecasting and financial risk modeling.
           </p>
           <Button variant="hero" size="xl" asChild>
@@ -460,10 +460,10 @@ export default function TechnologyPage() {
       {/* Section 12: Book Demo CTA */}
       <section className="py-24 gradient-mesh">
         <div className="container mx-auto px-4 max-w-4xl text-center">
-          <h2 className="text-5xl font-black text-white mb-6">
+          <h2 className="text-5xl font-black text-slate-900 dark:text-white mb-6">
             See It In <span className="text-gradient">Action</span>
           </h2>
-          <p className="text-xl text-green-200/80 mb-10">
+          <p className="text-xl text-green-800 dark:text-green-200/80 mb-10">
             Book a 30-minute live demo with our agritech team. We&apos;ll walk you through every module and answer your specific farming questions.
           </p>
           <Button variant="hero" size="xl" asChild>

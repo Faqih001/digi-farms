@@ -47,11 +47,11 @@ export default function MarketplacePage() {
       {/* Section 1: Hero */}
       <section className="gradient-hero py-20">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <Badge className="mb-6 bg-white/20 text-white border-white/30">Africa&apos;s AgriMarket</Badge>
-          <h1 className="text-5xl lg:text-7xl font-black text-white mb-6 leading-tight">
+          <Badge className="mb-6 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">Africa&apos;s AgriMarket</Badge>
+          <h1 className="text-5xl lg:text-7xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
             Buy Smart. <span className="text-gradient">Sell Fair.</span>
           </h1>
-          <p className="text-xl text-green-100/80 max-w-2xl mx-auto mb-10">
+          <p className="text-xl text-green-800 dark:text-green-100/80 max-w-2xl mx-auto mb-10">
             5,000+ certified products from 200+ verified suppliers. Anti-counterfeit QR verification, competitive bulk pricing, and financing integration.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -342,16 +342,16 @@ export default function MarketplacePage() {
       </section>
 
       {/* Section 11: Financing Integration */}
-      <section className="py-20 bg-gradient-to-br from-green-700 to-green-800 dark:from-green-900 dark:to-green-950 text-white">
+      <section className="py-20 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900 dark:to-green-950 text-slate-800 dark:text-white">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <Badge className="mb-4 bg-white/20 text-white border-white/30">Purchase Financing</Badge>
+          <Badge className="mb-4 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">Purchase Financing</Badge>
           <h2 className="text-4xl font-black mb-6">Buy Now, Pay at Harvest</h2>
-          <p className="text-green-200/80 max-w-2xl mx-auto mb-10">
+          <p className="text-slate-600 dark:text-green-200/80 max-w-2xl mx-auto mb-10">
             Purchase inputs on credit. Repayment is automatically deducted when you sell your harvest on the marketplace — zero cash needed at planting time.
           </p>
           <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto mb-10">
             {["Purchase inputs on credit (min. 3 months on DIGI-FARMS)", "Auto-repayment when harvest is sold on marketplace", "Interest rates from 8% p.a. — no hidden fees"].map((item) => (
-              <div key={item} className="bg-white/10 rounded-xl p-5 text-sm text-green-200 border border-white/20">{item}</div>
+              <div key={item} className="bg-white/80 dark:bg-white/10 rounded-xl p-5 text-sm text-slate-700 dark:text-green-200 border border-green-200 dark:border-white/20">{item}</div>
             ))}
           </div>
           <Button variant="hero" size="xl" asChild>

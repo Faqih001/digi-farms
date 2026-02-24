@@ -102,9 +102,9 @@ export default function PrivacyPolicyPage() {
       {/* Hero */}
       <section className="gradient-hero py-20 lg:py-24">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <Badge className="mb-6 bg-white/20 text-white border-white/30">Legal</Badge>
-          <h1 className="text-4xl lg:text-5xl font-black text-white mb-4 leading-tight">Privacy Policy</h1>
-          <p className="text-lg text-green-100 max-w-2xl mx-auto mb-4">
+          <Badge className="mb-6 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">Legal</Badge>
+          <h1 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-4 leading-tight">Privacy Policy</h1>
+          <p className="text-lg text-green-800 dark:text-green-100 max-w-2xl mx-auto mb-4">
             Your privacy matters to us. This policy explains how we handle your personal data.
           </p>
           <div className="flex items-center justify-center gap-2 text-green-200 text-sm">

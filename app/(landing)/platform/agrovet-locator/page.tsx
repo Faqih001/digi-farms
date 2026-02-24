@@ -44,19 +44,19 @@ export default function AgrovetLocatorPage() {
       {/* Hero */}
       <section className="gradient-hero py-20 lg:py-28">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <Badge className="mb-6 bg-white/20 text-white border-white/30">Agrovet Locator</Badge>
-          <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
+          <Badge className="mb-6 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">Agrovet Locator</Badge>
+          <h1 className="text-4xl lg:text-6xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
             Find Certified Agrovets <br className="hidden sm:block" />
-            <span className="text-green-300">Near You</span>
+            <span className="text-green-600 dark:text-green-300">Near You</span>
           </h1>
-          <p className="text-lg text-green-100 max-w-2xl mx-auto mb-8">
+          <p className="text-lg text-green-800 dark:text-green-100 max-w-2xl mx-auto mb-8">
             Locate verified agricultural input dealers across 47 counties. Check stock, compare prices, and order for delivery — all from your phone.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
               <Link href="/register">Find Nearest Agrovet <Navigation className="ml-2 w-4 h-4" /></Link>
             </Button>
-            <Button size="lg" variant="outline" asChild className="border-white/40 text-white hover:bg-white/10">
+            <Button size="lg" variant="outline" asChild className="border-green-600 text-green-700 hover:bg-green-50 dark:border-white/40 dark:text-white dark:hover:bg-white/10">
               <Link href="/register">Register Your Agrovet</Link>
             </Button>
           </div>
@@ -159,7 +159,7 @@ export default function AgrovetLocatorPage() {
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div>
                 <h2 className="text-3xl font-black text-white mb-4">Are You an Agrovet?</h2>
-                <p className="text-green-100 mb-6">Join 800+ certified dealers on DIGI-FARMS. Get discovered by thousands of farmers, manage your inventory online, and grow your business.</p>
+                <p className="text-slate-600 dark:text-green-100 mb-6">Join 800+ certified dealers on DIGI-FARMS. Get discovered by thousands of farmers, manage your inventory online, and grow your business.</p>
                 <ul className="space-y-2 mb-6">
                   {["Free listing for verified agrovets", "Online inventory management", "Order & delivery management", "Customer reviews & analytics"].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-white text-sm">

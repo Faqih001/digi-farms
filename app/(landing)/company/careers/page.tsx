@@ -46,12 +46,12 @@ export default function CareersPage() {
       {/* Hero */}
       <section className="gradient-hero py-20 lg:py-28">
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <Badge className="mb-6 bg-white/20 text-white border-white/30">Careers</Badge>
-          <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
+          <Badge className="mb-6 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">Careers</Badge>
+          <h1 className="text-4xl lg:text-6xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
             Build the Future of <br className="hidden sm:block" />
-            <span className="text-green-300">African Agriculture</span>
+            <span className="text-green-600 dark:text-green-300">African Agriculture</span>
           </h1>
-          <p className="text-lg text-green-100 max-w-2xl mx-auto mb-8">
+          <p className="text-lg text-green-800 dark:text-green-100 max-w-2xl mx-auto mb-8">
             Join a mission-driven team using AI, satellite imagery, and mobile technology to empower millions of smallholder farmers across East Africa.
           </p>
           <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
@@ -137,10 +137,10 @@ export default function CareersPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-green-500 to-green-700 dark:from-green-800 dark:to-green-950">
+      <section className="py-20 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-800 dark:to-green-950">
         <div className="container mx-auto px-4 max-w-3xl text-center">
-          <h2 className="text-3xl lg:text-4xl font-black text-white mb-4">Don&apos;t See Your Role?</h2>
-          <p className="text-green-100 mb-8">We&apos;re always looking for exceptional talent. Send us your CV and tell us how you want to change agriculture.</p>
+          <h2 className="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">Don&apos;t See Your Role?</h2>
+          <p className="text-slate-600 dark:text-green-100 mb-8">We&apos;re always looking for exceptional talent. Send us your CV and tell us how you want to change agriculture.</p>
           <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
             <Link href="/contact">Send Your CV <ArrowRight className="ml-2 w-4 h-4" /></Link>
           </Button>

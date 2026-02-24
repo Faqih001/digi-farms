@@ -55,31 +55,31 @@ export default function AboutPage() {
       <section className="gradient-hero py-24">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center max-w-4xl mx-auto">
-            <Badge className="mb-6 bg-white/20 text-white border-white/30">About DIGI-FARMS</Badge>
-            <h1 className="text-5xl lg:text-7xl font-black text-white mb-6 leading-tight">
+            <Badge className="mb-6 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">About DIGI-FARMS</Badge>
+            <h1 className="text-5xl lg:text-7xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
               Feeding Africa Through <span className="text-gradient">Innovation</span>
             </h1>
-            <p className="text-xl text-green-100/80 leading-relaxed">
+            <p className="text-xl text-green-800 dark:text-green-100/80 leading-relaxed">
               We believe every African farmer deserves access to the same precision tools used by the world&apos;s most advanced farms. DIGI-FARMS is making that vision a reality.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mt-16">
-            <div className="glass rounded-2xl p-8 bg-white/10 border border-white/20">
-              <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center mb-4">
-                <Target className="w-6 h-6 text-white" />
+            <div className="glass rounded-2xl p-8 bg-white/80 dark:bg-white/10 border border-green-200 dark:border-white/20">
+              <div className="w-12 h-12 rounded-2xl bg-green-100 dark:bg-white/20 flex items-center justify-center mb-4">
+                <Target className="w-6 h-6 text-green-700 dark:text-white" />
               </div>
-              <h3 className="text-2xl font-black text-white mb-3">Our Mission</h3>
-              <p className="text-green-200/80 leading-relaxed">
+              <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Our Mission</h3>
+              <p className="text-slate-600 dark:text-green-200/80 leading-relaxed">
                 To eliminate preventable crop loss and farm poverty by giving every smallholder farmer in Africa access to AI-powered diagnostics, fair markets, and climate-resilient financing — regardless of land size, education level, or location.
               </p>
             </div>
-            <div className="glass rounded-2xl p-8 bg-white/10 border border-white/20">
-              <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center mb-4">
-                <Eye className="w-6 h-6 text-white" />
+            <div className="glass rounded-2xl p-8 bg-white/80 dark:bg-white/10 border border-green-200 dark:border-white/20">
+              <div className="w-12 h-12 rounded-2xl bg-green-100 dark:bg-white/20 flex items-center justify-center mb-4">
+                <Eye className="w-6 h-6 text-green-700 dark:text-white" />
               </div>
-              <h3 className="text-2xl font-black text-white mb-3">Our Vision</h3>
-              <p className="text-green-200/80 leading-relaxed">
+              <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Our Vision</h3>
+              <p className="text-slate-600 dark:text-green-200/80 leading-relaxed">
                 A world where African agriculture is the most productive, sustainable, and digitally-advanced in the world — where smallholder farmers earn fair income, food systems are resilient to climate change, and no family goes hungry due to preventable crop failure.
               </p>
             </div>
@@ -181,15 +181,15 @@ export default function AboutPage() {
       </section>
 
       {/* Section 5: AI Engine */}
-      <section className="py-24 bg-gradient-to-br from-green-700 to-green-800 dark:from-green-900 dark:to-green-950 text-white">
+      <section className="py-24 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900 dark:to-green-950 text-slate-800 dark:text-white">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <Badge className="mb-4 bg-white/20 text-white border-white/30">AI Engine</Badge>
+              <Badge className="mb-4 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">AI Engine</Badge>
               <h2 className="text-4xl font-black mb-6">
                 The Brain Behind <span className="text-gradient">DIGI-FARMS</span>
               </h2>
-              <p className="text-green-200/80 mb-8 leading-relaxed">
+              <p className="text-slate-600 dark:text-green-200/80 mb-8 leading-relaxed">
                 Our proprietary Vision AI was trained specifically on African crop varieties and disease manifestations — not generic global datasets. This means unmatched accuracy for East African growing conditions.
               </p>
               <div className="space-y-4">
@@ -200,17 +200,17 @@ export default function AboutPage() {
                   "Continuous learning from new farm submissions",
                   "Multilingual: English, Swahili, Ekegusii, Dholuo",
                 ].map((item) => (
-                  <div key={item} className="flex items-center gap-3 text-sm text-green-200">
-                    <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                  <div key={item} className="flex items-center gap-3 text-sm text-slate-600 dark:text-green-200">
+                    <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
                     {item}
                   </div>
                 ))}
               </div>
             </div>
-            <div className="bg-white/10 rounded-2xl p-8 backdrop-blur-sm border border-white/20">
+            <div className="bg-white dark:bg-white/10 rounded-2xl p-8 border border-green-200 dark:border-white/20">
               <div className="text-center mb-6">
-                <div className="w-16 h-16 mx-auto rounded-2xl bg-green-400/20 flex items-center justify-center mb-3">
-                  <Cpu className="w-8 h-8 text-green-300" />
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-green-100 dark:bg-green-400/20 flex items-center justify-center mb-3">
+                  <Cpu className="w-8 h-8 text-green-600 dark:text-green-300" />
                 </div>
                 <h3 className="font-bold text-xl">AI Diagnostic Console</h3>
               </div>
@@ -220,14 +220,14 @@ export default function AboutPage() {
                   { crop: "Tomatoes — Greenhouse", result: "⚠️ Early Blight", conf: "92%" },
                   { crop: "Kale — Row 3-8", result: "✅ Healthy", conf: "96%" },
                 ].map(({ crop, result, conf }) => (
-                  <div key={crop} className="bg-white/10 rounded-xl p-3 flex items-center justify-between">
+                  <div key={crop} className="bg-green-50 dark:bg-white/10 rounded-xl p-3 flex items-center justify-between">
                     <div>
                       <div className="text-sm font-semibold">{crop}</div>
-                      <div className="text-xs text-green-300">{result}</div>
+                      <div className="text-xs text-green-600 dark:text-green-300">{result}</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-xs text-green-400 font-bold">{conf}</div>
-                      <div className="text-xs text-green-300/60">confidence</div>
+                      <div className="text-xs text-green-600 dark:text-green-400 font-bold">{conf}</div>
+                      <div className="text-xs text-slate-500 dark:text-green-300/60">confidence</div>
                     </div>
                   </div>
                 ))}
@@ -391,10 +391,10 @@ export default function AboutPage() {
       {/* Section 12: Join Us CTA */}
       <section className="py-24 gradient-mesh">
         <div className="container mx-auto px-4 max-w-4xl text-center">
-          <h2 className="text-5xl font-black text-white mb-6">
+          <h2 className="text-5xl font-black text-slate-900 dark:text-white mb-6">
             Join the <span className="text-gradient">Movement</span>
           </h2>
-          <p className="text-xl text-green-100/80 mb-10">
+          <p className="text-xl text-green-800 dark:text-green-100/80 mb-10">
             Whether you&apos;re a farmer, investor, partner, or problem-solver — there&apos;s a role for you in transforming African agriculture.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
