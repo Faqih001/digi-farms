@@ -31,6 +31,13 @@ export const metadata: Metadata = {
     description: "AI-powered precision agriculture platform",
     siteName: "DIGI-FARMS",
   },
+  icons: {
+    icon: [
+      { url: "/digi-farms-logo.ico" },
+    ],
+    shortcut: "/digi-farms-logo.ico",
+    apple: "/digi-farms-logo.jpeg",
+  },
 };
 
 export default function RootLayout({
