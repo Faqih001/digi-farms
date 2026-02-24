@@ -80,9 +80,9 @@ export default function CookiePolicyPage() {
       </section>
 
       {/* Content */}
-      <section className="py-16 bg-white dark:bg-slate-900">
+      <section style={{ backgroundColor: "#fff" }} className="py-16 bg-white dark:bg-slate-900">
         <div className="container mx-auto px-4 max-w-7xl">
-          <Card className="dark:bg-slate-800/50 border-slate-200 dark:border-slate-800">
+          <Card style={{ backgroundColor: "#fff" }} className="dark:bg-slate-800/50 border-slate-200 dark:border-slate-800">
             <CardContent className="p-6 lg:p-10">
               <div className="flex items-center gap-3 mb-8 pb-6 border-b border-slate-200 dark:border-slate-700">
                 <Cookie className="w-8 h-8 text-green-600" />

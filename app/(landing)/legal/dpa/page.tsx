@@ -130,7 +130,7 @@ export default function DpaPage() {
       </section>
 
       {/* Key Principles */}
-      <section className="py-12 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+      <section style={{ backgroundColor: "#fff" }} className="py-12 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {keyPrinciples.map((p) => (
@@ -144,7 +144,7 @@ export default function DpaPage() {
       </section>
 
       {/* Navigation */}
-      <section className="py-6 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+      <section style={{ backgroundColor: "#fff" }} className="py-6 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
             {sections.map((s) => (
@@ -157,9 +157,9 @@ export default function DpaPage() {
       </section>
 
       {/* Content */}
-      <section className="py-16 bg-white dark:bg-slate-900">
+      <section style={{ backgroundColor: "#fff" }} className="py-16 bg-white dark:bg-slate-900">
         <div className="container mx-auto px-4 max-w-7xl">
-          <Card className="dark:bg-slate-800/50 border-slate-200 dark:border-slate-800">
+          <Card style={{ backgroundColor: "#fff" }} className="dark:bg-slate-800/50 border-slate-200 dark:border-slate-800">
             <CardContent className="p-6 lg:p-10">
               <div className="flex items-center gap-3 mb-8 pb-6 border-b border-slate-200 dark:border-slate-700">
                 <ShieldCheck className="w-8 h-8 text-green-600" />
