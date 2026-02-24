@@ -134,7 +134,8 @@ export default function AboutPage() {
       </section>
 
       {/* Roadmap */}
-      <section className="py-20 bg-slate-50 dark:bg-slate-950">
+      <section className="py-20 bg-image-overlay"
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1583169506568-be87d8a77a04?w=1600&q=80&auto=format&fit=crop')" }}>
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="text-center mb-14">
             <Badge variant="secondary" className="mb-4">Roadmap</Badge>
