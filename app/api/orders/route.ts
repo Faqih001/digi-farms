@@ -8,7 +8,7 @@ export async function GET() {
 
   const orders = await db.order.findMany({
     where: { userId: session.user.id },
-    include: { product: { include: { supplier: { select: { businessName: true } } } } },
+    include: { items: { include: { product: { include: { supplier: { select: { companyName: true } } } } } } },
     orderBy: { createdAt: "desc" },
   });
 
@@ -31,18 +31,23 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Product not found or unavailable" }, { status: 404 });
   }
 
-  if (product.stockQuantity !== null && product.stockQuantity < quantity) {
+  if (product.stock !== null && product.stock < quantity) {
     return NextResponse.json({ error: "Insufficient stock" }, { status: 400 });
   }
 
   const order = await db.order.create({
     data: {
-      productId,
-      quantity,
-      totalPrice: product.price * quantity,
-      deliveryAddress,
+      totalAmount: product.price * quantity,
+      shippingAddress: deliveryAddress,
       userId: session.user.id,
       status: "PENDING",
+      items: {
+        create: {
+          productId,
+          quantity,
+          price: product.price,
+        },
+      },
     },
   });
 

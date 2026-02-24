@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
   const [products, total] = await Promise.all([
     db.product.findMany({
       where,
-      include: { supplier: { select: { businessName: true, county: true } } },
+      include: { supplier: { select: { companyName: true } } },
       orderBy: { createdAt: "desc" },
       skip: (page - 1) * limit,
       take: limit,

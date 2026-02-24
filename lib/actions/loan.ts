@@ -34,7 +34,7 @@ export async function updateLoanStatus(
 
   const updated = await db.loanApplication.update({
     where: { id: applicationId },
-    data: { status, reviewNotes: notes },
+    data: { status, notes },
   });
 
   revalidatePath("/lender/applications");

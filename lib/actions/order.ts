@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
-export async function updateOrderStatus(orderId: string, status: "PROCESSING" | "SHIPPED" | "DELIVERED" | "CANCELLED") {
+export async function updateOrderStatus(orderId: string, status: "CONFIRMED" | "SHIPPED" | "DELIVERED" | "CANCELLED") {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
@@ -13,9 +13,11 @@ export async function updateOrderStatus(orderId: string, status: "PROCESSING" | 
 
   const order = await db.order.findUnique({
     where: { id: orderId },
-    include: { product: true },
+    include: { items: { include: { product: true } } },
   });
-  if (!order || order.product.supplierId !== supplier.id) throw new Error("Not found or forbidden");
+  if (!order) throw new Error("Not found");
+  const belongsToSupplier = order.items.some((item) => item.product.supplierId === supplier.id);
+  if (!belongsToSupplier) throw new Error("Forbidden");
 
   const updated = await db.order.update({
     where: { id: orderId },
@@ -32,7 +34,7 @@ export async function getFarmerOrders() {
 
   return db.order.findMany({
     where: { userId: session.user.id },
-    include: { product: { include: { supplier: true } } },
+    include: { items: { include: { product: { include: { supplier: true } } } } },
     orderBy: { createdAt: "desc" },
   });
 }
@@ -45,8 +47,8 @@ export async function getSupplierOrders() {
   if (!supplier) return [];
 
   return db.order.findMany({
-    where: { product: { supplierId: supplier.id } },
-    include: { product: true, user: { select: { name: true, email: true } } },
+    where: { items: { some: { product: { supplierId: supplier.id } } } },
+    include: { items: { include: { product: true } }, user: { select: { name: true, email: true } } },
     orderBy: { createdAt: "desc" },
   });
 }
