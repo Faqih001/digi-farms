@@ -67,7 +67,7 @@ export default function AdminSupportPage() {
         toast.success(`Ticket marked as ${status.replace("_", " ").toLowerCase()}`);
         await load();
         if (selectedTicket?.id === ticketId) {
-          setSelectedTicket((prev) => prev ? { ...prev, status } : null);
+          setSelectedTicket((prev: Ticket | null) => prev ? { ...prev, status } : null);
         }
       } catch (e) {
         toast.error(e instanceof Error ? e.message : "Failed to update ticket");
