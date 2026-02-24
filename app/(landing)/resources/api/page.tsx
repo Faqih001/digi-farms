@@ -137,7 +137,7 @@ export default function ApiReferencePage() {
                 <Badge className={`${methodColors[e.method]} font-mono text-xs px-2.5 py-1 rounded-md border-0`}>{e.method}</Badge>
                 <code className="text-sm text-slate-900 dark:text-white font-mono flex-shrink-0">{e.path}</code>
                 <span className="text-sm text-slate-500 dark:text-slate-400 hidden sm:block flex-1">{e.desc}</span>
-                {e.auth && <Lock className="w-4 h-4 text-slate-400 flex-shrink-0" title="Requires authentication" />}
+                {e.auth && <Lock className="w-4 h-4 text-slate-400 flex-shrink-0" aria-label="Requires authentication" />}
               </div>
             ))}
           </div>
