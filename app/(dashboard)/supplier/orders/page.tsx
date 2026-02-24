@@ -10,6 +10,7 @@ import { Truck, Package, Clock, CheckCircle, XCircle, Search, Loader2 } from "lu
 import { getSupplierOrders, updateOrderStatus } from "@/lib/actions/order";
 
 type Order = Awaited<ReturnType<typeof getSupplierOrders>>[number];
+type OrderItem = Order['items'][number];
 
 const statusConfig: Record<string, { variant: "success" | "info" | "warning" | "destructive" | "secondary"; icon: typeof CheckCircle; label: string }> = {
   PENDING:   { variant: "warning",     icon: Clock,         label: "Pending" },
@@ -113,7 +114,7 @@ export default function OrdersPage() {
                             <Badge variant={sc.variant} className="text-xs">{sc.label}</Badge>
                           </div>
                           <p className="text-xs text-slate-500 dark:text-slate-400">{o.user?.name ?? "Customer"}</p>
-                          <p className="text-xs text-slate-400 line-clamp-1">{o.items.map(i => `${i.product.name} x${i.quantity}`).join(", ")}</p>
+                          <p className="text-xs text-slate-400 line-clamp-1">{o.items.map((i: OrderItem) => `${i.product.name} x${i.quantity}`).join(", ")}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
@@ -149,7 +150,7 @@ export default function OrdersPage() {
               <div className="flex justify-between text-sm"><span className="text-slate-500 dark:text-slate-400">Date</span><span>{new Date(detailOrder.createdAt).toLocaleDateString()}</span></div>
               <div className="border-t border-slate-200 dark:border-slate-700 pt-3 space-y-2">
                 <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Items</p>
-                {detailOrder.items.map(i => (
+                {detailOrder.items.map((i: OrderItem) => (
                   <div key={i.id} className="flex justify-between text-sm">
                     <span>{i.product.name} × {i.quantity}</span>
                     <span className="font-medium">KES {(i.quantity * i.price).toLocaleString()}</span>
@@ -158,7 +159,7 @@ export default function OrdersPage() {
               </div>
               <div className="flex justify-between text-sm font-bold border-t border-slate-200 dark:border-slate-700 pt-3">
                 <span>Total</span>
-                <span>KES {detailOrder.items.reduce((s, i) => s + i.quantity * i.price, 0).toLocaleString()}</span>
+                <span>KES {detailOrder.items.reduce((s: number, i: OrderItem) => s + i.quantity * i.price, 0).toLocaleString()}</span>
               </div>
             </div>
           )}
