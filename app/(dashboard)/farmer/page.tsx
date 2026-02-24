@@ -23,8 +23,12 @@ export default async function FarmerOverviewPage() {
     db.crop.findMany({ where: { farm: { userId } }, take: 6, orderBy: { plantedAt: "desc" } }),
   ]);
 
-  const totalHectares = farms.reduce((s: number, f: any) => s + (f.sizeHectares ?? 0), 0);
-  const activeCrops = crops.filter((c) => c.status === "HEALTHY").length;
+  type Farm = Awaited<ReturnType<typeof db.farm.findMany>>[number];
+  type Crop = Awaited<ReturnType<typeof db.crop.findMany>>[number];
+  type Scan = Awaited<ReturnType<typeof db.diagnostic.findMany>>[number];
+
+  const totalHectares = farms.reduce((s: number, f: Farm) => s + (f.sizeHectares ?? 0), 0);
+  const activeCrops = crops.filter((c: Crop) => c.status === "HEALTHY").length;
 
   return (
     <div className="space-y-6">
