@@ -33,14 +33,14 @@ function HeroSection() {
             <Badge variant="earth" className="mb-6 text-xs font-bold tracking-wider px-4 py-1.5 uppercase">
               🌍 Hult Prize 2026 · Precision Agritech
             </Badge>
-            <h1 className="text-5xl lg:text-7xl font-black text-white leading-[1.05] mb-6">
+            <h1 className="text-5xl lg:text-7xl font-black text-slate-900 dark:text-white leading-[1.05] mb-6">
               Farm Smarter.
               <br />
               <span className="text-gradient">Harvest More.</span>
               <br />
-              <span className="text-green-300">Thrive Now.</span>
+              <span className="text-green-600 dark:text-green-300">Thrive Now.</span>
             </h1>
-            <p className="text-lg text-green-100/80 leading-relaxed mb-8 max-w-lg">
+            <p className="text-lg text-slate-700 dark:text-green-100/80 leading-relaxed mb-8 max-w-lg">
               Africa&apos;s first AI-powered precision agriculture ecosystem — connecting
               smallholder farmers with smart diagnostics, fair markets, certified agrovets,
               and climate-resilient financing tools.
@@ -62,7 +62,7 @@ function HeroSection() {
               </Button>
             </div>
 
-            <div className="flex items-center gap-6 text-sm text-green-200/70">
+            <div className="flex items-center gap-6 text-sm text-slate-600 dark:text-green-200/70">
               <div className="flex items-center gap-1.5">
                 <CheckCircle className="w-4 h-4 text-green-400" />
                 Free 14-day trial
@@ -80,11 +80,11 @@ function HeroSection() {
 
           {/* Right: Dashboard preview card */}
           <div className="animate-fade-up delay-200 hidden lg:block">
-            <div className="glass-card p-6 border border-white/20 bg-white/10 backdrop-blur-xl">
+            <div className="glass-card p-6 border border-green-100 dark:border-white/20 bg-white dark:bg-white/10 dark:backdrop-blur-xl shadow-md dark:shadow-none">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-green-300 text-xs font-semibold uppercase tracking-wider mb-0.5">Farm Dashboard</p>
-                  <p className="text-white font-bold">Kamau Family Farm</p>
+                  <p className="text-green-700 dark:text-green-300 text-xs font-semibold uppercase tracking-wider mb-0.5">Farm Dashboard</p>
+                  <p className="text-slate-900 dark:text-white font-bold">Kamau Family Farm</p>
                 </div>
                 <Badge className="bg-green-400 text-green-900 text-xs font-bold">● LIVE</Badge>
               </div>
@@ -96,27 +96,27 @@ function HeroSection() {
                   { label: "Market Price", value: "KES 42/kg", icon: "💰", trend: "+8%" },
                   { label: "Rain Forecast", value: "68mm", icon: "🌧️", trend: "This week" },
                 ].map((stat) => (
-                  <div key={stat.label} className="bg-white/10 rounded-xl p-3.5 backdrop-blur-sm">
+                  <div key={stat.label} className="bg-slate-50 dark:bg-white/10 rounded-xl p-3.5">
                     <div className="text-xl mb-1">{stat.icon}</div>
-                    <div className="text-white font-bold text-lg leading-none">{stat.value}</div>
-                    <div className="text-green-300 text-xs mt-0.5">{stat.label}</div>
-                    <div className="text-green-400 text-xs font-semibold mt-1">{stat.trend}</div>
+                    <div className="text-slate-900 dark:text-white font-bold text-lg leading-none">{stat.value}</div>
+                    <div className="text-green-700 dark:text-green-300 text-xs mt-0.5">{stat.label}</div>
+                    <div className="text-green-600 dark:text-green-400 text-xs font-semibold mt-1">{stat.trend}</div>
                   </div>
                 ))}
               </div>
 
-              <div className="bg-white/10 rounded-xl p-3.5 backdrop-blur-sm">
+              <div className="bg-slate-50 dark:bg-white/10 rounded-xl p-3.5">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-green-300 text-xs font-semibold">AI Diagnostics — Last Scan</span>
-                  <span className="text-green-400 text-xs">2 min ago</span>
+                  <span className="text-green-700 dark:text-green-300 text-xs font-semibold">AI Diagnostics — Last Scan</span>
+                  <span className="text-green-600 dark:text-green-400 text-xs">2 min ago</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-green-500/30 flex items-center justify-center">
-                    <Microscope className="w-5 h-5 text-green-300" />
+                  <div className="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-500/30 flex items-center justify-center">
+                    <Microscope className="w-5 h-5 text-green-600 dark:text-green-300" />
                   </div>
                   <div>
-                    <div className="text-white text-sm font-semibold">Crop Status: Healthy ✓</div>
-                    <div className="text-green-300/70 text-xs">Maize field — Block 2A · No disease detected</div>
+                    <div className="text-slate-900 dark:text-white text-sm font-semibold">Crop Status: Healthy ✓</div>
+                    <div className="text-green-700/70 dark:text-green-300/70 text-xs">Maize field — Block 2A · No disease detected</div>
                   </div>
                 </div>
               </div>
@@ -134,8 +134,8 @@ function HeroSection() {
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="text-2xl mb-1">{stat.icon}</div>
-              <div className="text-3xl font-black text-white mb-1">{stat.value}</div>
-              <div className="text-green-300/70 text-sm">{stat.label}</div>
+              <div className="text-3xl font-black text-slate-900 dark:text-white mb-1">{stat.value}</div>
+              <div className="text-slate-600 dark:text-green-300/70 text-sm">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -230,13 +230,13 @@ function SolutionSection() {
           </div>
 
           {/* Solution visual */}
-          <div className="bg-gradient-to-br from-green-500 to-green-700 dark:from-green-700 dark:to-green-900 rounded-3xl p-8 text-white shadow-2xl">
+          <div className="bg-gradient-to-br from-green-100 to-emerald-200 dark:from-green-700 dark:to-green-900 rounded-3xl p-8 shadow-2xl">
             <div className="text-center mb-8">
-              <div className="w-20 h-20 mx-auto rounded-2xl bg-white/20 flex items-center justify-center mb-3 backdrop-blur-sm">
-                <Leaf className="w-10 h-10 text-white" />
+              <div className="w-20 h-20 mx-auto rounded-2xl bg-white/60 dark:bg-white/20 flex items-center justify-center mb-3 backdrop-blur-sm">
+                <Leaf className="w-10 h-10 text-green-700 dark:text-white" />
               </div>
-              <p className="font-bold text-xl">DIGI-FARMS Ecosystem</p>
-              <p className="text-green-300 text-sm">Precision Agriculture Platform</p>
+              <p className="font-bold text-xl text-slate-900 dark:text-white">DIGI-FARMS Ecosystem</p>
+              <p className="text-green-700 dark:text-green-300 text-sm">Precision Agriculture Platform</p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -248,11 +248,11 @@ function SolutionSection() {
                 { label: "E-Finance", emoji: "💳", desc: "Micro-credit" },
                 { label: "IoT Ready", emoji: "📡", desc: "Soil sensors" },
               ].map(({ label, emoji, desc }) => (
-                <div key={label} className="bg-white/10 rounded-xl p-3 backdrop-blur-sm flex items-center gap-3">
+                <div key={label} className="bg-white/60 dark:bg-white/10 rounded-xl p-3 flex items-center gap-3">
                   <span className="text-2xl">{emoji}</span>
                   <div>
-                    <div className="text-sm font-bold">{label}</div>
-                    <div className="text-xs text-green-300">{desc}</div>
+                    <div className="text-sm font-bold text-slate-900 dark:text-white">{label}</div>
+                    <div className="text-xs text-green-700 dark:text-green-300">{desc}</div>
                   </div>
                 </div>
               ))}
@@ -508,29 +508,29 @@ function AgrovetSection() {
 // ── Section 8: Financing & Insurance ─────────────────────────────────────────
 function FinancingSection() {
   return (
-    <section className="py-24 bg-gradient-to-br from-green-700 to-green-800 dark:from-green-900 dark:to-green-950 text-white">
+    <section className="py-24 bg-green-50 dark:bg-slate-950">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
-          <Badge className="mb-4 bg-white/20 text-white border-white/30">Finance & Insurance</Badge>
-          <h2 className="text-4xl lg:text-5xl font-black mb-4">
+          <Badge className="mb-4 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">Finance & Insurance</Badge>
+          <h2 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-4">
             Unlock Capital. <span className="text-gradient-gold">Protect Your Harvest.</span>
           </h2>
-          <p className="text-lg text-green-200/80 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 dark:text-green-200/80 max-w-2xl mx-auto">
             Your digital farm record is your credit score. Access micro-loans and crop insurance without traditional collateral requirements.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Financing card */}
-          <div className="glass rounded-2xl p-8 bg-white/10 border border-white/20">
-            <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center mb-6">
-              <CreditCard className="w-6 h-6 text-amber-300" />
+          <div className="rounded-2xl p-8 bg-white dark:bg-white/10 border border-slate-200 dark:border-white/20 shadow-sm dark:shadow-none">
+            <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center mb-6">
+              <CreditCard className="w-6 h-6 text-amber-600 dark:text-amber-300" />
             </div>
-            <h3 className="text-2xl font-black mb-3">Agri Micro-Finance</h3>
-            <p className="text-green-200/80 mb-6 text-sm leading-relaxed">
+            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Agri Micro-Finance</h3>
+            <p className="text-slate-600 dark:text-green-200/80 mb-6 text-sm leading-relaxed">
               AI-powered credit scoring uses your DIGI-FARMS data — yield history, diagnostics, market activity — to provide instant loan decisions without traditional bank collateral.
             </p>
-            <ul className="space-y-3 text-sm text-green-200">
+            <ul className="space-y-3 text-sm text-slate-700 dark:text-green-200">
               {[
                 "Loans from KES 5,000 – KES 500,000",
                 "Interest from 8% per annum",
@@ -538,7 +538,7 @@ function FinancingSection() {
                 "Integrated with 12+ Kenyan lenders",
               ].map((item) => (
                 <li key={item} className="flex items-center gap-2">
-                  <ChevronRight className="w-4 h-4 text-amber-400" />
+                  <ChevronRight className="w-4 h-4 text-amber-500 dark:text-amber-400" />
                   {item}
                 </li>
               ))}
@@ -546,15 +546,15 @@ function FinancingSection() {
           </div>
 
           {/* Insurance card */}
-          <div className="glass rounded-2xl p-8 bg-white/10 border border-white/20">
-            <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-6">
-              <Shield className="w-6 h-6 text-blue-300" />
+          <div className="rounded-2xl p-8 bg-white dark:bg-white/10 border border-slate-200 dark:border-white/20 shadow-sm dark:shadow-none">
+            <div className="w-12 h-12 rounded-2xl bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center mb-6">
+              <Shield className="w-6 h-6 text-blue-600 dark:text-blue-300" />
             </div>
-            <h3 className="text-2xl font-black mb-3">Crop Insurance</h3>
-            <p className="text-green-200/80 mb-6 text-sm leading-relaxed">
+            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Crop Insurance</h3>
+            <p className="text-slate-600 dark:text-green-200/80 mb-6 text-sm leading-relaxed">
               Index-based crop insurance powered by satellite imagery and weather data. Automatic payouts triggered by verified weather events — no paperwork required.
             </p>
-            <ul className="space-y-3 text-sm text-green-200">
+            <ul className="space-y-3 text-sm text-slate-700 dark:text-green-200">
               {[
                 "Coverage from KES 5,000/season",
                 "Drought, flood, and pest coverage",
@@ -562,7 +562,7 @@ function FinancingSection() {
                 "Partnered with UAP Old Mutual, Sanlam",
               ].map((item) => (
                 <li key={item} className="flex items-center gap-2">
-                  <ChevronRight className="w-4 h-4 text-blue-400" />
+                  <ChevronRight className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                   {item}
                 </li>
               ))}
@@ -728,14 +728,14 @@ function CTASection() {
   return (
     <section className="py-24 gradient-mesh">
       <div className="container mx-auto px-4 max-w-4xl text-center">
-        <Badge className="mb-6 bg-white/20 text-white border-white/30 text-sm px-4 py-1.5">
+        <Badge className="mb-6 bg-green-600/10 text-green-800 border-green-200 text-sm px-4 py-1.5 dark:bg-white/20 dark:text-white dark:border-white/30">
           🚀 Join 50,000+ Farmers
         </Badge>
-        <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
+        <h2 className="text-4xl lg:text-6xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
           Ready to Transform <br />
           <span className="text-gradient">Your Farm?</span>
         </h2>
-        <p className="text-xl text-green-200/80 mb-10 leading-relaxed">
+        <p className="text-xl text-slate-600 dark:text-green-200/80 mb-10 leading-relaxed">
           Start your free 14-day trial today. No credit card required. Cancel anytime.
           Join thousands of farmers already using DIGI-FARMS to feed the continent.
         </p>
@@ -755,17 +755,17 @@ function CTASection() {
           </Button>
         </div>
 
-        <div className="mt-16 pt-10 border-t border-white/20">
-          <p className="text-green-200/60 text-sm mb-4">📬 Subscribe to AgriIntelligence Weekly</p>
+        <div className="mt-16 pt-10 border-t border-slate-200 dark:border-white/20">
+          <p className="text-slate-500 dark:text-green-200/60 text-sm mb-4">📩 Subscribe to AgriIntelligence Weekly</p>
           <form className="flex gap-3 max-w-md mx-auto">
             <input
               type="email"
               placeholder="your@email.com"
-              className="flex-1 h-12 px-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-green-200/50 focus:outline-none focus:ring-2 focus:ring-white/30 backdrop-blur-sm text-sm"
+              className="flex-1 h-12 px-4 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-white/10 dark:border-white/20 dark:text-white dark:placeholder:text-green-200/50 dark:focus:ring-white/30 backdrop-blur-sm text-sm"
             />
             <Button variant="hero" size="lg" type="submit">Subscribe</Button>
           </form>
-          <p className="text-green-200/40 text-xs mt-3">Join 28,000+ subscribers. No spam, ever.</p>
+          <p className="text-slate-400 dark:text-green-200/40 text-xs mt-3">Join 28,000+ subscribers. No spam, ever.</p>
         </div>
       </div>
     </section>

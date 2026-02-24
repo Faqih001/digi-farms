@@ -79,11 +79,11 @@ export default function BlogPage() {
           <Card className="overflow-hidden border-0 shadow-xl dark:bg-slate-800/50 hover:shadow-2xl transition-shadow">
             <CardContent className="p-0">
               <div className="grid lg:grid-cols-2 gap-0">
-                <div className="bg-gradient-to-br from-green-600 to-emerald-500 p-8 lg:p-12 flex items-center">
+                <div className="bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-600 dark:to-emerald-500 p-8 lg:p-12 flex items-center">
                   <div>
-                    <Badge className="bg-white/20 text-white border-white/30 mb-4">{featuredPost.category}</Badge>
-                    <h2 className="text-2xl lg:text-3xl font-black text-white mb-4 leading-tight">{featuredPost.title}</h2>
-                    <p className="text-green-100 leading-relaxed">{featuredPost.excerpt}</p>
+                    <Badge className="bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30 mb-4">{featuredPost.category}</Badge>
+                    <h2 className="text-2xl lg:text-3xl font-black text-slate-900 dark:text-white mb-4 leading-tight">{featuredPost.title}</h2>
+                    <p className="text-slate-700 dark:text-green-100 leading-relaxed">{featuredPost.excerpt}</p>
                   </div>
                 </div>
                 <div className="p-8 lg:p-12 flex flex-col justify-center">

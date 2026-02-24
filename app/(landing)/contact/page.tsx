@@ -130,11 +130,11 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-green-600 to-green-800 rounded-2xl p-6 text-white">
-                <h4 className="font-black text-lg mb-3">Quick Response Channels</h4>
+              <div className="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-700 dark:to-green-800 rounded-2xl p-6 border border-green-200 dark:border-transparent">
+                <h4 className="font-black text-lg mb-3 text-slate-900 dark:text-white">Quick Response Channels</h4>
                 <div className="space-y-2">
                   {["💬 Live Chat — Available in app", "📱 WhatsApp: +254 700 344 327", "🐦 Twitter/X: @DigiFarmsAfrica", "💼 LinkedIn: DIGI-FARMS Ltd"].map((c) => (
-                    <div key={c} className="text-sm text-green-100">{c}</div>
+                    <div key={c} className="text-sm text-slate-700 dark:text-green-100">{c}</div>
                   ))}
                 </div>
               </div>
@@ -266,13 +266,13 @@ export default function ContactPage() {
                 ))}
               </div>
             </div>
-            <div className="bg-gradient-to-br from-green-500 to-green-700 dark:from-green-700 dark:to-green-900 rounded-3xl p-8 text-white">
-              <h3 className="text-2xl font-black mb-3">Partnership Inquiry</h3>
-              <p className="text-green-200/80 text-sm mb-6">Tell us about your organization and how you&apos;d like to collaborate.</p>
+            <div className="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-700 dark:to-green-900 rounded-3xl p-8 border border-green-200 dark:border-transparent">
+              <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Partnership Inquiry</h3>
+              <p className="text-slate-500 dark:text-green-200/80 text-sm mb-6">Tell us about your organization and how you&apos;d like to collaborate.</p>
               <div className="space-y-4">
-                <Input placeholder="Organization name" className="bg-white/10 border-white/20 text-white placeholder:text-green-200/50 focus:ring-white/30" />
-                <Input placeholder="Contact email" type="email" className="bg-white/10 border-white/20 text-white placeholder:text-green-200/50 focus:ring-white/30" />
-                <Textarea placeholder="Describe your partnership idea..." className="bg-white/10 border-white/20 text-white placeholder:text-green-200/50 min-h-24" />
+                <Input placeholder="Organization name" className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 dark:bg-white/10 dark:border-white/20 dark:text-white dark:placeholder:text-green-200/50 focus:ring-green-500" />
+                <Input placeholder="Contact email" type="email" className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 dark:bg-white/10 dark:border-white/20 dark:text-white dark:placeholder:text-green-200/50 focus:ring-green-500" />
+                <Textarea placeholder="Describe your partnership idea..." className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 dark:bg-white/10 dark:border-white/20 dark:text-white dark:placeholder:text-green-200/50 min-h-24" />
                 <Button variant="hero" className="w-full" onClick={() => toast.success("Partnership inquiry submitted!")}>
                   Submit Inquiry <ArrowRight className="w-4 h-4" />
                 </Button>

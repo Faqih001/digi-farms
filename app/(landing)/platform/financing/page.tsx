@@ -154,20 +154,20 @@ export default function FinancingPage() {
       {/* Partners & CTA */}
       <section className="py-20 bg-white dark:bg-slate-900">
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-3xl p-8 lg:p-12">
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-700 dark:to-emerald-600 rounded-3xl p-8 lg:p-12 border border-green-200 dark:border-transparent">
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div>
-                <h2 className="text-3xl font-black text-white mb-4">Lending Partners Welcome</h2>
+                <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-4">Lending Partners Welcome</h2>
                 <p className="text-slate-600 dark:text-green-100 mb-6">Are you a bank, MFI, or SACCO? Join our lending network and access AI-scored farmers with verified performance data.</p>
                 <ul className="space-y-2 mb-6">
                   {["Pre-scored farmers with verified data", "Reduced default risk with AI analytics", "Automated disbursement via M-Pesa", "Portfolio monitoring dashboard"].map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-white text-sm">
-                      <CheckCircle className="w-4 h-4 text-green-200 flex-shrink-0" />
+                    <li key={item} className="flex items-center gap-2 text-slate-700 dark:text-white text-sm">
+                      <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-200 flex-shrink-0" />
                       {item}
                     </li>
                   ))}
                 </ul>
-                <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
+                <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50 border border-green-200 dark:border-transparent">
                   <Link href="/company/partnerships">Partner With Us <ArrowRight className="ml-2 w-4 h-4" /></Link>
                 </Button>
               </div>
@@ -178,10 +178,10 @@ export default function FinancingPage() {
                   { icon: Shield, val: "<3%", label: "Default Rate" },
                   { icon: Clock, val: "48hrs", label: "Avg. Disbursement" },
                 ].map(({ icon: Icon, val, label }) => (
-                  <div key={label} className="bg-white/10 rounded-2xl p-5 text-center">
-                    <Icon className="w-7 h-7 text-white mx-auto mb-2" />
-                    <p className="text-xl font-black text-white">{val}</p>
-                    <p className="text-green-100 text-xs mt-1">{label}</p>
+                  <div key={label} className="bg-white dark:bg-white/10 rounded-2xl p-5 text-center border border-green-100 dark:border-transparent">
+                    <Icon className="w-7 h-7 text-green-700 dark:text-white mx-auto mb-2" />
+                    <p className="text-xl font-black text-slate-900 dark:text-white">{val}</p>
+                    <p className="text-slate-500 dark:text-green-100 text-xs mt-1">{label}</p>
                   </div>
                 ))}
               </div>

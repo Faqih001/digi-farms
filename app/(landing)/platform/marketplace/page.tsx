@@ -150,27 +150,27 @@ export default function MarketplacePage() {
                 <Link href="/register">Start Selling <ArrowRight className="ml-2 w-4 h-4" /></Link>
               </Button>
             </div>
-            <div className="bg-gradient-to-br from-green-600 to-emerald-500 rounded-3xl p-8 text-white">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-700 dark:to-emerald-600 rounded-3xl p-8 border border-green-200 dark:border-transparent">
               <div className="space-y-6">
                 <div className="flex items-center gap-3">
-                  <Star className="w-8 h-8 text-yellow-300" />
+                  <Star className="w-8 h-8 text-yellow-500 dark:text-yellow-300" />
                   <div>
-                    <p className="text-2xl font-black">0% Commission</p>
-                    <p className="text-green-100 text-sm">For the first KES 500K in sales</p>
+                    <p className="text-2xl font-black text-slate-900 dark:text-white">0% Commission</p>
+                    <p className="text-slate-600 dark:text-green-100 text-sm">For the first KES 500K in sales</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Users className="w-8 h-8 text-green-200" />
+                  <Users className="w-8 h-8 text-green-600 dark:text-green-200" />
                   <div>
-                    <p className="text-2xl font-black">50K+ Buyers</p>
-                    <p className="text-green-100 text-sm">Active monthly on the platform</p>
+                    <p className="text-2xl font-black text-slate-900 dark:text-white">50K+ Buyers</p>
+                    <p className="text-slate-600 dark:text-green-100 text-sm">Active monthly on the platform</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Search className="w-8 h-8 text-green-200" />
+                  <Search className="w-8 h-8 text-green-600 dark:text-green-200" />
                   <div>
-                    <p className="text-2xl font-black">Smart Matching</p>
-                    <p className="text-green-100 text-sm">AI connects you to the right buyers</p>
+                    <p className="text-2xl font-black text-slate-900 dark:text-white">Smart Matching</p>
+                    <p className="text-slate-600 dark:text-green-100 text-sm">AI connects you to the right buyers</p>
                   </div>
                 </div>
               </div>
