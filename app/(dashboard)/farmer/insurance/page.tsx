@@ -28,7 +28,7 @@ export default function InsurancePage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Insurance</h1>
-          <p className="text-sm text-slate-500">Protect your farm against risks with affordable agri-insurance</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Protect your farm against risks with affordable agri-insurance</p>
         </div>
         <Button><Shield className="w-4 h-4" /> Get New Policy</Button>
       </div>
@@ -46,7 +46,7 @@ export default function InsurancePage() {
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color}`}><Icon className="w-5 h-5" /></div>
                 <div>
-                  <p className="text-xs text-slate-500">{label}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
                   <p className="text-lg font-bold text-slate-900 dark:text-white">{value}</p>
                 </div>
               </div>
@@ -71,7 +71,7 @@ export default function InsurancePage() {
                       <span className="font-semibold text-slate-900 dark:text-white text-sm">{p.type}</span>
                       <Badge variant={p.status === "Active" ? "success" : "warning"} className="text-xs">{p.status}</Badge>
                     </div>
-                    <p className="text-xs text-slate-500">{p.crop} • Coverage: {p.coverage}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{p.crop} • Coverage: {p.coverage}</p>
                     <p className="text-xs text-slate-400">Premium: {p.premium} • Expires: {p.expires}</p>
                   </div>
                 </div>
@@ -96,7 +96,7 @@ export default function InsurancePage() {
                   <c.icon className="w-5 h-5 text-slate-400" />
                   <div>
                     <p className="text-sm font-medium text-slate-900 dark:text-white">{c.type}</p>
-                    <p className="text-xs text-slate-500">{c.id} • {c.date}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{c.id} • {c.date}</p>
                   </div>
                 </div>
                 <div className="text-right">
@@ -119,7 +119,7 @@ export default function InsurancePage() {
                 {i === 1 && <Badge className="mb-3">Most Popular</Badge>}
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">{plan.name}</h3>
                 <p className="text-sm text-green-600 font-semibold mt-1">{plan.coverage}</p>
-                <p className="text-xs text-slate-500 mb-4">{plan.premium}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">{plan.premium}</p>
                 <ul className="space-y-2 mb-6">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">

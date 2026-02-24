@@ -100,7 +100,7 @@ export default function BuyPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Marketplace</h1>
-          <p className="text-sm text-slate-500">Buy seeds, fertilizers, equipment & more from verified suppliers</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Buy seeds, fertilizers, equipment & more from verified suppliers</p>
         </div>
         <button
           onClick={() => setCartOpen(true)}
@@ -166,7 +166,7 @@ export default function BuyPage() {
       ) : products.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <PackageCheck className="w-12 h-12 text-slate-300 mb-3" />
-          <p className="text-slate-500 font-medium">No products found</p>
+          <p className="text-slate-500 dark:text-slate-400 font-medium">No products found</p>
           <p className="text-sm text-slate-400 mt-1">Try a different category or search term</p>
         </div>
       ) : (
@@ -193,7 +193,7 @@ export default function BuyPage() {
                 <CardContent className="p-3 space-y-2">
                   <div>
                     <p className="font-semibold text-slate-900 dark:text-white text-sm line-clamp-2">{product.name}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">{product.supplier.companyName}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{product.supplier.companyName}</p>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-green-700 dark:text-green-400 font-bold text-sm">
@@ -201,7 +201,7 @@ export default function BuyPage() {
                     </span>
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${stockCls}`}>{stockLbl}</span>
                   </div>
-                  <p className="text-xs text-slate-500 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-lg">{product.category}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-lg">{product.category}</p>
 
                   {inCart ? (
                     <div className="flex items-center gap-2">
@@ -251,14 +251,14 @@ export default function BuyPage() {
               {cart.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-48 text-center">
                   <ShoppingCart className="w-10 h-10 text-slate-300 mb-3" />
-                  <p className="text-slate-500 font-medium">Your cart is empty</p>
+                  <p className="text-slate-500 dark:text-slate-400 font-medium">Your cart is empty</p>
                 </div>
               ) : (
                 cart.map((item) => (
                   <div key={item.product.id} className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{item.product.name}</p>
-                      <p className="text-xs text-slate-500">KES {item.product.price.toLocaleString()} × {item.quantity}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">KES {item.product.price.toLocaleString()} × {item.quantity}</p>
                     </div>
                     <div className="flex items-center gap-1">
                       <button onClick={() => updateQuantity(item.product.id, -1)} className="p-1 rounded-lg bg-white dark:bg-slate-700 border">
@@ -310,7 +310,7 @@ export default function BuyPage() {
             </div>
             <div className="p-5 space-y-4">
               <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 space-y-2">
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Order Summary</p>
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Order Summary</p>
                 {cart.map((item) => (
                   <div key={item.product.id} className="flex justify-between text-sm">
                     <span className="text-slate-600 dark:text-slate-300">{item.product.name} × {item.quantity}</span>

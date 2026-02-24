@@ -125,7 +125,7 @@ export default function BlogPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <User className="w-3.5 h-3.5 text-slate-400" />
-                        <span className="text-xs text-slate-500">{post.author}</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">{post.author}</span>
                       </div>
                       <span className="text-xs text-slate-400">{post.date}</span>
                     </div>

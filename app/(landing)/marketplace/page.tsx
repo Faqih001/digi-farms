@@ -96,7 +96,7 @@ export default function MarketplacePage() {
           <div className="flex items-center justify-between mb-10">
             <div>
               <h2 className="text-3xl font-black text-slate-900 dark:text-white">Browse by Category</h2>
-              <p className="text-slate-500 text-sm mt-1">8 categories · 7,487 products</p>
+              <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">8 categories · 7,487 products</p>
             </div>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
@@ -118,7 +118,7 @@ export default function MarketplacePage() {
           <div className="flex items-center justify-between mb-10">
             <div>
               <h2 className="text-3xl font-black text-slate-900 dark:text-white">Featured Products</h2>
-              <p className="text-slate-500 text-sm mt-1">Handpicked by our agronomy team</p>
+              <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Handpicked by our agronomy team</p>
             </div>
             <Button variant="outline" asChild>
               <Link href="/register">View All <ArrowRight className="w-4 h-4" /></Link>
@@ -148,7 +148,7 @@ export default function MarketplacePage() {
                 </div>
                 <CardContent className="p-4">
                   <h3 className="font-bold text-slate-900 dark:text-white mb-1 leading-tight">{name}</h3>
-                  <p className="text-xs text-slate-500 mb-2">{supplier}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{supplier}</p>
                   <div className="flex items-center gap-1 mb-3">
                     <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                     <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{rating}</span>
@@ -176,7 +176,7 @@ export default function MarketplacePage() {
           <div className="text-center mb-12">
             <Badge className="mb-4">Verified Suppliers</Badge>
             <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-3">Shop from Trusted Suppliers</h2>
-            <p className="text-slate-500 text-sm">All suppliers are licensed, annually audited, and quality-certified</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">All suppliers are licensed, annually audited, and quality-certified</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {suppliers.map(({ name, products, rating, sales, badge, location }) => (
@@ -207,7 +207,7 @@ export default function MarketplacePage() {
               <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-6">
                 Compare Prices, <span className="text-gradient">Save More</span>
               </h2>
-              <p className="text-slate-500 mb-6 leading-relaxed">
+              <p className="text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
                 Our price comparison engine aggregates real-time pricing from all marketplace suppliers. Never overpay for farm inputs again.
               </p>
               <div className="space-y-3">
@@ -220,7 +220,7 @@ export default function MarketplacePage() {
               </div>
             </div>
             <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
-              <div className="text-sm font-semibold text-slate-500 mb-4">Price comparison: CAN Fertilizer 50kg</div>
+              <div className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-4">Price comparison: CAN Fertilizer 50kg</div>
               <div className="space-y-3">
                 {[
                   { name: "Mkulima Supplies", price: 3200, tag: "Lowest" },
@@ -248,7 +248,7 @@ export default function MarketplacePage() {
         <div className="container mx-auto px-4 max-w-7xl text-center">
           <Badge variant="earth" className="mb-4">Bulk Savings</Badge>
           <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-4">Group Buying Power</h2>
-          <p className="text-slate-500 max-w-xl mx-auto mb-10">Join farmer groups to unlock bulk pricing. Form a cooperative purchase of 50+ bags and save up to 25% vs. single-unit pricing.</p>
+          <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto mb-10">Join farmer groups to unlock bulk pricing. Form a cooperative purchase of 50+ bags and save up to 25% vs. single-unit pricing.</p>
           <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
             {[{ qty: "5-19 units", saving: "5% off", icon: "📦" }, { qty: "20-49 units", saving: "12% off", icon: "🚛" }, { qty: "50+ units", saving: "25% off", icon: "🏭" }].map(({ qty, saving, icon }) => (
               <div key={qty} className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-amber-200 dark:border-amber-800 text-center shadow-sm">
@@ -299,7 +299,7 @@ export default function MarketplacePage() {
               <div key={title} className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 text-center">
                 <Icon className="w-8 h-8 text-green-600 mx-auto mb-3" />
                 <h3 className="font-bold text-slate-900 dark:text-white mb-1">{title}</h3>
-                <p className="text-xs text-slate-500">{desc}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{desc}</p>
               </div>
             ))}
           </div>
@@ -313,7 +313,7 @@ export default function MarketplacePage() {
             <div>
               <Badge variant="destructive" className="mb-4">Anti-Counterfeit</Badge>
               <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-6">Zero Tolerance for Fake Products</h2>
-              <p className="text-slate-500 mb-6 leading-relaxed">Counterfeit seeds and agrochemicals cause KES 48B in losses annually. DIGI-FARMS uses QR codes and blockchain verification to ensure every product is genuine.</p>
+              <p className="text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">Counterfeit seeds and agrochemicals cause KES 48B in losses annually. DIGI-FARMS uses QR codes and blockchain verification to ensure every product is genuine.</p>
               <div className="space-y-3">
                 {["QR code on every verified product", "Scan with DIGI-FARMS app to authenticate", "Blockchain-recorded batch traceability", "Automatic supplier suspension for violations"].map((f) => (
                   <div key={f} className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400">
@@ -366,7 +366,7 @@ export default function MarketplacePage() {
           <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-6">
             Ready to Transform Your <span className="text-gradient">Supply Chain?</span>
           </h2>
-          <p className="text-slate-500 mb-10">Join 5,000+ buyers and 200+ verified suppliers already trading on DIGI-FARMS marketplace.</p>
+          <p className="text-slate-500 dark:text-slate-400 mb-10">Join 5,000+ buyers and 200+ verified suppliers already trading on DIGI-FARMS marketplace.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="xl" asChild>
               <Link href="/register"><ShoppingBag className="w-5 h-5" />Start Buying</Link>

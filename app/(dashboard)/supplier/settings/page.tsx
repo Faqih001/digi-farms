@@ -92,7 +92,7 @@ export default function SupplierSettingsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Settings</h1>
-        <p className="text-sm text-slate-500">Manage your store and account settings</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Manage your store and account settings</p>
       </div>
 
       <Tabs defaultValue="store">
@@ -110,7 +110,7 @@ export default function SupplierSettingsPage() {
               {loadingProfile ? (
                 <div className="flex items-center gap-3 py-4">
                   <Loader2 className="w-5 h-5 animate-spin text-green-600" />
-                  <span className="text-sm text-slate-500">Loading…</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400">Loading…</span>
                 </div>
               ) : (
                 <>
@@ -120,7 +120,7 @@ export default function SupplierSettingsPage() {
                     </Avatar>
                     <div>
                       <p className="text-sm font-semibold text-slate-900 dark:text-white">{companyName || "Your Store"}</p>
-                      <p className="text-xs text-slate-500">{userProfile?.email}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{userProfile?.email}</p>
                       {supplierProfile?.isVerified ? (
                         <Badge className="mt-1 text-xs bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">Verified Supplier</Badge>
                       ) : (
@@ -174,7 +174,7 @@ export default function SupplierSettingsPage() {
                   <div key={key} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
                     <div>
                       <p className="text-sm font-medium text-slate-900 dark:text-white">{label}</p>
-                      <p className="text-xs text-slate-500">{desc}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{desc}</p>
                     </div>
                     <Switch checked={notifications[key as keyof typeof notifications]} onCheckedChange={(v) => setNotifications({ ...notifications, [key]: v })} />
                   </div>

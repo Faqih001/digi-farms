@@ -16,7 +16,7 @@ export default function ScanHistoryPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-black text-slate-900 dark:text-white">Scan History</h2>
-          <p className="text-slate-500 text-sm">All your AI diagnostic scan results</p>
+          <p className="text-slate-500 dark:text-slate-400 text-sm">All your AI diagnostic scan results</p>
         </div>
         <div className="flex gap-2">
           {[["", "All"], ["HIGH", "High"], ["MEDIUM", "Medium"], ["LOW", "Low"]].map(([v, l]) => (

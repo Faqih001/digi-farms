@@ -37,7 +37,7 @@ export default function AdminAuditPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Audit Log</h1>
-        <p className="text-sm text-slate-500">Complete record of platform administrative actions</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Complete record of platform administrative actions</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -50,7 +50,7 @@ export default function AdminAuditPage() {
           <Card key={label}>
             <CardContent className="p-4 text-center">
               <p className={`text-2xl font-bold ${color}`}>{value}</p>
-              <p className="text-xs text-slate-500">{label}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
             </CardContent>
           </Card>
         ))}
@@ -84,7 +84,7 @@ export default function AdminAuditPage() {
                 <div key={log.id} className="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                   <div className="flex items-start gap-3">
                     <div className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Icon className="w-4 h-4 text-slate-500" />
+                      <Icon className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-0.5">

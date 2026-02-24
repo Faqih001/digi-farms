@@ -27,7 +27,7 @@ export default function AdminRevenuePage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Revenue</h1>
-        <p className="text-sm text-slate-500">Platform-wide revenue breakdown and trends</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Platform-wide revenue breakdown and trends</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -44,7 +44,7 @@ export default function AdminRevenuePage() {
               </div>
               <div>
                 <p className={`text-base font-bold ${color}`}>{value}</p>
-                <p className="text-xs text-slate-500">{label}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
               </div>
             </CardContent>
           </Card>
@@ -68,7 +68,7 @@ export default function AdminRevenuePage() {
               </div>
             ))}
           </div>
-          <div className="flex items-center gap-4 mt-2 text-xs text-slate-500">
+          <div className="flex items-center gap-4 mt-2 text-xs text-slate-500 dark:text-slate-400">
             <span className="flex items-center gap-1"><span className="w-3 h-2 bg-blue-400 rounded inline-block" /> Subscriptions</span>
             <span className="flex items-center gap-1"><span className="w-3 h-2 bg-purple-400 rounded inline-block" /> Marketplace</span>
             <span className="flex items-center gap-1"><span className="w-3 h-2 bg-amber-400 rounded inline-block" /> Loan Fees</span>

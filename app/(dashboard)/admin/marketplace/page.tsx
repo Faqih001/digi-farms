@@ -57,7 +57,7 @@ export default function AdminMarketplacePage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Marketplace</h1>
-        <p className="text-sm text-slate-500">Review, moderate, and manage marketplace products</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Review, moderate, and manage marketplace products</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -67,7 +67,7 @@ export default function AdminMarketplacePage() {
           { label: "Featured", value: stats.featured, color: "text-amber-600" },
           { label: "Inactive", value: stats.inactive, color: "text-red-600" },
         ].map(({ label, value, color }) => (
-          <Card key={label}><CardContent className="p-4 text-center"><p className={`text-2xl font-bold ${color}`}>{value}</p><p className="text-xs text-slate-500">{label}</p></CardContent></Card>
+          <Card key={label}><CardContent className="p-4 text-center"><p className={`text-2xl font-bold ${color}`}>{value}</p><p className="text-xs text-slate-500 dark:text-slate-400">{label}</p></CardContent></Card>
         ))}
       </div>
 

@@ -26,7 +26,7 @@ export default function AdminReportsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Reports</h1>
-          <p className="text-sm text-slate-500">Platform analytics reports and data exports</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Platform analytics reports and data exports</p>
         </div>
         <Button className="bg-green-600 hover:bg-green-700 text-white w-fit"><FileText className="w-4 h-4 mr-2" /> Generate Report</Button>
       </div>
@@ -45,7 +45,7 @@ export default function AdminReportsPage() {
               </div>
               <div>
                 <p className={`text-xl font-bold ${color}`}>{value}</p>
-                <p className="text-xs text-slate-500">{label}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
               </div>
             </CardContent>
           </Card>
@@ -63,7 +63,7 @@ export default function AdminReportsPage() {
                   </div>
                   <div>
                     <p className="font-bold text-slate-900 dark:text-white">{r.name}</p>
-                    <p className="text-xs text-slate-500 max-w-md">{r.description}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md">{r.description}</p>
                     <p className="text-xs text-slate-400 mt-1">Period: {r.period} • Generated: {r.generated} • {r.size}</p>
                   </div>
                 </div>
@@ -93,7 +93,7 @@ export default function AdminReportsPage() {
                   <p className="text-sm font-medium text-slate-800 dark:text-slate-200">{name}</p>
                   <p className="text-xs text-slate-400">{schedule} • To: {recipients}</p>
                 </div>
-                <p className="text-xs text-slate-500">Next: {next}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Next: {next}</p>
               </div>
             ))}
           </div>

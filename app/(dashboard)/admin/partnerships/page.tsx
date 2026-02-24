@@ -32,7 +32,7 @@ export default function AdminPartnershipsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Partnerships</h1>
-          <p className="text-sm text-slate-500">Strategic partners, integrations, and revenue sharing</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Strategic partners, integrations, and revenue sharing</p>
         </div>
         <Button className="bg-green-600 hover:bg-green-700 text-white w-fit"><Plus className="w-4 h-4 mr-2" /> Add Partner</Button>
       </div>
@@ -47,7 +47,7 @@ export default function AdminPartnershipsPage() {
           <Card key={label}>
             <CardContent className="p-4 text-center">
               <p className={`text-2xl font-bold ${color}`}>{value}</p>
-              <p className="text-xs text-slate-500">{label}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
             </CardContent>
           </Card>
         ))}

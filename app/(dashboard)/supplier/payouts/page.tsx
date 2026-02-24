@@ -17,7 +17,7 @@ export default function PayoutsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Payouts</h1>
-          <p className="text-sm text-slate-500">Track your withdrawal history and upcoming payouts</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Track your withdrawal history and upcoming payouts</p>
         </div>
         <Button><Wallet className="w-4 h-4" /> Request Payout</Button>
       </div>
@@ -33,7 +33,7 @@ export default function PayoutsPage() {
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color}`}><Icon className="w-5 h-5" /></div>
-                <div><p className="text-xs text-slate-500">{label}</p><p className="text-lg font-bold text-slate-900 dark:text-white">{value}</p></div>
+                <div><p className="text-xs text-slate-500 dark:text-slate-400">{label}</p><p className="text-lg font-bold text-slate-900 dark:text-white">{value}</p></div>
               </div>
             </CardContent>
           </Card>
@@ -50,7 +50,7 @@ export default function PayoutsPage() {
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white">Next Payout: Feb 27, 2026</h3>
-                <p className="text-sm text-slate-500">KES 82,000 via M-Pesa • Auto-scheduled weekly</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">KES 82,000 via M-Pesa • Auto-scheduled weekly</p>
               </div>
             </div>
             <Badge variant="warning" className="text-sm px-3 py-1">Processing</Badge>
@@ -74,7 +74,7 @@ export default function PayoutsPage() {
                       <span className="font-semibold text-sm text-slate-900 dark:text-white">{p.id}</span>
                       <Badge variant={p.status === "Completed" ? "success" : "warning"} className="text-xs">{p.status}</Badge>
                     </div>
-                    <p className="text-xs text-slate-500">{p.method} • {p.reference}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{p.method} • {p.reference}</p>
                   </div>
                 </div>
                 <div className="text-right">
@@ -97,14 +97,14 @@ export default function PayoutsPage() {
                 <CreditCard className="w-4 h-4 text-green-600" />
                 <span className="font-medium text-sm text-slate-900 dark:text-white">Primary Method</span>
               </div>
-              <p className="text-sm text-slate-500">M-Pesa: +254 700 *** 456</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">M-Pesa: +254 700 *** 456</p>
             </div>
             <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl">
               <div className="flex items-center gap-2 mb-2">
                 <Calendar className="w-4 h-4 text-green-600" />
                 <span className="font-medium text-sm text-slate-900 dark:text-white">Payout Schedule</span>
               </div>
-              <p className="text-sm text-slate-500">Weekly (Every Thursday)</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">Weekly (Every Thursday)</p>
             </div>
           </div>
           <Button variant="outline" className="mt-4">Edit Payout Settings <ArrowRight className="w-4 h-4" /></Button>

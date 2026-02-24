@@ -56,7 +56,7 @@ export default function Footer() {
               <Input
                 type="email"
                 placeholder="Enter your email"
-                className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus:ring-green-500 rounded-xl"
+                className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 dark:text-slate-400 focus:ring-green-500 rounded-xl"
               />
               <Button type="submit" className="shrink-0">Subscribe</Button>
             </form>
@@ -135,7 +135,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-slate-800">
-        <div className="container mx-auto px-4 max-w-7xl py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+        <div className="container mx-auto px-4 max-w-7xl py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
           <p>© {new Date().getFullYear()} DIGI-FARMS Ltd. All rights reserved. Built for the Hult Prize 2026.</p>
           <div className="flex items-center gap-4">
             <Link href="/legal/privacy" className="hover:text-green-400 transition-colors">Privacy</Link>

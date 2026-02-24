@@ -41,7 +41,7 @@ export default function TechnologyPage() {
               <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-6">
                 Robotics-as-a-Service
               </h2>
-              <p className="text-slate-500 mb-8 leading-relaxed">
+              <p className="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">
                 Farmer cooperatives can rent precision agricultural drones and IoT sensor packages by the season. No capital expenditure — just pay per hectare monitored.
               </p>
               <div className="space-y-4">
@@ -55,7 +55,7 @@ export default function TechnologyPage() {
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                     <div>
                       <div className="font-semibold text-slate-900 dark:text-white text-sm">{title}</div>
-                      <div className="text-xs text-slate-500">{desc}</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">{desc}</div>
                     </div>
                   </div>
                 ))}
@@ -103,7 +103,7 @@ export default function TechnologyPage() {
 
               <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 mb-4 text-center border-2 border-dashed border-slate-300 dark:border-slate-600">
                 <div className="text-4xl mb-2">📸</div>
-                <p className="text-sm text-slate-500">Tap to upload a crop image</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Tap to upload a crop image</p>
                 <p className="text-xs text-slate-400 mt-1">JPG, PNG · Max 10MB</p>
               </div>
 
@@ -120,7 +120,7 @@ export default function TechnologyPage() {
                         <div className="h-full bg-green-500 rounded-full" style={{ width: `${confidence}%` }} />
                       </div>
                     </div>
-                    <div className="text-xs font-bold text-slate-500">{confidence}%</div>
+                    <div className="text-xs font-bold text-slate-500 dark:text-slate-400">{confidence}%</div>
                     <Badge variant={risk === "HIGH" ? "destructive" : risk === "MEDIUM" ? "warning" : "secondary"} className="text-[10px]">{risk}</Badge>
                   </div>
                 ))}
@@ -132,7 +132,7 @@ export default function TechnologyPage() {
               <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-6">
                 Diagnose Any Crop Disease <span className="text-gradient">in Seconds</span>
               </h2>
-              <p className="text-slate-500 mb-8 leading-relaxed">
+              <p className="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">
                 Our Vision AI was trained on 4 million+ African crop images across 200+ diseases and deficiencies. Farmers point, shoot, and get a diagnosis with treatment plan — faster than any agronomist visit.
               </p>
               <div className="grid grid-cols-2 gap-4">
@@ -144,7 +144,7 @@ export default function TechnologyPage() {
                 ].map(({ value, label }) => (
                   <div key={label} className="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center shadow-sm">
                     <div className="text-2xl font-black text-green-600" dangerouslySetInnerHTML={{ __html: value }} />
-                    <div className="text-xs text-slate-500 mt-1">{label}</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">{label}</div>
                   </div>
                 ))}
               </div>
@@ -161,7 +161,7 @@ export default function TechnologyPage() {
             <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-4">
               See What the Human Eye Can&apos;t
             </h2>
-            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
               Multispectral imaging reveals crop stress, soil variability, and water distribution invisible to the naked eye — weeks before visible symptoms appear.
             </p>
           </div>
@@ -175,7 +175,7 @@ export default function TechnologyPage() {
                 <CardContent className="p-0">
                   <Icon className={`w-10 h-10 mx-auto mb-4 ${color}`} />
                   <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-3">{title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{desc}</p>
                 </CardContent>
               </Card>
             ))}
@@ -192,7 +192,7 @@ export default function TechnologyPage() {
               <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-6">
                 Data-Driven Farming Decisions
               </h2>
-              <p className="text-slate-500 mb-8 leading-relaxed">
+              <p className="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">
                 Your DIGI-FARMS dashboard aggregates all farm data into actionable intelligence — yield tracking, profitability scoring, input efficiency, and season-over-season benchmarking.
               </p>
               <div className="space-y-4">
@@ -270,7 +270,7 @@ export default function TechnologyPage() {
               <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-6">
                 Climate AI for Every Farm
               </h2>
-              <p className="text-slate-500 mb-8 leading-relaxed">
+              <p className="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">
                 Powered by satellite data, local weather stations, and historic climate patterns, DIGI-FARMS delivers hyperlocal forecasts down to 500m accuracy — with actionable farm management advice built in.
               </p>
               <div className="space-y-4">
@@ -284,7 +284,7 @@ export default function TechnologyPage() {
                     <Cloud className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                     <div>
                       <div className="font-semibold text-slate-900 dark:text-white text-sm">{title}</div>
-                      <div className="text-xs text-slate-500">{desc}</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">{desc}</div>
                     </div>
                   </div>
                 ))}
@@ -301,7 +301,7 @@ export default function TechnologyPage() {
           <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-4">
             Your Digital Farm Identity
           </h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto mb-12">
+          <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-12">
             The DIGI-FARMS Farm Score aggregates 40+ data points into a single performance metric — your passport to better loans, insurance, and market access.
           </p>
           <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
@@ -315,7 +315,7 @@ export default function TechnologyPage() {
                 <div className="text-4xl mb-3">{icon}</div>
                 <div className="font-bold text-slate-900 dark:text-white mb-1">{label}</div>
                 <div className="text-2xl font-black text-green-600 mb-1">{weight}</div>
-                <div className="text-xs text-slate-500">{desc}</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400">{desc}</div>
               </div>
             ))}
           </div>
@@ -331,7 +331,7 @@ export default function TechnologyPage() {
               <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-6">
                 AI Risk Profiling for Lenders
               </h2>
-              <p className="text-slate-500 mb-8 leading-relaxed">
+              <p className="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">
                 Our risk engine gives lenders and insurers a data-driven creditworthiness score for each farmer — based on observed farm behavior, not just collateral. Reduce non-performing loans by 60%.
               </p>
               <div className="space-y-4">
@@ -344,7 +344,7 @@ export default function TechnologyPage() {
               </div>
             </div>
             <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
-              <div className="text-sm font-semibold text-slate-500 mb-4">Risk Assessment Report</div>
+              <div className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-4">Risk Assessment Report</div>
               <div className="text-center mb-6">
                 <div className="w-24 h-24 mx-auto rounded-full bg-green-100 dark:bg-green-900/30 border-4 border-green-500 flex items-center justify-center">
                   <div>
@@ -358,7 +358,7 @@ export default function TechnologyPage() {
               <div className="space-y-2">
                 {[["Crop Health History", 85], ["Yield Consistency", 72], ["Market Activity", 80], ["Climate Risk", 68]].map(([label, score]) => (
                   <div key={label as string} className="flex items-center gap-3 text-xs">
-                    <span className="text-slate-500 w-32">{label}</span>
+                    <span className="text-slate-500 dark:text-slate-400 w-32">{label}</span>
                     <div className="flex-1 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                       <div className="h-full bg-green-500 rounded-full" style={{ width: `${score}%` }} />
                     </div>
@@ -378,7 +378,7 @@ export default function TechnologyPage() {
           <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-4">
             Google Maps Integration
           </h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto mb-12">
+          <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-12">
             Seamless Google Maps SDK integration powers our agrovet locator, farm boundary mapping, and GPS-tagged diagnostic site management.
           </p>
           <div className="bg-gradient-to-br from-slate-100 to-green-50 dark:from-slate-800 dark:to-green-950/20 rounded-3xl h-64 flex items-center justify-center border border-slate-200 dark:border-slate-700 relative overflow-hidden">
@@ -386,7 +386,7 @@ export default function TechnologyPage() {
             <div className="text-center relative z-10">
               <MapPin className="w-12 h-12 text-green-600 mx-auto mb-3" />
               <p className="font-bold text-slate-700 dark:text-slate-300">Interactive Map Preview</p>
-              <p className="text-sm text-slate-500">Available in the Farmer Dashboard</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">Available in the Farmer Dashboard</p>
             </div>
           </div>
         </div>
@@ -401,7 +401,7 @@ export default function TechnologyPage() {
               <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-6">
                 Farm From Your Pocket
               </h2>
-              <p className="text-slate-500 mb-8 leading-relaxed">
+              <p className="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">
                 The DIGI-FARMS mobile app is built for low-end Android devices with offline-first architecture. Works on 2G connectivity in remote farming areas.
               </p>
               <div className="space-y-4">
@@ -415,7 +415,7 @@ export default function TechnologyPage() {
                     <Smartphone className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                     <div>
                       <div className="font-semibold text-slate-900 dark:text-white text-sm">{title}</div>
-                      <div className="text-xs text-slate-500">{desc}</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">{desc}</div>
                     </div>
                   </div>
                 ))}
@@ -444,13 +444,13 @@ export default function TechnologyPage() {
         <div className="container mx-auto px-4 max-w-7xl text-center">
           <Badge className="mb-4">Privacy & Security</Badge>
           <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-4">Your Farm Data is Yours</h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto mb-12">We built security-first infrastructure. Your data is never sold. You can export or delete it anytime.</p>
+          <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-12">We built security-first infrastructure. Your data is never sold. You can export or delete it anytime.</p>
           <div className="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
             {[{ icon: Lock, title: "AES-256 Encryption", desc: "All farm data encrypted at rest and in transit" }, { icon: Shield, title: "GDPR & Kenya DPA Compliant", desc: "Full compliance with data protection regulations" }, { icon: Zap, title: "Zero Data Selling Policy", desc: "We never monetize your data with third parties" }].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 text-center shadow-sm">
                 <Icon className="w-8 h-8 text-green-600 mx-auto mb-3" />
                 <h3 className="font-bold text-slate-900 dark:text-white mb-2">{title}</h3>
-                <p className="text-xs text-slate-500">{desc}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{desc}</p>
               </div>
             ))}
           </div>

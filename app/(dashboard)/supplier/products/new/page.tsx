@@ -32,7 +32,7 @@ export default function NewProductPage() {
         <Button variant="ghost" size="sm" asChild><Link href="/supplier/products"><ArrowLeft className="w-4 h-4" /> Back</Link></Button>
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Add New Product</h1>
-          <p className="text-sm text-slate-500">List a new product on the marketplace</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">List a new product on the marketplace</p>
         </div>
       </div>
 
@@ -102,7 +102,7 @@ export default function NewProductPage() {
             <CardContent>
               <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-8 text-center">
                 <Upload className="w-8 h-8 text-slate-300 mx-auto mb-3" />
-                <p className="text-sm text-slate-500 mb-2">Click or drag images here</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">Click or drag images here</p>
                 <p className="text-xs text-slate-400">PNG, JPG up to 5MB each. Max 5 images.</p>
                 <Button variant="outline" className="mt-3" size="sm">Select Files</Button>
               </div>

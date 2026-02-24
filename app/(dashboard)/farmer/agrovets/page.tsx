@@ -15,7 +15,7 @@ export default function AgrovetLocatorPage() {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-black text-slate-900 dark:text-white">Agrovet Locator</h2>
-        <p className="text-slate-500 text-sm">Find certified agrovets near your farm</p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">Find certified agrovets near your farm</p>
       </div>
 
       <div className="bg-gradient-to-br from-slate-100 to-green-50 dark:from-slate-800 dark:to-green-950/20 rounded-2xl h-48 flex items-center justify-center border border-slate-200 dark:border-slate-700 relative overflow-hidden">

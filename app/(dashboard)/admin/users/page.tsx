@@ -63,7 +63,7 @@ export default function AdminUsersPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">User Management</h1>
-        <p className="text-sm text-slate-500">Manage platform users and accounts</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Manage platform users and accounts</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -73,7 +73,7 @@ export default function AdminUsersPage() {
           { label: "Suppliers", value: stats.suppliers, color: "text-purple-600" },
           { label: "Lenders", value: stats.lenders, color: "text-amber-600" },
         ].map(({ label, value, color }) => (
-          <Card key={label}><CardContent className="p-4 text-center"><p className={`text-2xl font-bold ${color}`}>{value}</p><p className="text-xs text-slate-500">{label}</p></CardContent></Card>
+          <Card key={label}><CardContent className="p-4 text-center"><p className={`text-2xl font-bold ${color}`}>{value}</p><p className="text-xs text-slate-500 dark:text-slate-400">{label}</p></CardContent></Card>
         ))}
       </div>
 
@@ -129,7 +129,7 @@ export default function AdminUsersPage() {
                           {["FARMER", "SUPPLIER", "LENDER", "ADMIN"].map(r => <option key={r} value={r}>{r}</option>)}
                         </select>
                       </td>
-                      <td className="px-4 py-3 text-slate-500 text-xs">{new Date(u.createdAt).toLocaleDateString()}</td>
+                      <td className="px-4 py-3 text-slate-500 dark:text-slate-400 text-xs">{new Date(u.createdAt).toLocaleDateString()}</td>
                       <td className="px-4 py-3">
                         <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-600" onClick={() => setDeleteTarget(u)}>
                           <Trash2 className="w-3.5 h-3.5" />

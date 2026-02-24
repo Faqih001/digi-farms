@@ -15,7 +15,7 @@ export default function SoilHealthPage() {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-black text-slate-900 dark:text-white">Soil Health</h2>
-        <p className="text-slate-500 text-sm">Monitor soil nutrient levels and pH across your farm plots</p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">Monitor soil nutrient levels and pH across your farm plots</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-4">
@@ -29,7 +29,7 @@ export default function SoilHealthPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-500">Soil pH</span>
+                <span className="text-slate-500 dark:text-slate-400">Soil pH</span>
                 <span className={`font-bold ${ph < 5.5 || ph > 7.5 ? "text-red-500" : ph < 6.0 ? "text-amber-500" : "text-green-600"}`}>{ph}</span>
               </div>
               {[
@@ -40,7 +40,7 @@ export default function SoilHealthPage() {
               ].map(({ label, value, color }) => (
                 <div key={label}>
                   <div className="flex justify-between text-xs mb-1">
-                    <span className="text-slate-500">{label}</span>
+                    <span className="text-slate-500 dark:text-slate-400">{label}</span>
                     <span className="font-medium">{value}%</span>
                   </div>
                   <div className="h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">

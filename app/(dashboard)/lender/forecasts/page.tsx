@@ -16,7 +16,7 @@ export default function ForecastsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Yield Forecasts</h1>
-        <p className="text-sm text-slate-500">AI-powered crop yield predictions for borrower farms</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">AI-powered crop yield predictions for borrower farms</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -33,7 +33,7 @@ export default function ForecastsPage() {
               </div>
               <div>
                 <p className={`text-xl font-bold ${color}`}>{value}</p>
-                <p className="text-xs text-slate-500">{label}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
               </div>
             </CardContent>
           </Card>
@@ -59,8 +59,8 @@ export default function ForecastsPage() {
                     <span className="font-bold text-slate-900 dark:text-white">{f.farmer}</span>
                     <Badge variant={f.risk === "Low" ? "success" : f.risk === "Medium" ? "warning" : "destructive"} className="text-xs">{f.risk} Risk</Badge>
                   </div>
-                  <p className="text-sm text-slate-500">{f.crop} • {f.county} • {f.acres} acres • {f.season}</p>
-                  <div className="flex items-center gap-4 mt-2 text-xs text-slate-500">
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{f.crop} • {f.county} • {f.acres} acres • {f.season}</p>
+                  <div className="flex items-center gap-4 mt-2 text-xs text-slate-500 dark:text-slate-400">
                     <span className="flex items-center gap-1"><Droplets className="w-3 h-3" /> Moisture: {f.moisture}</span>
                     <span className="flex items-center gap-1"><Leaf className="w-3 h-3" /> Health: {f.health}</span>
                   </div>

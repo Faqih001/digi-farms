@@ -25,7 +25,7 @@ export default function RiskProfilesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Risk Profiles</h1>
-          <p className="text-sm text-slate-500">AI-generated creditworthiness scores for farmers</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">AI-generated creditworthiness scores for farmers</p>
         </div>
       </div>
 
@@ -40,7 +40,7 @@ export default function RiskProfilesPage() {
             <CardContent className="p-4 text-center">
               <Icon className="w-6 h-6 text-green-600 mx-auto mb-2" />
               <p className="text-lg font-bold text-slate-900 dark:text-white">{value}</p>
-              <p className="text-xs text-slate-500">{label}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
             </CardContent>
           </Card>
         ))}
@@ -74,11 +74,11 @@ export default function RiskProfilesPage() {
                     <h3 className="font-bold text-slate-900 dark:text-white">{f.name}</h3>
                     <Badge variant={f.risk === "Very Low" || f.risk === "Low" ? "success" : f.risk === "Medium" ? "warning" : "destructive"} className="text-xs">{f.risk} Risk</Badge>
                   </div>
-                  <p className="text-sm text-slate-500 mb-3">{f.farm} • {f.county} • {f.acres} acres</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">{f.farm} • {f.county} • {f.acres} acres</p>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                    <div className="flex items-center gap-1.5"><Sprout className="w-3.5 h-3.5 text-green-600" /><span className="text-slate-500">{f.crops}</span></div>
-                    <div className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5 text-blue-600" /><span className="text-slate-500">{f.history}</span></div>
-                    <div className="flex items-center gap-1.5"><TrendingUp className="w-3.5 h-3.5 text-purple-600" /><span className="text-slate-500">{f.income}</span></div>
+                    <div className="flex items-center gap-1.5"><Sprout className="w-3.5 h-3.5 text-green-600" /><span className="text-slate-500 dark:text-slate-400">{f.crops}</span></div>
+                    <div className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5 text-blue-600" /><span className="text-slate-500 dark:text-slate-400">{f.history}</span></div>
+                    <div className="flex items-center gap-1.5"><TrendingUp className="w-3.5 h-3.5 text-purple-600" /><span className="text-slate-500 dark:text-slate-400">{f.income}</span></div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">

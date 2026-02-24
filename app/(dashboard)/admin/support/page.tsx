@@ -17,7 +17,7 @@ const statusCls: Record<string, string> = {
   OPEN: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
   IN_PROGRESS: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
   RESOLVED: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
-  CLOSED: "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400",
+  CLOSED: "bg-slate-100 text-slate-500 dark:text-slate-400 dark:bg-slate-800 dark:text-slate-400",
 };
 
 const priorityCls: Record<string, string> = {
@@ -83,7 +83,7 @@ export default function AdminSupportPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Support</h1>
-        <p className="text-sm text-slate-500">User support tickets and helpdesk management</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">User support tickets and helpdesk management</p>
       </div>
 
       {/* Stats */}
@@ -101,7 +101,7 @@ export default function AdminSupportPage() {
           >
             <CardContent className="p-4 text-center">
               {loading ? <div className="h-7 w-10 bg-slate-200 dark:bg-slate-700 rounded animate-pulse mx-auto mb-1" /> : <p className={`text-2xl font-bold ${color}`}>{value}</p>}
-              <p className="text-xs text-slate-500">{label}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
             </CardContent>
           </Card>
         ))}
@@ -133,7 +133,7 @@ export default function AdminSupportPage() {
       ) : filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <MessageSquare className="w-12 h-12 text-slate-300 mb-3" />
-          <p className="text-slate-500 font-medium">No tickets found</p>
+          <p className="text-slate-500 dark:text-slate-400 font-medium">No tickets found</p>
         </div>
       ) : (
         <Card>
@@ -158,7 +158,7 @@ export default function AdminSupportPage() {
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <span className={`text-xs font-semibold px-2 py-1 rounded-full ${statusCls[ticket.status] ?? ""}`}>{ticket.status.replace("_", " ")}</span>
-                      <button onClick={() => setSelectedTicket(ticket)} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
+                      <button onClick={() => setSelectedTicket(ticket)} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400">
                         <Eye className="w-4 h-4" />
                       </button>
                       {(ticket.status === "OPEN" || ticket.status === "IN_PROGRESS") && (
@@ -199,32 +199,32 @@ export default function AdminSupportPage() {
               </div>
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
-                  <p className="text-xs text-slate-500 mb-1">User</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">User</p>
                   <p className="font-semibold">{selectedTicket.user.name ?? selectedTicket.user.email}</p>
                 </div>
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
-                  <p className="text-xs text-slate-500 mb-1">Priority</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Priority</p>
                   <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${priorityCls[selectedTicket.priority] ?? ""}`}>
                     {selectedTicket.priority.charAt(0).toUpperCase() + selectedTicket.priority.slice(1)}
                   </span>
                 </div>
                 {selectedTicket.category && (
                   <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
-                    <p className="text-xs text-slate-500 mb-1">Category</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Category</p>
                     <p className="font-medium">{selectedTicket.category}</p>
                   </div>
                 )}
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
-                  <p className="text-xs text-slate-500 mb-1">Created</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Created</p>
                   <p className="font-medium">{new Date(selectedTicket.createdAt).toLocaleDateString("en-KE")}</p>
                 </div>
               </div>
               <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
-                <p className="text-xs text-slate-500 mb-2">Description</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">Description</p>
                 <p className="text-sm text-slate-700 dark:text-slate-300 whitespace-pre-wrap">{selectedTicket.description}</p>
               </div>
               <div>
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Update Status</p>
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Update Status</p>
                 <div className="flex flex-wrap gap-2">
                   {(["OPEN", "IN_PROGRESS", "RESOLVED", "CLOSED"] as const).map((s) => (
                     <button

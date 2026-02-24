@@ -18,7 +18,7 @@ export default function CustomersPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Customers</h1>
-          <p className="text-sm text-slate-500">Manage your customer relationships</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Manage your customer relationships</p>
         </div>
       </div>
 
@@ -33,7 +33,7 @@ export default function CustomersPage() {
             <CardContent className="p-4 text-center">
               <Icon className="w-6 h-6 text-green-600 mx-auto mb-2" />
               <p className="text-lg font-bold text-slate-900 dark:text-white">{value}</p>
-              <p className="text-xs text-slate-500">{label}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
             </CardContent>
           </Card>
         ))}
@@ -54,13 +54,13 @@ export default function CustomersPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-200 dark:border-slate-700">
-                  <th className="text-left p-4 font-semibold text-slate-500 text-xs uppercase">Customer</th>
-                  <th className="text-left p-4 font-semibold text-slate-500 text-xs uppercase">County</th>
-                  <th className="text-left p-4 font-semibold text-slate-500 text-xs uppercase">Orders</th>
-                  <th className="text-left p-4 font-semibold text-slate-500 text-xs uppercase">Total Spent</th>
-                  <th className="text-left p-4 font-semibold text-slate-500 text-xs uppercase">Last Order</th>
-                  <th className="text-left p-4 font-semibold text-slate-500 text-xs uppercase">Status</th>
-                  <th className="text-right p-4 font-semibold text-slate-500 text-xs uppercase">Action</th>
+                  <th className="text-left p-4 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase">Customer</th>
+                  <th className="text-left p-4 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase">County</th>
+                  <th className="text-left p-4 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase">Orders</th>
+                  <th className="text-left p-4 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase">Total Spent</th>
+                  <th className="text-left p-4 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase">Last Order</th>
+                  <th className="text-left p-4 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase">Status</th>
+                  <th className="text-right p-4 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -72,8 +72,8 @@ export default function CustomersPage() {
                         <p className="text-xs text-slate-400">{c.email}</p>
                       </div>
                     </td>
-                    <td className="p-4 text-slate-500">{c.county}</td>
-                    <td className="p-4 text-slate-500">{c.totalOrders}</td>
+                    <td className="p-4 text-slate-500 dark:text-slate-400">{c.county}</td>
+                    <td className="p-4 text-slate-500 dark:text-slate-400">{c.totalOrders}</td>
                     <td className="p-4 font-semibold text-slate-900 dark:text-white">{c.totalSpent}</td>
                     <td className="p-4 text-slate-400 text-xs">{c.lastOrder}</td>
                     <td className="p-4">

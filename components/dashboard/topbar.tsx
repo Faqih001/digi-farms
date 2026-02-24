@@ -73,13 +73,13 @@ export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen }: { onMo
           </div>
         ) : (
           <button onClick={() => setShowSearch(true)} className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <Search className="w-5 h-5 text-slate-500" />
+            <Search className="w-5 h-5 text-slate-500 dark:text-slate-400" />
           </button>
         )}
 
         {/* Notifications */}
         <button className="relative p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-          <Bell className="w-5 h-5 text-slate-500" />
+          <Bell className="w-5 h-5 text-slate-500 dark:text-slate-400" />
           <Badge className="absolute -top-0.5 -right-0.5 h-4 w-4 p-0 flex items-center justify-center text-[10px]">3</Badge>
         </button>
 

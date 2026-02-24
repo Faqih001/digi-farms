@@ -74,7 +74,7 @@ export default function ProductsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Products</h1>
-          <p className="text-sm text-slate-500">{products.length} product{products.length !== 1 ? "s" : ""} listed</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">{products.length} product{products.length !== 1 ? "s" : ""} listed</p>
         </div>
         <Button onClick={openCreate}><Plus className="w-4 h-4 mr-2" />Add Product</Button>
       </div>
@@ -107,11 +107,11 @@ export default function ProductsPage() {
                     <Badge variant={stockStatus === "Active" ? "success" : stockStatus === "Low Stock" ? "warning" : "destructive"} className="text-xs">{stockStatus}</Badge>
                   </div>
                   <h3 className="font-semibold text-sm text-slate-900 dark:text-white mb-1 line-clamp-2">{p.name}</h3>
-                  <p className="text-xs text-slate-500 mb-2">{p.category}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{p.category}</p>
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-lg font-bold text-green-600">KES {p.price.toLocaleString()}/{p.unit}</span>
                   </div>
-                  <div className="text-xs text-slate-500 mb-3">{p.stock} in stock</div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mb-3">{p.stock} in stock</div>
                   <div className="flex gap-2">
                     <Button variant="outline" size="sm" className="flex-1" onClick={() => openEdit(p)}><Edit className="w-3 h-3 mr-1" />Edit</Button>
                     <Button variant="outline" size="sm" className="text-red-500 hover:text-red-600 border-red-200" onClick={() => setDeleteTarget(p)}><Trash2 className="w-3 h-3" /></Button>

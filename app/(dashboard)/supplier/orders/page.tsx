@@ -59,7 +59,7 @@ export default function OrdersPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Orders</h1>
-        <p className="text-sm text-slate-500">Manage incoming orders and fulfillment</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Manage incoming orders and fulfillment</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -69,7 +69,7 @@ export default function OrdersPage() {
           { label: "Shipped", value: totals.shipped, color: "text-blue-600" },
           { label: "Cancelled", value: totals.cancelled, color: "text-red-600" },
         ].map(({ label, value, color }) => (
-          <Card key={label}><CardContent className="p-4 text-center"><p className={`text-2xl font-bold ${color}`}>{value}</p><p className="text-xs text-slate-500">{label}</p></CardContent></Card>
+          <Card key={label}><CardContent className="p-4 text-center"><p className={`text-2xl font-bold ${color}`}>{value}</p><p className="text-xs text-slate-500 dark:text-slate-400">{label}</p></CardContent></Card>
         ))}
       </div>
 
@@ -112,7 +112,7 @@ export default function OrdersPage() {
                             <span className="font-bold text-sm text-slate-900 dark:text-white">#{o.id.slice(-8).toUpperCase()}</span>
                             <Badge variant={sc.variant} className="text-xs">{sc.label}</Badge>
                           </div>
-                          <p className="text-xs text-slate-500">{o.user?.name ?? "Customer"}</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">{o.user?.name ?? "Customer"}</p>
                           <p className="text-xs text-slate-400 line-clamp-1">{o.items.map(i => `${i.product.name} x${i.quantity}`).join(", ")}</p>
                         </div>
                       </div>
@@ -144,11 +144,11 @@ export default function OrdersPage() {
           <DialogHeader><DialogTitle>Order #{detailOrder?.id.slice(-8).toUpperCase()}</DialogTitle></DialogHeader>
           {detailOrder && (
             <div className="space-y-4 pt-2">
-              <div className="flex justify-between text-sm"><span className="text-slate-500">Customer</span><span className="font-medium">{detailOrder.user?.name ?? "Unknown"}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-slate-500">Status</span><Badge variant={statusConfig[detailOrder.status]?.variant ?? "secondary"}>{statusConfig[detailOrder.status]?.label ?? detailOrder.status}</Badge></div>
-              <div className="flex justify-between text-sm"><span className="text-slate-500">Date</span><span>{new Date(detailOrder.createdAt).toLocaleDateString()}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-slate-500 dark:text-slate-400">Customer</span><span className="font-medium">{detailOrder.user?.name ?? "Unknown"}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-slate-500 dark:text-slate-400">Status</span><Badge variant={statusConfig[detailOrder.status]?.variant ?? "secondary"}>{statusConfig[detailOrder.status]?.label ?? detailOrder.status}</Badge></div>
+              <div className="flex justify-between text-sm"><span className="text-slate-500 dark:text-slate-400">Date</span><span>{new Date(detailOrder.createdAt).toLocaleDateString()}</span></div>
               <div className="border-t border-slate-200 dark:border-slate-700 pt-3 space-y-2">
-                <p className="text-xs font-semibold text-slate-500 uppercase">Items</p>
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Items</p>
                 {detailOrder.items.map(i => (
                   <div key={i.id} className="flex justify-between text-sm">
                     <span>{i.product.name} × {i.quantity}</span>

@@ -161,7 +161,7 @@ export default function FarmProfilePage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-black text-slate-900 dark:text-white">Farm Profile</h2>
-          <p className="text-slate-500 text-sm">{farms.length} farm{farms.length !== 1 ? "s" : ""} registered</p>
+          <p className="text-slate-500 dark:text-slate-400 text-sm">{farms.length} farm{farms.length !== 1 ? "s" : ""} registered</p>
         </div>
         <Dialog open={farmModalOpen} onOpenChange={open => { setFarmModalOpen(open); if (!open) { setEditingFarm(null); refresh(); } }}>
           <DialogTrigger asChild>
@@ -199,8 +199,8 @@ export default function FarmProfilePage() {
                     </div>
                   </div>
                   <h3 className="font-bold text-slate-900 dark:text-white">{farm.name}</h3>
-                  <p className="text-xs text-slate-500 flex items-center gap-1 mt-1"><MapPin className="w-3 h-3" />{farm.location}</p>
-                  <div className="flex gap-3 mt-2 text-xs text-slate-500">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1"><MapPin className="w-3 h-3" />{farm.location}</p>
+                  <div className="flex gap-3 mt-2 text-xs text-slate-500 dark:text-slate-400">
                     <span><Ruler className="w-3 h-3 inline mr-0.5" />{farm.sizeHectares} ha</span>
                     <span><Wheat className="w-3 h-3 inline mr-0.5" />{farm.crops.length} crops</span>
                   </div>
@@ -249,7 +249,7 @@ export default function FarmProfilePage() {
                   </Dialog>
                 </div>
                 {selectedFarm.crops.length === 0 ? (
-                  <Card className="p-10 text-center"><Sprout className="w-12 h-12 mx-auto mb-3 text-slate-300" /><p className="text-slate-500">No crops recorded yet.</p><Button size="sm" className="mt-4" onClick={() => setCropModalOpen(true)}><Plus className="w-4 h-4 mr-1" /> Add First Crop</Button></Card>
+                  <Card className="p-10 text-center"><Sprout className="w-12 h-12 mx-auto mb-3 text-slate-300" /><p className="text-slate-500 dark:text-slate-400">No crops recorded yet.</p><Button size="sm" className="mt-4" onClick={() => setCropModalOpen(true)}><Plus className="w-4 h-4 mr-1" /> Add First Crop</Button></Card>
                 ) : (
                   <div className="space-y-3">
                     {selectedFarm.crops.map(crop => (
@@ -264,7 +264,7 @@ export default function FarmProfilePage() {
                                   {crop.variety && <span className="text-xs text-slate-400">({crop.variety})</span>}
                                   <Badge variant={statusColor[crop.status] ?? "secondary"} className="text-xs">{crop.status}</Badge>
                                 </div>
-                                <div className="flex gap-4 text-xs text-slate-500 mt-1">
+                                <div className="flex gap-4 text-xs text-slate-500 dark:text-slate-400 mt-1">
                                   <span><CalendarDays className="w-3 h-3 inline mr-0.5" />Planted {new Date(crop.plantedAt).toLocaleDateString()}</span>
                                   <span><Ruler className="w-3 h-3 inline mr-0.5" />{crop.areaHectares} ha</span>
                                   {crop.season && <span>{crop.season}</span>}
@@ -277,7 +277,7 @@ export default function FarmProfilePage() {
                               <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-red-500 hover:text-red-600" onClick={() => setDeleteTarget({ type: "crop", id: crop.id, name: crop.name })}><Trash2 className="w-3.5 h-3.5" /></Button>
                             </div>
                           </div>
-                          {crop.notes && <p className="text-xs text-slate-500 mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">{crop.notes}</p>}
+                          {crop.notes && <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">{crop.notes}</p>}
                         </CardContent>
                       </Card>
                     ))}

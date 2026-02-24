@@ -23,7 +23,7 @@ function ScoreBar({ label, value, max = 100 }: { label: string; value: number; m
   return (
     <div>
       <div className="flex justify-between text-xs mb-1">
-        <span className="text-slate-500">{label}</span>
+        <span className="text-slate-500 dark:text-slate-400">{label}</span>
         <span className="font-medium text-slate-700 dark:text-slate-300">{value}%</span>
       </div>
       <div className="h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
@@ -38,7 +38,7 @@ export default function UnderwritingPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">AI Underwriting</h1>
-        <p className="text-sm text-slate-500">Automated risk assessment and loan decisions</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Automated risk assessment and loan decisions</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -55,7 +55,7 @@ export default function UnderwritingPage() {
               </div>
               <div>
                 <p className={`text-xl font-bold ${color}`}>{value}</p>
-                <p className="text-xs text-slate-500">{label}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
               </div>
             </CardContent>
           </Card>
@@ -93,7 +93,7 @@ export default function UnderwritingPage() {
                       <Badge variant={rc.variant}>{d.recommendation}</Badge>
                       <span className="text-xs text-slate-400">{d.id}</span>
                     </div>
-                    <p className="text-sm text-slate-500">{d.amount} • Collateral: {d.collateral} • {d.date}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{d.amount} • Collateral: {d.collateral} • {d.date}</p>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                       <ScoreBar label="Repayment Capacity" value={d.repaymentCapacity} />
                       <ScoreBar label="Farm Viability" value={d.farmViability} />
@@ -110,7 +110,7 @@ export default function UnderwritingPage() {
                       <p className="text-3xl font-black text-slate-900 dark:text-white">{d.aiScore}</p>
                       <p className="text-xs text-slate-400">AI Score</p>
                     </div>
-                    <p className="text-xs text-slate-500">{d.confidence}% confidence</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{d.confidence}% confidence</p>
                     <Button variant="outline" size="sm"><Eye className="w-3 h-3 mr-1" /> Details</Button>
                   </div>
                 </div>

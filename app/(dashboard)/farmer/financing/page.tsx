@@ -10,7 +10,7 @@ export default function FinancingProfilePage() {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-black text-slate-900 dark:text-white">Financing Profile</h2>
-        <p className="text-slate-500 text-sm">Your agri-credit score and financing eligibility</p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">Your agri-credit score and financing eligibility</p>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
@@ -20,7 +20,7 @@ export default function FinancingProfilePage() {
               <Star className="w-10 h-10 text-white" />
             </div>
             <div className="text-5xl font-black text-green-600 mb-1">742</div>
-            <div className="text-slate-500 text-sm mb-3">DIGI-FARMS Credit Score</div>
+            <div className="text-slate-500 dark:text-slate-400 text-sm mb-3">DIGI-FARMS Credit Score</div>
             <Badge variant="success" className="mb-4">Excellent</Badge>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
@@ -99,7 +99,7 @@ export default function FinancingProfilePage() {
           ].map(({ done, tip }) => (
             <div key={tip} className="flex items-center gap-3 text-sm">
               <CheckCircle className={`w-4 h-4 flex-shrink-0 ${done ? "text-green-500" : "text-slate-300 dark:text-slate-600"}`} />
-              <span className={done ? "text-slate-500 line-through" : "text-slate-700 dark:text-slate-300"}>{tip}</span>
+              <span className={done ? "text-slate-500 dark:text-slate-400 line-through" : "text-slate-700 dark:text-slate-300"}>{tip}</span>
             </div>
           ))}
         </CardContent>

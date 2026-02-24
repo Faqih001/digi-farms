@@ -12,7 +12,7 @@ import { getAdminSubscriptions } from "@/lib/actions/admin";
 type Subscription = Awaited<ReturnType<typeof getAdminSubscriptions>>[number];
 
 const TIER_STYLES: Record<string, { label: string; badgeVariant: "secondary" | "info" | "success"; border: string; color: string }> = {
-  FREE:       { label: "Free",       badgeVariant: "secondary", border: "border-slate-200",  color: "text-slate-500"  },
+  FREE:       { label: "Free",       badgeVariant: "secondary", border: "border-slate-200",  color: "text-slate-500 dark:text-slate-400"  },
   PRO:        { label: "Pro",        badgeVariant: "info",      border: "border-blue-400",   color: "text-blue-600"   },
   ENTERPRISE: { label: "Enterprise", badgeVariant: "success",   border: "border-purple-400", color: "text-purple-600" },
 };
@@ -92,7 +92,7 @@ export default function AdminSubscriptionsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Subscriptions</h1>
-        <p className="text-sm text-slate-500">Platform subscription plans and billing overview</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Platform subscription plans and billing overview</p>
       </div>
 
       {/* Stat Cards */}
@@ -107,7 +107,7 @@ export default function AdminSubscriptionsPage() {
               <div className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800">{s.icon}</div>
               <div>
                 <p className={`text-xl font-bold ${s.color}`}>{s.value}</p>
-                <p className="text-xs text-slate-500">{s.label}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{s.label}</p>
               </div>
             </CardContent>
           </Card>
@@ -225,9 +225,9 @@ export default function AdminSubscriptionsPage() {
                       <tr key={s.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                         <td className="px-4 py-3">
                           <p className="font-semibold text-slate-900 dark:text-white">{s.user.name ?? "—"}</p>
-                          <p className="text-xs text-slate-500">{s.user.email}</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">{s.user.email}</p>
                         </td>
-                        <td className="px-4 py-3 text-xs text-slate-500 uppercase">{s.user.role}</td>
+                        <td className="px-4 py-3 text-xs text-slate-500 dark:text-slate-400 uppercase">{s.user.role}</td>
                         <td className="px-4 py-3">
                           <Badge variant={tierCfg.badgeVariant} className="text-xs">{tierCfg.label}</Badge>
                         </td>
@@ -259,7 +259,7 @@ export default function AdminSubscriptionsPage() {
             <div className="flex items-start justify-between">
               <div>
                 <h2 className="text-lg font-black text-slate-900 dark:text-white">{selected.user.name ?? "Unknown"}</h2>
-                <p className="text-sm text-slate-500">{selected.user.email}</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">{selected.user.email}</p>
               </div>
               <Button variant="ghost" size="sm" onClick={() => setSelected(null)}><X className="w-4 h-4" /></Button>
             </div>
@@ -276,7 +276,7 @@ export default function AdminSubscriptionsPage() {
                 { label: "Stripe ID",  value: selected.stripeSubId ?? "—" },
               ].map(({ label, value }) => (
                 <div key={label} className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
-                  <p className="text-xs text-slate-500 mb-0.5">{label}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">{label}</p>
                   <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{value}</p>
                 </div>
               ))}

@@ -112,7 +112,7 @@ export default function Header() {
                             <div className="w-2 h-2 rounded-full bg-green-500 mt-1.5 flex-shrink-0 group-hover:scale-125 transition-transform" />
                             <div>
                               <div className="text-sm font-semibold text-slate-900 dark:text-slate-50">{child.label}</div>
-                              <div className="text-xs text-slate-500">{child.description}</div>
+                              <div className="text-xs text-slate-500 dark:text-slate-400">{child.description}</div>
                             </div>
                           </Link>
                         ))}

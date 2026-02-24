@@ -123,7 +123,7 @@ export default function ContactPage() {
                       <div>
                         <div className="text-xs text-slate-400 font-medium uppercase tracking-wide">{label}</div>
                         <div className="font-semibold text-slate-900 dark:text-white">{value}</div>
-                        <div className="text-xs text-slate-500">{sub}</div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400">{sub}</div>
                       </div>
                     </div>
                   ))}
@@ -163,7 +163,7 @@ export default function ContactPage() {
                     <h3 className="font-bold text-slate-900 dark:text-white">{city}</h3>
                     <Badge variant={badge === "HQ" ? "default" : "secondary"} className="text-xs">{badge}</Badge>
                   </div>
-                  <p className="text-sm text-slate-500 mb-2">{address}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">{address}</p>
                   <p className="text-sm text-green-600 font-semibold">{phone}</p>
                 </CardContent>
               </Card>
@@ -180,7 +180,7 @@ export default function ContactPage() {
             <div className="text-center relative z-10">
               <MapPin className="w-12 h-12 text-green-600 mx-auto mb-3" />
               <p className="font-bold text-slate-700 dark:text-slate-300">Google Maps Integration</p>
-              <p className="text-sm text-slate-500">View live map in the DIGI-FARMS App</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">View live map in the DIGI-FARMS App</p>
               <Button className="mt-4" asChild><Link href="/register">Open App Map</Link></Button>
             </div>
           </div>
@@ -205,7 +205,7 @@ export default function ContactPage() {
                 <CardContent className="p-0">
                   <Icon className={`w-8 h-8 mx-auto mb-3 ${color}`} />
                   <h3 className="font-bold text-slate-900 dark:text-white mb-2">{title}</h3>
-                  <p className="text-xs text-slate-500 mb-4">{desc}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">{desc}</p>
                   <Button variant="outline" size="sm" className="w-full">{cta}</Button>
                 </CardContent>
               </Card>
@@ -232,7 +232,7 @@ export default function ContactPage() {
                   <ChevronDown className={`w-4 h-4 text-slate-400 flex-shrink-0 transition-transform ${openFaq === i ? "rotate-180" : ""}`} />
                 </button>
                 {openFaq === i && (
-                  <div className="px-5 pb-5 text-sm text-slate-500 leading-relaxed border-t border-slate-200 dark:border-slate-700 pt-4"
+                  <div className="px-5 pb-5 text-sm text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-200 dark:border-slate-700 pt-4"
                     dangerouslySetInnerHTML={{ __html: a }}
                   />
                 )}
@@ -249,7 +249,7 @@ export default function ContactPage() {
             <div>
               <Badge className="mb-4">Partnerships</Badge>
               <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-6">Partner with DIGI-FARMS</h2>
-              <p className="text-slate-500 mb-6 leading-relaxed">We&apos;re actively seeking partnerships with agrovets, NGOs, financial institutions, seed companies, and technology providers who share our mission.</p>
+              <p className="text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">We&apos;re actively seeking partnerships with agrovets, NGOs, financial institutions, seed companies, and technology providers who share our mission.</p>
               <div className="space-y-3">
                 {[
                   { icon: Users, title: "NGO & Development Partners", desc: "Joint programs for farmer capacity building and digital inclusion" },
@@ -260,7 +260,7 @@ export default function ContactPage() {
                     <Icon className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                     <div>
                       <div className="font-bold text-slate-900 dark:text-white text-sm">{title}</div>
-                      <div className="text-xs text-slate-500">{desc}</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">{desc}</div>
                     </div>
                   </div>
                 ))}
@@ -287,12 +287,12 @@ export default function ContactPage() {
         <div className="container mx-auto px-4 max-w-7xl text-center">
           <Badge variant="earth" className="mb-4">Investors</Badge>
           <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-4">Invest in Africa&apos;s AgriTech Future</h2>
-          <p className="text-slate-500 max-w-xl mx-auto mb-10">We&apos;re raising our Series A to scale across East Africa. Interested in joining our cap table? Contact our investor relations team.</p>
+          <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto mb-10">We&apos;re raising our Series A to scale across East Africa. Interested in joining our cap table? Contact our investor relations team.</p>
           <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto mb-10">
             {[["$2.8M", "Pre-seed raised"], ["$18M", "Current valuation"], ["Series A", "Round open"]].map(([v, l]) => (
               <div key={l} className="bg-slate-50 dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
                 <div className="text-3xl font-black text-green-600">{v}</div>
-                <div className="text-sm text-slate-500 mt-1">{l}</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">{l}</div>
               </div>
             ))}
           </div>
@@ -305,7 +305,7 @@ export default function ContactPage() {
         <div className="container mx-auto px-4 max-w-7xl text-center">
           <Badge className="mb-4">Careers</Badge>
           <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-4">Join Our Team</h2>
-          <p className="text-slate-500 max-w-xl mx-auto mb-10">We&apos;re a team of 28 passionate agritech enthusiasts building the future of African farming.</p>
+          <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto mb-10">We&apos;re a team of 28 passionate agritech enthusiasts building the future of African farming.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mb-10">
             {[
               { role: "Senior ML Engineer", type: "Full-time", loc: "Nairobi / Remote" },
@@ -317,7 +317,7 @@ export default function ContactPage() {
                 <CardContent className="p-0">
                   <h3 className="font-bold text-slate-900 dark:text-white text-sm mb-2">{role}</h3>
                   <Badge variant="secondary" className="text-xs mb-1">{type}</Badge>
-                  <div className="text-xs text-slate-500 mt-1">{loc}</div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">{loc}</div>
                 </CardContent>
               </Card>
             ))}
@@ -332,7 +332,7 @@ export default function ContactPage() {
           <div className="max-w-2xl mx-auto text-center">
             <Badge className="mb-4">Press & Media</Badge>
             <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-4">Media Kit</h2>
-            <p className="text-slate-500 mb-8">Download our official brand assets, executive headshots, and company fact sheet for press coverage.</p>
+            <p className="text-slate-500 dark:text-slate-400 mb-8">Download our official brand assets, executive headshots, and company fact sheet for press coverage.</p>
             <div className="grid sm:grid-cols-3 gap-4 mb-8">
               {[{ icon: FileText, label: "Press Kit (PDF)", size: "2.4 MB" }, { icon: Star, label: "Brand Assets (ZIP)", size: "18 MB" }, { icon: Users, label: "Executive Headshots", size: "12 MB" }].map(({ icon: Icon, label, size }) => (
                 <button key={label} className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-green-400 transition-colors group">

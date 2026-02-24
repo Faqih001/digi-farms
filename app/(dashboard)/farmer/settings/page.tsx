@@ -88,7 +88,7 @@ export default function SettingsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Settings</h1>
-        <p className="text-sm text-slate-500">Manage your account preferences</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Manage your account preferences</p>
       </div>
 
       <Tabs defaultValue="profile">
@@ -106,7 +106,7 @@ export default function SettingsPage() {
               {loadingProfile ? (
                 <div className="flex items-center gap-3 py-4">
                   <Loader2 className="w-5 h-5 animate-spin text-green-600" />
-                  <span className="text-sm text-slate-500">Loading profile…</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400">Loading profile…</span>
                 </div>
               ) : (
                 <>
@@ -117,7 +117,7 @@ export default function SettingsPage() {
                     </Avatar>
                     <div>
                       <p className="text-sm font-semibold text-slate-900 dark:text-white">{name || "—"}</p>
-                      <p className="text-xs text-slate-500">{profile?.email}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{profile?.email}</p>
                       <Badge className="mt-1 text-xs" variant="outline">{profile?.role}</Badge>
                     </div>
                   </div>
@@ -169,7 +169,7 @@ export default function SettingsPage() {
                           <Icon className="w-5 h-5 text-slate-400" />
                           <div>
                             <p className="text-sm font-medium text-slate-900 dark:text-white">{label}</p>
-                            <p className="text-xs text-slate-500">{desc}</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">{desc}</p>
                           </div>
                         </div>
                         <Switch checked={notifications[key as keyof typeof notifications]} onCheckedChange={(v) => setNotifications({ ...notifications, [key]: v })} />
@@ -189,7 +189,7 @@ export default function SettingsPage() {
                       <div key={key} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
                         <div>
                           <p className="text-sm font-medium text-slate-900 dark:text-white">{label}</p>
-                          <p className="text-xs text-slate-500">{desc}</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">{desc}</p>
                         </div>
                         <Switch checked={notifications[key as keyof typeof notifications]} onCheckedChange={(v) => setNotifications({ ...notifications, [key]: v })} />
                       </div>
@@ -235,7 +235,7 @@ export default function SettingsPage() {
                 <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-xl">
                   <div>
                     <p className="font-medium text-slate-900 dark:text-white">SMS 2FA</p>
-                    <p className="text-xs text-slate-500">Add extra security with SMS verification</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Add extra security with SMS verification</p>
                   </div>
                   <Badge variant="warning">Not Enabled</Badge>
                 </div>

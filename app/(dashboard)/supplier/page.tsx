@@ -35,7 +35,7 @@ export default function SupplierOverviewPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Supplier Dashboard</h1>
-          <p className="text-sm text-slate-500">Welcome back, Wanjiku — here&apos;s your store performance</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Welcome back, Wanjiku — here&apos;s your store performance</p>
         </div>
         <Button><Package className="w-4 h-4" /> Add Product</Button>
       </div>
@@ -54,7 +54,7 @@ export default function SupplierOverviewPage() {
                 </Badge>
               </div>
               <p className="text-2xl font-bold text-slate-900 dark:text-white">{value}</p>
-              <p className="text-xs text-slate-500">{label}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
             </CardContent>
           </Card>
         ))}
@@ -76,7 +76,7 @@ export default function SupplierOverviewPage() {
                       <span className="text-sm font-semibold text-slate-900 dark:text-white">{o.id}</span>
                       <Badge variant={o.status === "Delivered" ? "success" : o.status === "Shipped" ? "info" : "warning"} className="text-xs">{o.status}</Badge>
                     </div>
-                    <p className="text-xs text-slate-500">{o.customer} • {o.items}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{o.customer} • {o.items}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-bold text-slate-900 dark:text-white">{o.amount}</p>
@@ -102,7 +102,7 @@ export default function SupplierOverviewPage() {
                     <span className="w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 text-xs font-bold flex items-center justify-center">{i + 1}</span>
                     <div>
                       <p className="text-sm font-medium text-slate-900 dark:text-white">{p.name}</p>
-                      <p className="text-xs text-slate-500">{p.sales} sold • {p.stock} in stock</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{p.sales} sold • {p.stock} in stock</p>
                     </div>
                   </div>
                   <span className="text-sm font-bold text-green-600">{p.revenue}</span>

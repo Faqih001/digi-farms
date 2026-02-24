@@ -161,7 +161,7 @@ function ProblemSection() {
           <h2 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-4">
             African Agriculture is <span className="text-red-600">Bleeding</span>
           </h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
             Smallholder farmers — who produce 70% of Africa&apos;s food supply — are losing billions annually to preventable problems that technology can solve.
           </p>
         </div>
@@ -219,7 +219,7 @@ function SolutionSection() {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 dark:text-white mb-0.5">{title}</h3>
-                    <p className="text-sm text-slate-500">{desc}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{desc}</p>
                   </div>
                 </div>
               ))}
@@ -304,7 +304,7 @@ function HowItWorksSection() {
           <h2 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-4">
             How DIGI-FARMS Works
           </h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
             From farm registration to harvest optimization — five simple steps to transform your agricultural outcomes.
           </p>
         </div>
@@ -323,7 +323,7 @@ function HowItWorksSection() {
                   </span>
                 </div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-sm mb-2">{title}</h3>
-                <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -366,7 +366,7 @@ function FeaturesSection() {
           <h2 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-4">
             Everything a Farmer Needs
           </h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
             Nine integrated modules working together to maximize your farm&apos;s potential, profitability, and resilience.
           </p>
         </div>
@@ -379,7 +379,7 @@ function FeaturesSection() {
                   <Icon className="w-6 h-6" />
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">{title}</h3>
-                <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{desc}</p>
               </CardContent>
             </Card>
           ))}
@@ -408,7 +408,7 @@ function MarketplacePreviewSection() {
           <h2 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-4">
             Africa&apos;s Largest AgriMarket
           </h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
             5,000+ verified products from 200+ certified suppliers across East Africa — with anti-counterfeit guarantees and price comparison tools.
           </p>
         </div>
@@ -418,7 +418,7 @@ function MarketplacePreviewSection() {
             <Link href="/marketplace" key={name} className={`${color} rounded-2xl p-5 text-center border border-transparent hover:border-green-300 dark:hover:border-green-700 transition-all card-hover`}>
               <div className="text-3xl mb-2">{icon}</div>
               <div className="font-bold text-sm text-slate-800 dark:text-slate-200 mb-1">{name}</div>
-              <div className="text-xs text-slate-500">{products}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400">{products}</div>
             </Link>
           ))}
         </div>
@@ -451,7 +451,7 @@ function AgrovetSection() {
                 <MapPin className="w-10 h-10 text-white" />
               </div>
               <p className="text-slate-600 dark:text-slate-400 font-semibold mb-2">Interactive Agrovet Map</p>
-              <p className="text-sm text-slate-500 mb-4">500+ verified agrovets across East Africa</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">500+ verified agrovets across East Africa</p>
               <div className="flex flex-col gap-2">
                 {["🟢 Wanjiku Agrovet — 1.2km", "🟢 Green Earth Supplies — 2.4km", "🟡 Nakuru Agro Hub — 3.8km"].map((v) => (
                   <div key={v} className="bg-white dark:bg-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 shadow-sm text-left">
@@ -483,7 +483,7 @@ function AgrovetSection() {
                   <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <div className="font-semibold text-slate-900 dark:text-white text-sm">{title}</div>
-                    <div className="text-xs text-slate-500">{desc}</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">{desc}</div>
                   </div>
                 </div>
               ))}
@@ -590,7 +590,7 @@ function ImpactSection() {
           <h2 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-4">
             Numbers That Matter
           </h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
             Real results from real farmers across our pilot programs in Kenya, Uganda, and Tanzania.
           </p>
         </div>
@@ -601,7 +601,7 @@ function ImpactSection() {
               <div className="text-4xl mb-3">{icon}</div>
               <div className="text-4xl font-black text-green-600 mb-2">{value}</div>
               <div className="font-bold text-slate-900 dark:text-white mb-1">{label}</div>
-              <div className="text-xs text-slate-500">{sub}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400">{sub}</div>
             </div>
           ))}
         </div>
@@ -667,7 +667,7 @@ function TestimonialsSection() {
                   </div>
                   <div>
                     <div className="font-bold text-slate-900 dark:text-white text-sm">{name}</div>
-                    <div className="text-xs text-slate-500">{role} · {location}</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">{role} · {location}</div>
                   </div>
                 </div>
               </CardContent>

@@ -75,7 +75,7 @@ export default function InventoryPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Inventory</h1>
-          <p className="text-sm text-slate-500">Track stock levels and update quantities</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Track stock levels and update quantities</p>
         </div>
       </div>
 
@@ -96,7 +96,7 @@ export default function InventoryPage() {
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color}`}><Icon className="w-5 h-5" /></div>
                 <div>
-                  <p className="text-xs text-slate-500">{label}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
                   {loading ? <div className="h-5 w-6 bg-slate-200 dark:bg-slate-700 rounded animate-pulse mt-1" /> : <p className="text-lg font-bold text-slate-900 dark:text-white">{value}</p>}
                 </div>
               </div>
@@ -117,7 +117,7 @@ export default function InventoryPage() {
       ) : filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <Package className="w-12 h-12 text-slate-300 mb-3" />
-          <p className="text-slate-500 font-medium">No products found</p>
+          <p className="text-slate-500 dark:text-slate-400 font-medium">No products found</p>
           <p className="text-sm text-slate-400 mt-1">Add products from the Products page first</p>
         </div>
       ) : (
@@ -127,12 +127,12 @@ export default function InventoryPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-slate-200 dark:border-slate-700">
-                    <th className="text-left p-4 font-semibold text-slate-500 text-xs uppercase">Product</th>
-                    <th className="text-left p-4 font-semibold text-slate-500 text-xs uppercase hidden sm:table-cell">Category</th>
-                    <th className="text-left p-4 font-semibold text-slate-500 text-xs uppercase">Stock</th>
-                    <th className="text-left p-4 font-semibold text-slate-500 text-xs uppercase">Status</th>
-                    <th className="text-left p-4 font-semibold text-slate-500 text-xs uppercase hidden md:table-cell">Price</th>
-                    <th className="text-right p-4 font-semibold text-slate-500 text-xs uppercase">Action</th>
+                    <th className="text-left p-4 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase">Product</th>
+                    <th className="text-left p-4 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase hidden sm:table-cell">Category</th>
+                    <th className="text-left p-4 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase">Stock</th>
+                    <th className="text-left p-4 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase">Status</th>
+                    <th className="text-left p-4 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase hidden md:table-cell">Price</th>
+                    <th className="text-right p-4 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -145,7 +145,7 @@ export default function InventoryPage() {
                           <p className="font-medium text-slate-900 dark:text-white text-sm">{product.name}</p>
                           <p className="text-xs text-slate-400 sm:hidden">{product.category}</p>
                         </td>
-                        <td className="p-4 text-slate-500 hidden sm:table-cell">{product.category}</td>
+                        <td className="p-4 text-slate-500 dark:text-slate-400 hidden sm:table-cell">{product.category}</td>
                         <td className="p-4">
                           <div className="w-28">
                             <p className="text-xs font-semibold text-slate-900 dark:text-white mb-1">{product.stock} units</p>
@@ -190,8 +190,8 @@ export default function InventoryPage() {
             <div className="p-5 space-y-4">
               <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
                 <p className="text-sm font-semibold text-slate-900 dark:text-white">{editProduct.name}</p>
-                <p className="text-xs text-slate-500 mt-0.5">{editProduct.category} · KES {editProduct.price.toLocaleString()}</p>
-                <p className="text-xs text-slate-500 mt-0.5">Current stock: <span className="font-bold">{editProduct.stock} units</span></p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{editProduct.category} · KES {editProduct.price.toLocaleString()}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Current stock: <span className="font-bold">{editProduct.stock} units</span></p>
               </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300">New Stock Quantity</label>

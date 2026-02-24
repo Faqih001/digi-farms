@@ -59,7 +59,7 @@ export default function RegisterPage() {
     <div className="w-full max-w-md mx-auto">
       <div className="mb-8">
         <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-2">Create your account</h1>
-        <p className="text-slate-500">Join 50,000+ farmers transforming agriculture</p>
+        <p className="text-slate-500 dark:text-slate-400">Join 50,000+ farmers transforming agriculture</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -150,7 +150,7 @@ export default function RegisterPage() {
         </Button>
       </form>
 
-      <p className="text-center text-sm text-slate-500 mt-6">
+      <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-6">
         Already have an account?{" "}
         <Link href="/login" className="text-green-600 font-semibold hover:underline">Sign in</Link>
       </p>

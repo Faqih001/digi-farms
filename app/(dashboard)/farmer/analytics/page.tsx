@@ -25,7 +25,7 @@ export default function YieldAnalyticsPage() {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-black text-slate-900 dark:text-white">Yield Analytics</h2>
-        <p className="text-slate-500 text-sm">Track your farm production and revenue trends</p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">Track your farm production and revenue trends</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

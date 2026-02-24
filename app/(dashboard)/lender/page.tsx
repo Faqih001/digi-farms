@@ -34,7 +34,7 @@ export default function LenderOverviewPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Lender Dashboard</h1>
-          <p className="text-sm text-slate-500">Portfolio overview — Equity Agri Finance</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Portfolio overview — Equity Agri Finance</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline"><BarChart3 className="w-4 h-4" /> Reports</Button>
@@ -53,7 +53,7 @@ export default function LenderOverviewPage() {
                 </Badge>
               </div>
               <p className="text-2xl font-bold text-slate-900 dark:text-white">{value}</p>
-              <p className="text-xs text-slate-500">{label}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
             </CardContent>
           </Card>
         ))}
@@ -74,7 +74,7 @@ export default function LenderOverviewPage() {
                       <span className="text-sm font-semibold text-slate-900 dark:text-white">{a.farmer}</span>
                       <Badge variant={a.status === "Approved" || a.status === "Disbursed" ? "success" : a.status === "Under Review" ? "warning" : "destructive"} className="text-xs">{a.status}</Badge>
                     </div>
-                    <p className="text-xs text-slate-500">{a.id} • {a.purpose}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{a.id} • {a.purpose}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-bold text-slate-900 dark:text-white">{a.amount}</p>
@@ -122,7 +122,7 @@ export default function LenderOverviewPage() {
               <div key={label} className="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl text-center">
                 <Icon className="w-6 h-6 text-green-600 mx-auto mb-2" />
                 <p className="text-xl font-bold text-slate-900 dark:text-white">{value}</p>
-                <p className="text-xs text-slate-500">{label}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
               </div>
             ))}
           </div>

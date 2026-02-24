@@ -82,7 +82,7 @@ export default function SellProducePage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h2 className="text-2xl font-black text-slate-900 dark:text-white">Sell Produce</h2>
-          <p className="text-slate-500 text-sm">List your harvest and connect with buyers directly</p>
+          <p className="text-slate-500 dark:text-slate-400 text-sm">List your harvest and connect with buyers directly</p>
         </div>
         <Button onClick={() => setShowForm(true)} className="bg-green-600 hover:bg-green-700 text-white w-fit">
           <Plus className="w-4 h-4 mr-1.5" /> New Listing
@@ -104,7 +104,7 @@ export default function SellProducePage() {
               </div>
               <div>
                 <p className={`text-xl font-bold ${color}`}>{value}</p>
-                <p className="text-xs text-slate-500">{label}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
               </div>
             </CardContent>
           </Card>
@@ -117,7 +117,7 @@ export default function SellProducePage() {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all capitalize ${activeTab === tab ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all capitalize ${activeTab === tab ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"}`}
           >
             {tab === "listings" ? "My Listings" : "Purchase History"}
           </button>
@@ -241,7 +241,7 @@ export default function SellProducePage() {
                       </div>
                       <div className="space-y-1">
                         {order.items.map((item) => (
-                          <div key={item.id} className="flex items-center justify-between text-xs text-slate-500">
+                          <div key={item.id} className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                             <span>{item.product.name} × {item.quantity}</span>
                             <span>KES {(item.price * item.quantity).toLocaleString()}</span>
                           </div>

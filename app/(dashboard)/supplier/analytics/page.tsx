@@ -26,14 +26,14 @@ export default function SupplierAnalyticsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Analytics</h1>
-        <p className="text-sm text-slate-500">Insights into your store performance</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Insights into your store performance</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {metrics.map(({ label, value, change, period }) => (
           <Card key={label}>
             <CardContent className="p-4">
-              <p className="text-xs text-slate-500 mb-1">{label}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">{label}</p>
               <p className="text-2xl font-bold text-slate-900 dark:text-white">{value}</p>
               <div className="flex items-center gap-1 mt-1">
                 <Badge variant="success" className="text-xs"><ArrowUpRight className="w-3 h-3" /> {change}</Badge>
@@ -100,7 +100,7 @@ export default function SupplierAnalyticsPage() {
               <div key={county} className="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl text-center">
                 <span className="text-xs font-bold text-green-600">#{i + 1}</span>
                 <p className="font-semibold text-slate-900 dark:text-white text-sm mt-1">{county}</p>
-                <p className="text-xs text-slate-500">{orders} orders</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{orders} orders</p>
                 <p className="text-xs font-bold text-green-600">{revenue}</p>
               </div>
             ))}

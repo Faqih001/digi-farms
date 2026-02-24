@@ -23,7 +23,7 @@ export default function AdminAIPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">AI Systems</h1>
-        <p className="text-sm text-slate-500">Platform AI model health, usage, and management</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Platform AI model health, usage, and management</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -40,7 +40,7 @@ export default function AdminAIPage() {
               </div>
               <div>
                 <p className={`text-xl font-bold ${color}`}>{value}</p>
-                <p className="text-xs text-slate-500">{label}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
               </div>
             </CardContent>
           </Card>

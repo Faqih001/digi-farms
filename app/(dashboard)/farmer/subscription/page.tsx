@@ -51,7 +51,7 @@ export default function SubscriptionPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Subscription</h1>
-        <p className="text-sm text-slate-500">Manage your plan and billing</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Manage your plan and billing</p>
       </div>
 
       {/* Current Plan */}
@@ -67,7 +67,7 @@ export default function SubscriptionPage() {
                   <h2 className="text-xl font-bold text-slate-900 dark:text-white">Free Plan</h2>
                   <Badge variant="success">Active</Badge>
                 </div>
-                <p className="text-sm text-slate-500">Basic access to DIGI-FARMS features</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Basic access to DIGI-FARMS features</p>
               </div>
             </div>
             <Button>Upgrade Now <ArrowRight className="w-4 h-4" /></Button>
@@ -84,7 +84,7 @@ export default function SubscriptionPage() {
               <div key={u.label}>
                 <div className="flex justify-between mb-1.5">
                   <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{u.label}</span>
-                  <span className="text-sm text-slate-500">{u.used} / {u.limit} {u.unit}</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400">{u.used} / {u.limit} {u.unit}</span>
                 </div>
                 <Progress value={(u.used / u.limit) * 100} className="h-2" />
               </div>
@@ -111,7 +111,7 @@ export default function SubscriptionPage() {
                 </div>
                 <div className="mb-6">
                   <span className="text-3xl font-black text-slate-900 dark:text-white">{tier.price}</span>
-                  <span className="text-sm text-slate-500">{tier.period}</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400">{tier.period}</span>
                 </div>
                 <ul className="space-y-2 mb-6">
                   {tier.features.map((f) => (
@@ -141,7 +141,7 @@ export default function SubscriptionPage() {
             <CardContent className="p-4 text-center">
               <Icon className="w-8 h-8 text-green-600 mx-auto mb-2" />
               <h4 className="font-semibold text-sm text-slate-900 dark:text-white">{title}</h4>
-              <p className="text-xs text-slate-500">{desc}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{desc}</p>
             </CardContent>
           </Card>
         ))}

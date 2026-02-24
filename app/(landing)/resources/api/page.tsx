@@ -107,7 +107,7 @@ export default function ApiReferencePage() {
               </div>
               <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Include your API key in the Authorization header for all authenticated requests.</p>
               <div className="bg-slate-900 dark:bg-slate-950 rounded-xl p-4 font-mono text-sm text-green-400 overflow-x-auto">
-                <div className="text-slate-500">{"// Example request"}</div>
+                <div className="text-slate-500 dark:text-slate-400">{"// Example request"}</div>
                 <div className="mt-1">
                   <span className="text-blue-400">curl</span> -X GET https://api.digi-farms.com/v1/farms \
                 </div>
@@ -118,7 +118,7 @@ export default function ApiReferencePage() {
                   -H <span className="text-yellow-400">&quot;Content-Type: application/json&quot;</span>
                 </div>
               </div>
-              <p className="text-xs text-slate-400 dark:text-slate-500 mt-3">Generate API keys from your dashboard under Settings → API Keys.</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500 dark:text-slate-400 mt-3">Generate API keys from your dashboard under Settings → API Keys.</p>
             </CardContent>
           </Card>
         </div>

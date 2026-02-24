@@ -40,7 +40,7 @@ export default function DiagnosticsPage() {
     <div className="space-y-6 max-w-4xl">
       <div>
         <h2 className="text-2xl font-black text-slate-900 dark:text-white">AI Crop Diagnostics</h2>
-        <p className="text-slate-500 text-sm">Upload a photo of your crop to detect diseases, pests, and deficiencies</p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">Upload a photo of your crop to detect diseases, pests, and deficiencies</p>
       </div>
 
       {stage === "upload" && (
@@ -88,8 +88,8 @@ export default function DiagnosticsPage() {
 
             <Card>
               <CardContent className="p-4">
-                <p className="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wide">Tips for best results</p>
-                <ul className="space-y-1.5 text-xs text-slate-500">
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-3 uppercase tracking-wide">Tips for best results</p>
+                <ul className="space-y-1.5 text-xs text-slate-500 dark:text-slate-400">
                   {["Take photos in natural daylight", "Focus on affected leaves/stems", "Include close-up and wide shots", "Avoid blurry or dark images"].map((t) => (
                     <li key={t} className="flex items-center gap-2"><Info className="w-3 h-3 flex-shrink-0 text-blue-400" />{t}</li>
                   ))}
@@ -122,7 +122,7 @@ export default function DiagnosticsPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <CardTitle className="text-lg">{result.disease}</CardTitle>
-                  <p className="text-sm text-slate-500 mt-1">Detected in: {result.crop}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Detected in: {result.crop}</p>
                 </div>
                 <div className="text-right">
                   <Badge variant={result.severity === "HIGH" ? "destructive" : result.severity === "MEDIUM" ? "warning" : "success"}>

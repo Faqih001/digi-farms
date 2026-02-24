@@ -17,7 +17,7 @@ export default function ClimateInsightsPage() {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-black text-slate-900 dark:text-white">Climate Insights</h2>
-        <p className="text-slate-500 text-sm">Weather forecasts and climate analytics for your farm location</p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">Weather forecasts and climate analytics for your farm location</p>
       </div>
 
       <Card className="bg-gradient-to-br from-blue-600 to-blue-800 border-0 text-white">

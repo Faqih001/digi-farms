@@ -71,7 +71,7 @@ export default function AdminOrdersPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Orders</h1>
-        <p className="text-sm text-slate-500">Platform-wide order monitoring and management</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Platform-wide order monitoring and management</p>
       </div>
 
       {/* Stats */}
@@ -89,7 +89,7 @@ export default function AdminOrdersPage() {
           >
             <CardContent className="p-4 text-center">
               {loading ? <div className="h-7 w-12 bg-slate-200 dark:bg-slate-700 rounded animate-pulse mx-auto mb-1" /> : <p className={`text-2xl font-bold ${color}`}>{value}</p>}
-              <p className="text-xs text-slate-500">{label}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
             </CardContent>
           </Card>
         ))}
@@ -119,7 +119,7 @@ export default function AdminOrdersPage() {
       ) : orders.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <ShoppingCart className="w-12 h-12 text-slate-300 mb-3" />
-          <p className="text-slate-500 font-medium">No orders found</p>
+          <p className="text-slate-500 dark:text-slate-400 font-medium">No orders found</p>
         </div>
       ) : (
         <Card>
@@ -129,7 +129,7 @@ export default function AdminOrdersPage() {
                 <thead>
                   <tr className="border-b border-slate-200 dark:border-slate-700">
                     {["Order ID", "Buyer", "Items", "Total (KES)", "Date", "Status", ""].map((h) => (
-                      <th key={h} className="px-4 py-3 text-left font-semibold text-slate-500 text-xs uppercase tracking-wide">{h}</th>
+                      <th key={h} className="px-4 py-3 text-left font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wide">{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -143,12 +143,12 @@ export default function AdminOrdersPage() {
                       </td>
                       <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{order.items.length}</td>
                       <td className="px-4 py-3 font-semibold text-slate-900 dark:text-white">{order.totalAmount.toLocaleString()}</td>
-                      <td className="px-4 py-3 text-slate-500 text-xs">{new Date(order.createdAt).toLocaleDateString("en-KE")}</td>
+                      <td className="px-4 py-3 text-slate-500 dark:text-slate-400 text-xs">{new Date(order.createdAt).toLocaleDateString("en-KE")}</td>
                       <td className="px-4 py-3">
                         <span className={`text-xs font-semibold px-2 py-1 rounded-full ${statusCls[order.status] ?? ""}`}>{order.status}</span>
                       </td>
                       <td className="px-4 py-3">
-                        <button onClick={() => setSelectedOrder(order)} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
+                        <button onClick={() => setSelectedOrder(order)} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400">
                           <Eye className="w-4 h-4" />
                         </button>
                       </td>
@@ -177,30 +177,30 @@ export default function AdminOrdersPage() {
             <div className="p-5 space-y-4">
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
-                  <p className="text-xs text-slate-500 mb-1">Order ID</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Order ID</p>
                   <p className="font-mono text-xs font-bold">{selectedOrder.id}</p>
                 </div>
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
-                  <p className="text-xs text-slate-500 mb-1">Total</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Total</p>
                   <p className="font-bold text-green-700 dark:text-green-400">KES {selectedOrder.totalAmount.toLocaleString()}</p>
                 </div>
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
-                  <p className="text-xs text-slate-500 mb-1">Buyer</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Buyer</p>
                   <p className="font-semibold">{selectedOrder.user.name ?? selectedOrder.user.email}</p>
                 </div>
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
-                  <p className="text-xs text-slate-500 mb-1">Date</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Date</p>
                   <p className="font-semibold">{new Date(selectedOrder.createdAt).toLocaleDateString("en-KE")}</p>
                 </div>
               </div>
               <div>
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Items</p>
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Items</p>
                 <div className="space-y-2">
                   {selectedOrder.items.map((item) => (
                     <div key={item.id} className="flex items-center justify-between bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
                       <div>
                         <p className="text-sm font-medium">{item.product.name}</p>
-                        <p className="text-xs text-slate-500">× {item.quantity}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">× {item.quantity}</p>
                       </div>
                       <p className="text-sm font-bold">KES {(item.price * item.quantity).toLocaleString()}</p>
                     </div>
@@ -208,7 +208,7 @@ export default function AdminOrdersPage() {
                 </div>
               </div>
               <div>
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Update Status</p>
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Update Status</p>
                 <div className="flex flex-wrap gap-2">
                   {(["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELLED"] as const).map((s) => (
                     <button

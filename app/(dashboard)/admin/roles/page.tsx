@@ -80,7 +80,7 @@ export default function AdminRolesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Roles & Permissions</h1>
-          <p className="text-sm text-slate-500">Platform role definitions and access control</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Platform role definitions and access control</p>
         </div>
         <Button className="bg-green-600 hover:bg-green-700 text-white w-fit"><Plus className="w-4 h-4 mr-2" /> New Role</Button>
       </div>
@@ -103,7 +103,7 @@ export default function AdminRolesPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-slate-500 mb-3">{description}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">{description}</p>
               <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2 uppercase tracking-wide">Permissions</p>
               <div className="grid grid-cols-1 gap-1">
                 {permissions.map((p) => (

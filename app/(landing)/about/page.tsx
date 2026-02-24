@@ -118,7 +118,7 @@ export default function AboutPage() {
                 ].map(({ value, label }) => (
                   <div key={label} className="text-center">
                     <div className="text-4xl font-black text-green-600">{value}</div>
-                    <div className="text-sm text-slate-500 mt-1">{label}</div>
+                    <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">{label}</div>
                   </div>
                 ))}
               </div>
@@ -146,7 +146,7 @@ export default function AboutPage() {
                 <CardContent className="p-0">
                   <div className="text-4xl mb-4">{icon}</div>
                   <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-3">{title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{desc}</p>
                 </CardContent>
               </Card>
             ))}
@@ -173,7 +173,7 @@ export default function AboutPage() {
               <div key={title} className="text-center p-6 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 card-hover">
                 <Icon className={`w-8 h-8 mx-auto mb-3 ${color}`} />
                 <h3 className="font-bold text-slate-900 dark:text-white mb-2">{title}</h3>
-                <p className="text-sm text-slate-500">{desc}</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">{desc}</p>
               </div>
             ))}
           </div>
@@ -245,7 +245,7 @@ export default function AboutPage() {
             <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-4">
               Built for a Changing Climate
             </h2>
-            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
               Climate change is the single greatest threat to African food security. DIGI-FARMS embeds climate intelligence at every layer.
             </p>
           </div>
@@ -258,7 +258,7 @@ export default function AboutPage() {
               <div key={title} className="text-center p-8 rounded-2xl bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/30">
                 <div className="text-5xl mb-4">{icon}</div>
                 <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-3">{title}</h3>
-                <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -283,7 +283,7 @@ export default function AboutPage() {
                   </div>
                   <h3 className="font-bold text-slate-900 dark:text-white mb-1">{name}</h3>
                   <div className="text-sm text-green-600 font-semibold mb-3">{role}</div>
-                  <p className="text-xs text-slate-500 leading-relaxed">{bio}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{bio}</p>
                 </CardContent>
               </Card>
             ))}
@@ -307,7 +307,7 @@ export default function AboutPage() {
                   <Star className="w-6 h-6 text-amber-600" />
                 </div>
                 <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1">{name}</h3>
-                <div className="text-xs text-slate-500 mb-2">{role}</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 mb-2">{role}</div>
                 <Badge variant="earth" className="text-xs">{focus}</Badge>
               </div>
             ))}
@@ -326,7 +326,7 @@ export default function AboutPage() {
             {roadmilestones.map(({ period, title, desc, done }) => (
               <div key={period} className={`flex gap-6 items-start p-5 rounded-2xl border transition-all ${done ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800" : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"}`}>
                 <div className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center ${done ? "bg-green-600" : "bg-slate-200 dark:bg-slate-700"}`}>
-                  {done ? <CheckCircle className="w-5 h-5 text-white" /> : <Calendar className="w-5 h-5 text-slate-500" />}
+                  {done ? <CheckCircle className="w-5 h-5 text-white" /> : <Calendar className="w-5 h-5 text-slate-500 dark:text-slate-400" />}
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-1">
@@ -334,7 +334,7 @@ export default function AboutPage() {
                     {done && <Badge className="text-[10px]">✓ Completed</Badge>}
                   </div>
                   <h3 className="font-bold text-slate-900 dark:text-white">{title}</h3>
-                  <p className="text-sm text-slate-500">{desc}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{desc}</p>
                 </div>
               </div>
             ))}
@@ -380,7 +380,7 @@ export default function AboutPage() {
                 <CardContent className="p-0">
                   <Icon className={`w-8 h-8 mx-auto mb-3 ${color}`} />
                   <h3 className="font-bold text-slate-900 dark:text-white mb-3">{title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{desc}</p>
                 </CardContent>
               </Card>
             ))}

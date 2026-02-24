@@ -22,7 +22,7 @@ function Toggle({ label, description, defaultChecked = false }: { label: string;
     <div className="flex items-center justify-between py-3 border-b border-slate-100 dark:border-slate-800 last:border-0">
       <div>
         <p className="text-sm font-medium text-slate-800 dark:text-slate-200">{label}</p>
-        <p className="text-xs text-slate-500">{description}</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400">{description}</p>
       </div>
       <button
         onClick={() => setOn(!on)}
@@ -108,7 +108,7 @@ export default function LenderSettingsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Settings</h1>
-        <p className="text-sm text-slate-500">Manage your lending institution preferences</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Manage your lending institution preferences</p>
       </div>
 
       <div className="flex gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl w-fit overflow-x-auto">
@@ -116,7 +116,7 @@ export default function LenderSettingsPage() {
           <button
             key={id}
             onClick={() => setActiveTab(id)}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${activeTab === id ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${activeTab === id ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"}`}
           >
             <Icon className="w-4 h-4" /> {label}
           </button>

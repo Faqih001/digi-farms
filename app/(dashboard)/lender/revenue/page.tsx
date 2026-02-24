@@ -27,7 +27,7 @@ export default function LenderRevenuePage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Revenue</h1>
-        <p className="text-sm text-slate-500">Interest income, fees, and net earnings</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Interest income, fees, and net earnings</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -44,7 +44,7 @@ export default function LenderRevenuePage() {
               </div>
               <div>
                 <p className={`text-base font-bold ${color}`}>{value}</p>
-                <p className="text-xs text-slate-500">{label}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
               </div>
             </CardContent>
           </Card>

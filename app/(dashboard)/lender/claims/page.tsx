@@ -23,7 +23,7 @@ export default function ClaimsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Insurance Claims</h1>
-        <p className="text-sm text-slate-500">Manage crop and loan insurance claims</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Manage crop and loan insurance claims</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -36,7 +36,7 @@ export default function ClaimsPage() {
           <Card key={label}>
             <CardContent className="p-4 text-center">
               <p className={`text-2xl font-bold ${color}`}>{value}</p>
-              <p className="text-xs text-slate-500">{label}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
             </CardContent>
           </Card>
         ))}
@@ -75,7 +75,7 @@ export default function ClaimsPage() {
                       <Badge variant={sc.variant} className="text-xs">{c.status}</Badge>
                     </div>
                     <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">{c.type} — {c.id} / {c.loanId}</p>
-                    <p className="text-sm text-slate-500">{c.description}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{c.description}</p>
                     <p className="text-xs text-slate-400 mt-1">{c.county} • {c.insurer} • {c.evidence} evidence files • Filed: {c.date}</p>
                   </div>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">

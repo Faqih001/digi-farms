@@ -78,7 +78,7 @@ export default function LoanApplicationsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-black text-slate-900 dark:text-white">Loan Applications</h2>
-          <p className="text-slate-500 text-sm">Apply for agricultural financing and track your loans</p>
+          <p className="text-slate-500 dark:text-slate-400 text-sm">Apply for agricultural financing and track your loans</p>
         </div>
         <Dialog open={applyOpen} onOpenChange={setApplyOpen}>
           <DialogTrigger asChild>
@@ -117,7 +117,7 @@ export default function LoanApplicationsPage() {
           { label: "Approved/Active", value: loans.filter(l => ["APPROVED", "DISBURSED"].includes(l.status)).length, color: "text-green-600" },
           { label: "Total Approved", value: `KES ${(totalApproved / 1000).toFixed(0)}K`, color: "text-purple-600" },
         ].map(({ label, value, color }) => (
-          <Card key={label}><CardContent className="p-4 text-center"><p className={`text-2xl font-bold ${color}`}>{value}</p><p className="text-xs text-slate-500">{label}</p></CardContent></Card>
+          <Card key={label}><CardContent className="p-4 text-center"><p className={`text-2xl font-bold ${color}`}>{value}</p><p className="text-xs text-slate-500 dark:text-slate-400">{label}</p></CardContent></Card>
         ))}
       </div>
 
