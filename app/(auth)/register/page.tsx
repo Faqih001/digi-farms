@@ -36,7 +36,10 @@ export default function RegisterPage() {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          name: `${data.firstName} ${data.lastName}`.trim(),
+        }),
       });
       const json = await res.json();
       if (!res.ok) { toast.error(json.error || "Registration failed"); return; }
