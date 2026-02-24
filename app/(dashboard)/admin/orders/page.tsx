@@ -54,7 +54,7 @@ export default function AdminOrdersPage() {
         toast.success("Order status updated");
         await load();
         if (selectedOrder?.id === orderId) {
-          setSelectedOrder((prev) => prev ? { ...prev, status } : null);
+          setSelectedOrder((prev: Order | null) => (prev ? { ...prev, status } : null));
         }
       } catch (e) {
         toast.error(e instanceof Error ? e.message : "Failed to update status");

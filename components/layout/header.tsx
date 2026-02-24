@@ -58,9 +58,8 @@ export default function Header() {
           </div>
           <div className="flex items-center gap-4">
             <span>🌍 Kenya · East Africa</span>
-            <Link href="/login" className="hover:text-green-200 dark:hover:text-white transition-colors">Sign In</Link>
-            <span className="opacity-50">|</span>
-            <Link href="/register" className="hover:text-green-200 dark:hover:text-white transition-colors font-semibold">Register Free</Link>
+            <span className="text-sm">Office Hours: Mon–Fri 08:00–17:00</span>
+            <Link href="/company/careers" className="hover:text-green-200 dark:hover:text-white transition-colors font-semibold">Careers</Link>
           </div>
         </div>
       </div>
