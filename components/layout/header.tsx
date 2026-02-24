@@ -41,6 +41,32 @@ export default function Header() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+  const [lang, setLang] = useState<string>("EN");
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const stored = window.localStorage.getItem("df_lang");
+    if (stored) {
+      setLang(stored);
+      document.documentElement.lang = stored === "SW" ? "sw" : "en";
+    } else {
+      // Use a TS-safe access for potential non-standard userLanguage
+      const nav = (navigator as any).language || (navigator as any).userLanguage || "en";
+      const initial = String(nav).toLowerCase().startsWith("sw") ? "SW" : "EN";
+      setLang(initial);
+      document.documentElement.lang = initial === "SW" ? "sw" : "en";
+    }
+  }, []);
+
+  function selectLang(code: string) {
+    setLang(code);
+    setLangMenuOpen(false);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("df_lang", code);
+      document.documentElement.lang = code === "SW" ? "sw" : "en";
+    }
+  }
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
@@ -60,7 +86,34 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <span>🌍 Kenya · East Africa</span>
             <span className="text-sm">Office Hours: Mon–Fri 08:00–17:00</span>
-            <Link href="/company/careers" className="hover:text-green-200 dark:hover:text-white transition-colors font-semibold">Careers</Link>
+            <div className="relative">
+              <button
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-100 dark:bg-green-800 text-sm font-semibold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-green-700 transition-colors"
+                aria-haspopup="true"
+                aria-expanded={langMenuOpen}
+              >
+                {lang}
+                <ChevronDown className="w-3 h-3" />
+              </button>
+
+              {langMenuOpen && (
+                <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 p-1">
+                  <button
+                    onClick={() => selectLang("EN")}
+                    className="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-green-50 dark:hover:bg-green-950/30 transition-colors"
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => selectLang("SW")}
+                    className="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-green-50 dark:hover:bg-green-950/30 transition-colors"
+                  >
+                    Kiswahili
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
