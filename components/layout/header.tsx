@@ -51,7 +51,7 @@ export default function Header() {
   return (
     <>
       {/* Topbar */}
-      <div className="hidden md:block bg-green-700 dark:bg-slate-900 border-b border-green-600/50 dark:border-slate-700 text-white dark:text-slate-300 text-xs">
+      <div className="hidden md:block bg-white dark:bg-green-700 border-b border-slate-200 dark:border-green-600 text-slate-700 dark:text-white text-xs">
         <div className="container mx-auto px-4 max-w-7xl flex items-center justify-between py-1.5">
           <div className="flex items-center gap-6">
             <span>📞 +254 (0) 700 DIGI-FARM</span>
