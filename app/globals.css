@@ -111,6 +111,27 @@ body {
   border-color: rgba(255, 255, 255, 0.06);
 }
 
+/* In dark mode, force child text to inherit the dark foreground so components
+   that rely on CSS variables render white text even if Tailwind classes were
+   not applied. Keep this scoped to .dark to avoid overriding inline styles
+   and class-based colors in light mode. */
+.dark .glass-card, .dark .glass-card * {
+  color: var(--foreground) !important;
+}
+
+/* Card surface used for small metric cards inside glass-card */
+.card-surface {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(15, 23, 61, 0.06);
+  border-radius: 0.75rem;
+  color: var(--foreground) !important;
+}
+.dark .card-surface {
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--foreground) !important;
+}
+
 /* ---- Gradient backgrounds ---- */
 .gradient-hero {
   /* darker green gradient for light theme hero */
@@ -306,7 +327,7 @@ input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border-radius
   border-radius: 999px;
   overflow: hidden;
 }
-.dark .progress-track { background: rgba(230,238,248,0.08); }
+.dark .progress-track { background: rgba(255,255,255,0.06); }
 .progress-fill {
   height: 100%;
   background: #16a34a;
@@ -339,4 +360,19 @@ input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border-radius
 .dark .badge-red    { background: rgba(239,68,68,0.15); color: #f87171; }
 .dark .badge-blue   { background: rgba(59,130,246,0.15); color: #60a5fa; }
 .dark .badge-gray   { background: rgba(100,116,139,0.15); color: #94a3b8; }
+
+/* Swiper dots inside glass-card: ensure visible contrast in both themes */
+.glass-card .swiper-dot {
+  background: rgba(15,23,36,0.12) !important; /* light-mode unselected */
+  border: none !important;
+}
+.glass-card .swiper-dot[data-selected="true"] {
+  background: #0f1724 !important; /* light-mode selected */
+}
+.dark .glass-card .swiper-dot {
+  background: rgba(255,255,255,0.18) !important; /* dark-mode unselected */
+}
+.dark .glass-card .swiper-dot[data-selected="true"] {
+  background: #ffffff !important; /* dark-mode selected */
+}
 

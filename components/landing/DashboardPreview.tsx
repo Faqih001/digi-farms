@@ -19,7 +19,7 @@ export default function DashboardPreview() {
   const lightBg = "rgba(255,255,255,0.95)";
   const darkBg = "rgba(15,23,36,0.8)";
   const lightText = "#0f1724";
-  const darkText = "#e6eef8";
+  const darkText = "#ffffff";
 
   const initialFarms = [
     {
@@ -131,12 +131,7 @@ export default function DashboardPreview() {
       aria-hidden={false}
     >
       <div
-        className={"glass-card p-6 border border-white/20 shadow-md" + (anim === "left" ? " animate-slide-left" : anim === "right" ? " animate-slide-right" : "")}
-        style={{
-          backgroundColor: mounted && theme === "dark" ? darkBg : lightBg,
-          color: mounted && theme === "dark" ? darkText : lightText,
-          borderColor: mounted && theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(15,23,61,0.06)",
-        }}
+        className={"glass-card p-6 shadow-md text-slate-900 dark:text-white" + (anim === "left" ? " animate-slide-left" : anim === "right" ? " animate-slide-right" : "")}
       >
         <div
           className="flex items-center justify-between mb-4"
@@ -146,43 +141,43 @@ export default function DashboardPreview() {
           onMouseUp={onMouseUp}
         >
           <div>
-            <p className={mounted && theme === "dark" ? "text-green-300 text-xs font-semibold uppercase tracking-wider mb-0.5" : "text-green-900 text-xs font-semibold uppercase tracking-wider mb-0.5"}>Farm Dashboard</p>
-            <p style={{ color: mounted && theme === "dark" ? darkText : lightText }} className="font-bold">{farms[selectedFarmIdx].name}</p>
+            <p className="text-green-700 dark:text-green-300 text-xs font-semibold uppercase tracking-wider mb-0.5">Farm Dashboard</p>
+            <p className="font-bold text-slate-900 dark:text-white" style={{ color: mounted && theme === "dark" ? "#ffffff" : "#0f1724" }}>{farms[selectedFarmIdx].name}</p>
           </div>
           <div className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold" style={{ background: '#16a34a', color: '#ffffff' }}>● LIVE</div>
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-4">
           {/* Crop Health */}
-          <div className={"rounded-xl p-3.5 border shadow-sm"} style={{ backgroundColor: mounted && theme === "dark" ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.06)" }}>
+          <div className={"card-surface rounded-xl p-3.5 shadow-sm"}>
             <div className="text-xl mb-1">🌿</div>
-            <div style={{ color: mounted && theme === "dark" ? darkText : lightText }} className="font-bold text-lg leading-none">{health}%</div>
-            <div className={mounted && theme === "dark" ? "text-green-300 text-xs mt-0.5" : "text-green-900 text-xs mt-0.5"}>Crop Health Score</div>
-            <div className={mounted && theme === "dark" ? "text-green-400 text-xs font-semibold mt-1" : "text-green-800 text-xs font-semibold mt-1"}>+5%</div>
+            <div className="font-bold text-lg leading-none text-slate-900 dark:text-white" style={{ color: mounted && theme === "dark" ? "#ffffff" : "#0f1724" }}>{health}%</div>
+            <div className="text-green-700 dark:text-green-300 text-xs mt-0.5">Crop Health Score</div>
+            <div className="text-green-700 dark:text-green-400 text-xs font-semibold mt-1">+5%</div>
           </div>
 
           {/* Est. Yield */}
-          <div className={"rounded-xl p-3.5 border shadow-sm"} style={{ backgroundColor: mounted && theme === "dark" ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.06)" }}>
+          <div className={"card-surface rounded-xl p-3.5 shadow-sm"}>
             <div className="text-xl mb-1">🌾</div>
-            <div style={{ color: mounted && theme === "dark" ? darkText : lightText }} className="font-bold text-lg leading-none">{yieldVal.toFixed(1)}T</div>
-            <div className={mounted && theme === "dark" ? "text-green-300 text-xs mt-0.5" : "text-green-900 text-xs mt-0.5"}>Est. Yield</div>
-            <div className={mounted && theme === "dark" ? "text-green-400 text-xs font-semibold mt-1" : "text-green-800 text-xs font-semibold mt-1"}>+23%</div>
+            <div className="font-bold text-lg leading-none text-slate-900 dark:text-white" style={{ color: mounted && theme === "dark" ? "#ffffff" : "#0f1724" }}>{yieldVal.toFixed(1)}T</div>
+            <div className="text-green-700 dark:text-green-300 text-xs mt-0.5">Est. Yield</div>
+            <div className="text-green-700 dark:text-green-400 text-xs font-semibold mt-1">+23%</div>
           </div>
 
           {/* Market Price */}
-          <div className={"rounded-xl p-3.5 border shadow-sm"} style={{ backgroundColor: mounted && theme === "dark" ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.06)" }}>
+          <div className={"card-surface rounded-xl p-3.5 shadow-sm"}>
             <div className="text-xl mb-1">💰</div>
-            <div style={{ color: mounted && theme === "dark" ? darkText : lightText }} className="font-bold text-lg leading-none">KES {price}/kg</div>
-            <div className={mounted && theme === "dark" ? "text-green-300 text-xs mt-0.5" : "text-green-900 text-xs mt-0.5"}>Market Price</div>
-            <div className={mounted && theme === "dark" ? "text-green-400 text-xs font-semibold mt-1" : "text-green-800 text-xs font-semibold mt-1"}>+8%</div>
+            <div className="font-bold text-lg leading-none text-slate-900 dark:text-white" style={{ color: mounted && theme === "dark" ? "#ffffff" : "#0f1724" }}>KES {price}/kg</div>
+            <div className="text-green-700 dark:text-green-300 text-xs mt-0.5">Market Price</div>
+            <div className="text-green-700 dark:text-green-400 text-xs font-semibold mt-1">+8%</div>
           </div>
 
           {/* Rain Forecast (static) */}
-          <div className={"rounded-xl p-3.5 border shadow-sm"} style={{ backgroundColor: mounted && theme === "dark" ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.06)" }}>
+          <div className={"card-surface rounded-xl p-3.5 shadow-sm"}>
             <div className="text-xl mb-1">🌧️</div>
-            <div style={{ color: mounted && theme === "dark" ? darkText : lightText }} className="font-bold text-lg leading-none">68mm</div>
-            <div className={mounted && theme === "dark" ? "text-green-300 text-xs mt-0.5" : "text-green-900 text-xs mt-0.5"}>Rain Forecast</div>
-            <div className={mounted && theme === "dark" ? "text-green-400 text-xs font-semibold mt-1" : "text-green-800 text-xs font-semibold mt-1"}>This week</div>
+            <div className="font-bold text-lg leading-none text-slate-900 dark:text-white" style={{ color: mounted && theme === "dark" ? "#ffffff" : "#0f1724" }}>68mm</div>
+            <div className="text-green-700 dark:text-green-300 text-xs mt-0.5">Rain Forecast</div>
+            <div className="text-green-700 dark:text-green-400 text-xs font-semibold mt-1">This week</div>
           </div>
         </div>
 
@@ -190,8 +185,8 @@ export default function DashboardPreview() {
         <div className="space-y-4 mb-3">
           <div>
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>Crop Health</div>
-              <div className="text-sm font-semibold" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>{health}%</div>
+              <div className="text-sm font-medium text-slate-900 dark:text-white" style={{ color: mounted && theme === "dark" ? "#ffffff" : "#0f1724" }}>Crop Health</div>
+              <div className="text-sm font-semibold text-slate-900 dark:text-white" style={{ color: mounted && theme === "dark" ? "#ffffff" : "#0f1724" }}>{health}%</div>
             </div>
             <div className="progress-track" role="progressbar" aria-valuenow={health} aria-valuemin={0} aria-valuemax={100}>
               <div className="progress-fill" style={{ width: `${Math.max(0, Math.min(100, health))}%` }} />
@@ -200,8 +195,8 @@ export default function DashboardPreview() {
 
           <div>
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>Est. Yield (T)</div>
-              <div className="text-sm font-semibold" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>{yieldVal.toFixed(1)}</div>
+              <div className="text-sm font-medium text-slate-900 dark:text-white" style={{ color: mounted && theme === "dark" ? "#ffffff" : "#0f1724" }}>Est. Yield (T)</div>
+              <div className="text-sm font-semibold text-slate-900 dark:text-white" style={{ color: mounted && theme === "dark" ? "#ffffff" : "#0f1724" }}>{yieldVal.toFixed(1)}</div>
             </div>
             <div className="progress-track" role="progressbar" aria-valuenow={Math.round((yieldVal / 50) * 100)} aria-valuemin={0} aria-valuemax={100}>
               <div className="progress-fill" style={{ width: `${Math.max(0, Math.min(100, (yieldVal / 50) * 100))}%` }} />
@@ -210,8 +205,8 @@ export default function DashboardPreview() {
 
           <div>
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>Market Price (KES/kg)</div>
-              <div className="text-sm font-semibold" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>KES {price}</div>
+              <div className="text-sm font-medium text-slate-900 dark:text-white" style={{ color: mounted && theme === "dark" ? "#ffffff" : "#0f1724" }}>Market Price (KES/kg)</div>
+              <div className="text-sm font-semibold text-slate-900 dark:text-white" style={{ color: mounted && theme === "dark" ? "#ffffff" : "#0f1724" }}>KES {price}</div>
             </div>
             <div className="progress-track" role="progressbar" aria-valuenow={Math.round((price / 200) * 100)} aria-valuemin={0} aria-valuemax={100}>
               <div className="progress-fill" style={{ width: `${Math.max(0, Math.min(100, (price / 200) * 100))}%` }} />
@@ -220,35 +215,38 @@ export default function DashboardPreview() {
 
           {/* Dots (farm selector) */}
           <div className="flex items-center gap-2 justify-center">
-            {farms.map((f, idx) => (
-              <button
-                key={f.id}
-                onClick={() => setSelectedFarmIdx(idx)}
-                aria-label={`Select ${f.name}`}
-                className={mounted && theme === "dark" ? "w-3 h-3 rounded-full transition-all" : "w-3 h-3 rounded-full transition-all"}
-                style={{
-                  background: idx === selectedFarmIdx ? (mounted && theme === "dark" ? "#e6eef8" : "#0f1724") : (mounted && theme === "dark" ? "rgba(230,238,248,0.16)" : "rgba(15,23,36,0.12)"),
-                  border: "none",
-                }}
-              />
-            ))}
+            {farms.map((f, idx) => {
+              const selected = idx === selectedFarmIdx;
+              const background = mounted && theme === "dark"
+                ? (selected ? "#ffffff" : "rgba(255,255,255,0.16)")
+                : (selected ? "#0f1724" : "rgba(15,23,36,0.12)");
+              return (
+                <button
+                  key={f.id}
+                  onClick={() => setSelectedFarmIdx(idx)}
+                  aria-label={`Select ${f.name}`}
+                  data-selected={selected}
+                  className="w-3 h-3 rounded-full transition-all swiper-dot"
+                />
+              );
+            })}
           </div>
         </div>
 
         {/* Sliders removed from preview card (interactive controls kept internal) */}
 
-        <div className="rounded-xl p-3.5 border shadow-sm" style={{ backgroundColor: mounted && theme === "dark" ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.06)" }}>
+        <div className="card-surface rounded-xl p-3.5 shadow-sm">
           <div className="flex items-center justify-between mb-2">
-            <span style={{ color: mounted && theme === "dark" ? darkText : lightText }} className="text-xs font-semibold">AI Diagnostics — Last Scan</span>
-            <span className={mounted && theme === "dark" ? "text-green-300 text-xs" : "text-green-900 text-xs"}>2 min ago</span>
+            <span className="text-xs font-semibold text-slate-900 dark:text-white" style={{ color: mounted && theme === "dark" ? "#ffffff" : "#0f1724" }}>AI Diagnostics — Last Scan</span>
+            <span className="text-green-700 dark:text-green-300 text-xs">2 min ago</span>
           </div>
-          <div className="flex items-center gap-3">
-            <div className={"w-10 h-10 rounded-lg flex items-center justify-center"} style={{ backgroundColor: mounted && theme === "dark" ? "rgba(74,222,128,0.06)" : "#e6ffef" }}>
-              <Microscope className={"w-5 h-5"} style={{ color: mounted && theme === "dark" ? "#86efac" : "#166534" }} />
+            <div className="flex items-center gap-3">
+            <div className={"w-10 h-10 rounded-lg flex items-center justify-center bg-green-50 dark:bg-[rgba(74,222,128,0.06)]"}>
+              <Microscope className={"w-5 h-5 text-green-700 dark:text-green-300"} />
             </div>
             <div>
-              <div style={{ color: mounted && theme === "dark" ? darkText : lightText }} className="text-sm font-semibold">Crop Status: Healthy ✓</div>
-              <div className={mounted && theme === "dark" ? "text-green-300/90 text-xs" : "text-green-900/90 text-xs"}>Maize field — Block 2A · No disease detected</div>
+              <div className="text-sm font-semibold text-slate-900 dark:text-white" style={{ color: mounted && theme === "dark" ? "#ffffff" : "#0f1724" }}>Crop Status: Healthy ✓</div>
+              <div className="text-green-700 dark:text-green-300 text-xs" style={{ color: mounted && theme === "dark" ? "#86efac" : "#059669" }}>Maize field — Block 2A · No disease detected</div>
             </div>
           </div>
         </div>
