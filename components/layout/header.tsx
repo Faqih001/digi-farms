@@ -37,6 +37,7 @@ const navLinks = [
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -91,7 +92,14 @@ export default function Header() {
   return (
     <>
       {/* Topbar */}
-      <div className="hidden md:block relative z-60 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 text-slate-700 dark:text-white text-xs">
+      <div
+        className={cn(
+          "hidden md:block relative z-60 text-xs",
+          mounted && theme === "dark"
+            ? "bg-slate-900 border-b border-slate-800 text-white"
+            : "bg-white border-b border-slate-200 text-slate-700"
+        )}
+      >
         <div className="container mx-auto px-4 max-w-7xl flex items-center justify-between py-1.5">
           <div className="flex items-center gap-6">
             <span>📞 +254 (0) 700 DIGI-FARM</span>
@@ -118,7 +126,7 @@ export default function Header() {
 
               {langMenuOpen && (
                 <div
-                  className="absolute right-0 mt-2 w-28 bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-1 z-60 pointer-events-auto"
+                  className="absolute right-0 mt-2 w-28 bg-white text-slate-900 dark:bg-slate-900 dark:text-white rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-1 z-60 pointer-events-auto"
                 >
                   <button
                     type="button"
@@ -174,15 +182,19 @@ export default function Header() {
         className={cn(
           "sticky top-0 z-50 w-full transition-all duration-300",
           isScrolled
-            ? "bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-md"
-            : "bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800"
+            ? mounted && theme === "dark"
+              ? "bg-slate-900/95 backdrop-blur-md shadow-md"
+              : "bg-white/95 backdrop-blur-md shadow-md"
+            : mounted && theme === "dark"
+            ? "bg-slate-900 border-b border-slate-800"
+            : "bg-white border-b border-slate-200"
         )}
       >
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="flex items-center justify-between h-28">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-5 group">
-              <div className="w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+              <div className="w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center group-hover:scale-105 transition-transform">
                 <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={112} height={112} quality={90} priority />
               </div>
             </Link>
@@ -197,13 +209,13 @@ export default function Header() {
                     onMouseEnter={() => setOpenDropdown(link.label)}
                     onMouseLeave={() => setOpenDropdown(null)}
                   >
-                    <button className="flex items-center gap-2 px-4 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:text-green-600 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                    <button className="flex items-center gap-2 px-4 py-2 rounded-lg text-base font-medium text-slate-900 dark:text-slate-200 hover:text-green-600 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
                       {link.label}
                       <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", openDropdown === link.label && "rotate-180")} />
                     </button>
 
                     {openDropdown === link.label && (
-                      <div className="absolute top-full left-0 mt-1.5 w-72 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 p-2 animate-fade-in">
+                      <div className="absolute top-full left-0 mt-1.5 w-72 bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-50 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 p-2 animate-fade-in">
                         {link.children.map((child) => (
                           <Link
                             key={child.label}
@@ -224,7 +236,7 @@ export default function Header() {
                   <Link
                     key={link.label}
                     href={link.href}
-                    className="px-4 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:text-green-600 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
+                    className="px-4 py-2 rounded-lg text-base font-medium text-slate-900 dark:text-slate-200 hover:text-green-600 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
                   >
                     {link.label}
                   </Link>
@@ -267,38 +279,62 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="lg:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 animate-fade-up">
+          <div
+            className={cn(
+              "lg:hidden animate-fade-up",
+              mounted && theme === "dark"
+                ? "border-t border-slate-800 bg-slate-900"
+                : "border-t border-slate-200 bg-white"
+            )}
+          >
             <div className="container mx-auto px-4 py-4 space-y-1 max-h-[80vh] overflow-y-auto">
               {navLinks.map((link) => (
                 <div key={link.label}>
-                  <Link
-                    href={link.href ?? "#"}
-                    className="flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-green-600 transition-colors"
-                    onClick={() => !link.children && setMobileOpen(false)}
-                  >
-                    {link.label}
-                    {link.children && <ChevronDown className="w-4 h-4" />}
-                  </Link>
-                  {link.children && (
-                    <div className="ml-4 mt-1 space-y-1">
-                      {link.children.map((child) => (
-                        <Link
-                          key={child.label}
-                          href={child.href}
-                          className="block py-2 px-3 rounded-xl text-xs text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors"
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
+                  {link.children ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setMobileDropdownOpen((prev) => (prev === link.label ? null : link.label))}
+                        className="w-full flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-green-600 transition-colors"
+                        aria-expanded={mobileDropdownOpen === link.label}
+                      >
+                        <span>{link.label}</span>
+                        <ChevronDown className={cn("w-4 h-4 transition-transform", mobileDropdownOpen === link.label && "rotate-180")} />
+                      </button>
+
+                      {mobileDropdownOpen === link.label && (
+                        <div className="ml-4 mt-1 space-y-1">
+                          {link.children.map((child) => (
+                            <Link
+                              key={child.label}
+                              href={child.href}
+                              className="block py-2 px-3 rounded-xl text-xs text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors"
+                              onClick={() => {
+                                setMobileOpen(false);
+                                setMobileDropdownOpen(null);
+                              }}
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Link
+                      href={link.href ?? "#"}
+                      className="flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-green-600 transition-colors"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
                   )}
                 </div>
               ))}
               {mounted && (
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="flex items-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors w-full"
+                  className="flex items-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors w-full"
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                   {theme === "dark" ? "Light Mode" : "Dark Mode"}
