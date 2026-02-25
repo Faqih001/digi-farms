@@ -109,70 +109,75 @@ export default function Header() {
             <span>🌍 Kenya · East Africa</span>
             <span className="text-sm">Office Hours: Mon–Fri 08:00–17:00</span>
               <div className="relative" ref={langMenuRef}>
-              <button
-                type="button"
-                onClick={(e) => {
-                  console.debug("lang button clicked", { langMenuOpen });
-                  e.stopPropagation();
-                  setLangMenuOpen((s) => !s);
-                }}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-100 dark:bg-slate-800 text-sm font-semibold text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                aria-haspopup="true"
-                aria-expanded={langMenuOpen}
-              >
-                {lang}
-                <ChevronDown className="w-3 h-3" />
-              </button>
-
-              {langMenuOpen && (
-                <div
-                  className="absolute right-0 mt-2 w-28 bg-white text-slate-900 dark:bg-slate-900 dark:text-white rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-1 z-60 pointer-events-auto"
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    console.debug("lang button clicked", { langMenuOpen });
+                    e.stopPropagation();
+                    setLangMenuOpen((s) => !s);
+                  }}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors",
+                    mounted && theme === "dark"
+                      ? "bg-slate-800 text-slate-50 hover:bg-slate-700"
+                      : "bg-slate-100 text-slate-900 hover:bg-slate-200"
+                  )}
+                  style={{ color: mounted && theme === "dark" ? "#e6eef8" : "#0f1724" }}
+                  aria-haspopup="true"
+                  aria-expanded={langMenuOpen}
                 >
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      console.debug("selectLang EN");
-                      e.stopPropagation();
-                      selectLang("EN");
-                    }}
-                    role="menuitem"
-                    tabIndex={0}
-                    className={cn(
-                      "w-full text-left px-3 py-2 text-sm rounded-md transition-colors cursor-pointer",
-                      lang === "EN"
-                        ? "bg-green-600 text-white dark:bg-green-600"
-                        : cn(
-                            mounted && theme === "dark" ? "text-slate-200" : "text-slate-900",
-                            "hover:bg-slate-50 dark:hover:bg-slate-800/40"
-                          )
-                    )}
+                  {lang}
+                  <ChevronDown className="w-3 h-3" />
+                </button>
+
+                {langMenuOpen && (
+                  <div
+                    className="absolute right-0 mt-2 w-28 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-1 z-60 pointer-events-auto"
+                    style={{ backgroundColor: mounted && theme === "dark" ? "#0f1724" : "#ffffff", color: mounted && theme === "dark" ? "#e6eef8" : "#0f1724" }}
                   >
-                    English
-                  </button>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      console.debug("selectLang SW");
-                      e.stopPropagation();
-                      selectLang("SW");
-                    }}
-                    role="menuitem"
-                    tabIndex={0}
-                    className={cn(
-                      "w-full text-left px-3 py-2 text-sm rounded-md transition-colors cursor-pointer",
-                      lang === "SW"
-                        ? "bg-green-600 text-white dark:bg-green-600"
-                        : cn(
-                            mounted && theme === "dark" ? "text-slate-200" : "text-slate-900",
-                            "hover:bg-slate-50 dark:hover:bg-slate-800/40"
-                          )
-                    )}
-                  >
-                    Kiswahili
-                  </button>
-                </div>
-              )}
-            </div>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        console.debug("selectLang EN");
+                        e.stopPropagation();
+                        selectLang("EN");
+                      }}
+                      role="menuitem"
+                      tabIndex={0}
+                      className={cn(
+                        "w-full text-left px-3 py-2 text-sm rounded-md transition-colors cursor-pointer",
+                        lang === "EN"
+                          ? "bg-green-600 text-white dark:bg-green-600"
+                          : mounted && theme === "dark"
+                          ? "text-slate-200 hover:bg-slate-800/40"
+                          : "text-slate-900 hover:bg-slate-50"
+                      )}
+                    >
+                      English
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        console.debug("selectLang SW");
+                        e.stopPropagation();
+                        selectLang("SW");
+                      }}
+                      role="menuitem"
+                      tabIndex={0}
+                      className={cn(
+                        "w-full text-left px-3 py-2 text-sm rounded-md transition-colors cursor-pointer",
+                        lang === "SW"
+                          ? "bg-green-600 text-white dark:bg-green-600"
+                          : mounted && theme === "dark"
+                          ? "text-slate-200 hover:bg-slate-800/40"
+                          : "text-slate-900 hover:bg-slate-50"
+                      )}
+                    >
+                      Kiswahili
+                    </button>
+                  </div>
+                )}
+              </div>
           </div>
         </div>
       </div>
