@@ -286,6 +286,19 @@ input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border-radius
 /* Make inputs visually consistent inside glass-card */
 .glass-card input[type="range"] { background: transparent; }
 
+/* Hide native range track inside glass-card so it doesn't duplicate the progress bars */
+.glass-card input[type="range"]::-webkit-slider-runnable-track { background: transparent; }
+.glass-card input[type="range"]::-webkit-slider-thumb { margin-top: -6px; }
+.glass-card input[type="range"]::-moz-range-track { background: transparent; }
+.glass-card input[type="range"]::-ms-track { background: transparent; border-color: transparent; }
+
+/* Force-hide native range tracks inside .glass-card to avoid duplicate bars */
+.glass-card input[type="range"] { background: transparent !important; }
+.glass-card input[type="range"]::-webkit-slider-runnable-track { background: transparent !important; height: 0 !important; border: none !important; box-shadow: none !important; }
+.glass-card input[type="range"]::-moz-range-track { background: transparent !important; height: 0 !important; border: none !important; box-shadow: none !important; }
+.glass-card input[type="range"]::-ms-track { background: transparent !important; height: 0 !important; border: none !important; box-shadow: none !important; }
+.glass-card input[type="range"]::-webkit-slider-thumb { margin-top: -6px; }
+
 /* Progress bars used in dashboard preview */
 .progress-track {
   height: 8px;

@@ -235,43 +235,7 @@ export default function DashboardPreview() {
           </div>
         </div>
 
-        {/* Sliders */}
-        <div className="space-y-3 mb-4">
-          <div>
-            <label className="text-xs font-semibold block mb-1" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>Crop Health: <span className="font-bold">{health}%</span></label>
-            <input
-              type="range"
-              min={0}
-              max={100}
-              value={health}
-              onChange={(e) => setHealth(Number(e.target.value))}
-              className="w-full"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-semibold block mb-1" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>Est. Yield (T): <span className="font-bold">{yieldVal.toFixed(1)}</span></label>
-            <input
-              type="range"
-              min={0}
-              max={50}
-              step={0.1}
-              value={yieldVal}
-              onChange={(e) => setYieldVal(Number(e.target.value))}
-              className="w-full"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-semibold block mb-1" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>Market Price (KES/kg): <span className="font-bold">{price}</span></label>
-            <input
-              type="range"
-              min={0}
-              max={200}
-              value={price}
-              onChange={(e) => setPrice(Number(e.target.value))}
-              className="w-full"
-            />
-          </div>
-        </div>
+        {/* Sliders removed from preview card (interactive controls kept internal) */}
 
         <div className="rounded-xl p-3.5 border shadow-sm" style={{ backgroundColor: mounted && theme === "dark" ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.06)" }}>
           <div className="flex items-center justify-between mb-2">
