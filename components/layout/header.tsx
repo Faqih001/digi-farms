@@ -91,7 +91,7 @@ export default function Header() {
   return (
     <>
       {/* Topbar */}
-      <div className="hidden md:block relative z-60 bg-white dark:bg-green-700 border-b border-slate-200 dark:border-green-600 text-slate-700 dark:text-white text-xs">
+      <div className="hidden md:block relative z-60 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 text-slate-700 dark:text-white text-xs">
         <div className="container mx-auto px-4 max-w-7xl flex items-center justify-between py-1.5">
           <div className="flex items-center gap-6">
             <span>📞 +254 (0) 700 DIGI-FARM</span>
@@ -100,7 +100,7 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <span>🌍 Kenya · East Africa</span>
             <span className="text-sm">Office Hours: Mon–Fri 08:00–17:00</span>
-            <div className="relative" ref={langMenuRef}>
+              <div className="relative" ref={langMenuRef}>
               <button
                 type="button"
                 onClick={(e) => {
@@ -108,7 +108,7 @@ export default function Header() {
                   e.stopPropagation();
                   setLangMenuOpen((s) => !s);
                 }}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-100 dark:bg-green-800 text-sm font-semibold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-green-700 transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-100 dark:bg-slate-800 text-sm font-semibold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                 aria-haspopup="true"
                 aria-expanded={langMenuOpen}
               >
@@ -119,7 +119,6 @@ export default function Header() {
               {langMenuOpen && (
                 <div
                   className="absolute right-0 mt-2 w-28 bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-1 z-60 pointer-events-auto"
-                  style={{ backgroundColor: mounted && theme === "dark" ? "#0f1724" : "#ffffff" }}
                 >
                   <button
                     type="button"
@@ -136,7 +135,7 @@ export default function Header() {
                         ? "bg-green-600 text-white dark:bg-green-600"
                         : cn(
                             mounted && theme === "dark" ? "text-slate-200" : "text-slate-900",
-                            "hover:bg-green-50 dark:hover:bg-green-800/40"
+                            "hover:bg-slate-50 dark:hover:bg-slate-800/40"
                           )
                     )}
                   >
@@ -157,7 +156,7 @@ export default function Header() {
                         ? "bg-green-600 text-white dark:bg-green-600"
                         : cn(
                             mounted && theme === "dark" ? "text-slate-200" : "text-slate-900",
-                            "hover:bg-green-50 dark:hover:bg-green-800/40"
+                            "hover:bg-slate-50 dark:hover:bg-slate-800/40"
                           )
                     )}
                   >
@@ -198,7 +197,7 @@ export default function Header() {
                     onMouseEnter={() => setOpenDropdown(link.label)}
                     onMouseLeave={() => setOpenDropdown(null)}
                   >
-                    <button className="flex items-center gap-2 px-4 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-950 transition-all">
+                    <button className="flex items-center gap-2 px-4 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:text-green-600 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
                       {link.label}
                       <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", openDropdown === link.label && "rotate-180")} />
                     </button>
@@ -209,7 +208,7 @@ export default function Header() {
                           <Link
                             key={child.label}
                             href={child.href}
-                            className="flex items-start gap-3 p-3 rounded-xl hover:bg-green-50 dark:hover:bg-green-950/50 transition-colors group"
+                            className="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group"
                           >
                             <div className="w-2 h-2 rounded-full bg-green-500 mt-1.5 flex-shrink-0 group-hover:scale-125 transition-transform" />
                             <div>
@@ -225,7 +224,7 @@ export default function Header() {
                   <Link
                     key={link.label}
                     href={link.href}
-                    className="px-4 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-950 transition-all"
+                    className="px-4 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:text-green-600 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
                   >
                     {link.label}
                   </Link>
@@ -274,7 +273,7 @@ export default function Header() {
                 <div key={link.label}>
                   <Link
                     href={link.href ?? "#"}
-                    className="flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-green-50 dark:hover:bg-green-950/50 hover:text-green-600 transition-colors"
+                    className="flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-green-600 transition-colors"
                     onClick={() => !link.children && setMobileOpen(false)}
                   >
                     {link.label}
@@ -286,7 +285,7 @@ export default function Header() {
                         <Link
                           key={child.label}
                           href={child.href}
-                          className="block py-2 px-3 rounded-xl text-xs text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-950/30 transition-colors"
+                          className="block py-2 px-3 rounded-xl text-xs text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors"
                           onClick={() => setMobileOpen(false)}
                         >
                           {child.label}
@@ -299,7 +298,7 @@ export default function Header() {
               {mounted && (
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="flex items-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-green-50 dark:hover:bg-green-950/50 transition-colors w-full"
+                  className="flex items-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors w-full"
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                   {theme === "dark" ? "Light Mode" : "Dark Mode"}

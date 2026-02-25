@@ -33,12 +33,12 @@ function HeroSection() {
             <Badge variant="earth" className="mb-6 text-xs font-bold tracking-wider px-4 py-1.5 uppercase">
               🌍 Hult Prize 2026 · Precision Agritech
             </Badge>
-            <h1 className="text-5xl lg:text-7xl font-black text-slate-900 dark:text-white leading-[1.05] mb-6">
+              <h1 className="text-5xl lg:text-7xl font-black text-slate-900 dark:text-white leading-[1.05] mb-6">
               Farm Smarter.
               <br />
               <span className="text-gradient">Harvest More.</span>
               <br />
-              <span className="text-green-700 dark:text-green-300">Thrive Now.</span>
+              <span className="text-green-900 dark:text-green-300">Thrive Now.</span>
             </h1>
             <p className="text-lg text-slate-800 dark:text-green-100/80 leading-relaxed mb-8 max-w-lg">
               Africa&apos;s first AI-powered precision agriculture ecosystem — connecting
@@ -63,16 +63,16 @@ function HeroSection() {
             </div>
 
             <div className="flex items-center gap-6 text-sm text-slate-700 dark:text-green-200/70">
-              <div className="flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4 text-green-400" />
+                <div className="flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-green-600" />
                 Free 14-day trial
               </div>
               <div className="flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4 text-green-400" />
+                <CheckCircle className="w-4 h-4 text-green-600" />
                 No credit card
               </div>
               <div className="flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4 text-green-400" />
+                <CheckCircle className="w-4 h-4 text-green-600" />
                 Swahili & English
               </div>
             </div>
@@ -80,11 +80,11 @@ function HeroSection() {
 
           {/* Right: Dashboard preview card */}
           <div className="animate-fade-up delay-200 hidden lg:block">
-            <div className="glass-card p-6 border border-slate-200 dark:border-white/20 bg-white dark:bg-white/10 dark:backdrop-blur-xl shadow-md dark:shadow-none">
-              <div className="flex items-center justify-between mb-4">
+            <div className="glass-card p-6 border border-white/20 bg-transparent text-slate-900 dark:border-white/20 dark:bg-white/10 dark:text-white dark:backdrop-blur-xl shadow-md dark:shadow-none">
+                <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-green-700 dark:text-green-300 text-xs font-semibold uppercase tracking-wider mb-0.5">Farm Dashboard</p>
-                  <p className="text-slate-900 dark:text-white font-bold">Kamau Family Farm</p>
+                  <p className="text-green-900 dark:text-green-300 text-xs font-semibold uppercase tracking-wider mb-0.5">Farm Dashboard</p>
+                  <p className="text-slate-950 dark:text-slate-200 font-bold">Kamau Family Farm</p>
                 </div>
                 <Badge className="bg-green-400 text-green-900 text-xs font-bold">● LIVE</Badge>
               </div>
@@ -96,27 +96,27 @@ function HeroSection() {
                   { label: "Market Price", value: "KES 42/kg", icon: "💰", trend: "+8%" },
                   { label: "Rain Forecast", value: "68mm", icon: "🌧️", trend: "This week" },
                 ].map((stat) => (
-                  <div key={stat.label} className="bg-slate-50 dark:bg-white/10 rounded-xl p-3.5 border border-slate-200 dark:border-white/10">
+                  <div key={stat.label} className="bg-transparent rounded-xl p-3.5 border border-white/10 dark:border-white/10 shadow-sm">
                     <div className="text-xl mb-1">{stat.icon}</div>
-                    <div className="text-slate-900 dark:text-white font-bold text-lg leading-none">{stat.value}</div>
-                    <div className="text-green-800 dark:text-green-300 text-xs mt-0.5">{stat.label}</div>
-                    <div className="text-green-700 dark:text-green-400 text-xs font-semibold mt-1">{stat.trend}</div>
+                    <div className="text-slate-900 font-bold text-lg leading-none dark:text-white">{stat.value}</div>
+                    <div className="text-green-900 text-xs mt-0.5 dark:text-green-300">{stat.label}</div>
+                    <div className="text-green-800 text-xs font-semibold mt-1 dark:text-green-400">{stat.trend}</div>
                   </div>
                 ))}
               </div>
 
-              <div className="bg-slate-50 dark:bg-white/10 rounded-xl p-3.5 border border-slate-200 dark:border-white/10">
+              <div className="bg-transparent rounded-xl p-3.5 border border-white/10 dark:border-white/10 shadow-sm">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-green-700 dark:text-green-300 text-xs font-semibold">AI Diagnostics — Last Scan</span>
-                  <span className="text-green-600 dark:text-green-400 text-xs">2 min ago</span>
+                  <span className="text-slate-900 text-xs font-semibold dark:text-white">AI Diagnostics — Last Scan</span>
+                  <span className="text-green-900 text-xs dark:text-green-300">2 min ago</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-500/30 flex items-center justify-center">
-                    <Microscope className="w-5 h-5 text-green-600 dark:text-green-300" />
+                    <Microscope className="w-5 h-5 text-green-800 dark:text-green-300" />
                   </div>
                   <div>
-                    <div className="text-slate-900 dark:text-white text-sm font-semibold">Crop Status: Healthy ✓</div>
-                    <div className="text-green-800/80 dark:text-green-300/70 text-xs">Maize field — Block 2A · No disease detected</div>
+                    <div className="text-slate-900 text-sm font-semibold dark:text-white">Crop Status: Healthy ✓</div>
+                    <div className="text-green-900/90 dark:text-green-300/70 text-xs">Maize field — Block 2A · No disease detected</div>
                   </div>
                 </div>
               </div>
@@ -134,7 +134,7 @@ function HeroSection() {
           ].map((stat) => (
             <div
               key={stat.label}
-              className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm text-center flex flex-col items-center justify-center min-h-[110px] sm:min-h-[90px]"
+              className="bg-transparent border border-white/20 rounded-2xl p-6 shadow-sm text-center flex flex-col items-center justify-center min-h-[110px] sm:min-h-[90px] text-slate-900 dark:bg-slate-900 dark:border-slate-700"
             >
               <div className="text-2xl mb-2">{stat.icon}</div>
               <div className="text-3xl font-black text-slate-900 dark:text-white mb-1">{stat.value}</div>
