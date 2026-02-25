@@ -78,25 +78,78 @@ export default function DashboardPreview() {
     });
   }, [health, yieldVal, price, selectedFarmIdx]);
 
+  // Swipe handling
+  const [startX, setStartX] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [anim, setAnim] = useState<"left" | "right" | null>(null);
+
+  function handleMove(deltaX: number) {
+    const threshold = 50; // px
+    if (deltaX > threshold) {
+      // swipe right -> previous
+      setAnim("left");
+      setSelectedFarmIdx((i) => (i > 0 ? i - 1 : farms.length - 1));
+      window.setTimeout(() => setAnim(null), 400);
+    } else if (deltaX < -threshold) {
+      // swipe left -> next
+      setAnim("right");
+      setSelectedFarmIdx((i) => (i < farms.length - 1 ? i + 1 : 0));
+      window.setTimeout(() => setAnim(null), 400);
+    }
+  }
+
+  function onTouchStart(e: React.TouchEvent) {
+    setStartX(e.touches[0].clientX);
+    setIsDragging(true);
+  }
+
+  function onTouchEnd(e: React.TouchEvent) {
+    if (startX == null) return setIsDragging(false);
+    const endX = e.changedTouches[0].clientX;
+    const delta = endX - startX;
+    handleMove(delta);
+    setStartX(null);
+    setIsDragging(false);
+  }
+
+  function onMouseDown(e: React.MouseEvent) {
+    setStartX(e.clientX);
+    setIsDragging(true);
+  }
+
+  function onMouseUp(e: React.MouseEvent) {
+    if (startX == null) return setIsDragging(false);
+    const delta = e.clientX - startX;
+    handleMove(delta);
+    setStartX(null);
+    setIsDragging(false);
+  }
+
   return (
     <div
       className="animate-fade-up delay-200 hidden lg:block"
       aria-hidden={false}
     >
       <div
-        className="glass-card p-6 border border-white/20 shadow-md"
+        className={"glass-card p-6 border border-white/20 shadow-md" + (anim === "left" ? " animate-slide-left" : anim === "right" ? " animate-slide-right" : "")}
         style={{
           backgroundColor: mounted && theme === "dark" ? darkBg : lightBg,
           color: mounted && theme === "dark" ? darkText : lightText,
           borderColor: mounted && theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(15,23,61,0.06)",
         }}
       >
-        <div className="flex items-center justify-between mb-4">
+        <div
+          className="flex items-center justify-between mb-4"
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          onMouseDown={onMouseDown}
+          onMouseUp={onMouseUp}
+        >
           <div>
             <p className={mounted && theme === "dark" ? "text-green-300 text-xs font-semibold uppercase tracking-wider mb-0.5" : "text-green-900 text-xs font-semibold uppercase tracking-wider mb-0.5"}>Farm Dashboard</p>
-            <p style={{ color: mounted && theme === "dark" ? darkText : lightText }} className="font-bold">Kamau Family Farm</p>
+            <p style={{ color: mounted && theme === "dark" ? darkText : lightText }} className="font-bold">{farms[selectedFarmIdx].name}</p>
           </div>
-          <Badge className="bg-green-400 text-green-900 text-xs font-bold">● LIVE</Badge>
+          <div className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold" style={{ background: '#16a34a', color: '#ffffff' }}>● LIVE</div>
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-4">
@@ -130,6 +183,55 @@ export default function DashboardPreview() {
             <div style={{ color: mounted && theme === "dark" ? darkText : lightText }} className="font-bold text-lg leading-none">68mm</div>
             <div className={mounted && theme === "dark" ? "text-green-300 text-xs mt-0.5" : "text-green-900 text-xs mt-0.5"}>Rain Forecast</div>
             <div className={mounted && theme === "dark" ? "text-green-400 text-xs font-semibold mt-1" : "text-green-800 text-xs font-semibold mt-1"}>This week</div>
+          </div>
+        </div>
+
+        {/* Aggregate progress bars (below cards) */}
+        <div className="space-y-4 mb-3">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-sm font-medium" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>Crop Health</div>
+              <div className="text-sm font-semibold" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>{health}%</div>
+            </div>
+            <div className="progress-track" role="progressbar" aria-valuenow={health} aria-valuemin={0} aria-valuemax={100}>
+              <div className="progress-fill" style={{ width: `${Math.max(0, Math.min(100, health))}%` }} />
+            </div>
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-sm font-medium" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>Est. Yield (T)</div>
+              <div className="text-sm font-semibold" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>{yieldVal.toFixed(1)}</div>
+            </div>
+            <div className="progress-track" role="progressbar" aria-valuenow={Math.round((yieldVal / 50) * 100)} aria-valuemin={0} aria-valuemax={100}>
+              <div className="progress-fill" style={{ width: `${Math.max(0, Math.min(100, (yieldVal / 50) * 100))}%` }} />
+            </div>
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-sm font-medium" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>Market Price (KES/kg)</div>
+              <div className="text-sm font-semibold" style={{ color: mounted && theme === "dark" ? darkText : lightText }}>KES {price}</div>
+            </div>
+            <div className="progress-track" role="progressbar" aria-valuenow={Math.round((price / 200) * 100)} aria-valuemin={0} aria-valuemax={100}>
+              <div className="progress-fill" style={{ width: `${Math.max(0, Math.min(100, (price / 200) * 100))}%` }} />
+            </div>
+          </div>
+
+          {/* Dots (farm selector) */}
+          <div className="flex items-center gap-2 justify-center">
+            {farms.map((f, idx) => (
+              <button
+                key={f.id}
+                onClick={() => setSelectedFarmIdx(idx)}
+                aria-label={`Select ${f.name}`}
+                className={mounted && theme === "dark" ? "w-3 h-3 rounded-full transition-all" : "w-3 h-3 rounded-full transition-all"}
+                style={{
+                  background: idx === selectedFarmIdx ? (mounted && theme === "dark" ? "#e6eef8" : "#0f1724") : (mounted && theme === "dark" ? "rgba(230,238,248,0.16)" : "rgba(15,23,36,0.12)"),
+                  border: "none",
+                }}
+              />
+            ))}
           </div>
         </div>
 
