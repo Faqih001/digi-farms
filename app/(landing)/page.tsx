@@ -5,6 +5,7 @@ import {
   TrendingUp, Users, Star, ArrowRight, CheckCircle, ChevronRight,
   Leaf, CloudRain, Microscope, CreditCard, Play
 } from "lucide-react";
+import DashboardPreview from "@/components/landing/DashboardPreview";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -78,50 +79,8 @@ function HeroSection() {
             </div>
           </div>
 
-          {/* Right: Dashboard preview card */}
-          <div className="animate-fade-up delay-200 hidden lg:block">
-            <div className="glass-card p-6 border border-white/20 bg-transparent text-slate-900 dark:border-white/20 dark:bg-white/10 dark:text-white dark:backdrop-blur-xl shadow-md dark:shadow-none">
-                <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-green-900 dark:text-green-300 text-xs font-semibold uppercase tracking-wider mb-0.5">Farm Dashboard</p>
-                  <p className="text-slate-950 dark:text-slate-200 font-bold">Kamau Family Farm</p>
-                </div>
-                <Badge className="bg-green-400 text-green-900 text-xs font-bold">● LIVE</Badge>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                {[
-                  { label: "Crop Health Score", value: "87%", icon: "🌿", trend: "+5%" },
-                  { label: "Est. Yield", value: "18.2T", icon: "🌾", trend: "+23%" },
-                  { label: "Market Price", value: "KES 42/kg", icon: "💰", trend: "+8%" },
-                  { label: "Rain Forecast", value: "68mm", icon: "🌧️", trend: "This week" },
-                ].map((stat) => (
-                  <div key={stat.label} className="bg-transparent rounded-xl p-3.5 border border-white/10 dark:border-white/10 shadow-sm">
-                    <div className="text-xl mb-1">{stat.icon}</div>
-                    <div className="text-slate-900 font-bold text-lg leading-none dark:text-white">{stat.value}</div>
-                    <div className="text-green-900 text-xs mt-0.5 dark:text-green-300">{stat.label}</div>
-                    <div className="text-green-800 text-xs font-semibold mt-1 dark:text-green-400">{stat.trend}</div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="bg-transparent rounded-xl p-3.5 border border-white/10 dark:border-white/10 shadow-sm">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-slate-900 text-xs font-semibold dark:text-white">AI Diagnostics — Last Scan</span>
-                  <span className="text-green-900 text-xs dark:text-green-300">2 min ago</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-500/30 flex items-center justify-center">
-                    <Microscope className="w-5 h-5 text-green-800 dark:text-green-300" />
-                  </div>
-                  <div>
-                    <div className="text-slate-900 text-sm font-semibold dark:text-white">Crop Status: Healthy ✓</div>
-                    <div className="text-green-900/90 dark:text-green-300/70 text-xs">Maize field — Block 2A · No disease detected</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Right: Dashboard preview card (client) */}
+          <DashboardPreview />
         </div>
 
         {/* Impact stats bar */}

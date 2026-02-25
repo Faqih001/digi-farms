@@ -275,8 +275,12 @@ export default function Header() {
               {mounted && (
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                  style={{ color: mounted && theme === "dark" ? "#e6eef8" : "#0f1724" }}
+                  className={cn(
+                    "p-2 rounded-lg transition-colors",
+                    mounted && theme === "dark"
+                      ? "bg-slate-800 text-slate-50 hover:bg-slate-700"
+                      : "bg-transparent text-slate-900 hover:bg-slate-100"
+                  )}
                   aria-label="Toggle theme"
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -361,7 +365,12 @@ export default function Header() {
               {mounted && (
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="flex items-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-50 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors w-full"
+                  className={cn(
+                    "flex items-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium transition-colors w-full",
+                    mounted && theme === "dark"
+                      ? "bg-slate-800 text-slate-50 hover:bg-slate-700"
+                      : "bg-transparent text-slate-900 hover:bg-slate-50"
+                  )}
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                   {theme === "dark" ? "Light Mode" : "Dark Mode"}
