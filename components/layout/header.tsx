@@ -209,7 +209,19 @@ export default function Header() {
                     onMouseEnter={() => setOpenDropdown(link.label)}
                     onMouseLeave={() => setOpenDropdown(null)}
                   >
-                    <button className="flex items-center gap-2 px-4 py-2 rounded-lg text-base font-medium text-slate-900 dark:text-slate-200 hover:text-green-600 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                    <button
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-2 rounded-lg text-base font-medium hover:text-green-600 transition-all",
+                        openDropdown === link.label
+                          ? mounted && theme === "dark"
+                            ? "bg-slate-800 text-slate-50"
+                            : "bg-slate-50 text-slate-900"
+                          : mounted && theme === "dark"
+                          ? "text-slate-50 dark:text-slate-50"
+                          : "text-slate-900"
+                      )}
+                      style={{ color: mounted && theme === "dark" ? "#e6eef8" : "#0f1724" }}
+                    >
                       {link.label}
                       <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", openDropdown === link.label && "rotate-180")} />
                     </button>
@@ -239,7 +251,13 @@ export default function Header() {
                   <Link
                     key={link.label}
                     href={link.href}
-                    className="px-4 py-2 rounded-lg text-base font-medium text-slate-900 dark:text-slate-200 hover:text-green-600 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
+                    className={cn(
+                      "px-4 py-2 rounded-lg text-base font-medium transition-all",
+                      mounted && theme === "dark"
+                        ? "text-slate-50 hover:bg-slate-800/60"
+                        : "text-slate-900 hover:bg-slate-50 hover:text-slate-900"
+                    )}
+                    style={{ color: mounted && theme === "dark" ? "#e6eef8" : "#0f1724" }}
                   >
                     {link.label}
                   </Link>
@@ -252,7 +270,8 @@ export default function Header() {
               {mounted && (
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="p-2 rounded-lg text-slate-800 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  style={{ color: mounted && theme === "dark" ? "#e6eef8" : "#0f1724" }}
                   aria-label="Toggle theme"
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -271,7 +290,7 @@ export default function Header() {
 
             {/* Mobile Menu Toggle */}
               <button
-              className="lg:hidden p-2 rounded-lg text-slate-900 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="lg:hidden p-2 rounded-lg text-slate-900 dark:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
             >
@@ -298,7 +317,7 @@ export default function Header() {
                       <button
                         type="button"
                         onClick={() => setMobileDropdownOpen((prev) => (prev === link.label ? null : link.label))}
-                        className="w-full flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-green-600 transition-colors"
+                        className="w-full flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-50 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-green-600 transition-colors"
                         aria-expanded={mobileDropdownOpen === link.label}
                       >
                         <span>{link.label}</span>
@@ -326,7 +345,7 @@ export default function Header() {
                   ) : (
                     <Link
                       href={link.href ?? "#"}
-                      className="flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-green-600 transition-colors"
+                      className="flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-50 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-green-600 transition-colors"
                       onClick={() => setMobileOpen(false)}
                     >
                       {link.label}
@@ -337,7 +356,7 @@ export default function Header() {
               {mounted && (
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="flex items-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors w-full"
+                  className="flex items-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-50 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors w-full"
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                   {theme === "dark" ? "Light Mode" : "Dark Mode"}
