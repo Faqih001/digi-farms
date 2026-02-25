@@ -97,7 +97,7 @@ export default function Header() {
           "hidden md:block relative z-60 text-xs",
           mounted && theme === "dark"
             ? "bg-slate-900 border-b border-slate-800 text-white"
-            : "bg-white border-b border-slate-200 text-slate-700"
+            : "bg-white border-b border-slate-200 text-slate-900"
         )}
       >
         <div className="container mx-auto px-4 max-w-7xl flex items-center justify-between py-1.5">
@@ -116,7 +116,7 @@ export default function Header() {
                   e.stopPropagation();
                   setLangMenuOpen((s) => !s);
                 }}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-100 dark:bg-slate-800 text-sm font-semibold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-100 dark:bg-slate-800 text-sm font-semibold text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                 aria-haspopup="true"
                 aria-expanded={langMenuOpen}
               >
@@ -215,7 +215,10 @@ export default function Header() {
                     </button>
 
                     {openDropdown === link.label && (
-                      <div className="absolute top-full left-0 mt-1.5 w-72 bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-50 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 p-2 animate-fade-in">
+                      <div
+                        className="absolute top-full left-0 mt-1.5 w-72 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 p-2 animate-fade-in"
+                        style={{ backgroundColor: mounted && theme === "dark" ? "#0f1724" : "#ffffff", color: mounted && theme === "dark" ? "#e6eef8" : "#0f1724" }}
+                      >
                         {link.children.map((child) => (
                           <Link
                             key={child.label}
@@ -224,8 +227,8 @@ export default function Header() {
                           >
                             <div className="w-2 h-2 rounded-full bg-green-500 mt-1.5 flex-shrink-0 group-hover:scale-125 transition-transform" />
                             <div>
-                              <div className="text-sm font-semibold text-slate-900 dark:text-slate-50">{child.label}</div>
-                              <div className="text-xs text-slate-500 dark:text-slate-400">{child.description}</div>
+                              <div className={cn("text-sm font-semibold", mounted && theme === "dark" ? "text-slate-50" : "text-slate-900")}>{child.label}</div>
+                              <div className="text-xs text-slate-800 dark:text-slate-400">{child.description}</div>
                             </div>
                           </Link>
                         ))}
@@ -249,7 +252,7 @@ export default function Header() {
               {mounted && (
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="p-2 rounded-lg text-slate-800 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                   aria-label="Toggle theme"
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -267,8 +270,8 @@ export default function Header() {
             </div>
 
             {/* Mobile Menu Toggle */}
-            <button
-              className="lg:hidden p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              <button
+              className="lg:hidden p-2 rounded-lg text-slate-900 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
             >
@@ -308,7 +311,7 @@ export default function Header() {
                             <Link
                               key={child.label}
                               href={child.href}
-                              className="block py-2 px-3 rounded-xl text-xs text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors"
+                              className="block py-2 px-3 rounded-xl text-xs text-slate-800 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors"
                               onClick={() => {
                                 setMobileOpen(false);
                                 setMobileDropdownOpen(null);
