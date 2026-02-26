@@ -22,6 +22,22 @@ export const metadata: Metadata = {
 export default function TechnologyPage() {
   return (
     <>
+      <TechHeroSection />
+      <RoboticsSection />
+      <AIDiagnosticsSection />
+      <MultispectralSection />
+      <FarmAnalyticsSection />
+      <ClimateModeling />
+      <FarmScoreSection />
+      <RiskProfilingSection />
+      <MapsSection />
+      <MobileAppSection />
+      <DataPrivacySection />
+      <TechCTASection />
+    </>
+  );
+}
+      {/* OLD INLINE SECTIONS BELOW - TO BE REMOVED */}
       {/* Section 1: Hero */}
       <section className="gradient-hero py-24">
         <div className="container mx-auto px-4 max-w-7xl text-center">
