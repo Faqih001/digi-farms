@@ -281,7 +281,7 @@ function HowItWorksSection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
             {steps.map(({ step, icon, title, desc }, i) => (
               <div key={step} className={`flex flex-col items-center text-center animate-fade-up`} style={{ animationDelay: `${i * 100}ms` }}>
-                <div className="relative z-10 w-20 h-20 rounded-2xl bg-white border-2 border-green-500 shadow-lg flex items-center justify-center text-3xl mb-4">
+                <div className="relative z-10 w-20 h-20 rounded-2xl bg-white dark:bg-slate-900 border-2 border-green-500 shadow-lg flex items-center justify-center text-3xl mb-4">
                   {icon}
                   <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-green-600 text-white text-xs font-bold flex items-center justify-center">
                     {i + 1}
@@ -324,7 +324,7 @@ function FeaturesSection() {
   };
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-white dark:bg-slate-900">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge className="mb-4">Features</Badge>
