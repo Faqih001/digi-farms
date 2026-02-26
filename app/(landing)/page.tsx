@@ -418,8 +418,8 @@ function AgrovetSection() {
               <p className="text-slate-600 dark:text-slate-400 font-semibold mb-2">Interactive Agrovet Map</p>
               <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">500+ verified agrovets across East Africa</p>
               <div className="flex flex-col gap-2">
-                {["🟢 Wanjiku Agrovet — 1.2km", "🟢 Green Earth Supplies — 2.4km", "🟡 Nakuru Agro Hub — 3.8km"].map((v) => (
-                  <div key={v} className="bg-white dark:bg-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 shadow-sm text-left">
+                {"🟢 Wanjiku Agrovet — 1.2km", "🟢 Green Earth Supplies — 2.4km", "🟡 Nakuru Agro Hub — 3.8km"].map((v) => (
+                  <div key={v} className="bg-white dark:bg-slate-900 rounded-lg px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 shadow-sm text-left">
                     {v}
                   </div>
                 ))}
@@ -484,7 +484,7 @@ function FinancingSection() {
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Financing card */}
-          <div className="rounded-2xl p-8 bg-white dark:bg-white/10 border border-slate-200 dark:border-white/20 shadow-sm dark:shadow-none">
+              <div className="rounded-2xl p-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none">
             <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center mb-6">
               <CreditCard className="w-6 h-6 text-amber-600 dark:text-amber-300" />
             </div>
@@ -508,7 +508,7 @@ function FinancingSection() {
           </div>
 
           {/* Insurance card */}
-          <div className="rounded-2xl p-8 bg-white dark:bg-white/10 border border-slate-200 dark:border-white/20 shadow-sm dark:shadow-none">
+              <div className="rounded-2xl p-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none">
             <div className="w-12 h-12 rounded-2xl bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center mb-6">
               <Shield className="w-6 h-6 text-blue-600 dark:text-blue-300" />
             </div>
@@ -674,7 +674,7 @@ function PartnersSection() {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
           {partners.map(({ name, type }) => (
-            <div key={name} className="bg-white rounded-xl p-4 text-center shadow-sm border border-slate-200 hover:border-green-300 transition-colors">
+            <div key={name} className="bg-white dark:bg-slate-900 rounded-xl p-4 text-center shadow-sm border border-slate-200 dark:border-slate-800 hover:border-green-300 transition-colors">
               <div className="font-bold text-sm text-slate-800 dark:text-slate-200 mb-1">{name}</div>
               <div className="text-xs text-slate-400">{type}</div>
             </div>
