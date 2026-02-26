@@ -131,9 +131,9 @@ function ProblemSection() {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {problems.map(({ stat, desc, icon }) => (
-            <div key={stat} className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 card-hover text-center">
+            <div key={stat} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 card-hover text-center">
               <div className="text-4xl mb-3">{icon}</div>
               <div className="text-4xl font-black text-red-600 mb-3">{stat}</div>
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{desc}</p>
@@ -192,7 +192,7 @@ function SolutionSection() {
           </div>
 
           {/* Solution visual */}
-          <div className="bg-gradient-to-br from-green-100 to-emerald-200 dark:from-green-700 dark:to-green-900 rounded-3xl p-8 shadow-2xl">
+            <div className="bg-gradient-to-br from-green-100 to-emerald-200 rounded-3xl p-8 shadow-2xl">
             <div className="text-center mb-8">
               <div className="w-20 h-20 mx-auto rounded-2xl bg-white/60 dark:bg-white/20 flex items-center justify-center mb-3 backdrop-blur-sm">
                 <Leaf className="w-10 h-10 text-green-700 dark:text-white" />
@@ -281,7 +281,7 @@ function HowItWorksSection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
             {steps.map(({ step, icon, title, desc }, i) => (
               <div key={step} className={`flex flex-col items-center text-center animate-fade-up`} style={{ animationDelay: `${i * 100}ms` }}>
-                <div className="relative z-10 w-20 h-20 rounded-2xl bg-white dark:bg-slate-900 border-2 border-green-500 shadow-lg flex items-center justify-center text-3xl mb-4">
+                <div className="relative z-10 w-20 h-20 rounded-2xl bg-white border-2 border-green-500 shadow-lg flex items-center justify-center text-3xl mb-4">
                   {icon}
                   <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-green-600 text-white text-xs font-bold flex items-center justify-center">
                     {i + 1}
@@ -324,7 +324,7 @@ function FeaturesSection() {
   };
 
   return (
-    <section className="py-24 bg-white dark:bg-slate-900">
+    <section className="py-24 bg-white">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge className="mb-4">Features</Badge>
@@ -366,7 +366,7 @@ function MarketplacePreviewSection() {
   ];
 
   return (
-    <section className="py-24 bg-slate-50 dark:bg-slate-950">
+    <section className="py-24 bg-slate-50">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge variant="earth" className="mb-4">Marketplace</Badge>
@@ -563,9 +563,9 @@ function ImpactSection() {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {metrics.map(({ value, label, sub, icon }) => (
-            <div key={label} className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-200 dark:border-slate-800 text-center card-hover">
+            <div key={label} className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 text-center card-hover">
               <div className="text-4xl mb-3">{icon}</div>
               <div className="text-4xl font-black text-green-600 mb-2">{value}</div>
               <div className="font-bold text-slate-900 dark:text-white mb-1">{label}</div>
@@ -674,7 +674,7 @@ function PartnersSection() {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
           {partners.map(({ name, type }) => (
-            <div key={name} className="bg-white dark:bg-slate-900 rounded-xl p-4 text-center shadow-sm border border-slate-200 dark:border-slate-800 hover:border-green-300 dark:hover:border-green-700 transition-colors">
+            <div key={name} className="bg-white rounded-xl p-4 text-center shadow-sm border border-slate-200 hover:border-green-300 transition-colors">
               <div className="font-bold text-sm text-slate-800 dark:text-slate-200 mb-1">{name}</div>
               <div className="text-xs text-slate-400">{type}</div>
             </div>
