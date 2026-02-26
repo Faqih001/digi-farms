@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
-  Cpu, Satellite, BarChart3, Cloud, TrendingUp, Shield,
-  MapPin, Smartphone, Lock, ArrowRight, CheckCircle, Zap
-} from "lucide-react";
+  TechHeroSection,
+  RoboticsSection,
+  AIDiagnosticsSection,
+  MultispectralSection,
+  FarmAnalyticsSection,
+  ClimateModeling,
+  FarmScoreSection,
+  RiskProfilingSection,
+  MapsSection,
+  MobileAppSection,
+  DataPrivacySection,
+  TechCTASection,
+} from "@/components/landing/technology/sections";
 
 export const metadata: Metadata = {
   title: "Technology – DIGI-FARMS",
