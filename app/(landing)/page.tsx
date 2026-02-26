@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import {
-  Sprout, BarChart3, ShoppingBag, MapPin, Shield, Zap,
-  TrendingUp, Users, Star, ArrowRight, CheckCircle, ChevronRight,
-  Leaf, CloudRain, Microscope, CreditCard, Play
-} from "lucide-react";
-import DashboardPreview from "@/components/landing/DashboardPreview";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { HeroSection } from "@/components/landing/sections/HeroSection";
+import { ProblemSection } from "@/components/landing/sections/ProblemSection";
+import { SolutionSection } from "@/components/landing/sections/SolutionSection";
+import { HowItWorksSection } from "@/components/landing/sections/HowItWorksSection";
+import { FeaturesSection } from "@/components/landing/sections/FeaturesSection";
+import { MarketplacePreviewSection } from "@/components/landing/sections/MarketplacePreviewSection";
+import { AgrovetSection } from "@/components/landing/sections/AgrovetSection";
+import { FinancingSection } from "@/components/landing/sections/FinancingSection";
+import { ImpactSection } from "@/components/landing/sections/ImpactSection";
+import { TestimonialsSection } from "@/components/landing/sections/TestimonialsSection";
+import { PartnersSection } from "@/components/landing/sections/PartnersSection";
+import { CTASection } from "@/components/landing/sections/CTASection";
 
 export const metadata: Metadata = {
   title: "DIGI-FARMS – Precision Agriculture Platform",
