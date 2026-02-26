@@ -123,10 +123,10 @@ function ProblemSection() {
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge variant="destructive" className="mb-4">The Crisis</Badge>
-          <h2 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-4">
+          <h2 style={{ color: 'var(--foreground)' }} className="text-4xl lg:text-5xl font-black mb-4">
             African Agriculture is <span className="text-red-600">Bleeding</span>
           </h2>
-          <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+          <p style={{ color: 'var(--foreground-muted)' }} className="text-lg max-w-2xl mx-auto">
             Smallholder farmers — who produce 70% of Africa&apos;s food supply — are losing billions annually to preventable problems that technology can solve.
           </p>
         </div>
