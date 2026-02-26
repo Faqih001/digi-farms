@@ -210,7 +210,7 @@ function SolutionSection() {
                 { label: "E-Finance", emoji: "💳", desc: "Micro-credit" },
                 { label: "IoT Ready", emoji: "📡", desc: "Soil sensors" },
               ].map(({ label, emoji, desc }) => (
-                <div key={label} className="bg-white/60 dark:bg-white/10 rounded-xl p-3 flex items-center gap-3">
+                <div key={label} className="bg-white/60 dark:bg-slate-900 rounded-xl p-3 flex items-center gap-3">
                   <span className="text-2xl">{emoji}</span>
                   <div>
                     <div className="text-sm font-bold text-slate-900 dark:text-white">{label}</div>
@@ -565,7 +565,7 @@ function ImpactSection() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {metrics.map(({ value, label, sub, icon }) => (
-            <div key={label} className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 text-center card-hover">
+            <div key={label} className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-200 dark:border-slate-800 text-center card-hover">
               <div className="text-4xl mb-3">{icon}</div>
               <div className="text-4xl font-black text-green-600 mb-2">{value}</div>
               <div className="font-bold text-slate-900 dark:text-white mb-1">{label}</div>
