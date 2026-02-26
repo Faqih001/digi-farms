@@ -131,15 +131,15 @@ function ProblemSection() {
           </p>
         </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {problems.map(({ stat, desc, icon }) => (
-            <div key={stat} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 card-hover text-center">
-              <div className="text-4xl mb-3">{icon}</div>
-              <div className="text-4xl font-black text-red-600 mb-3">{stat}</div>
-              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{desc}</p>
-            </div>
-          ))}
-        </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {problems.map(({ stat, desc, icon }) => (
+              <div key={stat} className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 card-hover text-center">
+                <div className="text-4xl mb-3">{icon}</div>
+                <div className="text-4xl font-black text-red-600 dark:text-red-400 mb-3">{stat}</div>
+                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
 
         <div className="mt-12 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/60 dark:to-orange-950/60 rounded-2xl p-8 border border-red-200 dark:border-red-900/50 text-center backdrop-blur-sm">
           <p className="text-slate-700 dark:text-slate-300 text-lg max-w-3xl mx-auto">
