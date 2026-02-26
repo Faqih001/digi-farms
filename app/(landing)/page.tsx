@@ -93,11 +93,11 @@ function HeroSection() {
           ].map((stat) => (
             <div
               key={stat.label}
-              className="bg-transparent border border-white/20 rounded-2xl p-6 shadow-sm text-center flex flex-col items-center justify-center min-h-[110px] sm:min-h-[90px] text-slate-900 dark:bg-slate-900 dark:border-slate-700"
+              className="bg-transparent border border-transparent dark:border-slate-700 rounded-2xl p-6 text-center flex flex-col items-center justify-center min-h-[110px] sm:min-h-[90px] text-white"
             >
-              <div className="text-2xl mb-2">{stat.icon}</div>
-              <div className="text-3xl font-black text-slate-900 dark:text-white mb-1">{stat.value}</div>
-              <div className="text-slate-700 dark:text-green-300/70 text-sm">{stat.label}</div>
+              <div className="text-2xl mb-2 text-white">{stat.icon}</div>
+              <div className="text-3xl font-black text-white dark:text-white mb-1">{stat.value}</div>
+              <div className="text-white dark:text-green-300/70 text-sm">{stat.label}</div>
             </div>
           ))}
         </div>
