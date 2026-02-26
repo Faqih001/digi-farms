@@ -155,7 +155,7 @@ function ProblemSection() {
 // ── Section 3: Solution Overview ─────────────────────────────────────────────
 function SolutionSection() {
   return (
-    <section className="py-24 bg-white dark:bg-slate-900">
+    <section className="py-24 bg-gradient-to-br from-green-50 via-emerald-100 to-yellow-50 dark:bg-slate-900">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
@@ -192,7 +192,7 @@ function SolutionSection() {
           </div>
 
           {/* Solution visual */}
-            <div className="bg-gradient-to-br from-green-100 to-emerald-200 rounded-3xl p-8 shadow-2xl">
+          <div className="bg-white/80 backdrop-blur-sm dark:bg-gradient-to-br dark:from-green-700 dark:to-green-900 rounded-3xl p-8 shadow-2xl">
             <div className="text-center mb-8">
               <div className="w-20 h-20 mx-auto rounded-2xl bg-white/60 dark:bg-white/20 flex items-center justify-center mb-3 backdrop-blur-sm">
                 <Leaf className="w-10 h-10 text-green-700 dark:text-white" />
