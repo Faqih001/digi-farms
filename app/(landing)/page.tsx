@@ -18,8 +18,27 @@ export const metadata: Metadata = {
     "AI-powered precision agriculture platform connecting farmers to diagnostics, marketplace, financing, and agrovets across East Africa.",
 };
 
-// ── Section 1: Hero ─────────────────────────────────────────────────────────
-function HeroSection() {
+export default function HomePage() {
+  return (
+    <>
+      <HeroSection />
+      <ProblemSection />
+      <SolutionSection />
+      <HowItWorksSection />
+      <FeaturesSection />
+      <MarketplacePreviewSection />
+      <AgrovetSection />
+      <FinancingSection />
+      <ImpactSection />
+      <TestimonialsSection />
+      <PartnersSection />
+      <CTASection />
+    </>
+  );
+}
+
+// ── DEAD CODE – kept temporarily for diff reference; delete after verification ──
+function _HeroSection_OLD() {
   return (
     <section className="gradient-hero min-h-[92vh] flex items-center relative overflow-hidden">
       {/* Background decoration */}
@@ -733,25 +752,5 @@ function CTASection() {
         </div>
       </div>
     </section>
-  );
-}
-
-// ── Page Composition ──────────────────────────────────────────────────────────
-export default function HomePage() {
-  return (
-    <>
-      <HeroSection />
-      <ProblemSection />
-      <SolutionSection />
-      <HowItWorksSection />
-      <FeaturesSection />
-      <MarketplacePreviewSection />
-      <AgrovetSection />
-      <FinancingSection />
-      <ImpactSection />
-      <TestimonialsSection />
-      <PartnersSection />
-      <CTASection />
-    </>
   );
 }
