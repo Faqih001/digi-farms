@@ -152,7 +152,7 @@ export function ContactFormSection() {
             </div>
 
             <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
-              <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><MapPin className="w-4 h-4 text-green-600" />Office Details</h3>
+              <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><MapPin className="w-4 h-4 text-green-600 dark:text-green-400" />Office Details</h3>
               <div className="space-y-3">
                 {officeDetails.map(({ icon: Icon, label, value }) => (
                   <div key={label} className="flex items-start gap-3">

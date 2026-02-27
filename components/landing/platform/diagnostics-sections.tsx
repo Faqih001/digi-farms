@@ -142,7 +142,7 @@ export function DiagnosticsDatabaseSection() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {diseases.map((d) => (
             <div key={d.name} className="flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-green-400 dark:hover:border-green-600 transition-colors">
-              <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+              <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0" />
               <div>
                 <p className="text-sm font-semibold text-slate-900 dark:text-white">{d.name}</p>
                 <p className="text-xs text-slate-400">{d.crop} · {d.severity} severity</p>
