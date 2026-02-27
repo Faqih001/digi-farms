@@ -77,7 +77,7 @@ export function MediaKitFactsSection() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {companyFacts.map((f) => (
             <div key={f.label} className="text-center p-3">
-              <div className="text-lg lg:text-xl font-black text-green-600">{f.value}</div>
+              <div className="text-lg lg:text-xl font-black text-green-600 dark:text-green-400">{f.value}</div>
               <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">{f.label}</div>
             </div>
           ))}
@@ -136,7 +136,7 @@ export function MediaKitBrandColorsSection() {
           <div className="grid sm:grid-cols-2 gap-2">
             {usageGuidelines.map((g, i) => (
               <div key={i} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400">
-                <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="w-4 h-4 text-green-500 dark:text-green-400 flex-shrink-0 mt-0.5" />
                 <span>{g}</span>
               </div>
             ))}

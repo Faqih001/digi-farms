@@ -135,7 +135,7 @@ export function PrivacyContentSection() {
         <Card className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
           <CardContent className="p-6 lg:p-10">
             <div className="flex items-center gap-3 mb-8 pb-6 border-b border-slate-200 dark:border-slate-700">
-              <Shield className="w-8 h-8 text-green-600" />
+              <Shield className="w-8 h-8 text-green-600 dark:text-green-400" />
               <div>
                 <h2 className="font-bold text-slate-900 dark:text-white">DIGI-FARMS Privacy Policy</h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400">Effective date: {lastUpdated}</p>

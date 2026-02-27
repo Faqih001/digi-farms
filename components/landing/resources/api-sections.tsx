@@ -100,12 +100,12 @@ export function ApiAuthSection() {
         <Card className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6">
             <div className="flex items-center gap-2 mb-4">
-              <Key className="w-5 h-5 text-green-500" />
+              <Key className="w-5 h-5 text-green-500 dark:text-green-400" />
               <h3 className="font-bold text-slate-900 dark:text-white">Bearer Token Authentication</h3>
             </div>
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Include your API key in the Authorization header for all authenticated requests.</p>
             <div className="bg-slate-900 dark:bg-slate-950 rounded-xl p-4 font-mono text-sm text-green-400 overflow-x-auto">
-              <div className="text-slate-500">{"// Example request"}</div>
+              <div className="text-slate-400">{"// Example request"}</div>
               <div className="mt-1">
                 <span className="text-blue-400">curl</span> -X GET https://api.digi-farms.com/v1/farms \
               </div>

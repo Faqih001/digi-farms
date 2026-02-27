@@ -101,7 +101,7 @@ export function CaseStudiesStatsSection() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {impactStats.map((s) => (
             <div key={s.label} className="text-center">
-              <div className="text-3xl lg:text-4xl font-black text-green-600">{s.value}</div>
+              <div className="text-3xl lg:text-4xl font-black text-green-600 dark:text-green-400">{s.value}</div>
               <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">{s.label}</div>
             </div>
           ))}

@@ -51,7 +51,7 @@ export function DocsHeroSection() {
           <input
             type="text"
             placeholder="Search documentation..."
-            className="w-full pl-10 pr-4 py-3 rounded-xl border-0 text-sm bg-white/95 text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-green-400 outline-none"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border-0 text-sm bg-white/95 dark:bg-slate-800/90 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-green-400 outline-none"
             aria-label="Search documentation"
           />
         </div>
@@ -134,7 +134,7 @@ export function DocsPopularArticlesSection() {
         <div className="max-w-2xl mx-auto space-y-3">
           {popularArticles.map((a, i) => (
             <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors cursor-pointer group">
-              <BookOpen className="w-5 h-5 text-green-500 flex-shrink-0" />
+              <BookOpen className="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0" />
               <span className="text-sm font-medium text-slate-700 dark:text-slate-300 flex-1">{a}</span>
               <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-green-500 transition-colors" />
             </div>

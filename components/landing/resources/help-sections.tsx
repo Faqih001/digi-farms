@@ -49,7 +49,7 @@ export function HelpHeroSection() {
           <input
             type="text"
             placeholder="Search for help..."
-            className="w-full pl-10 pr-4 py-3 rounded-xl border-0 text-sm bg-white/95 text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-green-400 outline-none"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border-0 text-sm bg-white/95 dark:bg-slate-800/90 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-green-400 outline-none"
             aria-label="Search help center"
           />
         </div>
@@ -102,7 +102,7 @@ export function HelpFAQSection() {
             <Card key={i} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
               <CardContent className="p-6">
                 <h3 className="font-bold text-slate-900 dark:text-white mb-2 flex items-start gap-2">
-                  <HelpCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <HelpCircle className="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-0.5" />
                   {faq.q}
                 </h3>
                 <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed ml-7">{faq.a}</p>
