@@ -42,7 +42,7 @@ export function ProblemSection() {
         </div>
 
         <div className="mt-12 bg-[#E6F4EA] dark:bg-[#1F3A2E] rounded-2xl p-8 border border-[#c3dfc9] dark:border-[#2a4a38] text-center">
-          <p className="text-slate-700 dark:text-slate-300 text-lg max-w-3xl mx-auto">
+          <p className="text-slate-700 dark:text-[#7aaa87] text-lg max-w-3xl mx-auto">
             &quot;Without intervention, climate change will push <strong>100 million</strong> more African
             farmers into extreme poverty by 2030. DIGI-FARMS was built to reverse this.&quot;
           </p>
