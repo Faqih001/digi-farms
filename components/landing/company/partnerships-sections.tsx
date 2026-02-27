@@ -94,7 +94,7 @@ export function PartnershipsStatsSection() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {stats.map((s) => (
             <div key={s.label} className="text-center">
-              <div className="text-3xl lg:text-4xl font-black text-green-600">{s.value}</div>
+              <div className="text-3xl lg:text-4xl font-black text-green-600 dark:text-green-400">{s.value}</div>
               <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">{s.label}</div>
             </div>
           ))}
@@ -126,7 +126,7 @@ export function PartnershipsProgramsSection() {
                     <ul className="grid grid-cols-2 gap-2">
                       {p.benefits.map((b) => (
                         <li key={b} className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400">
-                          <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                          <CheckCircle className="w-3.5 h-3.5 text-green-500 dark:text-green-400 flex-shrink-0" />
                           {b}
                         </li>
                       ))}
@@ -153,7 +153,7 @@ export function PartnershipsNetworkSection() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {currentPartners.map((p) => (
             <div key={p.name} className="flex items-center gap-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-              <ShieldCheck className="w-5 h-5 text-green-500 flex-shrink-0" />
+              <ShieldCheck className="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0" />
               <div>
                 <p className="text-sm font-semibold text-slate-900 dark:text-white leading-snug">{p.name}</p>
                 <Badge variant="secondary" className="text-xs mt-1">{p.type}</Badge>

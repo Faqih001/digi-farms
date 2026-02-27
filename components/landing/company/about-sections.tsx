@@ -63,7 +63,7 @@ export function CompanyAboutStatsSection() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {stats.map((s) => (
             <div key={s.label} className="text-center">
-              <div className="text-3xl lg:text-4xl font-black text-green-600">{s.value}</div>
+              <div className="text-3xl lg:text-4xl font-black text-green-600 dark:text-green-400">{s.value}</div>
               <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">{s.label}</div>
             </div>
           ))}
@@ -84,7 +84,7 @@ export function CompanyMissionVisionSection() {
           <Card className="border-0 shadow-xl dark:bg-slate-900">
             <CardContent className="p-8">
               <div className="w-14 h-14 rounded-2xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-5">
-                <Target className="w-7 h-7 text-green-600" />
+                <Target className="w-7 h-7 text-green-600 dark:text-green-400" />
               </div>
               <h3 className="text-xl font-black text-slate-900 dark:text-white mb-3">Our Mission</h3>
               <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
