@@ -34,13 +34,7 @@ const testimonials = [
 
 export function TestimonialsSection() {
   return (
-    <section
-      className="py-24 bg-image-overlay"
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?w=1600&q=80&auto=format&fit=crop')",
-      }}
-    >
+    <section className="py-24 bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge variant="earth" className="mb-4">Testimonials</Badge>

@@ -9,10 +9,7 @@ export function ProblemSection() {
   ];
 
   return (
-    <section
-      className="py-24 bg-image-overlay"
-      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=1600&q=80&auto=format&fit=crop')" }}
-    >
+    <section className="py-24 bg-gradient-to-br from-red-50 via-orange-50 to-rose-100 dark:from-red-950/30 dark:via-slate-950 dark:to-slate-900">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge variant="destructive" className="mb-4">The Crisis</Badge>

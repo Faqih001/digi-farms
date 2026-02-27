@@ -26,7 +26,7 @@ export function CTASection() {
               <ArrowRight className="w-4 h-4" />
             </Link>
           </Button>
-          <Button variant="hero-outline" size="xl" asChild>
+          <Button variant="outline" size="xl" asChild>
             <Link href="/contact">
               <Zap className="w-5 h-5" />
               Book a Demo
