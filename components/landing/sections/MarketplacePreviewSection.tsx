@@ -4,17 +4,17 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 const categories = [
-  { name: "Hybrid Seeds", icon: "🌱", products: "2,400+ products", color: "bg-green-50 dark:bg-green-950/30" },
-  { name: "Fertilizers", icon: "🧪", products: "890+ products", color: "bg-blue-50 dark:bg-blue-950/30" },
-  { name: "Pesticides", icon: "🛡️", products: "1,200+ products", color: "bg-amber-50 dark:bg-amber-950/30" },
-  { name: "Farm Tools", icon: "🔧", products: "650+ products", color: "bg-orange-50 dark:bg-orange-950/30" },
-  { name: "Irrigation", icon: "💧", products: "340+ products", color: "bg-cyan-50 dark:bg-cyan-950/30" },
-  { name: "Produce Sale", icon: "🌾", products: "Sell direct", color: "bg-purple-50 dark:bg-purple-950/30" },
+  { name: "Hybrid Seeds", icon: "🌱", products: "2,400+ products", color: "bg-[#ECFDF3] dark:bg-[#1D3A2F]" },
+  { name: "Fertilizers", icon: "🧪", products: "890+ products", color: "bg-[#ECFDF3] dark:bg-[#1D3A2F]" },
+  { name: "Pesticides", icon: "🛡️", products: "1,200+ products", color: "bg-[#ECFDF3] dark:bg-[#1D3A2F]" },
+  { name: "Farm Tools", icon: "🔧", products: "650+ products", color: "bg-[#ECFDF3] dark:bg-[#1D3A2F]" },
+  { name: "Irrigation", icon: "💧", products: "340+ products", color: "bg-[#ECFDF3] dark:bg-[#1D3A2F]" },
+  { name: "Produce Sale", icon: "🌾", products: "Sell direct", color: "bg-[#ECFDF3] dark:bg-[#1D3A2F]" },
 ];
 
 export function MarketplacePreviewSection() {
   return (
-    <section className="py-24 bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
+    <section className="py-24 bg-[#F2FAF5] dark:bg-[#11231B]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge variant="earth" className="mb-4">Marketplace</Badge>

@@ -34,7 +34,7 @@ const testimonials = [
 
 export function TestimonialsSection() {
   return (
-    <section className="py-24 bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950">
+    <section className="py-24 bg-[#F8FCF9] dark:bg-[#13251D]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge variant="earth" className="mb-4">Testimonials</Badge>
@@ -45,7 +45,7 @@ export function TestimonialsSection() {
 
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map(({ name, role, location, avatar, rating, quote }) => (
-            <Card key={name} className="p-6 hover:shadow-lg transition-shadow">
+            <Card key={name} className="p-6 hover:shadow-lg transition-shadow bg-white dark:bg-[#1B342A] border-[#c3dfc9] dark:border-[#2a4a38]">
               <CardContent className="p-0">
                 <div className="flex items-center gap-1 mb-4">
                   {Array.from({ length: rating }).map((_, i) => (
@@ -56,7 +56,7 @@ export function TestimonialsSection() {
                   &quot;{quote}&quot;
                 </p>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center text-white text-sm font-bold">
+                  <div className="w-10 h-10 rounded-full bg-[#E8F7EC] dark:bg-[#214335] flex items-center justify-center text-green-700 dark:text-green-300 text-sm font-bold">
                     {avatar}
                   </div>
                   <div>

@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 
 export function FinancingSection() {
   return (
-    <section className="py-24 bg-gradient-to-br from-indigo-50 via-blue-50 to-sky-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
+    <section className="py-24 bg-[#F7FCF8] dark:bg-[#14271F]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge className="mb-4 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">
@@ -20,8 +20,7 @@ export function FinancingSection() {
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Financing card */}
-          <div className="rounded-2xl p-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-            <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center mb-6">
+          <div className="rounded-2xl p-8 bg-white dark:bg-[#1A3329] border border-[#c3dfc9] dark:border-[#2a4a38] shadow-sm">
               <CreditCard className="w-6 h-6 text-amber-600 dark:text-amber-300" />
             </div>
             <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Agri Micro-Finance</h3>
@@ -45,8 +44,7 @@ export function FinancingSection() {
           </div>
 
           {/* Insurance card */}
-          <div className="rounded-2xl p-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-            <div className="w-12 h-12 rounded-2xl bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center mb-6">
+          <div className="rounded-2xl p-8 bg-white dark:bg-[#1A3329] border border-[#c3dfc9] dark:border-[#2a4a38] shadow-sm">
               <Shield className="w-6 h-6 text-blue-600 dark:text-blue-300" />
             </div>
             <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Crop Insurance</h3>

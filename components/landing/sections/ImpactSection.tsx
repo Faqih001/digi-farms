@@ -11,7 +11,7 @@ const metrics = [
 
 export function ImpactSection() {
   return (
-    <section className="py-24 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
+    <section className="py-24 bg-white dark:bg-[#0D1B15]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge className="mb-4">Impact</Badge>
@@ -27,7 +27,7 @@ export function ImpactSection() {
           {metrics.map(({ value, label, sub, icon }) => (
             <div
               key={label}
-              className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-200 dark:border-slate-800 text-center card-hover"
+              className="bg-[#F3FAF5] dark:bg-[#162D24] rounded-2xl p-8 shadow-sm border border-[#c3dfc9] dark:border-[#2a4a38] text-center card-hover"
             >
               <div className="text-4xl mb-3">{icon}</div>
               <div className="text-4xl font-black text-green-600 dark:text-green-400 mb-2">{value}</div>

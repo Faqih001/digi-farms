@@ -11,7 +11,7 @@ const partners = [
 
 export function PartnersSection() {
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 border-y border-slate-200 dark:border-slate-800">
+    <section className="py-20 bg-white dark:bg-[#0E1D16] border-y border-[#c3dfc9] dark:border-[#2a4a38]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-12">
           <p className="text-sm font-semibold uppercase tracking-widest text-slate-500 mb-2">
@@ -22,7 +22,7 @@ export function PartnersSection() {
           {partners.map(({ name, type }) => (
             <div
               key={name}
-              className="bg-white dark:bg-slate-900 rounded-xl p-4 text-center shadow-sm border border-slate-200 dark:border-slate-800 hover:border-green-300 dark:hover:border-green-700 transition-colors"
+              className="bg-[#F4FAF6] dark:bg-[#162D24] rounded-xl p-4 text-center shadow-sm border border-[#c3dfc9] dark:border-[#2a4a38] hover:border-green-400 dark:hover:border-green-600 transition-colors"
             >
               <div className="font-bold text-sm text-slate-800 dark:text-slate-200 mb-1">{name}</div>
               <div className="text-xs text-slate-500">{type}</div>
