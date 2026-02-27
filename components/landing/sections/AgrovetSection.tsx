@@ -57,7 +57,7 @@ export function AgrovetSection() {
                 { title: "Mobile navigation", desc: "One-tap GPS direction via Google Maps integration" },
               ].map(({ title, desc }) => (
                 <div key={title} className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
                   <div>
                     <div className="font-semibold text-slate-900 dark:text-white text-sm">{title}</div>
                     <div className="text-xs text-slate-500 dark:text-slate-400">{desc}</div>

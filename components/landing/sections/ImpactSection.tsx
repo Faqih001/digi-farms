@@ -36,7 +36,7 @@ export function ImpactSection() {
               className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-200 dark:border-slate-800 text-center card-hover"
             >
               <div className="text-4xl mb-3">{icon}</div>
-              <div className="text-4xl font-black text-green-600 mb-2">{value}</div>
+              <div className="text-4xl font-black text-green-600 dark:text-green-400 mb-2">{value}</div>
               <div className="font-bold text-slate-900 dark:text-white mb-1">{label}</div>
               <div className="text-xs text-slate-500 dark:text-slate-400">{sub}</div>
             </div>

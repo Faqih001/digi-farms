@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 
 export function SolutionSection() {
   return (
-    <section className="py-24 bg-gradient-to-br from-green-50 via-emerald-100 to-yellow-50 dark:bg-slate-900">
+    <section className="py-24 bg-gradient-to-br from-green-50 via-emerald-100 to-yellow-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text side */}
