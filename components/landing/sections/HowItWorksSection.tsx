@@ -35,7 +35,7 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="py-24 bg-slate-50 dark:bg-slate-950">
+    <section id="how-it-works" className="py-24 bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge variant="earth" className="mb-4">Process</Badge>
