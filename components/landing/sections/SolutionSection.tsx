@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 
 export function SolutionSection() {
   return (
-    <section className="py-24 bg-gradient-to-br from-green-50 via-emerald-100 to-yellow-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950">
+    <section className="py-24 bg-[#F6FBF7] dark:bg-[#12261D]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text side */}
@@ -44,9 +44,9 @@ export function SolutionSection() {
           </div>
 
           {/* Visual card */}
-          <div className="bg-white/80 backdrop-blur-sm dark:bg-green-900 rounded-3xl p-8 shadow-2xl border border-green-100 dark:border-green-800">
+          <div className="bg-white dark:bg-[#183328] rounded-3xl p-8 shadow-2xl border border-[#c3dfc9] dark:border-[#2a4a38]">
             <div className="text-center mb-8">
-              <div className="w-20 h-20 mx-auto rounded-2xl bg-green-100 dark:bg-white/20 flex items-center justify-center mb-3">
+              <div className="w-20 h-20 mx-auto rounded-2xl bg-[#E8F7EC] dark:bg-[#1E4032] flex items-center justify-center mb-3">
                 <Leaf className="w-10 h-10 text-green-700 dark:text-white" />
               </div>
               <p className="font-bold text-xl text-slate-900 dark:text-white">DIGI-FARMS Ecosystem</p>
@@ -64,7 +64,7 @@ export function SolutionSection() {
               ].map(({ label, emoji, desc }) => (
                 <div
                   key={label}
-                  className="bg-green-50 dark:bg-slate-900 rounded-xl p-3 flex items-center gap-3"
+                  className="bg-[#E8F7EC] dark:bg-[#1E4032] rounded-xl p-3 flex items-center gap-3"
                 >
                   <span className="text-2xl">{emoji}</span>
                   <div>

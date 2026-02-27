@@ -30,7 +30,7 @@ const colorMap: Record<string, string> = {
 
 export function FeaturesSection() {
   return (
-    <section className="py-24 bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950">
+    <section className="py-24 bg-white dark:bg-[#0D1A14]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge className="mb-4">Features</Badge>
@@ -44,7 +44,7 @@ export function FeaturesSection() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map(({ icon: Icon, title, desc, color }) => (
-            <Card key={title} className="p-6 hover:shadow-lg transition-shadow card-hover group">
+            <Card key={title} className="p-6 hover:shadow-lg transition-shadow card-hover group bg-[#F8FBF9] dark:bg-[#162821] border-[#c3dfc9] dark:border-[#2a4a38]">
               <CardContent className="p-0">
                 <div
                   className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 ${colorMap[color]} group-hover:scale-110 transition-transform`}

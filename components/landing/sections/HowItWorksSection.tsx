@@ -35,7 +35,7 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="py-24 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
+    <section id="how-it-works" className="py-24 bg-[#F9FCFA] dark:bg-[#13241C]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge variant="earth" className="mb-4">Process</Badge>
@@ -58,7 +58,7 @@ export function HowItWorksSection() {
                 className="flex flex-col items-center text-center animate-fade-up"
                 style={{ animationDelay: `${i * 100}ms` }}
               >
-                <div className="relative z-10 w-20 h-20 rounded-2xl bg-white dark:bg-slate-900 border-2 border-green-500 shadow-lg flex items-center justify-center text-3xl mb-4">
+                <div className="relative z-10 w-20 h-20 rounded-2xl bg-white dark:bg-[#1B3329] border-2 border-green-500 shadow-lg flex items-center justify-center text-3xl mb-4">
                   {icon}
                   <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-green-600 text-white text-xs font-bold flex items-center justify-center">
                     {i + 1}

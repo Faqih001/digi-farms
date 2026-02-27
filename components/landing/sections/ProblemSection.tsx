@@ -9,7 +9,7 @@ export function ProblemSection() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br from-red-50 via-orange-50 to-rose-100 dark:from-red-950/30 dark:via-slate-950 dark:to-slate-900">
+    <section className="py-24 bg-white dark:bg-[#0F1F17]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge variant="destructive" className="mb-4">The Crisis</Badge>
@@ -32,7 +32,7 @@ export function ProblemSection() {
           {problems.map(({ stat, desc, icon }) => (
             <div
               key={stat}
-              className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 card-hover text-center"
+              className="bg-white dark:bg-[#162A21] rounded-2xl p-6 shadow-sm border border-[#c3dfc9] dark:border-[#2a4a38] card-hover text-center"
             >
               <div className="text-4xl mb-3">{icon}</div>
               <div className="text-4xl font-black text-red-600 dark:text-red-400 mb-3">{stat}</div>
@@ -41,7 +41,7 @@ export function ProblemSection() {
           ))}
         </div>
 
-        <div className="mt-12 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/60 dark:to-orange-950/60 rounded-2xl p-8 border border-red-200 dark:border-red-900/50 text-center backdrop-blur-sm">
+        <div className="mt-12 bg-[#E6F4EA] dark:bg-[#1F3A2E] rounded-2xl p-8 border border-[#c3dfc9] dark:border-[#2a4a38] text-center">
           <p className="text-slate-700 dark:text-slate-300 text-lg max-w-3xl mx-auto">
             &quot;Without intervention, climate change will push <strong>100 million</strong> more African
             farmers into extreme poverty by 2030. DIGI-FARMS was built to reverse this.&quot;
