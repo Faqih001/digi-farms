@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@custom-variant dark (&:where(.dark, .dark *));
 /* ============================================================
    DIGI-FARMS Design System
    Agritech SaaS – greens, earthen tones, glassmorphism
