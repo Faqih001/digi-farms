@@ -32,10 +32,10 @@
 
   /* Semantic tokens – light mode */
   --background: #ffffff;
-  --background-secondary: #f8fafc;
-  --foreground: #0f172a;
-  --foreground-muted: #64748b;
-  --border: #e2e8f0;
+  --background-secondary: #F6FBF7;
+  --foreground: #182C1E;
+  --foreground-muted: #4a7a58;
+  --border: #c3dfc9;
   --radius: 0.75rem;
   --radius-sm: 0.5rem;
   --radius-lg: 1rem;
@@ -48,11 +48,11 @@
 }
 
 .dark {
-  --background: #0a1628;
-  --background-secondary: #0f1f3d;
-  --foreground: #f1f5f9;
-  --foreground-muted: #94a3b8;
-  --border: #1e3a5f;
+  --background: #0f1f17;
+  --background-secondary: #12261D;
+  --foreground: #e1ece3;
+  --foreground-muted: #7aaa87;
+  --border: #2a4a38;
 }
 
 @theme inline {
@@ -147,18 +147,10 @@ body {
   background: linear-gradient(135deg, #d97706, #b45309);
 }
 .gradient-mesh {
-  background-color: #f0fdf4;
-  background-image:
-    radial-gradient(at 20% 50%, rgba(22, 163, 74, 0.18) 0px, transparent 50%),
-    radial-gradient(at 80% 20%, rgba(16, 185, 129, 0.14) 0px, transparent 50%),
-    radial-gradient(at 60% 80%, rgba(74, 222, 128, 0.12) 0px, transparent 50%);
+  background-color: #1F7A3E;
 }
 .dark .gradient-mesh {
-  background-color: #030f08;
-  background-image:
-    radial-gradient(at 20% 50%, rgba(34, 197, 94, 0.12) 0px, transparent 50%),
-    radial-gradient(at 80% 20%, rgba(21, 128, 61, 0.18) 0px, transparent 50%),
-    radial-gradient(at 60% 80%, rgba(22, 163, 74, 0.08) 0px, transparent 50%);
+  background-color: #155F2E;
 }
 
 /* ---- Image overlay for sections with bg images ---- */
