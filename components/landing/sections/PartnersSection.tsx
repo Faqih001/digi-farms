@@ -11,7 +11,7 @@ const partners = [
 
 export function PartnersSection() {
   return (
-    <section className="py-20 bg-white dark:bg-[#0E1D16] border-y border-[#c3dfc9] dark:border-[#2a4a38]">
+    <section className="py-20 bg-[var(--bg-s10)] border-y border-[#c3dfc9] dark:border-[#2a4a38]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-12">
           <p className="text-sm font-semibold uppercase tracking-widest text-[#4a7a58] dark:text-[#7aaa87] mb-2">

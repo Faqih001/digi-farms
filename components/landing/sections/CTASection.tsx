@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export function CTASection() {
   return (
-    <section className="py-24 bg-[#1F7A3E] dark:bg-[#155F2E]">
+    <section className="py-24 bg-[var(--bg-s11)]">
       <div className="container mx-auto px-4 max-w-4xl text-center">
         <Badge className="mb-6 bg-white/20 text-white border-white/30 text-sm px-4 py-1.5">
           🚀 Join 50,000+ Farmers

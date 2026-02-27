@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 
 export function FinancingSection() {
   return (
-    <section className="py-24 bg-[#F7FCF8] dark:bg-[#14271F]">
+    <section className="py-24 bg-[var(--bg-s7)]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge className="mb-4 bg-green-600/10 text-green-800 border-green-200 dark:bg-white/20 dark:text-white dark:border-white/30">

@@ -11,7 +11,7 @@ const nearbyAgrovets = [
 
 export function AgrovetSection() {
   return (
-    <section className="py-24 bg-white dark:bg-[#0F2018]">
+    <section className="py-24 bg-[var(--bg-s6)]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Map placeholder */}

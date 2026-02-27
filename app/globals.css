@@ -45,6 +45,19 @@
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Section background tokens (light) */
+  --bg-s1:  #FFFFFF;
+  --bg-s2:  #F6FBF7;
+  --bg-s3:  #F9FCFA;
+  --bg-s4:  #FFFFFF;
+  --bg-s5:  #F2FAF5;
+  --bg-s6:  #FFFFFF;
+  --bg-s7:  #F7FCF8;
+  --bg-s8:  #FFFFFF;
+  --bg-s9:  #F8FCF9;
+  --bg-s10: #FFFFFF;
+  --bg-s11: #1F7A3E;
 }
 
 .dark {
@@ -53,6 +66,19 @@
   --foreground: #e1ece3;
   --foreground-muted: #7aaa87;
   --border: #2a4a38;
+
+  /* Section background tokens (dark) */
+  --bg-s1:  #0F1F17;
+  --bg-s2:  #12261D;
+  --bg-s3:  #13241C;
+  --bg-s4:  #0D1A14;
+  --bg-s5:  #11231B;
+  --bg-s6:  #0F2018;
+  --bg-s7:  #14271F;
+  --bg-s8:  #0D1B15;
+  --bg-s9:  #13251D;
+  --bg-s10: #0E1D16;
+  --bg-s11: #155F2E;
 }
 
 @theme inline {

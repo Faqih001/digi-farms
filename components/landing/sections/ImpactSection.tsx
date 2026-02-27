@@ -11,7 +11,7 @@ const metrics = [
 
 export function ImpactSection() {
   return (
-    <section className="py-24 bg-white dark:bg-[#0D1B15]">
+    <section className="py-24 bg-[var(--bg-s8)]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge className="mb-4">Impact</Badge>

@@ -9,7 +9,7 @@ export function ProblemSection() {
   ];
 
   return (
-    <section className="py-24 bg-white dark:bg-[#0F1F17]">
+    <section className="py-24 bg-[var(--bg-s1)]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge variant="destructive" className="mb-4">The Crisis</Badge>

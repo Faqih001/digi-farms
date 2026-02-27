@@ -30,7 +30,7 @@ const colorMap: Record<string, string> = {
 
 export function FeaturesSection() {
   return (
-    <section className="py-24 bg-white dark:bg-[#0D1A14]">
+    <section className="py-24 bg-[var(--bg-s4)]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge className="mb-4">Features</Badge>

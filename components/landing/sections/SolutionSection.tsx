@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 
 export function SolutionSection() {
   return (
-    <section className="py-24 bg-[#F6FBF7] dark:bg-[#12261D]">
+    <section className="py-24 bg-[var(--bg-s2)]">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text side */}
