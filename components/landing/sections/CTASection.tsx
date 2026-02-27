@@ -48,7 +48,7 @@ export function CTASection() {
               Subscribe
             </Button>
           </form>
-          <p className="text-slate-400 dark:text-green-200/40 text-xs mt-3">
+          <p className="text-slate-500 dark:text-green-200/40 text-xs mt-3">
             Join 28,000+ subscribers. No spam, ever.
           </p>
         </div>
