@@ -14,7 +14,7 @@ const categories = [
 
 export function MarketplacePreviewSection() {
   return (
-    <section className="py-24 bg-gradient-to-br from-teal-50 via-cyan-50 to-sky-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
+    <section className="py-24 bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <Badge variant="earth" className="mb-4">Marketplace</Badge>
