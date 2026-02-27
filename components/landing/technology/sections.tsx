@@ -233,29 +233,29 @@ export function FarmAnalyticsSection() {
             </div>
           </div>
 
-          <div className="bg-green-800 dark:bg-slate-800 rounded-2xl p-6 text-white shadow-lg border border-green-900 dark:border-slate-700">
-            <div className="text-sm text-green-300 dark:text-slate-400 mb-4">Farm Performance — Season Overview</div>
+          <div className="bg-gradient-to-br from-green-50 to-emerald-100 dark:bg-slate-800 dark:from-slate-800 dark:to-slate-800 rounded-2xl p-6 shadow-lg border border-green-200 dark:border-slate-700">
+            <div className="text-sm text-green-700 dark:text-slate-400 mb-4">Farm Performance — Season Overview</div>
             <div className="grid grid-cols-3 gap-3 mb-6">
               {[
-                { label: "Yield Score", value: "87/100", color: "text-green-400" },
-                { label: "Profitability", value: "KES 124K", color: "text-amber-400" },
-                { label: "Season Rank", value: "Top 15%", color: "text-blue-400" },
+                { label: "Yield Score", value: "87/100", color: "text-green-600 dark:text-green-400" },
+                { label: "Profitability", value: "KES 124K", color: "text-amber-600 dark:text-amber-400" },
+                { label: "Season Rank", value: "Top 15%", color: "text-blue-600 dark:text-blue-400" },
               ].map(({ label, value, color }) => (
-                <div key={label} className="bg-white/10 rounded-xl p-3 text-center">
+                <div key={label} className="bg-white/60 dark:bg-white/10 rounded-xl p-3 text-center">
                   <div className={`font-black text-lg ${color}`}>{value}</div>
-                  <div className="text-xs text-white/60 mt-0.5">{label}</div>
+                  <div className="text-xs text-slate-500 dark:text-white/60 mt-0.5">{label}</div>
                 </div>
               ))}
             </div>
             <div className="space-y-2 text-xs">
-              <div className="text-white/60 mb-2">Monthly Yield Progress (MT)</div>
+              <div className="text-slate-500 dark:text-white/60 mb-2">Monthly Yield Progress (MT)</div>
               {[["Jan", 1.2, 40], ["Feb", 2.1, 62], ["Mar", 3.4, 85], ["Apr", 2.8, 72]].map(([m, val, pct]) => (
                 <div key={m as string} className="flex items-center gap-3">
-                  <span className="text-white/60 w-6">{m}</span>
-                  <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-green-400 rounded-full" style={{ width: `${pct}%` }} />
+                  <span className="text-slate-500 dark:text-white/60 w-6">{m}</span>
+                  <div className="flex-1 h-2 bg-green-200 dark:bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-green-500 dark:bg-green-400 rounded-full" style={{ width: `${pct}%` }} />
                   </div>
-                  <span className="text-white/80 w-8 text-right">{val}T</span>
+                  <span className="text-slate-700 dark:text-white/80 w-8 text-right">{val}T</span>
                 </div>
               ))}
             </div>
@@ -273,9 +273,9 @@ export function ClimateModeling() {
     <section id="climate" className="py-24 bg-white dark:bg-slate-900">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="bg-gradient-to-br from-blue-900 to-blue-950 rounded-3xl p-8 text-white shadow-xl">
+          <div className="bg-gradient-to-br from-blue-50 to-sky-100 dark:from-blue-900 dark:to-blue-950 rounded-3xl p-8 shadow-xl">
             <div className="text-5xl mb-4">🌦️</div>
-            <h3 className="text-xl font-bold mb-4">7-Day Precision Forecast</h3>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">7-Day Precision Forecast</h3>
             <div className="space-y-2">
               {[
                 { day: "Today", temp: "26°C", rain: "12mm", icon: "🌤️" },
@@ -284,17 +284,17 @@ export function ClimateModeling() {
                 { day: "Day 4", temp: "25°C", rain: "8mm", icon: "⛅" },
                 { day: "Day 5", temp: "27°C", rain: "2mm", icon: "☀️" },
               ].map(({ day, temp, rain, icon }) => (
-                <div key={day} className="flex items-center justify-between bg-white/10 rounded-xl px-4 py-2.5">
-                  <span className="text-xs text-blue-200 w-16">{day}</span>
+                <div key={day} className="flex items-center justify-between bg-white/60 dark:bg-white/10 rounded-xl px-4 py-2.5">
+                  <span className="text-xs text-blue-600 dark:text-blue-200 w-16">{day}</span>
                   <span className="text-lg">{icon}</span>
-                  <span className="text-sm font-bold">{temp}</span>
-                  <span className="text-xs text-blue-300">💧 {rain}</span>
+                  <span className="text-sm font-bold text-slate-900 dark:text-white">{temp}</span>
+                  <span className="text-xs text-blue-500 dark:text-blue-300">💧 {rain}</span>
                 </div>
               ))}
             </div>
-            <div className="mt-4 bg-yellow-500/20 rounded-xl p-3 border border-yellow-400/30">
-              <div className="text-yellow-300 text-xs font-bold">⚠️ Heavy Rain Alert — Day 3</div>
-              <div className="text-blue-200 text-xs mt-1">Delay fungicide application. Harvest tomatoes before Day 3 if possible.</div>
+            <div className="mt-4 bg-yellow-100 dark:bg-yellow-500/20 rounded-xl p-3 border border-yellow-300 dark:border-yellow-400/30">
+              <div className="text-yellow-700 dark:text-yellow-300 text-xs font-bold">⚠️ Heavy Rain Alert — Day 3</div>
+              <div className="text-blue-700 dark:text-blue-200 text-xs mt-1">Delay fungicide application. Harvest tomatoes before Day 3 if possible.</div>
             </div>
           </div>
 
@@ -491,15 +491,15 @@ export function MobileAppSection() {
               <Button variant="outline" size="lg">Download APK</Button>
             </div>
           </div>
-          <div className="bg-gradient-to-br from-green-600 to-green-800 rounded-3xl p-8 text-white text-center shadow-2xl">
+          <div className="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-600 dark:to-green-800 rounded-3xl p-8 text-center shadow-2xl">
             <div className="text-8xl mb-4">📱</div>
-            <h3 className="text-xl font-black mb-2">DIGI-FARMS App</h3>
-            <p className="text-green-200/80 text-sm mb-4">Available on Android &amp; Web</p>
+            <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2">DIGI-FARMS App</h3>
+            <p className="text-green-700 dark:text-green-200/80 text-sm mb-4">Available on Android &amp; Web</p>
             <div className="grid grid-cols-2 gap-3 text-sm">
               {[["100K+", "Downloads"], ["4.7★", "Rating"], ["Swahili", "Language"], ["Offline", "Mode"]].map(([v, l]) => (
-                <div key={l} className="bg-white/10 rounded-xl p-3">
-                  <div className="font-black text-white">{v}</div>
-                  <div className="text-xs text-green-300">{l}</div>
+                <div key={l} className="bg-white/60 dark:bg-white/10 rounded-xl p-3">
+                  <div className="font-black text-slate-900 dark:text-white">{v}</div>
+                  <div className="text-xs text-green-600 dark:text-green-300">{l}</div>
                 </div>
               ))}
             </div>

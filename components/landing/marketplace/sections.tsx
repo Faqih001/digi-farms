@@ -368,16 +368,16 @@ export function AntiCounterfeitSection() {
               ))}
             </div>
           </div>
-          <div className="bg-green-800 dark:bg-slate-800 rounded-2xl p-8 text-white text-center border border-green-900 dark:border-slate-700">
-            <QrCode className="w-24 h-24 mx-auto mb-4 text-green-400" />
-            <div className="text-green-400 font-bold mb-2">✓ Product Verified</div>
-            <div className="text-slate-300 text-sm mb-1">DK8031 Hybrid Maize Seed</div>
-            <div className="text-slate-400 text-xs mb-4">Batch: 2025-03-14 · Source: Monsanto Kenya</div>
+          <div className="bg-gradient-to-br from-green-50 to-emerald-100 dark:bg-slate-800 dark:from-slate-800 dark:to-slate-800 rounded-2xl p-8 text-center border border-green-200 dark:border-slate-700">
+            <QrCode className="w-24 h-24 mx-auto mb-4 text-green-600 dark:text-green-400" />
+            <div className="text-green-600 dark:text-green-400 font-bold mb-2">✓ Product Verified</div>
+            <div className="text-slate-700 dark:text-slate-300 text-sm mb-1">DK8031 Hybrid Maize Seed</div>
+            <div className="text-slate-500 dark:text-slate-400 text-xs mb-4">Batch: 2025-03-14 · Source: Monsanto Kenya</div>
             <div className="grid grid-cols-2 gap-3 text-xs">
               {[["Supplier", "Verified ✓"], ["Batch Date", "Mar 2025"], ["Expiry", "Dec 2026"], ["QR Scans", "1,240"]].map(([k, v]) => (
-                <div key={k} className="bg-white/10 rounded-lg p-2">
-                  <div className="text-slate-400">{k}</div>
-                  <div className="font-bold text-white">{v}</div>
+                <div key={k} className="bg-white/60 dark:bg-white/10 rounded-lg p-2">
+                  <div className="text-slate-500 dark:text-slate-400">{k}</div>
+                  <div className="font-bold text-slate-900 dark:text-white">{v}</div>
                 </div>
               ))}
             </div>
