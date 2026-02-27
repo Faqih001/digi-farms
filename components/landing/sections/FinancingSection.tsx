@@ -21,6 +21,7 @@ export function FinancingSection() {
         <div className="grid md:grid-cols-2 gap-8">
           {/* Financing card */}
           <div className="rounded-2xl p-8 bg-white dark:bg-[#1A3329] border border-[#c3dfc9] dark:border-[#2a4a38] shadow-sm">
+            <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center mb-6">
               <CreditCard className="w-6 h-6 text-amber-600 dark:text-amber-300" />
             </div>
             <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Agri Micro-Finance</h3>
@@ -45,6 +46,7 @@ export function FinancingSection() {
 
           {/* Insurance card */}
           <div className="rounded-2xl p-8 bg-white dark:bg-[#1A3329] border border-[#c3dfc9] dark:border-[#2a4a38] shadow-sm">
+            <div className="w-12 h-12 rounded-2xl bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center mb-6">
               <Shield className="w-6 h-6 text-blue-600 dark:text-blue-300" />
             </div>
             <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Crop Insurance</h3>
