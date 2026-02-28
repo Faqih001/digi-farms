@@ -139,9 +139,9 @@ export default function RegisterPage() {
           <Checkbox id="terms" checked={agreed} onCheckedChange={(v) => setAgreed(!!v)} className="mt-0.5" />
           <Label htmlFor="terms" className="font-normal text-sm leading-relaxed cursor-pointer">
             I agree to the{" "}
-            <Link href="/terms" className="text-green-600 hover:underline">Terms of Service</Link>
+            <Link href="/legal/terms" className="text-green-600 hover:underline">Terms of Service</Link>
             {" "}and{" "}
-            <Link href="/privacy" className="text-green-600 hover:underline">Privacy Policy</Link>
+            <Link href="/legal/privacy" className="text-green-600 hover:underline">Privacy Policy</Link>
           </Label>
         </div>
 
