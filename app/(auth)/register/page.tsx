@@ -22,6 +22,7 @@ const roles = [
 export default function RegisterPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [selectedRole, setSelectedRole] = useState<string>("FARMER");
 
@@ -131,7 +132,13 @@ export default function RegisterPage() {
 
         <div className="space-y-1.5">
           <Label htmlFor="confirmPassword">Confirm Password</Label>
-          <Input id="confirmPassword" type="password" placeholder="Repeat password" {...register("confirmPassword")} aria-invalid={!!errors.confirmPassword} />
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Input id="confirmPassword" type={showConfirmPassword ? "text" : "password"} className="pl-10 pr-10" placeholder="Repeat password" {...register("confirmPassword")} aria-invalid={!!errors.confirmPassword} />
+            <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-400">
+              {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
+          </div>
           {errors.confirmPassword && <p className="text-xs text-red-500">{errors.confirmPassword.message}</p>}
         </div>
 
