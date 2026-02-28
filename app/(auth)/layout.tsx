@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Leaf } from "lucide-react";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "DIGI-FARMS | Account",
@@ -14,11 +14,10 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="hidden lg:flex flex-col gradient-hero relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px]" />
         <div className="relative z-10 flex flex-col justify-between h-full p-12">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-              <Leaf className="w-6 h-6 text-white" />
+          <Link href="/" className="flex items-center">
+            <div className="w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center">
+              <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={112} height={112} quality={90} priority />
             </div>
-            <span className="text-2xl font-black text-white">DIGI-FARMS</span>
           </Link>
 
           <div>
@@ -44,11 +43,12 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
       {/* Right panel — auth form */}
       <div className="flex flex-col justify-center py-12 px-4 sm:px-8 lg:px-16 bg-white dark:bg-slate-950">
-            <div className="lg:hidden flex items-center gap-2 mb-8">
-          <div className="w-8 h-8 rounded-lg bg-green-600 flex items-center justify-center">
-            <Leaf className="w-5 h-5 text-white" />
-          </div>
-          <span className="text-xl font-black text-slate-900 dark:text-white">DIGI-FARMS</span>
+            <div className="lg:hidden flex items-center mb-8">
+          <Link href="/">
+            <div className="w-20 h-20 rounded-xl overflow-hidden flex items-center justify-center">
+              <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={80} height={80} quality={90} priority />
+            </div>
+          </Link>
         </div>
             <div className="flex justify-end mb-6 lg:mb-8">
               <a href="/" className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-green-600 transition-colors">
