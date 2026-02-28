@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
@@ -12,7 +13,7 @@ import {
   LayoutDashboard, Sprout, ScanLine, BarChart3, Droplets, CloudSun, ShoppingCart,
   Store, MapPin, Wallet, FileText, Shield, CreditCard, Settings, LogOut,
   Package, Truck, Users, DollarSign, TrendingUp, ClipboardList, PieChart,
-  UserCheck, BrainCircuit, Leaf
+  UserCheck, BrainCircuit
 } from "lucide-react";
 
 const farmerNav = [
@@ -111,12 +112,11 @@ export function Sidebar({ role }: { role: string }) {
   return (
     <div className="flex h-full flex-col bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
       {/* Logo */}
-      <div className="flex items-center gap-3 px-6 py-5 border-b border-slate-200 dark:border-slate-800">
-        <div className="w-8 h-8 rounded-lg bg-green-600 flex items-center justify-center flex-shrink-0">
-          <Leaf className="w-5 h-5 text-white" />
+      <Link href="/" className="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800 hover:opacity-90 transition-opacity">
+        <div className="w-14 h-14 rounded-xl overflow-hidden flex items-center justify-center">
+          <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={56} height={56} quality={90} priority />
         </div>
-        <span className="font-black text-slate-900 dark:text-white text-lg">DIGI-FARMS</span>
-      </div>
+      </Link>
 
       {/* User */}
       <div className="px-4 py-4 border-b border-slate-200 dark:border-slate-800">

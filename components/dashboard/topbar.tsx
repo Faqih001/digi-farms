@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -45,6 +46,13 @@ export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen }: { onMo
       <button onClick={onMobileMenuToggle} className="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
         {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>
+
+      {/* Mobile logo */}
+      <Link href="/" className="lg:hidden flex items-center">
+        <div className="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center">
+          <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={40} height={40} quality={90} priority />
+        </div>
+      </Link>
 
       {/* Page title */}
       <div className="flex-1 hidden sm:block">
