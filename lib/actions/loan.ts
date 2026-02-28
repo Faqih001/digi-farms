@@ -70,8 +70,7 @@ export async function getLenderApplications() {
   return db.loanApplication.findMany({
     include: {
       user: {
-        select: { name: true, email: true },
-        include: { farms: { take: 1 } } as never,
+        select: { name: true, email: true, farm: true },
       },
     },
     orderBy: { createdAt: "desc" },

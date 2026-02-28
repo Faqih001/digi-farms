@@ -82,6 +82,21 @@ enum TicketStatus {
   CLOSED
 }
 
+enum ClaimStatus {
+  FILED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  SETTLED
+}
+
+enum ListingStatus {
+  ACTIVE
+  SOLD
+  EXPIRED
+  CANCELLED
+}
+
 // ===========================================================================
 // USERS & AUTH
 // ===========================================================================
@@ -99,19 +114,23 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts       Account[]
-  sessions       Session[]
-  farm           Farm?
-  supplier       Supplier?
-  orders         Order[]
-  loanApplications LoanApplication[]
-  insurancePolicies InsurancePolicies[]
-  subscription   Subscription?
-  notifications  Notification[]
-  reviews        Review[]
-  payments       Payment[]
-  activityLogs   ActivityLog[]
-  supportTickets SupportTicket[]
+  accounts            Account[]
+  sessions            Session[]
+  farm                Farm?
+  lenderProfile       LenderProfile?
+  supplier            Supplier?
+  orders              Order[]
+  loanApplications    LoanApplication[]
+  insurancePolicies   InsurancePolicies[]
+  subscription        Subscription?
+  notifications       Notification[]
+  notificationPrefs   NotificationPreference?
+  reviews             Review[]
+  payments            Payment[]
+  activityLogs        ActivityLog[]
+  supportTickets      SupportTicket[]
+  produceListings     ProduceListing[]
+  creditScores        CreditScore[]
 
   @@index([email])
   @@index([role])
@@ -157,6 +176,47 @@ model VerificationToken {
 }
 
 // ===========================================================================
+// LENDER PROFILE
+// ===========================================================================
+
+model LenderProfile {
+  id             String  @id @default(cuid())
+  userId         String  @unique
+  institutionName String?
+  licenseNo      String?
+  minLoanAmount  Float?
+  maxLoanAmount  Float?
+  baseInterestRate Float?
+  maxTenureMonths Int?
+  address        String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ===========================================================================
+// NOTIFICATION PREFERENCES
+// ===========================================================================
+
+model NotificationPreference {
+  id               String  @id @default(cuid())
+  userId           String  @unique
+  emailEnabled     Boolean @default(true)
+  smsEnabled       Boolean @default(false)
+  pushEnabled      Boolean @default(true)
+  weatherAlerts    Boolean @default(true)
+  marketplaceAlerts Boolean @default(true)
+  diagnosticAlerts Boolean @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ===========================================================================
 // FARMS & CROPS
 // ===========================================================================
 
@@ -178,6 +238,7 @@ model Farm {
   crops       Crop[]
   diagnostics Diagnostic[]
   soilReports SoilReport[]
+  yieldForecasts YieldForecast[]
 
   @@index([userId])
   @@index([latitude, longitude])
@@ -246,6 +307,70 @@ model SoilReport {
 }
 
 // ===========================================================================
+// CLIMATE & WEATHER
+// ===========================================================================
+
+model WeatherRecord {
+  id          String   @id @default(cuid())
+  latitude    Float
+  longitude   Float
+  temperature Float?
+  humidity    Float?
+  rainfall    Float?
+  windSpeed   Float?
+  condition   String?
+  forecast    Json?
+  recordedAt  DateTime
+  createdAt   DateTime @default(now())
+
+  @@index([latitude, longitude])
+  @@index([recordedAt])
+}
+
+// ===========================================================================
+// YIELD FORECASTS
+// ===========================================================================
+
+model YieldForecast {
+  id           String   @id @default(cuid())
+  farmId       String
+  cropName     String
+  season       String
+  predictedYield Float
+  confidence   Float?
+  moisture     Float?
+  healthScore  Float?
+  factors      Json?
+  forecastDate DateTime
+  createdAt    DateTime @default(now())
+
+  farm Farm @relation(fields: [farmId], references: [id], onDelete: Cascade)
+
+  @@index([farmId])
+  @@index([forecastDate])
+}
+
+// ===========================================================================
+// CREDIT SCORES & RISK
+// ===========================================================================
+
+model CreditScore {
+  id              String   @id @default(cuid())
+  userId          String
+  score           Float
+  riskLevel       String
+  repaymentCapacity Float?
+  farmViability   Float?
+  factors         Json?
+  calculatedAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([calculatedAt])
+}
+
+// ===========================================================================
 // MARKETPLACE
 // ===========================================================================
 
@@ -282,7 +407,7 @@ model Product {
   price        Float
   unit         String   @default("unit")
   stock        Int      @default(0)
-  imageUrls    String[] 
+  imageUrls    String[]
   tags         String[]
   isActive     Boolean  @default(true)
   isFeatured   Boolean  @default(false)
@@ -298,6 +423,29 @@ model Product {
   @@index([category])
   @@index([isActive])
   @@index([isFeatured])
+}
+
+model ProduceListing {
+  id          String        @id @default(cuid())
+  userId      String
+  name        String
+  description String?       @db.Text
+  category    String?
+  quantity    Float
+  unit        String        @default("kg")
+  price       Float
+  imageUrls   String[]
+  location    String?
+  status      ListingStatus @default(ACTIVE)
+  expiresAt   DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([category])
 }
 
 model Order {
@@ -343,10 +491,10 @@ model LoanApplication {
   userId          String
   amount          Float
   purpose         String
-  tenure          Int        // months
+  tenure          Int
   interestRate    Float?
   status          LoanStatus @default(DRAFT)
-  farmData        Json?      // Snapshot of farm data at application time
+  farmData        Json?
   riskScore       Float?
   approvedAmount  Float?
   disbursedAt     DateTime?
@@ -356,8 +504,9 @@ model LoanApplication {
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
 
-  user            User    @relation(fields: [userId], references: [id])
+  user            User              @relation(fields: [userId], references: [id])
   payments        Payment[]
+  insuranceClaims InsuranceClaim[]
 
   @@index([userId])
   @@index([status])
@@ -384,6 +533,28 @@ model InsurancePolicies {
   @@index([userId])
   @@index([status])
   @@index([policyNumber])
+}
+
+model InsuranceClaim {
+  id              String      @id @default(cuid())
+  loanId          String?
+  farmerId        String
+  farmerName      String?
+  type            String
+  description     String      @db.Text
+  amount          Float
+  insurer         String?
+  evidenceUrls    String[]
+  status          ClaimStatus @default(FILED)
+  resolvedAt      DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  loanApplication LoanApplication? @relation(fields: [loanId], references: [id])
+
+  @@index([loanId])
+  @@index([farmerId])
+  @@index([status])
 }
 
 // ===========================================================================
@@ -415,7 +586,7 @@ model Payment {
   orderId         String?       @unique
   loanId          String?
   amount          Float
-  currency        String        @default("USD")
+  currency        String        @default("KES")
   status          PaymentStatus @default(PENDING)
   method          String?
   reference       String?       @unique
@@ -435,7 +606,7 @@ model Payout {
   id          String        @id @default(cuid())
   supplierId  String
   amount      Float
-  currency    String        @default("USD")
+  currency    String        @default("KES")
   status      PaymentStatus @default(PENDING)
   reference   String?
   processedAt DateTime?
@@ -455,7 +626,7 @@ model Notification {
   userId    String
   title     String
   message   String   @db.Text
-  type      String   @default("info") // info | warning | success | error
+  type      String   @default("info")
   isRead    Boolean  @default(false)
   link      String?
   createdAt DateTime @default(now())
@@ -470,7 +641,7 @@ model Review {
   id        String   @id @default(cuid())
   userId    String
   productId String
-  rating    Int      // 1-5
+  rating    Int
   comment   String?  @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -489,7 +660,7 @@ model SupportTicket {
   subject     String
   description String       @db.Text
   status      TicketStatus @default(OPEN)
-  priority    String       @default("medium") // low | medium | high | critical
+  priority    String       @default("medium")
   category    String?
   resolvedAt  DateTime?
   createdAt   DateTime     @default(now())
@@ -544,4 +715,68 @@ model Agrovet {
 
   @@index([latitude, longitude])
   @@index([isVerified])
+}
+
+// ===========================================================================
+// AI MODELS (Admin)
+// ===========================================================================
+
+model AIModel {
+  id           String   @id @default(cuid())
+  name         String
+  version      String
+  type         String
+  accuracy     Float?
+  totalRequests Int     @default(0)
+  avgLatencyMs Float?
+  isActive     Boolean  @default(true)
+  config       Json?
+  deployedAt   DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([type])
+}
+
+// ===========================================================================
+// PARTNERSHIPS (Admin)
+// ===========================================================================
+
+model Partnership {
+  id          String   @id @default(cuid())
+  name        String
+  type        String
+  tier        String   @default("standard")
+  contactName String?
+  contactEmail String?
+  country     String?
+  revenue     Float    @default(0)
+  isActive    Boolean  @default(true)
+  startDate   DateTime @default(now())
+  endDate     DateTime?
+  notes       String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([type])
+}
+
+// ===========================================================================
+// PLATFORM REVENUE (Admin)
+// ===========================================================================
+
+model PlatformRevenue {
+  id        String   @id @default(cuid())
+  source    String
+  amount    Float
+  currency  String   @default("KES")
+  period    String
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([source])
+  @@index([period])
+  @@index([createdAt])
 }
