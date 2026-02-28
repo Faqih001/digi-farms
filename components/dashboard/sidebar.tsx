@@ -13,7 +13,7 @@ import {
   LayoutDashboard, Sprout, ScanLine, BarChart3, Droplets, CloudSun, ShoppingCart,
   Store, MapPin, Wallet, FileText, Shield, CreditCard, Settings, LogOut,
   Package, Truck, Users, DollarSign, TrendingUp, ClipboardList, PieChart,
-  UserCheck, BrainCircuit
+  UserCheck, BrainCircuit, Leaf
 } from "lucide-react";
 
 const farmerNav = [
