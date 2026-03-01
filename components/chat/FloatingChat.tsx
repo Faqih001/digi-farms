@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Send, X, Leaf, MessageCircle } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -50,6 +51,9 @@ const mdComponents: React.ComponentProps<typeof ReactMarkdown>["components"] = {
 };
 
 export default function FloatingChat() {
+  const pathname = usePathname?.();
+  // Do not render the floating chat on dashboard routes
+  if (typeof pathname === "string" && pathname.startsWith("/dashboard")) return null;
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
