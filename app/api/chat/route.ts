@@ -70,7 +70,13 @@ export async function POST(req: Request) {
             }
           }
         } catch (err: any) {
-          const line = JSON.stringify({ t: "error", d: err?.message ?? String(err) });
+          // Normalize the error to a plain string to avoid streaming non-serializable
+          // objects (for example ErrorEvent) which break RSC/NDJSON consumers.
+          console.error("/api/chat stream error:", err);
+          const msg = err && typeof err === "object"
+            ? (err.message ?? (err.toString ? err.toString() : JSON.stringify(err)))
+            : String(err);
+          const line = JSON.stringify({ t: "error", d: msg });
           controller.enqueue(encoder.encode(line + "\n"));
         } finally {
           controller.close();
@@ -87,7 +93,12 @@ export async function POST(req: Request) {
       },
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err?.message || String(err) }, { status: 500 });
+    // Ensure errors returned from the route are plain strings.
+    console.error("/api/chat handler error:", err);
+    const msg = err && typeof err === "object"
+      ? (err.message ?? (err.toString ? err.toString() : JSON.stringify(err)))
+      : String(err);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
 
