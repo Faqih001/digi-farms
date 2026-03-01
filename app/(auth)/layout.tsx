@@ -16,7 +16,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="relative z-10 flex flex-col justify-between h-full p-12">
           <Link href="/" className="flex items-center">
             <div className="relative w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center">
-              <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} priority className="object-contain" />
+                  <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} priority className="object-contain" sizes="(max-width: 640px) 56px, 112px" />
             </div>
           </Link>
 
@@ -46,7 +46,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             <div className="lg:hidden flex items-center mb-8">
           <Link href="/">
             <div className="relative w-20 h-20 rounded-xl overflow-hidden flex items-center justify-center">
-              <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} priority className="object-contain" />
+                <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} priority className="object-contain" sizes="80px" />
             </div>
           </Link>
         </div>
