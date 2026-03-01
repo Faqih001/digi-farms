@@ -422,18 +422,6 @@ export default function SellProducePage() {
   );
 }
 
-
-type FarmerOrder = Awaited<ReturnType<typeof getFarmerOrders>>[number];
-type FarmerOrderItem = FarmerOrder['items'][number];
-
-const STATUS_STYLES: Record<string, { label: string; variant: "secondary" | "success" | "destructive" | "info" }> = {
-  PENDING:   { label: "Pending",   variant: "secondary"   },
-  CONFIRMED: { label: "Confirmed", variant: "info"        },
-  SHIPPED:   { label: "Shipped",   variant: "info"        },
-  DELIVERED: { label: "Delivered", variant: "success"     },
-  CANCELLED: { label: "Cancelled", variant: "destructive" },
-};
-
 function fmt(d: Date | string) {
   return new Date(d).toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" });
 }
