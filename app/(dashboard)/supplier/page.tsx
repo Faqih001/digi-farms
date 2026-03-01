@@ -139,7 +139,7 @@ export default async function SupplierOverviewPage() {
                     <span className="w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 text-xs font-bold flex items-center justify-center">{i + 1}</span>
                     <div>
                       <p className="text-sm font-medium text-slate-900 dark:text-white line-clamp-1">{p.name}</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">{p.totalSales} sold · {p.stock} in stock</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{p.stock} in stock · {p.category}</p>
                     </div>
                   </div>
                   <span className="text-sm font-bold text-green-600">KES {p.price.toLocaleString()}</span>
