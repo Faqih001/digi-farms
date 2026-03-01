@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Toaster } from "sonner";
+import dynamic from "next/dynamic";
+
+const FloatingChat = dynamic(() => import("@/components/chat/FloatingChat"), { ssr: false });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,8 +19,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "DIGI-FARMS – Precision Agriculture Platform",
-    template: "%s | DIGI-FARMS",
+    default: "Digi Farms – Precision Agriculture Platform",
+    template: "%s | Digi Farms",
   },
   description:
     "AI-powered precision agriculture platform connecting farmers to diagnostics, marketplace, financing, and agrovets across East Africa.",
@@ -27,9 +30,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://digi-farms.com",
-    title: "DIGI-FARMS – Precision Agriculture Platform",
+    title: "Digi Farms – Precision Agriculture Platform",
     description: "AI-powered precision agriculture platform",
-    siteName: "DIGI-FARMS",
+    siteName: "Digi Farms",
   },
   icons: {
     icon: [
@@ -63,6 +66,7 @@ export default function RootLayout({
               style: { fontFamily: "var(--font-geist-sans)" },
             }}
           />
+          <FloatingChat />
         </ThemeProvider>
       </body>
     </html>
