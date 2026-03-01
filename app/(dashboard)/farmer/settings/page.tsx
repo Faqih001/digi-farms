@@ -9,16 +9,17 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { User, Bell, Shield, Phone, Mail, Save, Loader2 } from "lucide-react";
 import { getUserProfile, updateUserProfile, updatePassword } from "@/lib/actions/user";
+import { AvatarUploadDialog } from "@/components/dashboard/avatar-upload-dialog";
 
 type Profile = Awaited<ReturnType<typeof getUserProfile>>;
 
 export default function SettingsPage() {
   const [profile, setProfile] = useState<Profile>(null);
   const [loadingProfile, setLoadingProfile] = useState(true);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   // Profile form state
   const [name, setName] = useState("");
