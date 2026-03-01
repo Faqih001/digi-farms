@@ -111,9 +111,6 @@ export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen, user }: 
   );
 }
 
-
-const breadcrumbMap: Record<string, string> = {
-  farmer: "Dashboard", supplier: "Dashboard", lender: "Dashboard", admin: "Dashboard",
   farm: "Farm Profile", diagnostics: "Crop Diagnostics", scans: "Scan History",
   analytics: "Analytics", soil: "Soil Health", climate: "Climate Insights",
   buy: "Buy Inputs", sell: "Sell Produce", agrovets: "Agrovet Locator",
