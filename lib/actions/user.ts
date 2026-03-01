@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
+import { createNotification } from "@/lib/actions/notifications";
 
 export async function getUserProfile() {
   const session = await auth();
@@ -35,6 +36,7 @@ export async function updateUserProfile(data: {
   revalidatePath("/farmer/settings");
   revalidatePath("/supplier/settings");
   revalidatePath("/lender/settings");
+  await createNotification({ userId: session.user.id, title: "Profile Updated", message: "Your profile information has been saved.", type: "profile", link: `/${(session.user.role ?? "farmer").toLowerCase()}/settings` });
   return { success: true, user };
 }
 

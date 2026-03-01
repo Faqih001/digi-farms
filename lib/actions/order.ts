@@ -3,6 +3,7 @@
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { createNotification } from "@/lib/actions/notifications";
 
 export async function updateOrderStatus(orderId: string, status: "CONFIRMED" | "SHIPPED" | "DELIVERED" | "CANCELLED") {
   const session = await auth();
@@ -22,6 +23,16 @@ export async function updateOrderStatus(orderId: string, status: "CONFIRMED" | "
   const updated = await db.order.update({
     where: { id: orderId },
     data: { status },
+  });
+
+  // Notify the buyer
+  const statusLabel: Record<string, string> = { CONFIRMED: "confirmed", SHIPPED: "shipped", DELIVERED: "delivered", CANCELLED: "cancelled" };
+  await createNotification({
+    userId: order.userId,
+    title: `Order ${statusLabel[status] ?? status}`,
+    message: `Your order #${orderId.slice(-6).toUpperCase()} has been ${statusLabel[status] ?? status}.`,
+    type: status === "DELIVERED" ? "success" : status === "CANCELLED" ? "error" : "order",
+    link: "/farmer/buy",
   });
 
   revalidatePath("/supplier/orders");
@@ -107,6 +118,14 @@ export async function createOrder(
       })
     )
   );
+
+  await createNotification({
+    userId: session.user.id,
+    title: "Order Placed",
+    message: `Order #${order.id.slice(-6).toUpperCase()} placed for KES ${totalAmount.toLocaleString()}. We'll notify you when it ships.`,
+    type: "order",
+    link: "/farmer/buy",
+  });
 
   revalidatePath("/farmer/buy");
   revalidatePath("/farmer/orders");

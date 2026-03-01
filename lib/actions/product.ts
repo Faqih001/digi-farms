@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { productSchema } from "@/lib/validations";
 import { z } from "zod";
+import { createNotification } from "@/lib/actions/notifications";
 
 export async function createProduct(data: z.infer<typeof productSchema>) {
   const session = await auth();
@@ -21,6 +22,8 @@ export async function createProduct(data: z.infer<typeof productSchema>) {
       supplierId: supplier.id,
     },
   });
+
+  await createNotification({ userId: session.user.id, title: "Product Listed", message: `"${product.name}" is now live on the marketplace.`, type: "product", link: "/supplier/products" });
 
   revalidatePath("/supplier/products");
   return { success: true, product };
@@ -39,6 +42,8 @@ export async function updateProduct(productId: string, data: z.infer<typeof prod
   const validated = productSchema.parse(data);
   const product = await db.product.update({ where: { id: productId }, data: validated });
 
+  await createNotification({ userId: session.user.id, title: "Product Updated", message: `"${product.name}" has been updated.`, type: "product", link: "/supplier/products" });
+
   revalidatePath("/supplier/products");
   return { success: true, product };
 }
@@ -53,7 +58,10 @@ export async function deleteProduct(productId: string) {
   const existing = await db.product.findUnique({ where: { id: productId } });
   if (!existing || existing.supplierId !== supplier.id) throw new Error("Not found or forbidden");
 
+  const productName = existing.name;
   await db.product.delete({ where: { id: productId } });
+
+  await createNotification({ userId: session.user.id, title: "Product Removed", message: `"${productName}" has been removed from the marketplace.`, type: "warning" });
 
   revalidatePath("/supplier/products");
   return { success: true };

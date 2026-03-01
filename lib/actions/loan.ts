@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { loanApplicationSchema } from "@/lib/validations";
 import { z } from "zod";
+import { createNotification } from "@/lib/actions/notifications";
 
 export async function submitLoanApplication(data: z.infer<typeof loanApplicationSchema>) {
   const session = await auth();
@@ -17,6 +18,14 @@ export async function submitLoanApplication(data: z.infer<typeof loanApplication
       ...validated,
       userId: session.user.id,
     },
+  });
+
+  await createNotification({
+    userId: session.user.id,
+    title: "Loan Application Submitted",
+    message: `Your application for KES ${validated.amount.toLocaleString()} has been submitted and is under review.`,
+    type: "loan",
+    link: "/farmer/loans",
   });
 
   revalidatePath("/farmer/loans");
@@ -35,6 +44,19 @@ export async function updateLoanStatus(
   const updated = await db.loanApplication.update({
     where: { id: applicationId },
     data: { status, notes },
+  });
+
+  const statusMsg: Record<string, string> = {
+    APPROVED: "approved! Funds will be disbursed shortly.",
+    REJECTED: "unfortunately rejected. Contact support for details.",
+    DISBURSED: "disbursed to your account.",
+  };
+  await createNotification({
+    userId: updated.userId,
+    title: `Loan ${status.charAt(0) + status.slice(1).toLowerCase()}`,
+    message: `Your loan application has been ${statusMsg[status] ?? status.toLowerCase()}.`,
+    type: status === "APPROVED" || status === "DISBURSED" ? "success" : "error",
+    link: "/farmer/loans",
   });
 
   revalidatePath("/lender/applications");
@@ -58,6 +80,13 @@ export async function cancelLoanApplication(applicationId: string) {
   if (!existing || existing.userId !== session.user.id) throw new Error("Forbidden");
   if (!["DRAFT", "SUBMITTED"].includes(existing.status)) throw new Error("Cannot cancel at this stage");
   await db.loanApplication.delete({ where: { id: applicationId } });
+  await createNotification({
+    userId: session.user.id,
+    title: "Loan Application Cancelled",
+    message: "Your loan application has been cancelled.",
+    type: "warning",
+    link: "/farmer/loans",
+  });
   revalidatePath("/farmer/loans");
   return { success: true };
 }

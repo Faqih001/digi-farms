@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { farmSchema } from "@/lib/validations";
 import { z } from "zod";
+import { createNotification } from "@/lib/actions/notifications";
 
 const cropSchema = z.object({
   name: z.string().min(1),
@@ -21,6 +22,7 @@ export async function createFarm(data: z.infer<typeof farmSchema>) {
   if (!session?.user?.id) throw new Error("Unauthorized");
   const validated = farmSchema.parse(data);
   const farm = await db.farm.create({ data: { ...validated, userId: session.user.id } });
+  await createNotification({ userId: session.user.id, title: "Farm Created", message: `Your farm "${farm.name}" has been set up successfully.`, type: "farm", link: "/farmer/farm" });
   revalidatePath("/farmer/farm");
   return { success: true, farm };
 }
@@ -32,6 +34,7 @@ export async function updateFarm(farmId: string, data: z.infer<typeof farmSchema
   if (!existing || existing.userId !== session.user.id) throw new Error("Not found or forbidden");
   const validated = farmSchema.parse(data);
   const farm = await db.farm.update({ where: { id: farmId }, data: validated });
+  await createNotification({ userId: session.user.id, title: "Farm Updated", message: `Your farm "${farm.name}" has been updated.`, type: "farm", link: "/farmer/farm" });
   revalidatePath("/farmer/farm");
   return { success: true, farm };
 }
@@ -41,7 +44,9 @@ export async function deleteFarm(farmId: string) {
   if (!session?.user?.id) throw new Error("Unauthorized");
   const existing = await db.farm.findUnique({ where: { id: farmId } });
   if (!existing || existing.userId !== session.user.id) throw new Error("Not found or forbidden");
+  const name = existing.name;
   await db.farm.delete({ where: { id: farmId } });
+  await createNotification({ userId: session.user.id, title: "Farm Deleted", message: `Farm "${name}" and all its data have been removed.`, type: "warning" });
   revalidatePath("/farmer/farm");
   return { success: true };
 }
@@ -69,6 +74,7 @@ export async function createCrop(farmId: string, data: z.infer<typeof cropSchema
       plantedAt: new Date(validated.plantedAt),
     },
   });
+  await createNotification({ userId: session.user.id, title: "Crop Added", message: `${crop.name} has been added to your farm.`, type: "farm", link: "/farmer/farm" });
   revalidatePath("/farmer/farm");
   return { success: true, crop };
 }
@@ -83,6 +89,7 @@ export async function updateCrop(cropId: string, data: z.infer<typeof cropSchema
     where: { id: cropId },
     data: { ...validated, plantedAt: new Date(validated.plantedAt) },
   });
+  await createNotification({ userId: session.user.id, title: "Crop Updated", message: `${crop.name} details have been updated.`, type: "farm", link: "/farmer/farm" });
   revalidatePath("/farmer/farm");
   return { success: true, crop };
 }
@@ -92,7 +99,9 @@ export async function deleteCrop(cropId: string) {
   if (!session?.user?.id) throw new Error("Unauthorized");
   const existing = await db.crop.findUnique({ where: { id: cropId }, include: { farm: true } });
   if (!existing || existing.farm.userId !== session.user.id) throw new Error("Forbidden");
+  const cropName = existing.name;
   await db.crop.delete({ where: { id: cropId } });
+  await createNotification({ userId: session.user.id, title: "Crop Removed", message: `${cropName} has been removed from your farm.`, type: "warning", link: "/farmer/farm" });
   revalidatePath("/farmer/farm");
   return { success: true };
 }
