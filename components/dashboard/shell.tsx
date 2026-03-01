@@ -27,7 +27,7 @@ export default function DashboardShell({ children, role, user }: { children: Rea
         <div className="fixed inset-0 z-40 lg:hidden">
           <div className="absolute inset-0 bg-black/50" onClick={() => setIsMobileMenuOpen(false)} />
           <div className="absolute left-0 top-0 h-full w-72 z-50">
-            <Sidebar role={role} user={user} />
+            <Sidebar role={role} user={user} onNavigate={() => setIsMobileMenuOpen(false)} />
           </div>
         </div>
       )}

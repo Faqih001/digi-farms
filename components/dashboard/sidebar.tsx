@@ -99,7 +99,7 @@ const roleBadgeVariant: Record<string, "default" | "secondary" | "earth" | "succ
   ADMIN: "default",
 };
 
-export function Sidebar({ role, user }: { role: string; user: SessionUser }) {
+export function Sidebar({ role, user, onNavigate }: { role: string; user: SessionUser; onNavigate?: () => void }) {
   const pathname = usePathname();
   const nav = navByRole[role] || farmerNav;
 
@@ -140,7 +140,7 @@ export function Sidebar({ role, user }: { role: string; user: SessionUser }) {
           {nav.map(({ label, href, icon: Icon }) => {
             const isActive = pathname === href || (href !== `/${role}` && pathname.startsWith(href));
             return (
-              <Link key={href} href={href} className={cn("sidebar-link", isActive && "sidebar-link-active")}>
+              <Link key={href} href={href} onClick={onNavigate} className={cn("sidebar-link", isActive && "sidebar-link-active")}>
                 <Icon className="w-4 h-4 flex-shrink-0" />
                 <span>{label}</span>
               </Link>
