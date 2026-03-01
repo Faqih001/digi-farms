@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MapPin, Phone, Star, Navigation, Loader2, Search } from "lucide-react";
+import { MapPin, Phone, Star, Navigation, Loader2, Search, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 
 type Agrovet = {
@@ -17,6 +17,7 @@ type Agrovet = {
   services: string[];
   latitude?: number;
   longitude?: number;
+  mapsUrl?: string | null;
 };
 
 export default function AgrovetLocatorPage() {
@@ -164,17 +165,24 @@ export default function AgrovetLocatorPage() {
                     ))}
                   </div>
                 )}
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {agrovet.phone && (
-                    <a href={`tel:${agrovet.phone}`} className="flex-1">
+                    <a href={`tel:${agrovet.phone}`} className="flex-1 min-w-[120px]">
                       <Button size="sm" variant="outline" className="w-full">
                         <Phone className="w-3.5 h-3.5" /> {agrovet.phone}
                       </Button>
                     </a>
                   )}
-                  <Button size="sm" className="flex-1" onClick={() => openDirections(agrovet)}>
+                  <Button size="sm" className="flex-1 min-w-[100px]" onClick={() => openDirections(agrovet)}>
                     <Navigation className="w-3.5 h-3.5" /> Directions
                   </Button>
+                  {agrovet.mapsUrl && (
+                    <a href={agrovet.mapsUrl} target="_blank" rel="noopener noreferrer" className="flex-1 min-w-[100px]">
+                      <Button size="sm" variant="outline" className="w-full">
+                        <ExternalLink className="w-3.5 h-3.5" /> View on Maps
+                      </Button>
+                    </a>
+                  )}
                 </div>
               </CardContent>
             </Card>

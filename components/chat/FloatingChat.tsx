@@ -19,6 +19,12 @@ type Msg = {
   streaming?: boolean;// true while any tokens are streaming
 };
 
+const predefined = [
+  "Give me a planting calendar for maize in Kenya.",
+  "How do I diagnose nitrogen deficiency?",
+  "Suggest fertilizers for smallholder farms.",
+];
+
 /** Markdown components for well-formatted assistant responses */
 const mdComponents: React.ComponentProps<typeof ReactMarkdown>["components"] = {
   p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
@@ -50,25 +56,18 @@ const mdComponents: React.ComponentProps<typeof ReactMarkdown>["components"] = {
 };
 
 export default function FloatingChat() {
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const [model, setModel] = useState<string>("gemini-2.5-flash");
-  const { data: session } = useSession();
+  const [showPrompts, setShowPrompts] = useState(true);
   const scroller = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (scroller.current) scroller.current.scrollTop = scroller.current.scrollHeight;
   }, [messages, open]);
-
-  const predefined = [
-    "Give me a planting calendar for maize in Kenya.",
-    "How do I diagnose nitrogen deficiency?",
-    "Suggest fertilizers for smallholder farms.",
-  ];
-
-  const [showPrompts, setShowPrompts] = useState(true);
 
   useEffect(() => {
     if (typeof window === "undefined") return;

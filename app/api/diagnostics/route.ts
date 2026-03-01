@@ -152,12 +152,21 @@ export async function POST(req: NextRequest) {
       imageUrl,
       createdAt: diagnostic.createdAt,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    // Neon WebSocket errors surface as ErrorEvent objects — serialize them properly
+    let message = "Diagnosis failed";
+    if (err instanceof Error) {
+      message = err.message;
+    } else if (err && typeof err === "object") {
+      const ev = err as Record<string, unknown>;
+      if (typeof ev.message === "string") message = ev.message;
+      else if (typeof ev.type === "string") message = `Connection error: ${ev.type}`;
+      else message = String(ev);
+    } else if (typeof err === "string") {
+      message = err;
+    }
     console.error("/api/diagnostics error:", err);
-    return NextResponse.json(
-      { error: err?.message ?? "Diagnosis failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 

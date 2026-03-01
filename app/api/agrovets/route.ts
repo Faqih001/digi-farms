@@ -16,7 +16,8 @@ Respond ONLY with valid JSON array (no markdown fences) in this format:
     "open": true,
     "services": ["Seeds", "Fertilizers", "Pesticides"],
     "latitude": -0.3031,
-    "longitude": 36.0800
+    "longitude": 36.0800,
+    "mapsUrl": "https://maps.google.com/?q=..."
   }
 ]
 Return up to 10 results sorted by relevance/distance. If no results found, return an empty array [].`;
@@ -49,16 +50,37 @@ export async function POST(req: NextRequest) {
       contents: [{ role: "user", parts: [{ text: userQuery }] }],
       config: {
         systemInstruction: SYSTEM_PROMPT,
-        tools: [{ googleSearch: {} }],
+        tools: [{ googleMaps: {} }],
+        toolConfig: {
+          retrievalConfig: {
+            latLng: { latitude, longitude },
+          },
+        },
       },
     });
 
     const text = result.text?.trim() ?? "[]";
 
+    // Extract Google Maps URIs from grounding metadata to add mapsUrl per result
+    const groundingChunks: Array<{ maps?: { uri?: string; title?: string } }> =
+      (result.candidates?.[0]?.groundingMetadata as any)?.groundingChunks ?? [];
+    const mapsUris = groundingChunks
+      .map((c) => c.maps?.uri)
+      .filter((u): u is string => Boolean(u));
+
     try {
       const cleaned = text.replace(/```(?:json)?\s*/g, "").replace(/```\s*/g, "").trim();
-      const agrovets = JSON.parse(cleaned);
-      return NextResponse.json(agrovets);
+      const agrovets: Array<Record<string, unknown>> = JSON.parse(cleaned);
+
+      // Attach Google Maps URIs from grounding chunks when available
+      const enriched = Array.isArray(agrovets)
+        ? agrovets.map((a, i) => ({
+            ...a,
+            mapsUrl: a.mapsUrl || mapsUris[i] || null,
+          }))
+        : agrovets;
+
+      return NextResponse.json(enriched);
     } catch {
       return NextResponse.json({ error: "Failed to parse results", raw: text }, { status: 502 });
     }
