@@ -47,6 +47,7 @@ export default function SettingsPage() {
           setName(data.name ?? "");
           setPhone(data.phone ?? "");
           setCountry(data.country ?? "");
+          setAvatarUrl(data.image ?? null);
         }
       })
       .catch(() => toast.error("Failed to load profile"))
@@ -112,10 +113,14 @@ export default function SettingsPage() {
               ) : (
                 <>
                   <div className="flex items-center gap-4">
-                    <Avatar className="w-20 h-20">
-                      <AvatarImage src={profile?.image ?? ""} />
-                      <AvatarFallback className="text-xl bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300">{initials}</AvatarFallback>
-                    </Avatar>
+                    <AvatarUploadDialog
+                      currentImage={avatarUrl}
+                      initials={initials}
+                      onAvatarChange={(url) => {
+                        setAvatarUrl(url);
+                        setProfile((p) => p ? { ...p, image: url } : p);
+                      }}
+                    />
                     <div>
                       <p className="text-sm font-semibold text-slate-900 dark:text-white">{name || "—"}</p>
                       <p className="text-xs text-slate-500 dark:text-slate-400">{profile?.email}</p>
