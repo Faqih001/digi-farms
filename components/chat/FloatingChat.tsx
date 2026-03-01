@@ -68,6 +68,14 @@ export default function FloatingChat() {
     "Suggest fertilizers for smallholder farms.",
   ];
 
+  const [showPrompts, setShowPrompts] = useState(true);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const seen = window.localStorage.getItem("df_chat_seen");
+    if (seen === "1") setShowPrompts(false);
+  }, []);
+
   async function sendPrompt(text: string) {
     if (!text.trim() || sending) return;
 
@@ -75,6 +83,12 @@ export default function FloatingChat() {
     const allMsgs = [...messages, userMsg];
     setMessages(allMsgs);
     setInput("");
+    try {
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("df_chat_seen", "1");
+        setShowPrompts(false);
+      }
+    } catch {}
 
     const assistantId = `${Date.now()}a`;
     setMessages((m) => [...m, { id: assistantId, role: "assistant", text: "", streaming: true, thinking: false }]);
