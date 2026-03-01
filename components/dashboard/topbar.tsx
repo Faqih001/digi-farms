@@ -10,8 +10,10 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
   DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, X, Settings, LogOut, User, ChevronDown } from "lucide-react";
+import { Menu, X, Settings, LogOut, User, ChevronDown, Sun, Moon, Home } from "lucide-react";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const breadcrumbMap: Record<string, string> = {
   farmer: "Dashboard", supplier: "Dashboard", lender: "Dashboard", admin: "Dashboard",
@@ -31,6 +33,9 @@ const breadcrumbMap: Record<string, string> = {
 
 export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen, user }: { onMobileMenuToggle: () => void; isMobileMenuOpen: boolean; user: SessionUser }) {
   const pathname = usePathname();
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const segments = pathname.split("/").filter(Boolean);
   const pageTitle = breadcrumbMap[segments[segments.length - 1]] || "Dashboard";
@@ -65,6 +70,17 @@ export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen, user }: 
       </div>
 
       <div className="flex items-center gap-2 ml-auto">
+        {/* Theme toggle */}
+        {mounted && (
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-slate-500" />}
+          </button>
+        )}
+
         {/* Notification bell */}
         <NotificationBell />
 
@@ -90,6 +106,11 @@ export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen, user }: 
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href="/">
+                <Home className="w-4 h-4" /> Home
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href={`/${user?.role?.toLowerCase()}/settings`}>
                 <User className="w-4 h-4" /> Profile

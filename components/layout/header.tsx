@@ -3,10 +3,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, ChevronDown, Leaf, LogIn, Sun, Moon } from "lucide-react";
+import { Menu, X, ChevronDown, Leaf, LogIn, Sun, Moon, Settings, LogOut, User, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
+  DropdownMenuSeparator, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import { useSession, signOut } from "next-auth/react";
 
 const navLinks = [
   {
@@ -42,6 +48,8 @@ export default function Header() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+  const { data: session } = useSession();
+  const sessionUser = session?.user as { name?: string | null; email?: string | null; image?: string | null; role?: string } | undefined;
   const [lang, setLang] = useState<string>("EN");
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement | null>(null);
@@ -286,15 +294,64 @@ export default function Header() {
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                 </button>
               )}
-              <Button variant="outline" size="lg" asChild>
-                <Link href="/login">
-                  <LogIn className="w-4 h-4" />
-                  Sign In
-                </Link>
-              </Button>
-              <Button size="lg" asChild>
-                <Link href="/register">Get Started Free</Link>
-              </Button>
+              {sessionUser ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                      <Avatar className="h-9 w-9">
+                        <AvatarImage src={sessionUser.image || ""} />
+                        <AvatarFallback className="text-xs bg-green-100 dark:bg-green-900 text-green-700">
+                          {sessionUser.name?.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) || "DF"}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="text-sm font-medium text-slate-700 dark:text-slate-300 max-w-[120px] truncate">
+                        {sessionUser.name || "Account"}
+                      </span>
+                      <ChevronDown className="w-4 h-4 text-slate-400" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col">
+                        <p className="text-sm font-semibold">{sessionUser.name}</p>
+                        <p className="text-xs text-slate-400">{sessionUser.email}</p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href={`/${(sessionUser.role ?? "farmer").toLowerCase()}`}>
+                        <LayoutDashboard className="w-4 h-4" /> Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href={`/${(sessionUser.role ?? "farmer").toLowerCase()}/settings`}>
+                        <User className="w-4 h-4" /> Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href={`/${(sessionUser.role ?? "farmer").toLowerCase()}/settings`}>
+                        <Settings className="w-4 h-4" /> Settings
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })} className="text-red-500 focus:text-red-500 focus:bg-red-50">
+                      <LogOut className="w-4 h-4" /> Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <>
+                  <Button variant="outline" size="lg" asChild>
+                    <Link href="/login">
+                      <LogIn className="w-4 h-4" />
+                      Sign In
+                    </Link>
+                  </Button>
+                  <Button size="lg" asChild>
+                    <Link href="/register">Get Started Free</Link>
+                  </Button>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Toggle */}
@@ -377,12 +434,27 @@ export default function Header() {
                 </button>
               )}
               <div className="pt-4 space-y-2 border-t border-slate-200 dark:border-slate-700">
-                <Button variant="outline" className="w-full" asChild>
-                  <Link href="/login" onClick={() => setMobileOpen(false)}>Sign In</Link>
-                </Button>
-                <Button className="w-full" asChild>
-                  <Link href="/register" onClick={() => setMobileOpen(false)}>Get Started Free</Link>
-                </Button>
+                {sessionUser ? (
+                  <>
+                    <Button variant="outline" className="w-full" asChild>
+                      <Link href={`/${(sessionUser.role ?? "farmer").toLowerCase()}`} onClick={() => setMobileOpen(false)}>
+                        <LayoutDashboard className="w-4 h-4" /> Dashboard
+                      </Link>
+                    </Button>
+                    <Button variant="ghost" className="w-full justify-start text-red-500 hover:text-red-500" onClick={() => { setMobileOpen(false); signOut({ callbackUrl: "/" }); }}>
+                      <LogOut className="w-4 h-4" /> Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="outline" className="w-full" asChild>
+                      <Link href="/login" onClick={() => setMobileOpen(false)}>Sign In</Link>
+                    </Button>
+                    <Button className="w-full" asChild>
+                      <Link href="/register" onClick={() => setMobileOpen(false)}>Get Started Free</Link>
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>
