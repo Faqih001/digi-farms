@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import type { SessionUser } from "@/components/dashboard/shell";
 import Link from "next/link";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -30,15 +31,14 @@ const breadcrumbMap: Record<string, string> = {
   new: "New", edit: "Edit",
 };
 
-export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen }: { onMobileMenuToggle: () => void; isMobileMenuOpen: boolean }) {
-  const { data: session } = useSession();
+export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen, user }: { onMobileMenuToggle: () => void; isMobileMenuOpen: boolean; user: SessionUser }) {
   const pathname = usePathname();
   const [showSearch, setShowSearch] = useState(false);
 
   const segments = pathname.split("/").filter(Boolean);
   const pageTitle = breadcrumbMap[segments[segments.length - 1]] || "Dashboard";
 
-  const initials = session?.user?.name?.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) || "DF";
+  const initials = user?.name?.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) || "DF";
 
   return (
     <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center px-4 gap-4 sticky top-0 z-30">
@@ -96,11 +96,11 @@ export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen }: { onMo
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
               <Avatar className="h-8 w-8">
-                <AvatarImage src={session?.user?.image || ""} />
+                <AvatarImage src={user?.image || ""} />
                 <AvatarFallback className="text-xs">{initials}</AvatarFallback>
               </Avatar>
               <span className="hidden sm:block text-sm font-medium text-slate-700 dark:text-slate-300 max-w-[120px] truncate">
-                {session?.user?.name || "User"}
+                {user?.name || "User"}
               </span>
               <ChevronDown className="w-4 h-4 text-slate-400" />
             </button>
@@ -108,18 +108,18 @@ export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen }: { onMo
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col">
-                <p className="text-sm font-semibold">{session?.user?.name}</p>
-                <p className="text-xs text-slate-400">{session?.user?.email}</p>
+                <p className="text-sm font-semibold">{user?.name}</p>
+                <p className="text-xs text-slate-400">{user?.email}</p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href={`/${(session?.user as { role?: string })?.role?.toLowerCase()}/settings`}>
+              <Link href={`/${user?.role?.toLowerCase()}/settings`}>
                 <User className="w-4 h-4" /> Profile
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href={`/${(session?.user as { role?: string })?.role?.toLowerCase()}/settings`}>
+              <Link href={`/${user?.role?.toLowerCase()}/settings`}>
                 <Settings className="w-4 h-4" /> Settings
               </Link>
             </DropdownMenuItem>

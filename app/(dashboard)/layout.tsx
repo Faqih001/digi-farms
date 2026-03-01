@@ -10,9 +10,16 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   const role = (session.user as { role?: string }).role || "FARMER";
+  const user = {
+    id: session.user.id,
+    name: session.user.name,
+    email: session.user.email,
+    image: session.user.image,
+    role,
+  };
 
   return (
-    <DashboardShell role={role}>
+    <DashboardShell role={role} user={user}>
       {children}
     </DashboardShell>
   );

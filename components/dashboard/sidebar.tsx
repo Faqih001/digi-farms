@@ -3,7 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import type { SessionUser } from "@/components/dashboard/shell";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -97,12 +98,11 @@ const roleBadgeVariant: Record<string, "default" | "secondary" | "earth" | "succ
   ADMIN: "default",
 };
 
-export function Sidebar({ role }: { role: string }) {
+export function Sidebar({ role, user }: { role: string; user: SessionUser }) {
   const pathname = usePathname();
-  const { data: session } = useSession();
   const nav = navByRole[role] || farmerNav;
 
-  const initials = session?.user?.name
+  const initials = user?.name
     ?.split(" ")
     .map((n) => n[0])
     .join("")
@@ -122,12 +122,12 @@ export function Sidebar({ role }: { role: string }) {
       <div className="px-4 py-4 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-3">
           <Avatar className="h-9 w-9">
-            <AvatarImage src={session?.user?.image || ""} />
+            <AvatarImage src={user?.image || ""} />
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{session?.user?.name || "Farmer"}</p>
-            <p className="text-xs text-slate-400 truncate">{session?.user?.email}</p>
+            <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{user?.name || "Farmer"}</p>
+            <p className="text-xs text-slate-400 truncate">{user?.email}</p>
           </div>
           <Badge variant={roleBadgeVariant[role] || "default"} className="text-xs flex-shrink-0">{roleLabel[role]}</Badge>
         </div>

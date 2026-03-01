@@ -94,20 +94,20 @@ export default function Header() {
       {/* Topbar */}
       <div
         className={cn(
-          "hidden md:block relative z-60 text-xs",
+          "block relative z-60 text-xs",
           mounted && theme === "dark"
             ? "bg-slate-900 border-b border-slate-800 text-white"
             : "bg-white border-b border-slate-200 text-slate-900"
         )}
       >
         <div className="container mx-auto px-4 max-w-7xl flex items-center justify-between py-1.5">
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 md:gap-6">
             <span>📞 +254 (0) 700 DIGI-FARM</span>
-            <span>✉️ hello@digi-farms.com</span>
+            <span className="hidden sm:inline">✉️ hello@digi-farms.com</span>
           </div>
           <div className="flex items-center gap-4">
-            <span>🌍 Kenya · East Africa</span>
-            <span className="text-sm">Office Hours: Mon–Fri 08:00–17:00</span>
+            <span className="hidden md:inline">🌍 Kenya · East Africa</span>
+            <span className="hidden lg:inline text-sm">Office Hours: Mon–Fri 08:00–17:00</span>
               <div className="relative" ref={langMenuRef}>
                 <button
                   type="button"
