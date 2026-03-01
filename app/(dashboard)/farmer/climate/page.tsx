@@ -5,13 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CloudSun, CloudRain, Sun, Wind, Droplets, Thermometer, Loader2, RefreshCw, MapPin } from "lucide-react";
+import { CloudSun, CloudRain, Sun, Wind, Droplets, Thermometer, Loader2, RefreshCw, MapPin, MessageSquare, Send, ChevronDown, ChevronUp, Bot, User } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 type Current = { temp: number; feelsLike: number; humidity: number; wind: number; rain: number; uvIndex: string; condition: string; location: string };
 type Forecast = { day: string; high: number; low: number; rain: number; condition: string };
 type Advisory = { msg: string; type: "warning" | "success" | "info" };
 type Seasonal = { longRains: string; shortRains: string; enso: string; droughtRisk: string };
+type QAMessage = { role: "user" | "ai"; text: string };
 
 function conditionIcon(cond: string) {
   const c = cond?.toLowerCase() || "";
@@ -27,6 +29,13 @@ export default function ClimateInsightsPage() {
   const [seasonal, setSeasonal] = useState<Seasonal | null>(null);
   const [loading, setLoading] = useState(false);
   const [locationInput, setLocationInput] = useState("");
+  const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
+
+  // Q&A state
+  const [qaOpen, setQaOpen] = useState(false);
+  const [qaMessages, setQaMessages] = useState<QAMessage[]>([]);
+  const [qaInput, setQaInput] = useState("");
+  const [qaLoading, setQaLoading] = useState(false);
 
   const fetchWeather = async (lat?: number, lng?: number, location?: string) => {
     setLoading(true);
@@ -49,7 +58,11 @@ export default function ClimateInsightsPage() {
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => fetchWeather(pos.coords.latitude, pos.coords.longitude),
+        (pos) => {
+          const coords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+          setUserCoords(coords);
+          fetchWeather(coords.lat, coords.lng);
+        },
         () => fetchWeather(undefined, undefined, "Nairobi, Kenya")
       );
     } else {
@@ -60,6 +73,41 @@ export default function ClimateInsightsPage() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (locationInput.trim()) fetchWeather(undefined, undefined, locationInput.trim());
+  };
+
+  const askGemini = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const question = qaInput.trim();
+    if (!question || qaLoading) return;
+    const context = current
+      ? `Current weather: ${current.temp}°C, ${current.condition}, humidity ${current.humidity}%, wind ${current.wind} km/h, rain ${current.rain}mm, UV: ${current.uvIndex}. Location: ${current.location}.`
+      : "";
+    const systemContext = `You are an agricultural climate advisor. ${context} Answer the farmer's question concisely and practically.`;
+    setQaMessages(prev => [...prev, { role: "user", text: question }]);
+    setQaInput("");
+    setQaLoading(true);
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [
+            { role: "user", content: systemContext + "\n\nFarmer question: " + question },
+          ],
+          model: "gemini-2.5-flash",
+          ...(userCoords ?? {}),
+        }),
+      });
+      if (!res.ok) throw new Error("AI request failed");
+      const data = await res.json();
+      const aiText = data.text ?? data.reply ?? "Sorry, I could not get a response.";
+      setQaMessages(prev => [...prev, { role: "ai", text: aiText }]);
+    } catch {
+      toast.error("Failed to get AI response");
+      setQaMessages(prev => [...prev, { role: "ai", text: "Sorry, something went wrong. Please try again." }]);
+    } finally {
+      setQaLoading(false);
+    }
   };
 
   const CondIcon = current ? conditionIcon(current.condition) : CloudSun;

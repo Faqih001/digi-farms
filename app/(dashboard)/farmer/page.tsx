@@ -52,9 +52,9 @@ export default async function FarmerOverviewPage({
       take: 3,
     }),
     db.soilReport.findMany({
-      where: { farm: { userId }, createdAt: { gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) } },
+      where: { farm: { userId }, testedAt: { gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) } },
       take: 3,
-      orderBy: { createdAt: "desc" },
+      orderBy: { testedAt: "desc" },
     }),
   ]);
 
