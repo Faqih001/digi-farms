@@ -236,3 +236,23 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json(formatted);
 }
+
+// DELETE: Remove a diagnostic scan
+export async function DELETE(req: NextRequest) {
+  const session = await auth();
+  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get("id");
+  if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
+
+  // Verify ownership — the diagnostic must belong to one of the user's farms
+  const diagnostic = await db.diagnostic.findFirst({
+    where: { id, farm: { userId: session.user.id } },
+    select: { id: true },
+  });
+  if (!diagnostic) return NextResponse.json({ error: "Not found or forbidden" }, { status: 404 });
+
+  await db.diagnostic.delete({ where: { id } });
+  return NextResponse.json({ success: true });
+}

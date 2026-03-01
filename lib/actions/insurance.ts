@@ -5,6 +5,60 @@ import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { createNotification } from "@/lib/actions/notifications";
 
+export async function createPolicy(data: {
+  provider: string;
+  cropCovered: string;
+  coverageAmount: number;
+  premium: number;
+  startDate: string;
+  endDate: string;
+}) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  if (!data.provider || !data.cropCovered || !data.coverageAmount || !data.premium || !data.startDate || !data.endDate)
+    throw new Error("All fields are required");
+
+  const policyNumber = `POL-${Date.now().toString(36).toUpperCase()}`;
+
+  const policy = await db.insurancePolicies.create({
+    data: {
+      userId: session.user.id,
+      policyNumber,
+      provider: data.provider,
+      cropCovered: data.cropCovered,
+      coverageAmount: data.coverageAmount,
+      premium: data.premium,
+      startDate: new Date(data.startDate),
+      endDate: new Date(data.endDate),
+      status: "ACTIVE",
+    },
+  });
+
+  await createNotification({
+    userId: session.user.id,
+    title: "Insurance Policy Activated",
+    message: `Your ${data.cropCovered} policy (${policyNumber}) with ${data.provider} is now active.`,
+    type: "info",
+    link: "/farmer/insurance",
+  });
+
+  revalidatePath("/farmer/insurance");
+  return { success: true, policy };
+}
+
+export async function deletePolicy(id: string) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  const policy = await db.insurancePolicies.findFirst({ where: { id, userId: session.user.id } });
+  if (!policy) throw new Error("Policy not found or access denied");
+
+  await db.insurancePolicies.delete({ where: { id } });
+  revalidatePath("/farmer/insurance");
+  return { success: true };
+}
+
 export async function getUserPolicies() {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");

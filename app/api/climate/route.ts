@@ -27,15 +27,23 @@ export async function POST(req: NextRequest) {
   if (!session?.user?.id) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
 
   const { lat, lng, location } = await req.json();
+  const hasCoords = typeof lat === "number" && typeof lng === "number";
   const locStr = location || `latitude ${lat}, longitude ${lng}`;
+
+  const config: Record<string, unknown> = { temperature: 0.3 };
+
+  if (hasCoords) {
+    // Use both Maps (for location context) and Search (for weather data)
+    config.tools = [{ googleMaps: {} }, { googleSearch: {} }];
+    config.toolConfig = { retrievalConfig: { latLng: { latitude: lat, longitude: lng } } };
+  } else {
+    config.tools = [{ googleSearch: {} }];
+  }
 
   const res = await ai.models.generateContent({
     model: MODEL,
     contents: `${PROMPT}\n\nLocation: ${locStr}`,
-    config: {
-      tools: [{ googleSearch: {} }],
-      temperature: 0.3,
-    },
+    config,
   });
 
   const text = res.text ?? "";

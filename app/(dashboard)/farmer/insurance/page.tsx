@@ -9,8 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Shield, FileText, AlertTriangle, CheckCircle, Plus, Loader2, X } from "lucide-react";
-import { getUserPolicies, getUserClaims, fileClaim } from "@/lib/actions/insurance";
+import { Shield, FileText, AlertTriangle, CheckCircle, Plus, Loader2, X, Trash2 } from "lucide-react";
+import { getUserPolicies, getUserClaims, fileClaim, createPolicy, deletePolicy } from "@/lib/actions/insurance";
 
 type Policy = Awaited<ReturnType<typeof getUserPolicies>>[number];
 type Claim = Awaited<ReturnType<typeof getUserClaims>>[number];
@@ -31,9 +31,9 @@ const policyStatusVariant: Record<string, "success" | "warning" | "destructive" 
 };
 
 const plans = [
-  { name: "Basic Crop", coverage: "Up to KES 100K", premium: "From KES 5,000/season", features: ["Single crop coverage", "Drought protection", "Basic pest damage"] },
-  { name: "Premium Crop", coverage: "Up to KES 500K", premium: "From KES 12,000/season", features: ["Multi-crop coverage", "All weather events", "Pest & disease", "Market price guarantee"] },
-  { name: "Comprehensive", coverage: "Up to KES 1M", premium: "From KES 25,000/season", features: ["Crops + Livestock", "All natural disasters", "Equipment coverage", "Income protection", "Priority claims"] },
+  { name: "Basic Crop", coverage: "Up to KES 100K", coverageAmount: 100000, premium: 5000, features: ["Single crop coverage", "Drought protection", "Basic pest damage"] },
+  { name: "Premium Crop", coverage: "Up to KES 500K", coverageAmount: 500000, premium: 12000, features: ["Multi-crop coverage", "All weather events", "Pest & disease", "Market price guarantee"] },
+  { name: "Comprehensive", coverage: "Up to KES 1M", coverageAmount: 1000000, premium: 25000, features: ["Crops + Livestock", "All natural disasters", "Equipment coverage", "Income protection", "Priority claims"] },
 ];
 
 export default function InsurancePage() {
@@ -41,8 +41,13 @@ export default function InsurancePage() {
   const [claims, setClaims] = useState<Claim[]>([]);
   const [loading, setLoading] = useState(true);
   const [claimOpen, setClaimOpen] = useState(false);
+  const [policyOpen, setPolicyOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<Policy | null>(null);
   const [pending, startTransition] = useTransition();
   const [form, setForm] = useState({ type: "", description: "", amount: "", insurer: "" });
+  const [policyForm, setPolicyForm] = useState({
+    provider: "", cropCovered: "", coverageAmount: "", premium: "", startDate: "", endDate: "",
+  });
 
   useEffect(() => {
     Promise.all([getUserPolicies(), getUserClaims()])
@@ -71,6 +76,46 @@ export default function InsurancePage() {
     });
   };
 
+  const handleCreatePolicy = (e: React.FormEvent) => {
+    e.preventDefault();
+    startTransition(async () => {
+      try {
+        await createPolicy({
+          provider: policyForm.provider,
+          cropCovered: policyForm.cropCovered,
+          coverageAmount: parseFloat(policyForm.coverageAmount),
+          premium: parseFloat(policyForm.premium),
+          startDate: policyForm.startDate,
+          endDate: policyForm.endDate,
+        });
+        toast.success("Policy created successfully!");
+        setPolicyOpen(false);
+        setPolicyForm({ provider: "", cropCovered: "", coverageAmount: "", premium: "", startDate: "", endDate: "" });
+        const [p, c] = await Promise.all([getUserPolicies(), getUserClaims()]);
+        setPolicies(p);
+        setClaims(c);
+      } catch (err) { toast.error((err as Error).message); }
+    });
+  };
+
+  const handleDeletePolicy = (policy: Policy) => {
+    setDeleteTarget(policy);
+  };
+
+  const confirmDeletePolicy = () => {
+    if (!deleteTarget) return;
+    startTransition(async () => {
+      try {
+        await deletePolicy(deleteTarget.id);
+        toast.success("Policy deleted");
+        setDeleteTarget(null);
+        const [p, c] = await Promise.all([getUserPolicies(), getUserClaims()]);
+        setPolicies(p);
+        setClaims(c);
+      } catch (err) { toast.error((err as Error).message); }
+    });
+  };
+
   const activePolicies = policies.filter((p) => p.status === "ACTIVE").length;
   const totalCoverage = policies.filter((p) => p.status === "ACTIVE").reduce((s, p) => s + p.coverageAmount, 0);
   const totalPayouts = claims.filter((c) => c.status === "SETTLED").reduce((s, c) => s + c.amount, 0);
@@ -84,38 +129,85 @@ export default function InsurancePage() {
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Insurance</h1>
           <p className="text-sm text-slate-500 dark:text-slate-400">Protect your farm against risks with affordable agri-insurance</p>
         </div>
-        <Dialog open={claimOpen} onOpenChange={setClaimOpen}>
-          <DialogTrigger asChild>
-            <Button><Plus className="w-4 h-4" /> File Claim</Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-md">
-            <DialogHeader><DialogTitle>File Insurance Claim</DialogTitle></DialogHeader>
-            <form onSubmit={handleFileClaim} className="space-y-4 pt-2">
-              <div className="space-y-1.5">
-                <Label>Claim Type *</Label>
-                <Input placeholder="e.g., Drought Damage, Pest Infestation" value={form.type} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))} required />
-              </div>
-              <div className="space-y-1.5">
-                <Label>Description *</Label>
-                <Textarea placeholder="Describe the damage and circumstances..." value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} className="min-h-[80px]" required />
-              </div>
-              <div className="space-y-1.5">
-                <Label>Claim Amount (KES) *</Label>
-                <Input type="number" placeholder="45000" value={form.amount} onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))} required />
-              </div>
-              <div className="space-y-1.5">
-                <Label>Insurer</Label>
-                <Input placeholder="Insurance provider name" value={form.insurer} onChange={(e) => setForm((f) => ({ ...f, insurer: e.target.value }))} />
-              </div>
-              <div className="flex gap-3">
-                <Button type="submit" disabled={pending} className="flex-1">
-                  {pending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <FileText className="w-4 h-4 mr-2" />} Submit Claim
-                </Button>
-                <Button type="button" variant="outline" onClick={() => setClaimOpen(false)}>Cancel</Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <div className="flex gap-2 flex-wrap">
+          <Dialog open={policyOpen} onOpenChange={setPolicyOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline"><Shield className="w-4 h-4" /> Add Policy</Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-md">
+              <DialogHeader><DialogTitle>Subscribe to Insurance Plan</DialogTitle></DialogHeader>
+              <form onSubmit={handleCreatePolicy} className="space-y-4 pt-2">
+                <div className="space-y-1.5">
+                  <Label>Insurance Provider *</Label>
+                  <Input placeholder="e.g., Jubilee Insurance, Britam" value={policyForm.provider} onChange={(e) => setPolicyForm(f => ({ ...f, provider: e.target.value }))} required />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>Crop / Livestock Covered *</Label>
+                  <Input placeholder="e.g., Maize, Tomatoes, Dairy Cattle" value={policyForm.cropCovered} onChange={(e) => setPolicyForm(f => ({ ...f, cropCovered: e.target.value }))} required />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <Label>Coverage Amount (KES) *</Label>
+                    <Input type="number" placeholder="100000" value={policyForm.coverageAmount} onChange={(e) => setPolicyForm(f => ({ ...f, coverageAmount: e.target.value }))} required />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Premium (KES) *</Label>
+                    <Input type="number" placeholder="5000" value={policyForm.premium} onChange={(e) => setPolicyForm(f => ({ ...f, premium: e.target.value }))} required />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <Label>Start Date *</Label>
+                    <Input type="date" value={policyForm.startDate} onChange={(e) => setPolicyForm(f => ({ ...f, startDate: e.target.value }))} required />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>End Date *</Label>
+                    <Input type="date" value={policyForm.endDate} onChange={(e) => setPolicyForm(f => ({ ...f, endDate: e.target.value }))} required />
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <Button type="submit" disabled={pending} className="flex-1">
+                    {pending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Shield className="w-4 h-4 mr-2" />} Activate Policy
+                  </Button>
+                  <Button type="button" variant="outline" onClick={() => setPolicyOpen(false)}>Cancel</Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={claimOpen} onOpenChange={setClaimOpen}>
+            <DialogTrigger asChild>
+              <Button><Plus className="w-4 h-4" /> File Claim</Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-md">
+              <DialogHeader><DialogTitle>File Insurance Claim</DialogTitle></DialogHeader>
+              <form onSubmit={handleFileClaim} className="space-y-4 pt-2">
+                <div className="space-y-1.5">
+                  <Label>Claim Type *</Label>
+                  <Input placeholder="e.g., Drought Damage, Pest Infestation" value={form.type} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))} required />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>Description *</Label>
+                  <Textarea placeholder="Describe the damage and circumstances..." value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} className="min-h-[80px]" required />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>Claim Amount (KES) *</Label>
+                  <Input type="number" placeholder="45000" value={form.amount} onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))} required />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>Insurer</Label>
+                  <Input placeholder="Insurance provider name" value={form.insurer} onChange={(e) => setForm((f) => ({ ...f, insurer: e.target.value }))} />
+                </div>
+                <div className="flex gap-3">
+                  <Button type="submit" disabled={pending} className="flex-1">
+                    {pending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <FileText className="w-4 h-4 mr-2" />} Submit Claim
+                  </Button>
+                  <Button type="button" variant="outline" onClick={() => setClaimOpen(false)}>Cancel</Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       {/* Stats */}
@@ -169,6 +261,13 @@ export default function InsurancePage() {
                       </p>
                     </div>
                   </div>
+                  <button
+                    onClick={() => handleDeletePolicy(p)}
+                    className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg transition-colors self-start sm:self-auto"
+                    title="Delete policy"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
               ))}
             </div>
@@ -209,7 +308,7 @@ export default function InsurancePage() {
                 {i === 1 && <Badge className="mb-3">Most Popular</Badge>}
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">{plan.name}</h3>
                 <p className="text-sm text-green-600 font-semibold mt-1">{plan.coverage}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">{plan.premium}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">From KES {plan.premium.toLocaleString()}/season</p>
                 <ul className="space-y-2 mb-6">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
@@ -217,12 +316,42 @@ export default function InsurancePage() {
                     </li>
                   ))}
                 </ul>
-                <Button variant={i === 1 ? "default" : "outline"} className="w-full">Choose Plan</Button>
+                <Button
+                  variant={i === 1 ? "default" : "outline"}
+                  className="w-full"
+                  onClick={() => {
+                    const today = new Date().toISOString().slice(0, 10);
+                    const oneYear = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+                    setPolicyForm(f => ({ ...f, coverageAmount: String(plan.coverageAmount), premium: String(plan.premium), startDate: today, endDate: oneYear }));
+                    setPolicyOpen(true);
+                  }}
+                >
+                  Choose Plan
+                </Button>
               </CardContent>
             </Card>
           ))}
         </div>
       </div>
+
+      {/* Delete confirmation */}
+      {deleteTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setDeleteTarget(null)} />
+          <div className="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-sm w-full p-6 border border-slate-200 dark:border-slate-700">
+            <h3 className="font-bold text-slate-900 dark:text-white mb-2">Delete Policy</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
+              Are you sure you want to delete the <strong>{deleteTarget.cropCovered}</strong> policy with {deleteTarget.provider}? This cannot be undone.
+            </p>
+            <div className="flex gap-3">
+              <Button variant="destructive" disabled={pending} onClick={confirmDeletePolicy} className="flex-1">
+                {pending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null} Delete
+              </Button>
+              <Button variant="outline" onClick={() => setDeleteTarget(null)} className="flex-1">Cancel</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
