@@ -10,6 +10,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard, Sprout, ScanLine, BarChart3, Droplets, CloudSun, ShoppingCart,
   Store, MapPin, Wallet, FileText, Shield, CreditCard, Settings, LogOut,
@@ -150,13 +151,14 @@ export function Sidebar({ role, user }: { role: string; user: SessionUser }) {
 
       <Separator />
       <div className="p-3">
-        <button
+        <Button
           onClick={() => signOut({ callbackUrl: "/" })}
-          className="sidebar-link w-full text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20"
+          variant="earth"
+          className="w-full justify-start"
         >
           <LogOut className="w-4 h-4" />
           <span>Sign Out</span>
-        </button>
+        </Button>
       </div>
     </div>
   );
