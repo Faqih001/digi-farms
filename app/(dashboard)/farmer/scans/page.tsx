@@ -1,70 +1,215 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ScanLine, CheckCircle, AlertTriangle, AlertOctagon } from "lucide-react";
+"use client";
 
-const scans = [
-  { id: "SCN001", crop: "Maize", disease: "Fall Armyworm", severity: "HIGH", confidence: 95, date: "2025-07-28", status: "Treated" },
-  { id: "SCN002", crop: "Tomato", disease: "Early Blight", severity: "MEDIUM", confidence: 89, date: "2025-07-20", status: "In Progress" },
-  { id: "SCN003", crop: "Beans", disease: "Bean Fly", severity: "LOW", confidence: 76, date: "2025-07-15", status: "Treated" },
-  { id: "SCN004", crop: "Maize", disease: "Nitrogen Deficiency", severity: "LOW", confidence: 84, date: "2025-07-10", status: "Treated" },
-  { id: "SCN005", crop: "Tomato", disease: "Healthy Plant", severity: "NONE", confidence: 98, date: "2025-07-01", status: "OK" },
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ScanLine, CheckCircle, AlertTriangle, AlertOctagon, X, Sprout, Plus } from "lucide-react";
+import { toast } from "sonner";
+
+type Scan = {
+  id: string;
+  crop: string;
+  disease: string | null;
+  severity: string | null;
+  confidence: number | null;
+  status: string;
+  imageUrl: string;
+  treatment: string;
+  prevention: string;
+  createdAt: string;
+};
+
+const PERIODS = [
+  { value: "all", label: "All" },
+  { value: "day", label: "Today" },
+  { value: "week", label: "This Week" },
+  { value: "month", label: "This Month" },
+  { value: "year", label: "This Year" },
 ];
 
 export default function ScanHistoryPage() {
+  const [scans, setScans] = useState<Scan[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [period, setPeriod] = useState("all");
+  const [severityFilter, setSeverityFilter] = useState("");
+  const [selectedScan, setSelectedScan] = useState<Scan | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`/api/diagnostics?period=${period}`)
+      .then((r) => r.json())
+      .then((data) => {
+        setScans(Array.isArray(data) ? data : []);
+      })
+      .catch(() => toast.error("Failed to load scan history"))
+      .finally(() => setLoading(false));
+  }, [period]);
+
+  const filtered = severityFilter
+    ? scans.filter((s) => s.severity === severityFilter)
+    : scans;
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-black text-slate-900 dark:text-white">Scan History</h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm">All your AI diagnostic scan results</p>
         </div>
-        <div className="flex gap-2">
-          {[["", "All"], ["HIGH", "High"], ["MEDIUM", "Medium"], ["LOW", "Low"]].map(([v, l]) => (
-            <Badge key={l} variant={v === "HIGH" ? "destructive" : v === "MEDIUM" ? "warning" : v === "LOW" ? "success" : "secondary"} className="cursor-pointer px-3 py-1">{l}</Badge>
+        <Link href="/farmer/diagnostics">
+          <Button size="sm">
+            <Plus className="w-4 h-4" /> New Scan
+          </Button>
+        </Link>
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-2">
+        <div className="flex gap-1 mr-4">
+          {PERIODS.map(({ value, label }) => (
+            <button
+              key={value}
+              onClick={() => setPeriod(value)}
+              className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                period === value
+                  ? "bg-green-600 text-white border-green-600"
+                  : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-green-300"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <div className="flex gap-1">
+          {[
+            { value: "", label: "All Severity" },
+            { value: "HIGH", label: "High", variant: "destructive" as const },
+            { value: "MEDIUM", label: "Medium", variant: "warning" as const },
+            { value: "LOW", label: "Low", variant: "success" as const },
+          ].map(({ value, label }) => (
+            <button
+              key={label}
+              onClick={() => setSeverityFilter(value)}
+              className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                severityFilter === value
+                  ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 border-slate-900 dark:border-white"
+                  : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-400"
+              }`}
+            >
+              {label}
+            </button>
           ))}
         </div>
       </div>
 
-      <Card>
-        <CardContent className="p-0">
-          <div className="divide-y divide-slate-100 dark:divide-slate-800">
-            {scans.map((scan: any) => (
-              <div key={scan.id} className="flex items-center gap-4 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                  scan.severity === "HIGH" ? "bg-red-100 dark:bg-red-900/20" :
-                  scan.severity === "MEDIUM" ? "bg-amber-100 dark:bg-amber-900/20" :
-                  scan.severity === "NONE" ? "bg-green-100 dark:bg-green-900/20" : "bg-slate-100 dark:bg-slate-800"
-                }`}>
-                  {scan.severity === "HIGH" ? <AlertOctagon className="w-5 h-5 text-red-500" /> :
-                   scan.severity === "MEDIUM" ? <AlertTriangle className="w-5 h-5 text-amber-500" /> :
-                   scan.severity === "NONE" ? <CheckCircle className="w-5 h-5 text-green-500" /> :
-                   <ScanLine className="w-5 h-5 text-slate-400" />}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <span className="font-semibold text-sm text-slate-900 dark:text-white">{scan.disease}</span>
-                    <span className="text-xs text-slate-400">· {scan.crop}</span>
+      {/* Scans list */}
+      {loading ? (
+        <Card>
+          <CardContent className="py-12 text-center">
+            <ScanLine className="w-8 h-8 mx-auto mb-3 text-slate-400 animate-pulse" />
+            <p className="text-sm text-slate-400">Loading scan history...</p>
+          </CardContent>
+        </Card>
+      ) : filtered.length === 0 ? (
+        <Card>
+          <CardContent className="py-12 text-center">
+            <ScanLine className="w-8 h-8 mx-auto mb-3 text-slate-300" />
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">
+              {scans.length === 0 ? "No scans yet. Run your first crop diagnostic!" : "No scans match your filters."}
+            </p>
+            {scans.length === 0 && (
+              <Link href="/farmer/diagnostics">
+                <Button size="sm">Start First Scan</Button>
+              </Link>
+            )}
+          </CardContent>
+        </Card>
+      ) : (
+        <Card>
+          <CardContent className="p-0">
+            <div className="divide-y divide-slate-100 dark:divide-slate-800">
+              {filtered.map((scan) => (
+                <button
+                  key={scan.id}
+                  onClick={() => setSelectedScan(scan)}
+                  className="w-full flex items-center gap-4 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-left"
+                >
+                  {/* Thumbnail */}
+                  <div className="relative w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 border border-slate-200 dark:border-slate-700">
+                    <Image src={scan.imageUrl} alt={scan.disease ?? "Scan"} fill className="object-cover" sizes="40px" />
                   </div>
-                  <div className="flex items-center gap-3 text-xs text-slate-400">
-                    <span>{scan.id}</span>
-                    <span>·</span>
-                    <span>{new Date(scan.date).toLocaleDateString("en-KE", { year: "numeric", month: "short", day: "numeric" })}</span>
-                    <span>·</span>
-                    <span>{scan.confidence}% confidence</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="font-semibold text-sm text-slate-900 dark:text-white truncate">{scan.disease ?? "Unknown"}</span>
+                      <span className="text-xs text-slate-400">· {scan.crop}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-slate-400">
+                      <span>{new Date(scan.createdAt).toLocaleDateString("en-KE", { year: "numeric", month: "short", day: "numeric" })}</span>
+                      <span>·</span>
+                      <span>{scan.confidence ?? 0}% confidence</span>
+                    </div>
                   </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <Badge variant={
+                      scan.severity === "HIGH" ? "destructive" : scan.severity === "MEDIUM" ? "warning" : "success"
+                    } className="text-xs">{scan.severity ?? "N/A"}</Badge>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Detail modal */}
+      {selectedScan && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setSelectedScan(null)} />
+          <div className="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto border border-slate-200 dark:border-slate-700">
+            <div className="sticky top-0 flex items-center justify-between px-5 py-3 border-b border-slate-100 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm">
+              <h3 className="font-bold text-slate-900 dark:text-white">Scan Details</h3>
+              <button onClick={() => setSelectedScan(null)} className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"><X className="w-5 h-5" /></button>
+            </div>
+            <div className="p-5 space-y-4">
+              {selectedScan.imageUrl && (
+                <div className="relative w-full h-48 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700">
+                  <Image src={selectedScan.imageUrl} alt={selectedScan.disease ?? "Crop scan"} fill className="object-cover" sizes="(max-width: 512px) 100vw, 512px" />
                 </div>
-                <div className="flex items-center gap-2">
-                  <Badge variant={
-                    scan.severity === "HIGH" ? "destructive" : scan.severity === "MEDIUM" ? "warning" :
-                    scan.severity === "NONE" ? "success" : "secondary"
-                  } className="text-xs">{scan.severity === "NONE" ? "Healthy" : scan.severity}</Badge>
-                  <Badge variant="outline" className="text-xs">{scan.status}</Badge>
+              )}
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="font-bold text-lg text-slate-900 dark:text-white">{selectedScan.disease ?? "Unknown"}</p>
+                  <p className="text-sm text-slate-500">{selectedScan.crop} · {new Date(selectedScan.createdAt).toLocaleDateString("en-KE", { year: "numeric", month: "long", day: "numeric" })}</p>
                 </div>
+                <Badge variant={selectedScan.severity === "HIGH" ? "destructive" : selectedScan.severity === "MEDIUM" ? "warning" : "success"}>
+                  {selectedScan.severity} · {selectedScan.confidence}%
+                </Badge>
               </div>
-            ))}
+              {selectedScan.treatment && (
+                <div className="p-4 bg-amber-50 dark:bg-amber-950/20 rounded-xl border border-amber-200 dark:border-amber-900">
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-600" />
+                    <span className="font-bold text-amber-700 dark:text-amber-400 text-sm">Treatment</span>
+                  </div>
+                  <p className="text-sm text-amber-700 dark:text-amber-300">{selectedScan.treatment}</p>
+                </div>
+              )}
+              {selectedScan.prevention && (
+                <div className="p-4 bg-green-50 dark:bg-green-950/20 rounded-xl border border-green-200 dark:border-green-900">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sprout className="w-4 h-4 text-green-600" />
+                    <span className="font-bold text-green-700 dark:text-green-400 text-sm">Prevention</span>
+                  </div>
+                  <p className="text-sm text-green-700 dark:text-green-300">{selectedScan.prevention}</p>
+                </div>
+              )}
+            </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      )}
     </div>
   );
 }
