@@ -115,7 +115,7 @@ export function Sidebar({ role, user }: { role: string; user: SessionUser }) {
       {/* Logo */}
       <Link href="/" className="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800 hover:opacity-90 transition-opacity">
         <div className="w-20 h-20 rounded-xl overflow-hidden flex items-center justify-center">
-          <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={80} height={80} quality={90} priority />
+          <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={80} height={80} quality={90} priority style={{ width: "auto", height: "auto" }} />
         </div>
       </Link>
 

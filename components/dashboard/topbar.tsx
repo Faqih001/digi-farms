@@ -52,7 +52,7 @@ export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen, user }: 
       {/* Mobile logo */}
       <Link href="/" className="lg:hidden flex items-center">
         <div className="w-14 h-14 rounded-lg overflow-hidden flex items-center justify-center">
-          <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={56} height={56} quality={90} priority />
+          <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={56} height={56} quality={90} priority style={{ width: "auto", height: "auto" }} />
         </div>
       </Link>
 

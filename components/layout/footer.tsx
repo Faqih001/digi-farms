@@ -72,7 +72,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-3 lg:col-span-2">
             <Link href="/" className="flex items-center gap-4 mb-4">
               <div className="w-20 h-20 rounded-xl overflow-hidden flex items-center justify-center">
-                <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={80} height={80} quality={90} />
+                <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={80} height={80} quality={90} style={{ width: "auto", height: "auto" }} />
               </div>
               <div className="leading-none">
                 <span className="font-black text-3xl text-slate-900 dark:text-white tracking-tight">DIGI</span>
