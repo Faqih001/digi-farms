@@ -9,6 +9,7 @@ import {
   PackageCheck, Loader2, ShieldCheck, AlertCircle, ChevronDown
 } from "lucide-react";
 import { toast } from "sonner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getMarketplaceProducts } from "@/lib/actions/product";
 import { createOrder } from "@/lib/actions/order";
 
@@ -127,18 +128,16 @@ export default function BuyPage() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="relative">
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="appearance-none h-10 pl-3 pr-8 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-green-500"
-          >
+        <Select value={category} onValueChange={setCategory}>
+          <SelectTrigger className="w-[180px] rounded-xl">
+            <SelectValue placeholder="All Categories" />
+          </SelectTrigger>
+          <SelectContent className="rounded-xl">
             {CATEGORIES.map((c: any) => (
-              <option key={c} value={c}>{c === "all" ? "All Categories" : c}</option>
+              <SelectItem key={c} value={c} className="rounded-lg">{c === "all" ? "All Categories" : c}</SelectItem>
             ))}
-          </select>
-          <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-        </div>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Category pills */}

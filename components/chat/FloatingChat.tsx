@@ -63,6 +63,7 @@ export default function FloatingChat() {
   const [sending, setSending] = useState(false);
   const [model, setModel] = useState<string>("gemini-2.5-flash");
   const [showPrompts, setShowPrompts] = useState(true);
+  const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
   const scroller = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -73,6 +74,15 @@ export default function FloatingChat() {
     if (typeof window === "undefined") return;
     const seen = window.localStorage.getItem("df_chat_seen");
     if (seen === "1") setShowPrompts(false);
+  }, []);
+
+  // Silently get user location for Maps grounding
+  useEffect(() => {
+    if (typeof navigator === "undefined" || !navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => setUserCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      () => {}
+    );
   }, []);
 
   async function sendPrompt(text: string) {
@@ -97,7 +107,7 @@ export default function FloatingChat() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: allMsgs, model }),
+        body: JSON.stringify({ messages: allMsgs, model, ...(userCoords ?? {}) }),
       });
 
       if (!res.ok) {

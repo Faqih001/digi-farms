@@ -11,37 +11,111 @@ import {
   AlertTriangle, CheckCircle, Clock, ArrowRight, Zap
 } from "lucide-react";
 
-export default async function FarmerOverviewPage() {
+type Period = "today" | "week" | "month" | "year";
+
+function getPeriodRange(period: Period) {
+  const now = new Date();
+  const start = new Date(now);
+  if (period === "today") { start.setHours(0, 0, 0, 0); }
+  else if (period === "week") { start.setDate(now.getDate() - 7); }
+  else if (period === "month") { start.setMonth(now.getMonth() - 1); }
+  else { start.setFullYear(now.getFullYear() - 1); }
+  return { gte: start, lte: now };
+}
+
+export default async function FarmerOverviewPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ period?: string }>;
+}) {
   const session = await auth();
   if (!session?.user) redirect("/login");
 
+  const { period: rawPeriod } = await searchParams;
+  const period: Period = (["today", "week", "month", "year"].includes(rawPeriod ?? "") ? rawPeriod : "month") as Period;
+  const dateRange = getPeriodRange(period);
+
   const userId = (session.user as { id: string }).id;
 
-  const [farms, recentScans, crops] = await Promise.all([
-    db.farm.findMany({ where: { userId }, take: 3 }),
-    db.diagnostic.findMany({ where: { farm: { userId } }, take: 5, orderBy: { createdAt: "desc" }, include: { farm: true } }),
+  const [farms, recentScans, crops, loanAlerts, soilAlerts] = await Promise.all([
+    db.farm.findMany({ where: { userId }, take: 5, include: { crops: { take: 1 } } }),
+    db.diagnostic.findMany({
+      where: { farm: { userId }, createdAt: dateRange },
+      take: 10,
+      orderBy: { createdAt: "desc" },
+      include: { farm: true },
+    }),
     db.crop.findMany({ where: { farm: { userId } }, take: 6, orderBy: { plantedAt: "desc" } }),
+    db.loanApplication.findMany({
+      where: { userId, status: { in: ["SUBMITTED", "UNDER_REVIEW", "APPROVED"] } },
+      orderBy: { updatedAt: "desc" },
+      take: 3,
+    }),
+    db.soilReport.findMany({
+      where: { farm: { userId }, createdAt: { gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) } },
+      take: 3,
+      orderBy: { createdAt: "desc" },
+    }),
   ]);
 
   type Farm = Awaited<ReturnType<typeof db.farm.findMany>>[number];
   type Crop = Awaited<ReturnType<typeof db.crop.findMany>>[number];
-  type Scan = Awaited<ReturnType<typeof db.diagnostic.findMany>>[number];
 
-  const totalHectares = farms.reduce((s: number, f: Farm) => s + (f.sizeHectares ?? 0), 0);
+  const totalHectares = farms.reduce((s: number, f: Farm) => s + ((f as any).sizeHectares ?? 0), 0);
   const activeCrops = crops.filter((c: Crop) => c.status === "HEALTHY").length;
+
+  // Build real alerts from DB data
+  const alerts: { icon: typeof AlertTriangle; label: string; type: "warning" | "info" | "success"; time: string }[] = [];
+  if (soilAlerts.some((r) => r.ph != null && (r.ph < 5.5 || r.ph > 7.5))) {
+    alerts.push({ icon: AlertTriangle, label: "Soil pH out of optimal range detected", type: "warning", time: "Recent analysis" });
+  }
+  if (loanAlerts.find((l) => l.status === "APPROVED")) {
+    alerts.push({ icon: CheckCircle, label: "Loan application approved — check financing", type: "success", time: "Check financing" });
+  }
+  if (loanAlerts.find((l) => ["SUBMITTED", "UNDER_REVIEW"].includes(l.status))) {
+    alerts.push({ icon: Clock, label: "Loan under review", type: "info", time: "Pending" });
+  }
+  if (recentScans.some((s: any) => s.severity === "HIGH")) {
+    alerts.push({ icon: AlertTriangle, label: "High severity disease detected in recent scan", type: "warning", time: "Check scans" });
+  }
+  // Fallback placeholder alerts if no real data
+  if (alerts.length === 0) {
+    alerts.push(
+      { icon: Droplets, label: "Check soil moisture levels", type: "info", time: "Today" },
+      { icon: Sprout, label: "Add crop data to track yield analytics", type: "info", time: "Tip" },
+    );
+  }
+
+  const PERIODS: { label: string; value: Period }[] = [
+    { label: "Today", value: "today" },
+    { label: "Week", value: "week" },
+    { label: "Month", value: "month" },
+    { label: "Year", value: "year" },
+  ];
 
   return (
     <div className="space-y-6">
       {/* Welcome */}
       <div className="bg-gradient-to-r from-green-600 to-green-800 rounded-2xl p-6 text-white">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h2 className="text-2xl font-black mb-1">Welcome back, {session.user.name?.split(" ")[0]}! 👋</h2>
             <p className="text-green-200/80 text-sm">Here&apos;s your farm at a glance</p>
           </div>
-          <Button variant="hero" asChild>
-            <Link href="/farmer/diagnostics"><ScanLine className="w-4 h-4" /> New Scan</Link>
-          </Button>
+          <div className="flex items-center gap-2 flex-wrap">
+            {PERIODS.map(({ label, value }) => (
+              <Link
+                key={value}
+                href={`/farmer?period=${value}`}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${period === value ? "bg-white text-green-700 shadow" : "bg-green-700/40 text-green-100 hover:bg-green-700/60"}`}
+              >
+                {label}
+              </Link>
+            ))}
+            <Link href="/farmer/diagnostics">
+              <Button variant="hero" size="sm"><ScanLine className="w-4 h-4 mr-1" /> New Scan</Button>
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -50,8 +124,8 @@ export default async function FarmerOverviewPage() {
         {[
           { icon: Sprout, label: "Total Farms", value: farms.length, sub: `${totalHectares.toFixed(1)} ha`, color: "text-green-600" },
           { icon: TrendingUp, label: "Active Crops", value: activeCrops, sub: `${crops.length} total`, color: "text-blue-600" },
-          { icon: ScanLine, label: "Scans This Month", value: recentScans.length, sub: "Last 30 days", color: "text-purple-600" },
-          { icon: CheckCircle, label: "Health Score", value: "87%", sub: "Farm average", color: "text-amber-600" },
+          { icon: ScanLine, label: `Scans (${PERIODS.find(p => p.value === period)?.label})`, value: recentScans.length, sub: "diagnostic scans", color: "text-purple-600" },
+          { icon: CheckCircle, label: "Healthy Crops", value: `${crops.length ? Math.round((activeCrops / crops.length) * 100) : 0}%`, sub: "of all crops", color: "text-amber-600" },
         ].map(({ icon: Icon, label, value, sub, color }) => (
           <Card key={label} className="p-4">
             <CardContent className="p-0 flex items-start gap-3">
@@ -101,13 +175,8 @@ export default async function FarmerOverviewPage() {
         <Card>
           <CardHeader><CardTitle className="text-base">Alerts & Tasks</CardTitle></CardHeader>
           <CardContent className="space-y-3">
-            {[
-              { icon: AlertTriangle, label: "Soil pH low in Plot B", type: "warning", time: "2h ago" },
-              { icon: Droplets, label: "Irrigation due tomorrow", type: "info", time: "Today" },
-              { icon: CloudSun, label: "Rain expected Fri–Sat", type: "success", time: "Forecast" },
-              { icon: Clock, label: "Loan repayment in 5 days", type: "warning", time: "Aug 15" },
-            ].map(({ icon: Icon, label, type, time }) => (
-              <div key={label} className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800">
+            {alerts.map(({ icon: Icon, label, type, time }, i) => (
+              <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800">
                 <Icon className={`w-4 h-4 mt-0.5 flex-shrink-0 ${type === "warning" ? "text-amber-500" : type === "success" ? "text-green-500" : "text-blue-500"}`} />
                 <div>
                   <div className="text-sm text-slate-700 dark:text-slate-300">{label}</div>

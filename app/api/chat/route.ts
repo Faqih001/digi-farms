@@ -14,9 +14,11 @@ const SAFETY_SETTINGS = [
 
 export async function POST(req: Request) {
   try {
-    const { messages = [], model: clientModel } = await req.json() as {
+    const { messages = [], model: clientModel, lat, lng } = await req.json() as {
       messages: Array<{ role: "user" | "assistant"; text: string }>;
       model?: string;
+      lat?: number;
+      lng?: number;
     };
 
     const apiKey = process.env.GEMINI_API_KEY;
@@ -40,20 +42,27 @@ export async function POST(req: Request) {
       parts: [{ text: m.text }],
     }));
 
+    // Enable Google Maps grounding for location-aware queries
+    const lastText = lastMsg.text.toLowerCase();
+    const isLocationQuery = /near\b|find\b|where\b|locat|agrovet|shop|store|market|supplier|distance|close by|nearby/i.test(lastText);
+    const config: Record<string, unknown> = {
+      systemInstruction: SYSTEM_INSTRUCTION,
+      thinkingConfig: { includeThoughts: true, thinkingBudget: -1 },
+      safetySettings: SAFETY_SETTINGS as any,
+    };
+    if (isLocationQuery) {
+      config.tools = [{ googleMaps: {} }, { googleSearch: {} }];
+      if (typeof lat === "number" && typeof lng === "number") {
+        config.toolConfig = { retrievalConfig: { latLng: { latitude: lat, longitude: lng } } };
+      }
+    } else {
+      config.tools = [{ googleSearch: {} }];
+    }
+
     const result = await ai.models.generateContentStream({
       model: modelName,
       contents,
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
-        // Dynamic thinking: model decides how much to reason based on task complexity.
-        // includeThoughts: true surfaces the reasoning summary so the UI can show it.
-        thinkingConfig: {
-          includeThoughts: true,
-          thinkingBudget: -1,   // -1 = dynamic (default for 2.5-flash)
-        },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        safetySettings: SAFETY_SETTINGS as any,
-      },
+      config,
     });
 
     // Stream NDJSON lines: {"t":"thought","d":"..."} or {"t":"answer","d":"..."}
