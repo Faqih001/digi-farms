@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Save, Building2, Bell, Shield, CreditCard, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { getUserProfile, updateUserProfile, updatePassword } from "@/lib/actions/user";
+import { AvatarUploadDialog } from "@/components/dashboard/avatar-upload-dialog";
 
 const tabs = [
   { id: "organization", label: "Organization", icon: Building2 },
@@ -58,6 +59,7 @@ export default function LenderSettingsPage() {
   const [maxLoan,    setMaxLoan]    = useState("5000000");
   const [interest,   setInterest]   = useState("10.5");
   const [tenure,     setTenure]     = useState("36");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   useEffect(() => {
     startProfileLoad(async () => {
@@ -68,6 +70,7 @@ export default function LenderSettingsPage() {
           setEmail(profile.email ?? "");
           setPhone(profile.phone ?? "");
           setCountry(profile.country ?? "");
+          setAvatarUrl(profile.image ?? null);
         }
       } catch {
         toast.error("Failed to load profile");
@@ -135,6 +138,17 @@ export default function LenderSettingsPage() {
               </div>
             ) : (
               <>
+                <div className="flex items-center gap-4 mb-2">
+                  <AvatarUploadDialog
+                    currentImage={avatarUrl}
+                    initials={name.split(" ").filter(Boolean).slice(0, 2).map((w: string) => w[0].toUpperCase()).join("") || "L"}
+                    onAvatarChange={(url) => setAvatarUrl(url)}
+                  />
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">{name || "Lender"}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{email}</p>
+                  </div>
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <Label>Institution / Contact Name</Label>
