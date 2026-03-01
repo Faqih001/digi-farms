@@ -89,12 +89,7 @@ export default function ClimateInsightsPage() {
       role: m.role === "ai" ? "assistant" : "user" as "user" | "assistant",
       text: m.text,
     }));
-    // Prepend weather context into the first user message or as a system-primer user turn
-    const allMsgs = [
-      { role: "user" as const, text: `[Context] ${weatherContext}\n\n${question}` },
-      ...historyMsgs.slice(1), // skip if it was already a context message
-    ];
-    // Actually build properly: context + full history + new question
+    // Build full message list: context primer + existing history + new question
     const apiMessages = [
       { role: "user" as const, text: `You are an agricultural climate advisor. ${weatherContext}` },
       { role: "assistant" as const, text: "Understood! I'm ready to answer your farming and weather questions based on the current conditions." },
