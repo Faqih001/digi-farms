@@ -166,8 +166,7 @@ export default function FloatingChat() {
       <div className="flex items-end flex-col gap-3">
         {open && (
           <div
-            className="w-[22rem] bg-white dark:bg-slate-900 shadow-2xl rounded-2xl overflow-hidden flex flex-col border border-slate-200 dark:border-slate-700"
-            style={{ height: "540px" }}
+            className="w-[92vw] sm:w-[28rem] md:w-[32rem] lg:w-[36rem] bg-white dark:bg-slate-900 shadow-2xl rounded-2xl overflow-hidden flex flex-col border border-slate-200 dark:border-slate-700 h-[70vh] sm:h-[68vh] md:h-[64vh] lg:h-[540px]"
           >
             {/* ── Header ─────────────────────────────────────────── */}
             <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white shrink-0">
@@ -267,19 +266,21 @@ export default function FloatingChat() {
 
             {/* ── Footer ──────────────────────────────────────────── */}
             <div className="px-3 pb-3 pt-2 border-t border-slate-100 dark:border-slate-800 shrink-0">
-              {/* Predefined prompt pills */}
-              <div className="flex flex-wrap gap-1 mb-2">
-                {predefined.map((p) => (
-                  <button
-                    key={p}
-                    onClick={() => sendPrompt(p)}
-                    disabled={sending}
-                    className="text-xs px-2.5 py-1 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-full text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors disabled:opacity-40"
-                  >
-                    {p.length > 30 ? p.slice(0, 30) + "…" : p}
-                  </button>
-                ))}
-              </div>
+              {/* Predefined prompt pills (hidden after first send) */}
+              {showPrompts && (
+                <div className="flex flex-wrap gap-1 mb-2">
+                  {predefined.map((p) => (
+                    <button
+                      key={p}
+                      onClick={() => sendPrompt(p)}
+                      disabled={sending}
+                      className="text-xs px-2.5 py-1 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-full text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors disabled:opacity-40"
+                    >
+                      {p.length > 30 ? p.slice(0, 30) + "…" : p}
+                    </button>
+                  ))}
+                </div>
+              )}
 
               <div className="flex items-end gap-2">
                 <textarea
@@ -311,10 +312,11 @@ export default function FloatingChat() {
         {/* ── FAB ──────────────────────────────────────────────── */}
         <button
           onClick={() => setOpen((o) => !o)}
-          className="p-4 rounded-full bg-green-600 text-white shadow-xl hover:bg-green-700 hover:scale-105 active:scale-95 transition-all"
+          className="p-5 md:p-6 rounded-full bg-green-600 text-white shadow-xl hover:bg-green-700 hover:scale-105 active:scale-95 transition-all"
           aria-label={open ? "Close chat" : "Open chat"}
+          style={{ boxShadow: '0 10px 30px rgba(16,185,129,0.18)' }}
         >
-          {open ? <X className="w-5 h-5" /> : <MessageCircle className="w-5 h-5" />}
+          {open ? <X className="w-6 h-6 md:w-7 md:h-7" /> : <MessageCircle className="w-6 h-6 md:w-7 md:h-7" />}
         </button>
       </div>
     </div>
