@@ -13,7 +13,7 @@ export default async function SupplierOverviewPage() {
 
   const supplier = await db.supplier.findUnique({
     where: { userId: session.user.id },
-    include: { products: { orderBy: { totalSales: "desc" }, take: 5 } },
+    include: { products: { orderBy: { createdAt: "desc" }, take: 5 } },
   });
 
   if (!supplier) {

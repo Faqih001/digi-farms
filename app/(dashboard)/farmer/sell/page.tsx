@@ -83,7 +83,7 @@ export default function SellProducePage() {
     setEditTarget(l);
     setForm({
       name: l.name,
-      category: l.category,
+      category: l.category ?? "",
       quantity: String(l.quantity),
       unit: l.unit,
       price: String(l.price),
