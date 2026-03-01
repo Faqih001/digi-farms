@@ -79,32 +79,83 @@ export default function ClimateInsightsPage() {
     e.preventDefault();
     const question = qaInput.trim();
     if (!question || qaLoading) return;
-    const context = current
-      ? `Current weather: ${current.temp}°C, ${current.condition}, humidity ${current.humidity}%, wind ${current.wind} km/h, rain ${current.rain}mm, UV: ${current.uvIndex}. Location: ${current.location}.`
-      : "";
-    const systemContext = `You are an agricultural climate advisor. ${context} Answer the farmer's question concisely and practically.`;
+
+    const weatherContext = current
+      ? `Current weather at ${current.location}: ${current.temp}°C, ${current.condition}, humidity ${current.humidity}%, wind ${current.wind} km/h, rain ${current.rain}mm, UV index: ${current.uvIndex}.`
+      : "No weather data currently loaded.";
+
+    // Build conversation history for the API
+    const historyMsgs = qaMessages.map(m => ({
+      role: m.role === "ai" ? "assistant" : "user" as "user" | "assistant",
+      text: m.text,
+    }));
+    // Prepend weather context into the first user message or as a system-primer user turn
+    const allMsgs = [
+      { role: "user" as const, text: `[Context] ${weatherContext}\n\n${question}` },
+      ...historyMsgs.slice(1), // skip if it was already a context message
+    ];
+    // Actually build properly: context + full history + new question
+    const apiMessages = [
+      { role: "user" as const, text: `You are an agricultural climate advisor. ${weatherContext}` },
+      { role: "assistant" as const, text: "Understood! I'm ready to answer your farming and weather questions based on the current conditions." },
+      ...historyMsgs,
+      { role: "user" as const, text: question },
+    ];
+
     setQaMessages(prev => [...prev, { role: "user", text: question }]);
     setQaInput("");
     setQaLoading(true);
+
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: [
-            { role: "user", content: systemContext + "\n\nFarmer question: " + question },
-          ],
+          messages: apiMessages,
           model: "gemini-2.5-flash",
           ...(userCoords ?? {}),
         }),
       });
-      if (!res.ok) throw new Error("AI request failed");
-      const data = await res.json();
-      const aiText = data.text ?? data.reply ?? "Sorry, I could not get a response.";
-      setQaMessages(prev => [...prev, { role: "ai", text: aiText }]);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.body) throw new Error("No response body");
+
+      const reader = res.body.getReader();
+      const dec = new TextDecoder();
+      let buffer = "";
+      let aiText = "";
+
+      setQaMessages(prev => [...prev, { role: "ai", text: "" }]);
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += dec.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          try {
+            const event = JSON.parse(line) as { t: "thought" | "answer" | "error"; d: string };
+            if (event.t === "answer") {
+              aiText += event.d;
+              setQaMessages(prev => {
+                const copy = [...prev];
+                copy[copy.length - 1] = { role: "ai", text: aiText };
+                return copy;
+              });
+            } else if (event.t === "error") {
+              throw new Error(event.d);
+            }
+          } catch { /* ignore parse errors for individual lines */ }
+        }
+      }
     } catch {
       toast.error("Failed to get AI response");
-      setQaMessages(prev => [...prev, { role: "ai", text: "Sorry, something went wrong. Please try again." }]);
+      setQaMessages(prev => {
+        const copy = [...prev];
+        copy[copy.length - 1] = { role: "ai", text: "Sorry, something went wrong. Please try again." };
+        return copy;
+      });
     } finally {
       setQaLoading(false);
     }
@@ -215,6 +266,99 @@ export default function ClimateInsightsPage() {
           </Card>
         )}
       </div>
+
+      {/* Ask Gemini Q&A Panel */}
+      <Card>
+        <CardHeader
+          className="cursor-pointer select-none"
+          onClick={() => setQaOpen(v => !v)}
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                <Bot className="w-4 h-4 text-blue-600" />
+              </div>
+              <div>
+                <CardTitle className="text-base">Ask Gemini about the weather</CardTitle>
+                <p className="text-xs text-slate-400 mt-0.5">Get AI-powered farming advice based on current conditions</p>
+              </div>
+            </div>
+            {qaOpen ? <ChevronUp className="w-5 h-5 text-slate-400" /> : <ChevronDown className="w-5 h-5 text-slate-400" />}
+          </div>
+        </CardHeader>
+
+        {qaOpen && (
+          <CardContent className="pt-0 space-y-4">
+            {/* Suggested questions */}
+            {qaMessages.length === 0 && (
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Is it safe to apply pesticides today?",
+                  "Should I irrigate my crops?",
+                  "What crops suit this weather?",
+                  "Any flood or drought risk this week?",
+                ].map(q => (
+                  <button
+                    key={q}
+                    onClick={() => { setQaInput(q); }}
+                    className="text-xs px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors border border-blue-200 dark:border-blue-800"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Chat messages */}
+            {qaMessages.length > 0 && (
+              <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
+                {qaMessages.map((msg, i) => (
+                  <div key={i} className={`flex gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                    {msg.role === "ai" && (
+                      <div className="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Bot className="w-3.5 h-3.5 text-blue-600" />
+                      </div>
+                    )}
+                    <div className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm ${
+                      msg.role === "user"
+                        ? "bg-green-600 text-white rounded-tr-sm"
+                        : "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-tl-sm"
+                    }`}>
+                      {msg.text || (qaLoading && i === qaMessages.length - 1 ? (
+                        <span className="flex gap-1 items-center">
+                          <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0ms]" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:150ms]" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:300ms]" />
+                        </span>
+                      ) : "")}
+                    </div>
+                    {msg.role === "user" && (
+                      <div className="w-7 h-7 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <User className="w-3.5 h-3.5 text-green-600" />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Input */}
+            <form onSubmit={askGemini} className="flex gap-2">
+              <Textarea
+                value={qaInput}
+                onChange={e => setQaInput(e.target.value)}
+                onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); askGemini(e as any); } }}
+                placeholder="Ask about your weather conditions, farming advice..."
+                className="min-h-[44px] max-h-24 resize-none text-sm"
+                rows={1}
+              />
+              <Button type="submit" size="sm" disabled={qaLoading || !qaInput.trim()} className="h-11 px-3">
+                {qaLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+              </Button>
+            </form>
+          </CardContent>
+        )}
+      </Card>
     </div>
   );
 }
