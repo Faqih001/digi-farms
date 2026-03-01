@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Store, Bell, Truck, Save, Shield, Loader2 } from "lucide-react";
 import { getUserProfile, updateUserProfile, updatePassword, updateSupplierProfile, getSupplierProfile } from "@/lib/actions/user";
+import { AvatarUploadDialog } from "@/components/dashboard/avatar-upload-dialog";
 
 type UserProfile = Awaited<ReturnType<typeof getUserProfile>>;
 type SupplierProfile = Awaited<ReturnType<typeof getSupplierProfile>>;
@@ -21,6 +22,7 @@ export default function SupplierSettingsPage() {
   const [userProfile, setUserProfile] = useState<UserProfile>(null);
   const [supplierProfile, setSupplierProfile] = useState<SupplierProfile>(null);
   const [loadingProfile, setLoadingProfile] = useState(true);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   // Store form
   const [companyName, setCompanyName] = useState("");
@@ -51,6 +53,7 @@ export default function SupplierSettingsPage() {
           setAddress(supplier.address ?? "");
           setWebsite(supplier.website ?? "");
         }
+        setAvatarUrl(user?.image ?? null);
       })
       .catch(() => toast.error("Failed to load profile"))
       .finally(() => setLoadingProfile(false));
@@ -115,9 +118,11 @@ export default function SupplierSettingsPage() {
               ) : (
                 <>
                   <div className="flex items-center gap-4">
-                    <Avatar className="w-20 h-20">
-                      <AvatarFallback className="text-xl bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300">{initials}</AvatarFallback>
-                    </Avatar>
+                    <AvatarUploadDialog
+                      currentImage={avatarUrl}
+                      initials={initials}
+                      onAvatarChange={(url) => setAvatarUrl(url)}
+                    />
                     <div>
                       <p className="text-sm font-semibold text-slate-900 dark:text-white">{companyName || "Your Store"}</p>
                       <p className="text-xs text-slate-500 dark:text-slate-400">{userProfile?.email}</p>
