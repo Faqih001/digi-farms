@@ -98,3 +98,19 @@ export async function getSupplierProfile() {
     select: { companyName: true, description: true, phone: true, address: true, website: true, logoUrl: true, rating: true, isVerified: true },
   });
 }
+
+export async function updateAvatar(imageUrl: string | null) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  await db.user.update({
+    where: { id: session.user.id },
+    data: { image: imageUrl },
+  });
+
+  revalidatePath("/farmer/settings");
+  revalidatePath("/supplier/settings");
+  revalidatePath("/lender/settings");
+  revalidatePath("/admin/settings");
+  return { success: true, imageUrl };
+}
