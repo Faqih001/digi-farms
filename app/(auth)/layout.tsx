@@ -15,8 +15,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px]" />
         <div className="relative z-10 flex flex-col justify-between h-full p-12">
           <Link href="/" className="flex items-center">
-            <div className="w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center">
-              <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={112} height={112} quality={90} priority style={{ width: "auto", height: "auto" }} />
+            <div className="relative w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center">
+              <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} priority className="object-contain" />
             </div>
           </Link>
 
@@ -45,8 +45,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="flex flex-col justify-center py-12 px-4 sm:px-8 lg:px-16 bg-white dark:bg-slate-950">
             <div className="lg:hidden flex items-center mb-8">
           <Link href="/">
-            <div className="w-20 h-20 rounded-xl overflow-hidden flex items-center justify-center">
-              <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={80} height={80} quality={90} priority style={{ width: "auto", height: "auto" }} />
+            <div className="relative w-20 h-20 rounded-xl overflow-hidden flex items-center justify-center">
+              <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} priority className="object-contain" />
             </div>
           </Link>
         </div>

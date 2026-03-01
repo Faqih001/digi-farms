@@ -207,8 +207,8 @@ export default function Header() {
           <div className="flex items-center justify-between h-28">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-5 group">
-              <div className="w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={112} height={112} quality={90} priority style={{ width: "auto", height: "auto" }} />
+              <div className="relative w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center group-hover:scale-105 transition-transform">
+                <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} priority className="object-contain" />
               </div>
             </Link>
 

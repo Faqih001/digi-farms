@@ -114,8 +114,8 @@ export function Sidebar({ role, user }: { role: string; user: SessionUser }) {
     <div className="flex h-full flex-col bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
       {/* Logo */}
       <Link href="/" className="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800 hover:opacity-90 transition-opacity">
-        <div className="w-20 h-20 rounded-xl overflow-hidden flex items-center justify-center">
-          <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" width={80} height={80} quality={90} priority style={{ width: "auto", height: "auto" }} />
+        <div className="relative w-20 h-20 rounded-xl overflow-hidden flex items-center justify-center">
+          <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} priority className="object-contain" />
         </div>
       </Link>
 
