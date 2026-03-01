@@ -3,7 +3,7 @@
 import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/lib/validations";
@@ -24,6 +24,13 @@ function LoginForm() {
     resolver: zodResolver(loginSchema),
   });
 
+  const ROLE_DASHBOARDS: Record<string, string> = {
+    FARMER: "/farmer",
+    SUPPLIER: "/supplier",
+    LENDER: "/lender",
+    ADMIN: "/admin",
+  };
+
   const onSubmit = async (data: LoginInput) => {
     const result = await signIn("credentials", {
       email: data.email,
@@ -35,7 +42,14 @@ function LoginForm() {
       toast.error("Invalid email or password. Please try again.");
     } else {
       toast.success("Welcome back!");
-      router.push(callbackUrl);
+      // If there's an explicit callbackUrl use it, otherwise redirect by role
+      if (callbackUrl && callbackUrl !== "/") {
+        router.push(callbackUrl);
+      } else {
+        const session = await getSession();
+        const role = session?.user?.role as string | undefined;
+        router.push(role ? (ROLE_DASHBOARDS[role] ?? "/") : "/");
+      }
       router.refresh();
     }
   };
