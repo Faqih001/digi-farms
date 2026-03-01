@@ -1,6 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
-import { Pool } from "@neondatabase/serverless";
+import { Pool, neonConfig } from "@neondatabase/serverless";
+import ws from "ws";
+
+// Required: supply the ws WebSocket constructor for Node.js runtime.
+// Without this the Neon serverless driver cannot upgrade the HTTP connection
+// to WebSocket (HTTP 101), which produces the "non-101 status code" error.
+neonConfig.webSocketConstructor = ws;
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
