@@ -52,7 +52,7 @@ export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen, user }: 
       {/* Mobile logo */}
       <Link href="/" className="lg:hidden flex items-center">
         <div className="relative w-14 h-14 rounded-lg overflow-hidden flex items-center justify-center">
-          <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} priority className="object-contain" />
+          <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} priority className="object-contain" sizes="56px" />
         </div>
       </Link>
 

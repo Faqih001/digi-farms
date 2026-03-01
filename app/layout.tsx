@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/lib/auth";
 import { Toaster } from "sonner";
 import FloatingChatWrapper from "@/components/chat/FloatingChatWrapper";
 
@@ -41,11 +43,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
@@ -55,16 +59,18 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          {children}
-          <Toaster
-            position="top-right"
-            richColors
-            closeButton
-            toastOptions={{
-              style: { fontFamily: "var(--font-geist-sans)" },
-            }}
-          />
-          <FloatingChatWrapper />
+          <SessionProvider session={session}>
+            {children}
+            <Toaster
+              position="top-right"
+              richColors
+              closeButton
+              toastOptions={{
+                style: { fontFamily: "var(--font-geist-sans)" },
+              }}
+            />
+            <FloatingChatWrapper />
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>
