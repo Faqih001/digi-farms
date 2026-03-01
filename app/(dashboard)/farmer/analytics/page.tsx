@@ -1,26 +1,34 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
+import { Loader2, BarChart3 } from "lucide-react";
+import { toast } from "sonner";
+import { getYieldAnalytics } from "@/lib/actions/analytics";
 
-const yieldData = [
-  { month: "Jan", maize: 12, tomato: 8, beans: 5 },
-  { month: "Feb", maize: 15, tomato: 12, beans: 7 },
-  { month: "Mar", maize: 18, tomato: 15, beans: 9 },
-  { month: "Apr", maize: 14, tomato: 20, beans: 6 },
-  { month: "May", maize: 22, tomato: 18, beans: 11 },
-  { month: "Jun", maize: 28, tomato: 14, beans: 8 },
-  { month: "Jul", maize: 25, tomato: 16, beans: 13 },
-];
+type Analytics = Awaited<ReturnType<typeof getYieldAnalytics>>;
 
-const revenueData = [
-  { month: "Jan", revenue: 45000 }, { month: "Feb", revenue: 62000 }, { month: "Mar", revenue: 58000 },
-  { month: "Apr", revenue: 71000 }, { month: "May", revenue: 65000 }, { month: "Jun", revenue: 89000 }, { month: "Jul", revenue: 76000 },
-];
+const COLORS = ["#22c55e", "#f59e0b", "#3b82f6", "#ef4444", "#8b5cf6", "#06b6d4", "#f97316"];
 
 export default function YieldAnalyticsPage() {
+  const [data, setData] = useState<Analytics | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getYieldAnalytics()
+      .then(setData)
+      .catch(() => toast.error("Failed to load analytics"))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-green-600" /></div>;
+
+  const stats = data?.stats;
+  const empty = !data || (data.yieldByMonth.length === 0 && data.revenueByMonth.length === 0);
+
   return (
     <div className="space-y-6">
       <div>
@@ -30,67 +38,76 @@ export default function YieldAnalyticsPage() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: "Total Yield (bags)", value: "284", change: "+12%", up: true },
-          { label: "Revenue (KES)", value: "466K", change: "+8%", up: true },
-          { label: "Best Crop", value: "Maize", change: "134 bags", up: true },
-          { label: "Avg Yield/Acre", value: "28 bags", change: "-2%", up: false },
-        ].map(({ label, value, change, up }) => (
+          { label: "Total Yield", value: `${stats?.totalYield ?? 0}`, sub: "units" },
+          { label: "Revenue (KES)", value: stats?.totalRevenue ? `${(stats.totalRevenue / 1000).toFixed(0)}K` : "0" },
+          { label: "Best Crop", value: stats?.bestCrop ?? "–" },
+          { label: "Avg Yield/Ha", value: `${stats?.avgYieldPerHa ?? 0}`, sub: "units" },
+        ].map(({ label, value, sub }) => (
           <Card key={label} className="p-4">
             <CardContent className="p-0">
               <div className="text-xs text-slate-400 mb-1">{label}</div>
               <div className="text-2xl font-black text-slate-900 dark:text-white">{value}</div>
-              <Badge variant={up ? "success" : "destructive"} className="text-xs mt-1">{change} vs last season</Badge>
+              {sub && <span className="text-xs text-slate-400">{sub}</span>}
             </CardContent>
           </Card>
         ))}
       </div>
 
-      <Tabs defaultValue="yield">
-        <TabsList>
-          <TabsTrigger value="yield">Yield by Crop</TabsTrigger>
-          <TabsTrigger value="revenue">Revenue</TabsTrigger>
-        </TabsList>
-        <TabsContent value="yield" className="mt-4">
-          <Card>
-            <CardHeader><CardTitle className="text-base">Monthly Yield (bags/acre)</CardTitle></CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={yieldData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} />
-                  <Tooltip />
-                  <Bar dataKey="maize" fill="#22c55e" radius={4} name="Maize" />
-                  <Bar dataKey="tomato" fill="#f59e0b" radius={4} name="Tomato" />
-                  <Bar dataKey="beans" fill="#3b82f6" radius={4} name="Beans" />
-                </BarChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="revenue" className="mt-4">
-          <Card>
-            <CardHeader><CardTitle className="text-base">Monthly Revenue (KES)</CardTitle></CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <AreaChart data={revenueData}>
-                  <defs>
-                    <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${v/1000}K`} />
-                  <Tooltip formatter={(v) => `KES ${Number(v).toLocaleString()}`} />
-                  <Area type="monotone" dataKey="revenue" stroke="#22c55e" fill="url(#revenueGrad)" name="Revenue" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+      {empty ? (
+        <Card>
+          <CardContent className="py-16 text-center text-slate-400">
+            <BarChart3 className="w-10 h-10 mx-auto mb-2 opacity-30" />
+            <p className="text-sm">No analytics data yet. Add crops with yield data to see charts.</p>
+          </CardContent>
+        </Card>
+      ) : (
+        <Tabs defaultValue="yield">
+          <TabsList>
+            <TabsTrigger value="yield">Yield by Crop</TabsTrigger>
+            <TabsTrigger value="revenue">Revenue</TabsTrigger>
+          </TabsList>
+          <TabsContent value="yield" className="mt-4">
+            <Card>
+              <CardHeader><CardTitle className="text-base">Monthly Yield</CardTitle></CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={data!.yieldByMonth}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                    <YAxis tick={{ fontSize: 12 }} />
+                    <Tooltip />
+                    {data!.crops.map((crop, i) => (
+                      <Bar key={crop} dataKey={crop} fill={COLORS[i % COLORS.length]} radius={4} name={crop} />
+                    ))}
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="revenue" className="mt-4">
+            <Card>
+              <CardHeader><CardTitle className="text-base">Monthly Revenue (KES)</CardTitle></CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <AreaChart data={data!.revenueByMonth}>
+                    <defs>
+                      <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                    <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${v / 1000}K`} />
+                    <Tooltip formatter={(v) => `KES ${Number(v).toLocaleString()}`} />
+                    <Area type="monotone" dataKey="revenue" stroke="#22c55e" fill="url(#revenueGrad)" name="Revenue" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      )}
     </div>
   );
 }
