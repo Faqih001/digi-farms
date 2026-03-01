@@ -9,8 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { FileText, Clock, CheckCircle, XCircle, Plus, Loader2, Trash2, AlertCircle, DollarSign } from "lucide-react";
-import { getFarmerLoans, submitLoanApplication, cancelLoanApplication } from "@/lib/actions/loan";
+import { FileText, Clock, CheckCircle, XCircle, Plus, Loader2, Trash2, AlertCircle, DollarSign, Send } from "lucide-react";
+import { getFarmerLoans, submitLoanApplication, cancelLoanApplication, submitDraftLoan } from "@/lib/actions/loan";
 
 type Loan = Awaited<ReturnType<typeof getFarmerLoans>>[number];
 
@@ -62,6 +62,17 @@ export default function LoanApplicationsPage() {
         await cancelLoanApplication(cancelTarget.id);
         toast.success("Application cancelled");
         setCancelTarget(null);
+        const data = await getFarmerLoans();
+        setLoans(data);
+      } catch (err) { toast.error((err as Error).message); }
+    });
+  };
+
+  const handleSubmitDraft = (loan: Loan) => {
+    startTransition(async () => {
+      try {
+        await submitDraftLoan(loan.id);
+        toast.success("Application submitted for review!");
         const data = await getFarmerLoans();
         setLoans(data);
       } catch (err) { toast.error((err as Error).message); }
@@ -168,7 +179,12 @@ export default function LoanApplicationsPage() {
                     </div>
                   )}
                   {canCancel && (
-                    <div className="flex justify-end">
+                    <div className="flex gap-2 justify-end">
+                      {loan.status === "DRAFT" && (
+                        <Button size="sm" disabled={pending} onClick={() => handleSubmitDraft(loan)}>
+                          {pending ? <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" /> : <Send className="w-3.5 h-3.5 mr-1" />} Submit
+                        </Button>
+                      )}
                       <Button variant="outline" size="sm" className="text-red-500 hover:text-red-600 border-red-200" onClick={() => setCancelTarget(loan)}>
                         <Trash2 className="w-3.5 h-3.5 mr-1" /> Withdraw
                       </Button>

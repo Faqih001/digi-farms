@@ -91,6 +91,31 @@ export async function cancelLoanApplication(applicationId: string) {
   return { success: true };
 }
 
+export async function submitDraftLoan(applicationId: string) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  const existing = await db.loanApplication.findUnique({ where: { id: applicationId } });
+  if (!existing || existing.userId !== session.user.id) throw new Error("Forbidden");
+  if (existing.status !== "DRAFT") throw new Error("Only DRAFT applications can be submitted");
+
+  const updated = await db.loanApplication.update({
+    where: { id: applicationId },
+    data: { status: "SUBMITTED" },
+  });
+
+  await createNotification({
+    userId: session.user.id,
+    title: "Loan Application Submitted",
+    message: `Your application for KES ${existing.amount.toLocaleString()} has been submitted and is under review.`,
+    type: "loan",
+    link: "/farmer/loans",
+  });
+
+  revalidatePath("/farmer/loans");
+  return { success: true, application: updated };
+}
+
 export async function getLenderApplications() {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
