@@ -3,9 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Toaster } from "sonner";
-import dynamic from "next/dynamic";
-
-const FloatingChat = dynamic(() => import("@/components/chat/FloatingChat"), { ssr: false });
+import FloatingChatWrapper from "@/components/chat/FloatingChatWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -66,7 +64,7 @@ export default function RootLayout({
               style: { fontFamily: "var(--font-geist-sans)" },
             }}
           />
-          <FloatingChat />
+          <FloatingChatWrapper />
         </ThemeProvider>
       </body>
     </html>
