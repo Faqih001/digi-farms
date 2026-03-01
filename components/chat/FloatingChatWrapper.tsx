@@ -1,17 +1,14 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { SessionProvider } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
-// ssr: false is only valid inside a Client Component — hence this wrapper.
-// SessionProvider is needed because FloatingChat uses useSession and is
-// rendered from the root layout which has no SessionProvider of its own.
 const FloatingChat = dynamic(() => import("@/components/chat/FloatingChat"), { ssr: false });
 
+const DASHBOARD_PREFIXES = ["/farmer", "/admin", "/supplier", "/lender"];
+
 export default function FloatingChatWrapper() {
-  return (
-    <SessionProvider>
-      <FloatingChat />
-    </SessionProvider>
-  );
+  const pathname = usePathname();
+  if (DASHBOARD_PREFIXES.some((p) => pathname?.startsWith(p))) return null;
+  return <FloatingChat />;
 }
