@@ -4,9 +4,15 @@
  */
 
 import { PrismaClient, Role, SubscriptionTier } from "@prisma/client";
+import { PrismaNeon } from "@prisma/adapter-neon";
 import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
+import path from "node:path";
 
-const prisma = new PrismaClient();
+dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+
+const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! });
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log("🌱 Starting database seed...");
