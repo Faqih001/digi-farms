@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Send, MessageCircle, X, Leaf, Brain, ChevronDown, ChevronUp } from "lucide-react";
+import { Send, X, Leaf } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import ThinkingDots from "@/components/chat/ThinkingDots";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -17,45 +19,35 @@ type Msg = {
   streaming?: boolean;// true while any tokens are streaming
 };
 
-/** Animated "reasoning" accordion shown above the answer bubble */
-function ThoughtPanel({ thought, thinking }: { thought?: string; thinking?: boolean }) {
-  const [expanded, setExpanded] = useState(false);
-
-  if (!thought && !thinking) return null;
-
-  return (
-    <div className="mb-1">
-      <button
-        onClick={() => thought && setExpanded((e) => !e)}
-        className={cn(
-          "flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-lg transition-colors",
-          thought
-            ? "text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 cursor-pointer"
-            : "text-amber-500 dark:text-amber-500 cursor-default"
-        )}
-      >
-        <Brain className={cn("w-3 h-3", thinking && "animate-pulse")} />
-        {thinking ? (
-          <>
-            <span>Thinking</span>
-            <ThinkingDots />
-          </>
-        ) : (
-          <>
-            <span>View reasoning</span>
-            {expanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-          </>
-        )}
-      </button>
-
-      {expanded && thought && (
-        <div className="mx-2 mt-1 p-2.5 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl text-xs text-slate-600 dark:text-slate-300 italic leading-relaxed max-h-36 overflow-auto whitespace-pre-wrap">
-          {thought}
-        </div>
-      )}
-    </div>
-  );
-}
+/** Markdown components for well-formatted assistant responses */
+const mdComponents: React.ComponentProps<typeof ReactMarkdown>["components"] = {
+  p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
+  h1: ({ children }) => <h1 className="text-base font-bold mb-1 mt-2">{children}</h1>,
+  h2: ({ children }) => <h2 className="text-sm font-bold mb-1 mt-2">{children}</h2>,
+  h3: ({ children }) => <h3 className="text-sm font-semibold mb-1 mt-1.5">{children}</h3>,
+  ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-0.5">{children}</ul>,
+  ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-0.5">{children}</ol>,
+  li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+  strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+  em: ({ children }) => <em className="italic">{children}</em>,
+  code: ({ inline, children }: any) =>
+    inline ? (
+      <code className="bg-slate-200 dark:bg-slate-700 px-1 py-0.5 rounded text-xs font-mono">{children}</code>
+    ) : (
+      <code className="block bg-slate-200 dark:bg-slate-700 p-2.5 rounded-lg my-1.5 overflow-x-auto text-xs font-mono whitespace-pre">{children}</code>
+    ),
+  pre: ({ children }) => <pre className="my-1.5 overflow-x-auto">{children}</pre>,
+  blockquote: ({ children }) => (
+    <blockquote className="border-l-2 border-green-400 pl-2.5 italic text-slate-500 dark:text-slate-400 my-1.5">{children}</blockquote>
+  ),
+  a: ({ href, children }) => (
+    <a href={href} target="_blank" rel="noopener noreferrer" className="text-green-600 dark:text-green-400 underline underline-offset-2">{children}</a>
+  ),
+  hr: () => <hr className="my-2 border-slate-200 dark:border-slate-700" />,
+  table: ({ children }) => <table className="w-full text-xs border-collapse my-2">{children}</table>,
+  th: ({ children }) => <th className="border border-slate-300 dark:border-slate-600 px-2 py-1 bg-slate-100 dark:bg-slate-700 font-semibold text-left">{children}</th>,
+  td: ({ children }) => <td className="border border-slate-300 dark:border-slate-600 px-2 py-1">{children}</td>,
+};
 
 export default function FloatingChat() {
   const [open, setOpen] = useState(false);
@@ -221,15 +213,10 @@ export default function FloatingChat() {
                   )}
 
                   <div className="flex flex-col max-w-[82%]">
-                    {/* Thought panel (only for assistant) */}
-                    {m.role === "assistant" && (
-                      <ThoughtPanel thought={m.thought} thinking={m.thinking} />
-                    )}
-
                     {/* Bubble */}
                     <div
                       className={cn(
-                        "px-3 py-2 rounded-2xl text-sm leading-relaxed",
+                        "px-3 py-2 rounded-2xl text-sm",
                         m.role === "user"
                           ? "bg-green-600 text-white rounded-br-sm"
                           : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-bl-sm"
@@ -237,14 +224,18 @@ export default function FloatingChat() {
                     >
                       {m.role === "assistant" && !m.text && m.streaming ? (
                         <ThinkingDots />
-                      ) : (
-                        <div className="whitespace-pre-wrap">
-                          {m.text}
-                          {/* blinking cursor while typing the answer */}
-                          {m.streaming && !m.thinking && m.text && (
+                      ) : m.role === "assistant" ? (
+                        <div className="text-sm">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
+                            {m.text}
+                          </ReactMarkdown>
+                          {/* blinking cursor while streaming */}
+                          {m.streaming && m.text && (
                             <span className="inline-block w-0.5 h-3.5 bg-current ml-0.5 align-middle animate-pulse" />
                           )}
                         </div>
+                      ) : (
+                        <div className="whitespace-pre-wrap leading-relaxed">{m.text}</div>
                       )}
                     </div>
                   </div>
