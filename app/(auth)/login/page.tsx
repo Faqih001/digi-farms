@@ -2,7 +2,7 @@
 
 import { Suspense, useState } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { getCurrentUserRole } from "@/lib/actions/user";
 import { useForm } from "react-hook-form";
@@ -16,7 +16,6 @@ import { toast } from "sonner";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
   const [showPassword, setShowPassword] = useState(false);
@@ -43,14 +42,14 @@ function LoginForm() {
       toast.error("Invalid email or password. Please try again.");
     } else {
       toast.success("Welcome back!");
-      // If there's an explicit callbackUrl use it, otherwise redirect by role
+      // Use hard redirect so the browser sends the fresh session cookie with the
+      // next GET request — client-side router.push can miss newly-set cookies.
       if (callbackUrl && callbackUrl !== "/") {
-        router.push(callbackUrl);
+        window.location.href = callbackUrl;
       } else {
         const role = await getCurrentUserRole();
-        router.push(role ? (ROLE_DASHBOARDS[role] ?? "/") : "/");
+        window.location.href = role ? (ROLE_DASHBOARDS[role] ?? "/") : "/";
       }
-      router.refresh();
     }
   };
 
