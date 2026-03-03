@@ -50,6 +50,26 @@ export default function Header() {
   useEffect(() => setMounted(true), []);
   const { data: session } = useSession();
   const sessionUser = session?.user as { name?: string | null; email?: string | null; image?: string | null; role?: string } | undefined;
+  const [avatarOverride, setAvatarOverride] = useState<string | null | undefined>(undefined);
+
+  useEffect(() => {
+    function onAvatarEvent(e: Event) {
+      try {
+        const evt = e as CustomEvent;
+        setAvatarOverride(evt.detail?.imageUrl ?? null);
+      } catch {
+        // ignore
+      }
+    }
+    if (typeof window !== "undefined") {
+      window.addEventListener("df:avatar-updated", onAvatarEvent as EventListener);
+    }
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("df:avatar-updated", onAvatarEvent as EventListener);
+      }
+    };
+  }, []);
   const [lang, setLang] = useState<string>("EN");
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement | null>(null);
@@ -299,7 +319,7 @@ export default function Header() {
                   <DropdownMenuTrigger asChild>
                     <button className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                       <Avatar className="h-9 w-9">
-                        <AvatarImage src={sessionUser.image || ""} />
+                        <AvatarImage src={avatarOverride ?? sessionUser.image ?? ""} />
                         <AvatarFallback className="text-xs bg-green-100 dark:bg-green-900 text-green-700">
                           {sessionUser.name?.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) || "DF"}
                         </AvatarFallback>

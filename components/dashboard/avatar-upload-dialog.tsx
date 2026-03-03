@@ -76,6 +76,14 @@ export function AvatarUploadDialog({ currentImage, initials, onAvatarChange }: A
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Upload failed");
       onAvatarChange(json.imageUrl);
+      // Notify other parts of the app (header/topbar) that the avatar changed
+      try {
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new CustomEvent("df:avatar-updated", { detail: { imageUrl: json.imageUrl } }));
+        }
+      } catch (e) {
+        // noop
+      }
       toast.success("Avatar updated!");
       setOpen(false);
       setStep("view");
@@ -93,6 +101,13 @@ export function AvatarUploadDialog({ currentImage, initials, onAvatarChange }: A
       const res = await fetch("/api/upload/avatar", { method: "DELETE" });
       if (!res.ok) throw new Error("Delete failed");
       onAvatarChange(null);
+      try {
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new CustomEvent("df:avatar-updated", { detail: { imageUrl: null } }));
+        }
+      } catch (e) {
+        // noop
+      }
       toast.success("Avatar removed");
       setOpen(false);
     } catch {

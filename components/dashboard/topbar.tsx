@@ -36,6 +36,26 @@ export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen, user }: 
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+  const [avatarOverride, setAvatarOverride] = useState<string | null | undefined>(undefined);
+
+  useEffect(() => {
+    function onAvatarEvent(e: Event) {
+      try {
+        const evt = e as CustomEvent;
+        setAvatarOverride(evt.detail?.imageUrl ?? null);
+      } catch {
+        // noop
+      }
+    }
+    if (typeof window !== "undefined") {
+      window.addEventListener("df:avatar-updated", onAvatarEvent as EventListener);
+    }
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("df:avatar-updated", onAvatarEvent as EventListener);
+      }
+    };
+  }, []);
 
   const segments = pathname.split("/").filter(Boolean);
   const pageTitle = breadcrumbMap[segments[segments.length - 1]] || "Dashboard";
@@ -89,7 +109,7 @@ export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen, user }: 
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
               <Avatar className="h-8 w-8">
-                <AvatarImage src={user?.image || ""} />
+                <AvatarImage src={avatarOverride ?? user?.image ?? ""} />
                 <AvatarFallback className="text-xs">{initials}</AvatarFallback>
               </Avatar>
               <span className="hidden sm:block text-sm font-medium text-slate-700 dark:text-slate-300 max-w-[120px] truncate">

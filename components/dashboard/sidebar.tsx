@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
 import type { SessionUser } from "@/components/dashboard/shell";
 import { cn } from "@/lib/utils";
@@ -103,6 +104,27 @@ export function Sidebar({ role, user, onNavigate }: { role: string; user: Sessio
   const pathname = usePathname();
   const nav = navByRole[role] || farmerNav;
 
+  const [avatarOverride, setAvatarOverride] = useState<string | null | undefined>(undefined);
+
+  useEffect(() => {
+    function onAvatarEvent(e: Event) {
+      try {
+        const evt = e as CustomEvent;
+        setAvatarOverride(evt.detail?.imageUrl ?? null);
+      } catch {
+        // noop
+      }
+    }
+    if (typeof window !== "undefined") {
+      window.addEventListener("df:avatar-updated", onAvatarEvent as EventListener);
+    }
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("df:avatar-updated", onAvatarEvent as EventListener);
+      }
+    };
+  }, []);
+
   const initials = user?.name
     ?.split(" ")
     .map((n) => n[0])
@@ -123,7 +145,7 @@ export function Sidebar({ role, user, onNavigate }: { role: string; user: Sessio
       <div className="px-4 py-4 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-3">
           <Avatar className="h-9 w-9">
-            <AvatarImage src={user?.image || ""} />
+            <AvatarImage src={avatarOverride ?? user?.image ?? ""} />
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
