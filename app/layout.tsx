@@ -59,7 +59,7 @@ export default async function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <SessionProvider session={session}>
+          <SessionProvider session={session} refetchInterval={0} refetchOnWindowFocus={false}>
             {children}
             <Toaster
               position="top-right"

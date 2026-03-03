@@ -6,7 +6,7 @@ import { auth } from "@/lib/auth";
 export default async function LandingLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} refetchInterval={0} refetchOnWindowFocus={false}>
       <Header />
       <main className="min-h-screen">{children}</main>
       <Footer />
