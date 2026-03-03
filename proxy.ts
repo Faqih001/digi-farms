@@ -18,7 +18,7 @@ const ROLE_ROUTES: Record<string, string> = {
   ADMIN: "/admin",
 };
 
-export const { auth: proxy } = NextAuth({
+const { auth } = NextAuth({
   ...authConfig,
   callbacks: {
     ...authConfig.callbacks,
@@ -60,6 +60,9 @@ export const { auth: proxy } = NextAuth({
     },
   },
 });
+
+// Next.js 16 requires a named "proxy" export (or default export) as a function
+export const proxy = auth;
 
 export const config = {
   matcher: [
