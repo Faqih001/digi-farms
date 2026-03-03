@@ -9,7 +9,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Careers",
-  description: "Join DIGI-FARMS and help build the future of African agriculture. We're hiring engineers, agronomists, and impact leaders.",
+  description: "Join Digi Farms and help build the future of African agriculture. We're hiring engineers, agronomists, and impact leaders.",
 };
 
 export default function CareersPage() {

@@ -45,7 +45,7 @@ export function ApiHeroSection() {
         <Badge className="mb-6 bg-white/20 text-white border-white/30">API Reference</Badge>
         <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
           Build With <br className="hidden sm:block" />
-          <span className="text-green-200">DIGI-FARMS API</span>
+          <span className="text-green-200">Digi Farms API</span>
         </h1>
         <p className="text-lg text-green-100 max-w-2xl mx-auto mb-8">
           Integrate farm diagnostics, marketplace, analytics, and payments into your applications. RESTful, well-documented, and developer-friendly.
@@ -183,7 +183,7 @@ export function ApiCTASection() {
       <div className="container mx-auto px-4 max-w-3xl text-center">
         <Code className="w-14 h-14 text-green-600 dark:text-green-300 mx-auto mb-4" />
         <h2 className="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">Ready to Integrate?</h2>
-        <p className="text-slate-600 dark:text-green-100 mb-8">Create a free developer account and start building with the DIGI-FARMS API today.</p>
+        <p className="text-slate-600 dark:text-green-100 mb-8">Create a free developer account and start building with the Digi Farms API today.</p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button size="lg" asChild className="bg-green-600 text-white hover:bg-green-700 dark:bg-white dark:text-green-700 dark:hover:bg-green-50">
             <Link href="/auth/register">Get API Keys <ArrowRight className="ml-2 w-4 h-4" /></Link>

@@ -7,8 +7,8 @@ import {
 } from "@/components/landing/contact/sections";
 
 export const metadata: Metadata = {
-  title: "Contact – DIGI-FARMS",
-  description: "Get in touch with DIGI-FARMS. We'd love to hear from farmers, agrovets, lenders, and investors.",
+  title: "Contact – Digi Farms",
+  description: "Get in touch with Digi Farms. We'd love to hear from farmers, agrovets, lenders, and investors.",
 };
 
 export default function ContactPage() {

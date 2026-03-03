@@ -23,7 +23,7 @@ async function main() {
     where: { email: "admin@digi-farms.com" },
     update: {},
     create: {
-      name: "DIGI-FARMS Admin",
+      name: "Digi Farms Admin",
       email: "admin@digi-farms.com",
       password: adminPassword,
       role: Role.ADMIN,

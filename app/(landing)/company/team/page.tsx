@@ -9,7 +9,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Our Team",
-  description: "Meet the people behind DIGI-FARMS — agronomists, engineers, and impact leaders building the future of African agriculture.",
+  description: "Meet the people behind Digi Farms — agronomists, engineers, and impact leaders building the future of African agriculture.",
 };
 
 export default function TeamPage() {

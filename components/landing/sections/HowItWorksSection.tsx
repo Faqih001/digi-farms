@@ -40,7 +40,7 @@ export function HowItWorksSection() {
         <div className="text-center mb-16">
           <Badge variant="earth" className="mb-4">Process</Badge>
           <h2 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-4">
-            How DIGI-FARMS Works
+            How Digi Farms Works
           </h2>
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
             From farm registration to harvest optimization — five simple steps to transform your agricultural outcomes.

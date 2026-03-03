@@ -14,13 +14,13 @@ const caseStudies = [
     location: "Kiambu, Kenya",
     date: "March 2024",
     image: "🍅",
-    excerpt: "Mary Wanjiku, a smallholder farmer, used DIGI-FARMS AI diagnostics to detect early blight and optimize her input application schedule, resulting in a 2.1x yield increase.",
+    excerpt: "Mary Wanjiku, a smallholder farmer, used Digi Farms AI diagnostics to detect early blight and optimize her input application schedule, resulting in a 2.1x yield increase.",
     metrics: [
       { label: "Yield Increase", value: "110%" },
       { label: "Cost Reduction", value: "35%" },
       { label: "Revenue Growth", value: "KES 180K" },
     ],
-    quote: "I never imagined technology could make such a difference. DIGI-FARMS helped me detect diseases before they destroyed my crop.",
+    quote: "I never imagined technology could make such a difference. Digi Farms helped me detect diseases before they destroyed my crop.",
     author: "Mary Wanjiku, Farmer",
   },
   {
@@ -29,7 +29,7 @@ const caseStudies = [
     location: "Nakuru, Kenya",
     date: "January 2024",
     image: "🏪",
-    excerpt: "AgroVet Plus used the DIGI-FARMS marketplace to expand their customer base beyond walk-in traffic, growing from a single shop to five outlets across the Rift Valley.",
+    excerpt: "AgroVet Plus used the Digi Farms marketplace to expand their customer base beyond walk-in traffic, growing from a single shop to five outlets across the Rift Valley.",
     metrics: [
       { label: "Revenue Growth", value: "340%" },
       { label: "Online Orders", value: "1,200/mo" },
@@ -50,7 +50,7 @@ const caseStudies = [
       { label: "Members Served", value: "320" },
       { label: "Cost Savings", value: "40%" },
     ],
-    quote: "Our members could never access formal credit before. DIGI-FARMS data gave lenders the confidence to fund us.",
+    quote: "Our members could never access formal credit before. Digi Farms data gave lenders the confidence to fund us.",
     author: "Peter Kiprop, Chairman",
   },
   {
@@ -59,7 +59,7 @@ const caseStudies = [
     location: "Meru, Kenya",
     date: "August 2023",
     image: "🏛️",
-    excerpt: "Meru County integrated DIGI-FARMS analytics into their agricultural extension program, enabling real-time monitoring of 8,000 registered farmers.",
+    excerpt: "Meru County integrated Digi Farms analytics into their agricultural extension program, enabling real-time monitoring of 8,000 registered farmers.",
     metrics: [
       { label: "Farmers Monitored", value: "8,000" },
       { label: "Extension Reach", value: "3x" },
@@ -87,7 +87,7 @@ export function CaseStudiesHeroSection() {
           <span className="text-green-200">Real Impact.</span>
         </h1>
         <p className="text-lg text-green-100 max-w-2xl mx-auto mb-8">
-          See how farmers, suppliers, and organizations across East Africa are transforming agriculture with DIGI-FARMS.
+          See how farmers, suppliers, and organizations across East Africa are transforming agriculture with Digi Farms.
         </p>
       </div>
     </section>
@@ -165,7 +165,7 @@ export function CaseStudiesCTASection() {
       <div className="container mx-auto px-4 max-w-3xl text-center">
         <TrendingUp className="w-14 h-14 text-green-600 dark:text-green-300 mx-auto mb-4" />
         <h2 className="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">Write Your Success Story</h2>
-        <p className="text-slate-600 dark:text-green-100 mb-8">Join thousands of farmers and suppliers already transforming their businesses with DIGI-FARMS.</p>
+        <p className="text-slate-600 dark:text-green-100 mb-8">Join thousands of farmers and suppliers already transforming their businesses with Digi Farms.</p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button size="lg" asChild className="bg-green-600 text-white hover:bg-green-700 dark:bg-white dark:text-green-700 dark:hover:bg-green-50">
             <Link href="/auth/register">Get Started Free <ArrowRight className="ml-2 w-4 h-4" /></Link>

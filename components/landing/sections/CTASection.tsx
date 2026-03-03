@@ -16,7 +16,7 @@ export function CTASection() {
         </h2>
         <p className="text-xl text-green-100/90 mb-10 leading-relaxed">
           Start your free 14-day trial today. No credit card required. Cancel anytime. Join
-          thousands of farmers already using DIGI-FARMS to feed the continent.
+          thousands of farmers already using Digi Farms to feed the continent.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button variant="hero" size="xl" asChild>

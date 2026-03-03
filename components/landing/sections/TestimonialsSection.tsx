@@ -10,7 +10,7 @@ const testimonials = [
     avatar: "MW",
     rating: 5,
     quote:
-      "DIGI-FARMS changed how I farm. The AI diagnosed a rust disease on my maize before I could even see it with my eyes. I saved 70% of my crop that season.",
+      "Digi Farms changed how I farm. The AI diagnosed a rust disease on my maize before I could even see it with my eyes. I saved 70% of my crop that season.",
   },
   {
     name: "James Omondi",
@@ -19,7 +19,7 @@ const testimonials = [
     avatar: "JO",
     rating: 5,
     quote:
-      "I got a KES 80,000 loan through DIGI-FARMS in 2 days. No bank had approved me before. I used it to buy certified seedlings and my yield doubled.",
+      "I got a KES 80,000 loan through Digi Farms in 2 days. No bank had approved me before. I used it to buy certified seedlings and my yield doubled.",
   },
   {
     name: "Grace Nyambura",

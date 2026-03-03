@@ -43,7 +43,7 @@ export function CompanyAboutHeroSection() {
   return (
     <section className="gradient-hero py-20 lg:py-28">
       <div className="container mx-auto px-4 max-w-7xl text-center">
-        <Badge className="mb-6 bg-white/20 text-white border-white/30">About DIGI-FARMS</Badge>
+        <Badge className="mb-6 bg-white/20 text-white border-white/30">About Digi Farms</Badge>
         <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
           Feeding Africa Through <br className="hidden sm:block" />
           <span className="text-green-200">Innovation</span>
@@ -187,7 +187,7 @@ export function CompanyAboutCTASection() {
     <section className="py-20 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-800 dark:to-green-950">
       <div className="container mx-auto px-4 max-w-3xl text-center">
         <h2 className="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">Join the Movement</h2>
-        <p className="text-slate-600 dark:text-green-100 mb-8">Whether you&apos;re a farmer, supplier, lender, or partner — there&apos;s a place for you in the DIGI-FARMS ecosystem.</p>
+        <p className="text-slate-600 dark:text-green-100 mb-8">Whether you&apos;re a farmer, supplier, lender, or partner — there&apos;s a place for you in the Digi Farms ecosystem.</p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button size="lg" asChild className="bg-green-600 text-white hover:bg-green-700 dark:bg-white dark:text-green-700 dark:hover:bg-green-50">
             <Link href="/register">Get Started <ArrowRight className="ml-2 w-4 h-4" /></Link>

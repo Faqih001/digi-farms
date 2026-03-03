@@ -15,10 +15,10 @@ const brandAssets = [
 ];
 
 const pressReleases = [
-  { date: "March 2024", title: "DIGI-FARMS Surpasses 50,000 Farmers on Platform", desc: "DIGI-FARMS announces major milestone as platform reaches 50,000+ active farmers across three East African countries." },
-  { date: "January 2024", title: "Series A Funding: $5M Raised for Agricultural AI", desc: "DIGI-FARMS secures $5M in Series A funding led by Partech Africa to expand AI crop diagnostics and marketplace." },
+  { date: "March 2024", title: "Digi Farms Surpasses 50,000 Farmers on Platform", desc: "Digi Farms announces major milestone as platform reaches 50,000+ active farmers across three East African countries." },
+  { date: "January 2024", title: "Series A Funding: $5M Raised for Agricultural AI", desc: "Digi Farms secures $5M in Series A funding led by Partech Africa to expand AI crop diagnostics and marketplace." },
   { date: "November 2023", title: "Partnership with Equity Bank for Farmer Financing", desc: "New partnership enables AI-scored credit assessments for smallholder farmers, unlocking KES 2B in financing." },
-  { date: "August 2023", title: "Launch of Agrovet Locator with 800+ Registered Shops", desc: "DIGI-FARMS launches nationwide agrovet mapping tool covering all 47 counties in Kenya." },
+  { date: "August 2023", title: "Launch of Agrovet Locator with 800+ Registered Shops", desc: "Digi Farms launches nationwide agrovet mapping tool covering all 47 counties in Kenya." },
 ];
 
 const companyFacts = [
@@ -60,7 +60,7 @@ export function MediaKitHeroSection() {
           <span className="text-green-200">Press Resources</span>
         </h1>
         <p className="text-lg text-green-100 max-w-2xl mx-auto mb-8">
-          Everything you need to represent DIGI-FARMS in media, publications, and partnership materials.
+          Everything you need to represent Digi Farms in media, publications, and partnership materials.
         </p>
         <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
           <a href="#assets">Download Assets <Download className="ml-2 w-4 h-4" /></a>

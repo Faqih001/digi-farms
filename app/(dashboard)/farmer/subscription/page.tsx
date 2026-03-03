@@ -67,7 +67,7 @@ export default function SubscriptionPage() {
                   <h2 className="text-xl font-bold text-slate-900 dark:text-white">Free Plan</h2>
                   <Badge variant="success">Active</Badge>
                 </div>
-                <p className="text-sm text-slate-500 dark:text-slate-400">Basic access to DIGI-FARMS features</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Basic access to Digi Farms features</p>
               </div>
             </div>
             <Button>Upgrade Now <ArrowRight className="w-4 h-4" /></Button>

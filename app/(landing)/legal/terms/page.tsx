@@ -7,7 +7,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "DIGI-FARMS Terms of Service. Understand the terms governing your use of the DIGI-FARMS platform and marketplace.",
+  description: "Digi Farms Terms of Service. Understand the terms governing your use of the Digi Farms platform and marketplace.",
 };
 
 export default function TermsPage() {

@@ -6,7 +6,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Cookie Policy",
-  description: "DIGI-FARMS Cookie Policy. Understand what cookies we use, why we use them, and how to manage your preferences.",
+  description: "Digi Farms Cookie Policy. Understand what cookies we use, why we use them, and how to manage your preferences.",
 };
 
 export default function CookiesPage() {

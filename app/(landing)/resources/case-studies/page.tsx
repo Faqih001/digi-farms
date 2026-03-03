@@ -8,7 +8,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Case Studies",
-  description: "Real success stories from farmers, suppliers, and partners using DIGI-FARMS to transform agriculture across East Africa.",
+  description: "Real success stories from farmers, suppliers, and partners using Digi Farms to transform agriculture across East Africa.",
 };
 
 export default function CaseStudiesPage() {

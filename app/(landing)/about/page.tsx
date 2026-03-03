@@ -14,8 +14,8 @@ import {
 } from "@/components/landing/about/sections";
 
 export const metadata: Metadata = {
-  title: "About – DIGI-FARMS",
-  description: "Learn about DIGI-FARMS' mission to transform smallholder agriculture across East Africa through AI and precision technology.",
+  title: "About – Digi Farms",
+  description: "Learn about Digi Farms' mission to transform smallholder agriculture across East Africa through AI and precision technology.",
 };
 
 export default function AboutPage() {

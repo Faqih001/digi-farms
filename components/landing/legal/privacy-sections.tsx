@@ -32,7 +32,7 @@ const sections = [
     content: [
       { subtitle: "With Your Consent", text: "We share data with financial partners (banks, MFIs) only when you explicitly apply for loans or insurance. Your credit score and farm performance data is shared to support your application." },
       { subtitle: "Service Providers", text: "We share data with trusted third-party providers who help us operate the platform — hosting (AWS), analytics, payment processing (Safaricom M-Pesa), and customer support tools." },
-      { subtitle: "Legal Obligations", text: "We may disclose information if required by law, regulation, or valid legal process, or to protect the rights, property, or safety of DIGI-FARMS, our users, or others." },
+      { subtitle: "Legal Obligations", text: "We may disclose information if required by law, regulation, or valid legal process, or to protect the rights, property, or safety of Digi Farms, our users, or others." },
       { subtitle: "Aggregated Data", text: "We may share anonymized, aggregated data with research partners, government agencies, and NGOs for agricultural development purposes. This data cannot identify individual users." },
     ],
   },
@@ -85,7 +85,7 @@ const sections = [
     id: "contact",
     title: "9. Contact Us",
     content: [
-      { subtitle: "", text: "If you have any questions about this Privacy Policy or our data practices, please contact us at privacy@digi-farms.com or write to: DIGI-FARMS Ltd, Westlands, Nairobi, Kenya." },
+      { subtitle: "", text: "If you have any questions about this Privacy Policy or our data practices, please contact us at privacy@digi-farms.com or write to: Digi Farms Ltd, Westlands, Nairobi, Kenya." },
     ],
   },
 ];
@@ -137,12 +137,12 @@ export function PrivacyContentSection() {
             <div className="flex items-center gap-3 mb-8 pb-6 border-b border-slate-200 dark:border-slate-700">
               <Shield className="w-8 h-8 text-green-600 dark:text-green-400" />
               <div>
-                <h2 className="font-bold text-slate-900 dark:text-white">DIGI-FARMS Privacy Policy</h2>
+                <h2 className="font-bold text-slate-900 dark:text-white">Digi Farms Privacy Policy</h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400">Effective date: {lastUpdated}</p>
               </div>
             </div>
             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-8">
-              DIGI-FARMS Ltd (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) operates the DIGI-FARMS platform (web and mobile applications). This Privacy Policy describes how we collect, use, disclose, and protect your personal information when you use our services. By using DIGI-FARMS, you agree to the terms of this Privacy Policy.
+              Digi Farms Ltd (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) operates the Digi Farms platform (web and mobile applications). This Privacy Policy describes how we collect, use, disclose, and protect your personal information when you use our services. By using Digi Farms, you agree to the terms of this Privacy Policy.
             </p>
             {sections.map((s) => (
               <div key={s.id} id={s.id} className="mb-10 scroll-mt-24">

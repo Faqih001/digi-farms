@@ -52,7 +52,7 @@ export function MarketHeroSection() {
             <Link href="/register"><ShoppingBag className="w-5 h-5" />Shop Now</Link>
           </Button>
           <Button variant="hero-outline" size="xl" asChild>
-            <Link href="/register#supplier">Sell on DIGI-FARMS</Link>
+            <Link href="/register#supplier">Sell on Digi Farms</Link>
           </Button>
         </div>
       </div>
@@ -357,11 +357,11 @@ export function AntiCounterfeitSection() {
               Zero Tolerance for Fake Products
             </h2>
             <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-              Counterfeit seeds and agrochemicals cause KES 48B in losses annually. DIGI-FARMS uses
+              Counterfeit seeds and agrochemicals cause KES 48B in losses annually. Digi Farms uses
               QR codes and blockchain verification to ensure every product is genuine.
             </p>
             <div className="space-y-3">
-              {["QR code on every verified product", "Scan with DIGI-FARMS app to authenticate", "Blockchain-recorded batch traceability", "Automatic supplier suspension for violations"].map((f) => (
+              {["QR code on every verified product", "Scan with Digi Farms app to authenticate", "Blockchain-recorded batch traceability", "Automatic supplier suspension for violations"].map((f) => (
                 <div key={f} className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
                   <QrCode className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />{f}
                 </div>
@@ -399,7 +399,7 @@ export function MarketFinancingSection() {
           on the marketplace — zero cash needed at planting time.
         </p>
         <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto mb-10">
-          {["Purchase inputs on credit (min. 3 months on DIGI-FARMS)", "Auto-repayment when harvest is sold on marketplace", "Interest rates from 8% p.a. — no hidden fees"].map((item) => (
+          {["Purchase inputs on credit (min. 3 months on Digi Farms)", "Auto-repayment when harvest is sold on marketplace", "Interest rates from 8% p.a. — no hidden fees"].map((item) => (
             <div key={item} className="bg-white dark:bg-slate-900 rounded-xl p-5 text-sm text-slate-700 dark:text-slate-300 border border-green-200 dark:border-green-900/30 shadow-sm">{item}</div>
           ))}
         </div>
@@ -419,7 +419,7 @@ export function MarketCTASection() {
           Ready to Transform Your <span className="text-gradient">Supply Chain?</span>
         </h2>
         <p className="text-slate-600 dark:text-green-200/80 mb-10">
-          Join 5,000+ buyers and 200+ verified suppliers already trading on DIGI-FARMS marketplace.
+          Join 5,000+ buyers and 200+ verified suppliers already trading on Digi Farms marketplace.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button size="xl" asChild>

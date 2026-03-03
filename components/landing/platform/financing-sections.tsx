@@ -15,12 +15,12 @@ const loanProducts = [
 
 const insuranceProducts = [
   { name: "Weather Index Insurance", desc: "Automatic payouts triggered by satellite-measured rainfall and temperature anomalies.", icon: Umbrella },
-  { name: "Crop Yield Insurance", desc: "Coverage based on your DIGI-FARMS yield history. Fair premiums, fast claims.", icon: Heart },
+  { name: "Crop Yield Insurance", desc: "Coverage based on your Digi Farms yield history. Fair premiums, fast claims.", icon: Heart },
   { name: "Input Loss Protection", desc: "Insurance for purchased inputs against flood, drought, pest outbreak, or theft.", icon: Shield },
 ];
 
 const howItWorks = [
-  { step: "1", title: "Apply In App", desc: "Fill a simple application in under 5 minutes using your DIGI-FARMS profile data" },
+  { step: "1", title: "Apply In App", desc: "Fill a simple application in under 5 minutes using your Digi Farms profile data" },
   { step: "2", title: "AI Credit Score", desc: "Our model analyzes 40+ farm data points to generate your risk profile" },
   { step: "3", title: "Instant Decision", desc: "Get approved or declined within minutes — no waiting, no branch visits" },
   { step: "4", title: "Funds Disbursed", desc: "Money sent directly to your M-Pesa or bank account same day" },
@@ -144,7 +144,7 @@ export function FinancingEligibilitySection() {
             <Badge className="mb-4">Eligibility</Badge>
             <h2 className="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-6">Who Can Apply?</h2>
             <div className="space-y-3">
-              {["Active DIGI-FARMS account for at least 3 months", "At least one verified farm profile on the platform", "At least 5 AI crop diagnostic scans completed", "No outstanding defaulted loans on DIGI-FARMS", "Kenyan national or valid East African residency"].map((item) => (
+              {["Active Digi Farms account for at least 3 months", "At least one verified farm profile on the platform", "At least 5 AI crop diagnostic scans completed", "No outstanding defaulted loans on Digi Farms", "Kenyan national or valid East African residency"].map((item) => (
                 <div key={item} className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
                   <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0" />{item}
                 </div>

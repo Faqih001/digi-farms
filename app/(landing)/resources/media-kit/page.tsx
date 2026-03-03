@@ -10,7 +10,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Media Kit",
-  description: "DIGI-FARMS brand assets, logos, press releases, and company information for media, press, and partnership materials.",
+  description: "Digi Farms brand assets, logos, press releases, and company information for media, press, and partnership materials.",
 };
 
 export default function MediaKitPage() {

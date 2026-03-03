@@ -44,7 +44,7 @@ export function DocsHeroSection() {
           <span className="text-green-200">to Get Started</span>
         </h1>
         <p className="text-lg text-green-100 max-w-2xl mx-auto mb-8">
-          Comprehensive guides, tutorials, and references to help you make the most of DIGI-FARMS.
+          Comprehensive guides, tutorials, and references to help you make the most of Digi Farms.
         </p>
         <div className="max-w-md mx-auto relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />

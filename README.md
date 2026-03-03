@@ -1,4 +1,4 @@
-# DIGI-FARMS
+# Digi Farms
 
 A full-stack precision agriculture SaaS platform built with Next.js 16 App Router, TypeScript, Tailwind CSS v4, NextAuth v5, Prisma ORM, and Neon PostgreSQL.
 

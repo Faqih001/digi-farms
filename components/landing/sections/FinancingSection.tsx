@@ -26,7 +26,7 @@ export function FinancingSection() {
             </div>
             <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Agri Micro-Finance</h3>
             <p className="text-slate-600 dark:text-green-200/80 mb-6 text-sm leading-relaxed">
-              AI-powered credit scoring uses your DIGI-FARMS data — yield history, diagnostics,
+              AI-powered credit scoring uses your Digi Farms data — yield history, diagnostics,
               market activity — to provide instant loan decisions without traditional bank collateral.
             </p>
             <ul className="space-y-3 text-sm text-slate-700 dark:text-green-200">

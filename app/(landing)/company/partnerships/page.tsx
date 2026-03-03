@@ -10,7 +10,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Partnerships",
-  description: "Partner with DIGI-FARMS to reach 50,000+ farmers across East Africa. Programs for agrovets, lenders, NGOs, and technology providers.",
+  description: "Partner with Digi Farms to reach 50,000+ farmers across East Africa. Programs for agrovets, lenders, NGOs, and technology providers.",
 };
 
 export default function PartnershipsPage() {

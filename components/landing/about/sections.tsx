@@ -57,13 +57,13 @@ export function MissionVisionSection() {
     <section className="gradient-hero py-24">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center max-w-4xl mx-auto mb-16">
-          <Badge className="mb-6 bg-white/20 text-white border-white/30">About DIGI-FARMS</Badge>
+          <Badge className="mb-6 bg-white/20 text-white border-white/30">About Digi Farms</Badge>
           <h1 className="text-5xl lg:text-7xl font-black text-white mb-6 leading-tight">
             Feeding Africa Through <span className="text-green-200">Innovation</span>
           </h1>
           <p className="text-xl text-green-100/90 leading-relaxed">
             We believe every African farmer deserves access to the same precision tools used by the
-            world&apos;s most advanced farms. DIGI-FARMS is making that vision a reality.
+            world&apos;s most advanced farms. Digi Farms is making that vision a reality.
           </p>
         </div>
 
@@ -113,7 +113,7 @@ export function StorySection() {
                 tools. He didn&apos;t. No farmer in his district did.
               </p>
               <p>
-                That single moment sparked DIGI-FARMS. Amara, alongside AI researcher Dr. Neema Baraka,
+                That single moment sparked Digi Farms. Amara, alongside AI researcher Dr. Neema Baraka,
                 set out to build the precision agriculture platform they wished existed for every African
                 farmer.
               </p>
@@ -233,7 +233,7 @@ export function AIEngineSection() {
           <div>
             <Badge className="mb-4 bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700/50">AI Engine</Badge>
             <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-6">
-              The Brain Behind <span className="text-gradient">DIGI-FARMS</span>
+              The Brain Behind <span className="text-gradient">Digi Farms</span>
             </h2>
             <p className="text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
               Our proprietary Vision AI was trained specifically on African crop varieties and disease
@@ -428,7 +428,7 @@ export function SDGSection() {
             Aligned with the Global Goals
           </h2>
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
-            DIGI-FARMS directly contributes to six of the 17 UN Sustainable Development Goals.
+            Digi Farms directly contributes to six of the 17 UN Sustainable Development Goals.
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-4 mb-12">
@@ -463,7 +463,7 @@ export function AboutCTASection() {
         </h2>
         <p className="text-xl text-slate-600 dark:text-green-200/80 mb-10">
           Whether you&apos;re a farmer, investor, partner, or developer — there&apos;s a place for you in
-          the DIGI-FARMS story.
+          the Digi Farms story.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button variant="hero" size="xl" asChild>

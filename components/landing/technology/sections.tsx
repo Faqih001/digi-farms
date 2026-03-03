@@ -213,7 +213,7 @@ export function FarmAnalyticsSection() {
               Data-Driven Farming Decisions
             </h2>
             <p className="text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
-              Your DIGI-FARMS dashboard aggregates all farm data into actionable intelligence —
+              Your Digi Farms dashboard aggregates all farm data into actionable intelligence —
               yield tracking, profitability scoring, input efficiency, and season-over-season
               benchmarking.
             </p>
@@ -305,7 +305,7 @@ export function ClimateModeling() {
             </h2>
             <p className="text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
               Powered by satellite data, local weather stations, and historic climate patterns,
-              DIGI-FARMS delivers hyperlocal forecasts down to 500m accuracy.
+              Digi Farms delivers hyperlocal forecasts down to 500m accuracy.
             </p>
             <div className="space-y-4">
               {[
@@ -341,7 +341,7 @@ export function FarmScoreSection() {
           Your Digital Farm Identity
         </h2>
         <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-12">
-          The DIGI-FARMS Farm Score aggregates 40+ data points into a single performance metric —
+          The Digi Farms Farm Score aggregates 40+ data points into a single performance metric —
           your passport to better loans, insurance, and market access.
         </p>
         <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
@@ -467,7 +467,7 @@ export function MobileAppSection() {
               Farm From Your Pocket
             </h2>
             <p className="text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
-              The DIGI-FARMS mobile app is built for low-end Android devices with offline-first
+              The Digi Farms mobile app is built for low-end Android devices with offline-first
               architecture. Works on 2G connectivity in remote farming areas.
             </p>
             <div className="space-y-4">
@@ -493,7 +493,7 @@ export function MobileAppSection() {
           </div>
           <div className="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-600 dark:to-green-800 rounded-3xl p-8 text-center shadow-2xl">
             <div className="text-8xl mb-4">📱</div>
-            <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2">DIGI-FARMS App</h3>
+            <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2">Digi Farms App</h3>
             <p className="text-green-700 dark:text-green-200/80 text-sm mb-4">Available on Android &amp; Web</p>
             <div className="grid grid-cols-2 gap-3 text-sm">
               {[["100K+", "Downloads"], ["4.7★", "Rating"], ["Swahili", "Language"], ["Offline", "Mode"]].map(([v, l]) => (

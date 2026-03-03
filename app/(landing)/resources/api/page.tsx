@@ -10,7 +10,7 @@ import {
 
 export const metadata: Metadata = {
   title: "API Reference",
-  description: "DIGI-FARMS REST API documentation. Integrate farm data, marketplace, payments, and diagnostics into your applications.",
+  description: "Digi Farms REST API documentation. Integrate farm data, marketplace, payments, and diagnostics into your applications.",
 };
 
 export default function ApiPage() {

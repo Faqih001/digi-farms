@@ -15,7 +15,7 @@ import {
 } from "@/components/landing/marketplace/sections";
 
 export const metadata: Metadata = {
-  title: "Marketplace – DIGI-FARMS",
+  title: "Marketplace – Digi Farms",
   description: "Buy certified farm inputs and sell your produce on Africa's largest verified agricultural marketplace.",
 };
 

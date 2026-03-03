@@ -13,7 +13,7 @@ import { PartnersSection } from "@/components/landing/sections/PartnersSection";
 import { CTASection } from "@/components/landing/sections/CTASection";
 
 export const metadata: Metadata = {
-  title: "DIGI-FARMS – Precision Agriculture Platform",
+  title: "Digi Farms – Precision Agriculture Platform",
   description:
     "AI-powered precision agriculture platform connecting farmers to diagnostics, marketplace, financing, and agrovets across East Africa.",
 };

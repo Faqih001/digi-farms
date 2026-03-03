@@ -12,10 +12,10 @@ const cookieTypes = [
     description: "These cookies are necessary for the platform to function. They cannot be disabled.",
     canDisable: false,
     cookies: [
-      { name: "session_id", purpose: "Maintains your login session", duration: "Session", provider: "DIGI-FARMS" },
-      { name: "csrf_token", purpose: "Prevents cross-site request forgery", duration: "Session", provider: "DIGI-FARMS" },
-      { name: "auth_token", purpose: "Authenticates API requests", duration: "30 days", provider: "DIGI-FARMS" },
-      { name: "locale", purpose: "Stores language preference", duration: "1 year", provider: "DIGI-FARMS" },
+      { name: "session_id", purpose: "Maintains your login session", duration: "Session", provider: "Digi Farms" },
+      { name: "csrf_token", purpose: "Prevents cross-site request forgery", duration: "Session", provider: "Digi Farms" },
+      { name: "auth_token", purpose: "Authenticates API requests", duration: "30 days", provider: "Digi Farms" },
+      { name: "locale", purpose: "Stores language preference", duration: "1 year", provider: "Digi Farms" },
     ],
   },
   {
@@ -36,9 +36,9 @@ const cookieTypes = [
     description: "Enable enhanced features and personalization.",
     canDisable: true,
     cookies: [
-      { name: "theme", purpose: "Remembers light/dark mode preference", duration: "1 year", provider: "DIGI-FARMS" },
-      { name: "dashboard_layout", purpose: "Saves your dashboard widget layout", duration: "6 months", provider: "DIGI-FARMS" },
-      { name: "map_zoom", purpose: "Remembers map zoom level", duration: "30 days", provider: "DIGI-FARMS" },
+      { name: "theme", purpose: "Remembers light/dark mode preference", duration: "1 year", provider: "Digi Farms" },
+      { name: "dashboard_layout", purpose: "Saves your dashboard widget layout", duration: "6 months", provider: "Digi Farms" },
+      { name: "map_zoom", purpose: "Remembers map zoom level", duration: "30 days", provider: "Digi Farms" },
       { name: "intercom_id", purpose: "Enables in-app chat support", duration: "9 months", provider: "Intercom" },
     ],
   },
@@ -110,7 +110,7 @@ export function CookiesContentSection() {
             <div className="mb-10">
               <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3">What Are Cookies?</h3>
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Cookies are small text files placed on your device when you visit a website. They help websites remember your preferences, maintain sessions, and collect analytics data. DIGI-FARMS uses cookies and similar technologies (local storage, session storage) to operate and improve our platform.
+                Cookies are small text files placed on your device when you visit a website. They help websites remember your preferences, maintain sessions, and collect analytics data. Digi Farms uses cookies and similar technologies (local storage, session storage) to operate and improve our platform.
               </p>
             </div>
 

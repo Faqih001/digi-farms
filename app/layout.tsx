@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   description:
     "AI-powered precision agriculture platform connecting farmers to diagnostics, marketplace, financing, and agrovets across East Africa.",
   keywords: ["agriculture", "farming", "AI", "crop diagnostics", "agritech", "Kenya", "East Africa"],
-  authors: [{ name: "DIGI-FARMS Team" }],
+  authors: [{ name: "Digi Farms Team" }],
   openGraph: {
     type: "website",
     locale: "en_US",

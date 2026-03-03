@@ -228,7 +228,7 @@ export default function Header() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-5 group">
                 <div className="relative w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} priority className="object-contain" sizes="(max-width: 640px) 56px, 112px" />
+                <Image src="/digi-farms-logo.jpeg" alt="Digi Farms" fill quality={90} priority className="object-contain" sizes="(max-width: 640px) 56px, 112px" />
               </div>
             </Link>
 

@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 
 const metrics = [
-  { value: "+32%", label: "Average yield improvement", sub: "after first full season on DIGI-FARMS", icon: "🌾" },
+  { value: "+32%", label: "Average yield improvement", sub: "after first full season on Digi Farms", icon: "🌾" },
   { value: "94%", label: "AI diagnostic accuracy", sub: "across 200+ crop diseases", icon: "🔬" },
   { value: "3.2x", label: "ROI for Pro subscribers", sub: "compared to undigitised farms", icon: "📈" },
   { value: "65%", label: "Reduction in input waste", sub: "via precision recommendation engine", icon: "♻️" },

@@ -32,10 +32,10 @@ const officeDetails = [
 
 const faqs = [
   { q: "How accurate is the AI crop diagnostic?", a: "Our AI diagnostic achieves 94% accuracy across 200+ diseases and nutrient deficiencies. It's validated by certified agronomists and continuously improved with new field data." },
-  { q: "What connectivity do I need to use DIGI-FARMS?", a: "The mobile app works offline for diagnostics and basic features. Market prices and weather require 2G or better. Full dashboard functionality needs 3G+." },
+  { q: "What connectivity do I need to use Digi Farms?", a: "The mobile app works offline for diagnostics and basic features. Market prices and weather require 2G or better. Full dashboard functionality needs 3G+." },
   { q: "How is my farm data protected?", a: "All data is encrypted with AES-256, stored in Neon cloud infrastructure, and never sold to third parties. You own your farm data and can export or delete it anytime." },
   { q: "Which payment methods are supported?", a: "We support M-Pesa, Airtel Money, Equity Bank, KCB, and major credit/debit cards. More payment options are added monthly." },
-  { q: "Can I use DIGI-FARMS for a livestock farm?", a: "Currently, DIGI-FARMS focuses on crop farming. Veterinary modules for livestock are on our Q3 2026 roadmap." },
+  { q: "Can I use Digi Farms for a livestock farm?", a: "Currently, Digi Farms focuses on crop farming. Veterinary modules for livestock are on our Q3 2026 roadmap." },
   { q: "Is there a free plan?", a: "Yes! The Free plan includes 5 AI diagnostics per month, basic weather, and marketplace access. The Pro plan (KES 999/month) includes unlimited diagnostics and full analytics." },
 ];
 

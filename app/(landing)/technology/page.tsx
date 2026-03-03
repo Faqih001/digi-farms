@@ -15,8 +15,8 @@ import {
 } from "@/components/landing/technology/sections";
 
 export const metadata: Metadata = {
-  title: "Technology – DIGI-FARMS",
-  description: "Explore DIGI-FARMS' cutting-edge technology stack: AI diagnostics, multispectral imaging, climate modeling, and precision farm analytics.",
+  title: "Technology – Digi Farms",
+  description: "Explore Digi Farms' cutting-edge technology stack: AI diagnostics, multispectral imaging, climate modeling, and precision farm analytics.",
 };
 
 export default function TechnologyPage() {

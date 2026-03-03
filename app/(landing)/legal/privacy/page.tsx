@@ -7,7 +7,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "DIGI-FARMS Privacy Policy. Learn how we collect, use, store, and protect your personal data.",
+  description: "Digi Farms Privacy Policy. Learn how we collect, use, store, and protect your personal data.",
 };
 
 export default function PrivacyPage() {

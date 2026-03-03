@@ -61,7 +61,7 @@ export default function AdminSettingsPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5"><Label>Platform Name</Label><Input defaultValue="DIGI-FARMS" /></div>
+              <div className="space-y-1.5"><Label>Platform Name</Label><Input defaultValue="Digi Farms" /></div>
               <div className="space-y-1.5"><Label>Support Email</Label><Input defaultValue="support@digifarms.co.ke" /></div>
               <div className="space-y-1.5"><Label>HQ Location</Label><Input defaultValue="Nairobi, Kenya" /></div>
               <div className="space-y-1.5"><Label>Default Currency</Label><Input defaultValue="KES" /></div>

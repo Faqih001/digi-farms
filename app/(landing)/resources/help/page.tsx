@@ -9,7 +9,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Help Center",
-  description: "Get help with DIGI-FARMS. Browse FAQs, contact support, and find answers to common questions about the platform.",
+  description: "Get help with Digi Farms. Browse FAQs, contact support, and find answers to common questions about the platform.",
 };
 
 export default function HelpPage() {

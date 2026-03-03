@@ -18,12 +18,12 @@ const faqCategories = [
 ];
 
 const popularQuestions = [
-  { q: "How do I register as a farmer on DIGI-FARMS?", a: "Download the app or visit our website, click 'Register', select 'Farmer' as your role, and complete the KYC verification with your national ID." },
-  { q: "What payment methods are supported?", a: "We support M-Pesa, Airtel Money, bank transfers, and DIGI-FARMS wallet. M-Pesa is the most popular method among our users." },
+  { q: "How do I register as a farmer on Digi Farms?", a: "Download the app or visit our website, click 'Register', select 'Farmer' as your role, and complete the KYC verification with your national ID." },
+  { q: "What payment methods are supported?", a: "We support M-Pesa, Airtel Money, bank transfers, and Digi Farms wallet. M-Pesa is the most popular method among our users." },
   { q: "How accurate is the AI crop diagnostic tool?", a: "Our AI model achieves 94% accuracy across 200+ crop diseases. Results are provided in under 3 seconds with treatment recommendations." },
   { q: "Can I get a refund on a marketplace order?", a: "Yes, you can request a refund within 48 hours of delivery if the products don't match the description. Visit Orders → Request Refund." },
   { q: "How do I apply for an input financing loan?", a: "Navigate to Financing in your dashboard, check your eligibility score, select a loan product, and submit your application. Decisions are made within 48 hours." },
-  { q: "Is my data secure on DIGI-FARMS?", a: "Absolutely. We use AES-256 encryption, are GDPR compliant, and never sell your personal data to third parties." },
+  { q: "Is my data secure on Digi Farms?", a: "Absolutely. We use AES-256 encryption, are GDPR compliant, and never sell your personal data to third parties." },
 ];
 
 const contactOptions = [

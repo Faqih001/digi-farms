@@ -11,7 +11,7 @@ import {
 
 export const metadata: Metadata = {
   title: "About Us",
-  description: "Learn about DIGI-FARMS' mission to transform smallholder agriculture across East Africa through AI and precision technology.",
+  description: "Learn about Digi Farms' mission to transform smallholder agriculture across East Africa through AI and precision technology.",
 };
 
 export default function AboutPage() {

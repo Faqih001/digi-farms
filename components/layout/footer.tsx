@@ -72,7 +72,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-3 lg:col-span-2">
             <Link href="/" className="flex items-center gap-4 mb-4">
               <div className="relative w-20 h-20 rounded-xl overflow-hidden flex items-center justify-center">
-                <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} className="object-contain" sizes="80px" />
+                <Image src="/digi-farms-logo.jpeg" alt="Digi Farms" fill quality={90} className="object-contain" sizes="80px" />
               </div>
               <div className="leading-none">
                 <span className="font-black text-3xl text-slate-900 dark:text-white tracking-tight">DIGI</span>
@@ -137,7 +137,7 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-slate-200 dark:border-slate-800">
         <div className="container mx-auto px-4 max-w-7xl py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
-          <p>© {new Date().getFullYear()} DIGI-FARMS Ltd. All rights reserved. Built for the Hult Prize 2026.</p>
+          <p>© {new Date().getFullYear()} Digi Farms Ltd. All rights reserved. Built for the Hult Prize 2026.</p>
           <div className="flex items-center gap-4">
             <Link href="/legal/privacy" className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Privacy</Link>
             <Link href="/legal/terms" className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Terms</Link>

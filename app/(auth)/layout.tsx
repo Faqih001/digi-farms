@@ -3,8 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "DIGI-FARMS | Account",
-  description: "Sign in or create your DIGI-FARMS account",
+  title: "Digi Farms | Account",
+  description: "Sign in or create your Digi Farms account",
 };
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -16,7 +16,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="relative z-10 flex flex-col justify-between h-full p-12">
           <Link href="/" className="flex items-center">
             <div className="relative w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center">
-                  <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} priority className="object-contain" sizes="(max-width: 640px) 56px, 112px" />
+                  <Image src="/digi-farms-logo.jpeg" alt="Digi Farms" fill quality={90} priority className="object-contain" sizes="(max-width: 640px) 56px, 112px" />
             </div>
           </Link>
 
@@ -37,7 +37,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
 
-          <p className="text-green-200/60 text-sm">© 2025 DIGI-FARMS Ltd. Nairobi, Kenya</p>
+          <p className="text-green-200/60 text-sm">© 2025 Digi Farms Ltd. Nairobi, Kenya</p>
         </div>
       </div>
 
@@ -46,7 +46,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             <div className="lg:hidden flex items-center mb-8">
           <Link href="/">
             <div className="relative w-20 h-20 rounded-xl overflow-hidden flex items-center justify-center">
-                <Image src="/digi-farms-logo.jpeg" alt="DIGI-FARMS" fill quality={90} priority className="object-contain" sizes="80px" />
+                <Image src="/digi-farms-logo.jpeg" alt="Digi Farms" fill quality={90} priority className="object-contain" sizes="80px" />
             </div>
           </Link>
         </div>

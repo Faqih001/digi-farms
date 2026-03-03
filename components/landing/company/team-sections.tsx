@@ -36,7 +36,7 @@ export function TeamHeroSection() {
         <Badge className="mb-6 bg-white/20 text-white border-white/30">Our Team</Badge>
         <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
           The People Behind <br className="hidden sm:block" />
-          <span className="text-green-200">DIGI-FARMS</span>
+          <span className="text-green-200">Digi Farms</span>
         </h1>
         <p className="text-lg text-green-100 max-w-2xl mx-auto">
           Agronomists, engineers, and impact leaders united by one goal — empowering every smallholder farmer in Africa with world-class technology.

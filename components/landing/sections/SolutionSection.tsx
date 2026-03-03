@@ -15,7 +15,7 @@ export function SolutionSection() {
               <span className="text-gradient">Infinite Possibilities.</span>
             </h2>
             <p className="text-lg text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">
-              DIGI-FARMS integrates AI diagnostics, smart marketplace, agrovet network, and
+              Digi Farms integrates AI diagnostics, smart marketplace, agrovet network, and
               climate-resilient financing into a single, mobile-first platform — built for the
               African smallholder farmer.
             </p>
@@ -49,7 +49,7 @@ export function SolutionSection() {
               <div className="w-20 h-20 mx-auto rounded-2xl bg-[#E8F7EC] dark:bg-[#1E4032] flex items-center justify-center mb-3">
                 <Leaf className="w-10 h-10 text-green-700 dark:text-white" />
               </div>
-              <p className="font-bold text-xl text-slate-900 dark:text-white">DIGI-FARMS Ecosystem</p>
+              <p className="font-bold text-xl text-slate-900 dark:text-white">Digi Farms Ecosystem</p>
               <p className="text-green-700 dark:text-green-300 text-sm">Precision Agriculture Platform</p>
             </div>
 

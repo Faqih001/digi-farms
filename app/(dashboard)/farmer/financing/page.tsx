@@ -46,7 +46,7 @@ export default async function FinancingProfilePage() {
     { done: credit.factors.diagnosticActivity >= 60,    tip: "Run at least 3 crop diagnostics in the last 90 days" },
     { done: credit.factors.paymentHistory >= 90,        tip: "Repay existing loans on time" },
     { done: credit.factors.yieldPerformance >= 70,      tip: "Achieve 90%+ of expected crop yields" },
-    { done: credit.factors.subscriptionStatus === 100,  tip: "Maintain an active DIGI-FARMS subscription" },
+    { done: credit.factors.subscriptionStatus === 100,  tip: "Maintain an active Digi Farms subscription" },
   ];
 
   const lastUpdated = new Date(credit.calculatedAt).toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" });
@@ -73,7 +73,7 @@ export default async function FinancingProfilePage() {
               <Star className="w-10 h-10 text-white" />
             </div>
             <div className={`text-5xl font-black mb-1 ${scoreColor(credit.score)}`}>{credit.score}</div>
-            <div className="text-slate-500 dark:text-slate-400 text-sm mb-3">DIGI-FARMS Credit Score</div>
+            <div className="text-slate-500 dark:text-slate-400 text-sm mb-3">Digi Farms Credit Score</div>
             <Badge variant={scoreBadge(credit.riskLevel)} className="mb-4">{credit.riskLevel}</Badge>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">

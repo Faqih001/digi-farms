@@ -10,7 +10,7 @@ const sections = [
     id: "acceptance",
     title: "1. Acceptance of Terms",
     content: [
-      { subtitle: "", text: "By accessing or using the DIGI-FARMS platform, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this platform." },
+      { subtitle: "", text: "By accessing or using the Digi Farms platform, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this platform." },
     ],
   },
   {
@@ -35,15 +35,15 @@ const sections = [
     content: [
       { subtitle: "Listing Requirements", text: "All products listed must accurately describe the goods being sold. Suppliers are responsible for accurate pricing, availability, and quality representation." },
       { subtitle: "Prohibited Items", text: "You may not list counterfeit products, unregistered pesticides, stolen goods, or any items prohibited by Kenyan law or agricultural regulations." },
-      { subtitle: "Transaction Obligations", text: "Buyers and sellers must fulfill agreed transactions. DIGI-FARMS acts as an intermediary and is not responsible for product quality disputes, though we provide a dispute resolution service." },
-      { subtitle: "Pricing", text: "DIGI-FARMS takes a commission on marketplace transactions. Current commission rates are displayed in your dashboard and may be updated with 30 days notice." },
+      { subtitle: "Transaction Obligations", text: "Buyers and sellers must fulfill agreed transactions. Digi Farms acts as an intermediary and is not responsible for product quality disputes, though we provide a dispute resolution service." },
+      { subtitle: "Pricing", text: "Digi Farms takes a commission on marketplace transactions. Current commission rates are displayed in your dashboard and may be updated with 30 days notice." },
     ],
   },
   {
     id: "ai-services",
     title: "5. AI & Diagnostic Services",
     content: [
-      { subtitle: "Advisory Nature", text: "AI-generated crop diagnostics, yield predictions, and soil recommendations are advisory in nature. They do not replace professional agronomic advice. DIGI-FARMS is not liable for agricultural decisions made solely based on AI outputs." },
+      { subtitle: "Advisory Nature", text: "AI-generated crop diagnostics, yield predictions, and soil recommendations are advisory in nature. They do not replace professional agronomic advice. Digi Farms is not liable for agricultural decisions made solely based on AI outputs." },
       { subtitle: "Data Contribution", text: "By using AI features, you consent to your anonymized agricultural data being used to improve our models. You retain ownership of your farm data." },
       { subtitle: "Accuracy", text: "We strive for high accuracy in our AI models, but we make no guarantee of correctness. Diagnostic confidence scores are provided to help you assess reliability." },
     ],
@@ -52,17 +52,17 @@ const sections = [
     id: "financing",
     title: "6. Financing Services",
     content: [
-      { subtitle: "Credit Assessment", text: "DIGI-FARMS may provide credit scoring and financial profiling to partner lenders. You consent to this when applying for financing products." },
-      { subtitle: "Loan Agreements", text: "Loan terms are agreed between you and the lending institution. DIGI-FARMS facilitates introductions and data sharing but is not a party to loan agreements." },
-      { subtitle: "Repayment", text: "Non-repayment of loans may result in suspension of your DIGI-FARMS account, adverse credit bureau reporting, and legal action by the lender." },
+      { subtitle: "Credit Assessment", text: "Digi Farms may provide credit scoring and financial profiling to partner lenders. You consent to this when applying for financing products." },
+      { subtitle: "Loan Agreements", text: "Loan terms are agreed between you and the lending institution. Digi Farms facilitates introductions and data sharing but is not a party to loan agreements." },
+      { subtitle: "Repayment", text: "Non-repayment of loans may result in suspension of your Digi Farms account, adverse credit bureau reporting, and legal action by the lender." },
     ],
   },
   {
     id: "intellectual-property",
     title: "7. Intellectual Property",
     content: [
-      { subtitle: "DIGI-FARMS IP", text: "The platform, including all software, designs, logos, algorithms, and content created by DIGI-FARMS, is our exclusive property or licensed to us. You may not copy, modify, or distribute our intellectual property." },
-      { subtitle: "Your Content", text: "You retain ownership of content you create (farm data, product listings, photos). By uploading content, you grant DIGI-FARMS a non-exclusive license to use, process, and display that content to provide our services." },
+      { subtitle: "Digi Farms IP", text: "The platform, including all software, designs, logos, algorithms, and content created by Digi Farms, is our exclusive property or licensed to us. You may not copy, modify, or distribute our intellectual property." },
+      { subtitle: "Your Content", text: "You retain ownership of content you create (farm data, product listings, photos). By uploading content, you grant Digi Farms a non-exclusive license to use, process, and display that content to provide our services." },
     ],
   },
   {
@@ -76,7 +76,7 @@ const sections = [
     id: "liability",
     title: "9. Limitation of Liability",
     content: [
-      { subtitle: "", text: "To the maximum extent permitted by law, DIGI-FARMS shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including lost profits, agricultural losses, or business interruption, whether or not we have been advised of the possibility of such damages. Our total liability shall not exceed the fees you paid to DIGI-FARMS in the 12 months preceding the claim." },
+      { subtitle: "", text: "To the maximum extent permitted by law, Digi Farms shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including lost profits, agricultural losses, or business interruption, whether or not we have been advised of the possibility of such damages. Our total liability shall not exceed the fees you paid to Digi Farms in the 12 months preceding the claim." },
     ],
   },
   {
@@ -98,7 +98,7 @@ const sections = [
     id: "contact",
     title: "12. Contact",
     content: [
-      { subtitle: "", text: "For questions about these terms, contact us at legal@digi-farms.com or write to DIGI-FARMS Ltd, Westlands, Nairobi, Kenya." },
+      { subtitle: "", text: "For questions about these terms, contact us at legal@digi-farms.com or write to Digi Farms Ltd, Westlands, Nairobi, Kenya." },
     ],
   },
 ];
@@ -110,7 +110,7 @@ export function TermsHeroSection() {
         <Badge className="mb-6 bg-white/20 text-white border-white/30">Legal</Badge>
         <h1 className="text-4xl lg:text-5xl font-black text-white mb-4 leading-tight">Terms of Service</h1>
         <p className="text-lg text-green-100 max-w-2xl mx-auto mb-4">
-          Please read these terms carefully before using the DIGI-FARMS platform.
+          Please read these terms carefully before using the Digi Farms platform.
         </p>
         <div className="flex items-center justify-center gap-2 text-green-200 text-sm">
           <Calendar className="w-4 h-4" />
@@ -150,12 +150,12 @@ export function TermsContentSection() {
             <div className="flex items-center gap-3 mb-8 pb-6 border-b border-slate-200 dark:border-slate-700">
               <FileText className="w-8 h-8 text-green-600 dark:text-green-400" />
               <div>
-                <h2 className="font-bold text-slate-900 dark:text-white">DIGI-FARMS Terms of Service</h2>
+                <h2 className="font-bold text-slate-900 dark:text-white">Digi Farms Terms of Service</h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400">Effective date: {lastUpdated}</p>
               </div>
             </div>
             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-8">
-              These Terms of Service (&ldquo;Terms&rdquo;) govern your access to and use of the DIGI-FARMS platform, including our website, mobile applications, and all related services (collectively, the &ldquo;Service&rdquo;), operated by DIGI-FARMS Ltd (&ldquo;DIGI-FARMS,&rdquo; &ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;).
+              These Terms of Service (&ldquo;Terms&rdquo;) govern your access to and use of the Digi Farms platform, including our website, mobile applications, and all related services (collectively, the &ldquo;Service&rdquo;), operated by Digi Farms Ltd (&ldquo;Digi Farms,&rdquo; &ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;).
             </p>
             {sections.map((s) => (
               <div key={s.id} id={s.id} className="mb-10 scroll-mt-24">

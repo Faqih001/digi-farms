@@ -29,7 +29,7 @@ const partnerTypes = [
   {
     icon: Globe,
     title: "NGOs & Development Agencies",
-    desc: "Deploy DIGI-FARMS tools in your agricultural programs. White-label options and impact measurement dashboards available.",
+    desc: "Deploy Digi Farms tools in your agricultural programs. White-label options and impact measurement dashboards available.",
     benefits: ["White-label platform", "Beneficiary tracking", "Impact measurement", "Program analytics"],
   },
 ];
@@ -77,7 +77,7 @@ export function PartnershipsHeroSection() {
           <span className="text-green-200">Impact Together.</span>
         </h1>
         <p className="text-lg text-green-100 max-w-2xl mx-auto mb-8">
-          Join 30+ organizations partnering with DIGI-FARMS to reach millions of smallholder farmers across East Africa. Together, we can transform agriculture.
+          Join 30+ organizations partnering with Digi Farms to reach millions of smallholder farmers across East Africa. Together, we can transform agriculture.
         </p>
         <Button size="lg" asChild className="bg-white text-green-700 hover:bg-green-50">
           <a href="#partner-form">Become a Partner <ArrowRight className="ml-2 w-4 h-4" /></a>
@@ -173,7 +173,7 @@ export function PartnershipsWhySection() {
         <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-700 dark:to-emerald-600 rounded-3xl p-8 lg:p-12 border border-green-200 dark:border-transparent">
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div>
-              <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-4">Why Partner With DIGI-FARMS?</h2>
+              <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-4">Why Partner With Digi Farms?</h2>
               <p className="text-slate-600 dark:text-green-100 mb-6">Access the largest network of digitally-connected smallholder farmers in East Africa.</p>
               <ul className="space-y-3 mb-6">
                 {whyItems.map((item) => (

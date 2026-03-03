@@ -19,8 +19,8 @@ const sections = [
     id: "definitions",
     title: "1. Definitions",
     content: [
-      { subtitle: "Controller", text: "The entity that determines the purpose and means of processing personal data. In the context of this DPA, the Customer (business using DIGI-FARMS APIs or white-label services) is the Controller." },
-      { subtitle: "Processor", text: "DIGI-FARMS Ltd, which processes personal data on behalf of the Controller." },
+      { subtitle: "Controller", text: "The entity that determines the purpose and means of processing personal data. In the context of this DPA, the Customer (business using Digi Farms APIs or white-label services) is the Controller." },
+      { subtitle: "Processor", text: "Digi Farms Ltd, which processes personal data on behalf of the Controller." },
       { subtitle: "Data Subject", text: "An identified or identifiable natural person whose personal data is processed. This includes farmers, suppliers, and end-users on the platform." },
       { subtitle: "Personal Data", text: "Any information relating to an identified or identifiable natural person, as defined under the Kenya Data Protection Act 2019." },
     ],
@@ -29,68 +29,68 @@ const sections = [
     id: "scope",
     title: "2. Scope & Duration",
     content: [
-      { subtitle: "", text: "This DPA applies to all processing of personal data by DIGI-FARMS on behalf of Customers using our B2B services, APIs, or data services. It remains in effect for the duration of the service agreement and for the data retention period thereafter." },
+      { subtitle: "", text: "This DPA applies to all processing of personal data by Digi Farms on behalf of Customers using our B2B services, APIs, or data services. It remains in effect for the duration of the service agreement and for the data retention period thereafter." },
     ],
   },
   {
     id: "processor-obligations",
     title: "3. Processor Obligations",
     content: [
-      { subtitle: "Lawful Basis", text: "DIGI-FARMS will only process personal data according to documented instructions from the Controller, unless required to do so by applicable law." },
-      { subtitle: "Confidentiality", text: "All DIGI-FARMS staff authorised to process personal data are bound by contractual confidentiality obligations." },
-      { subtitle: "Security Measures", text: "DIGI-FARMS implements appropriate technical and organisational security measures including end-to-end encryption, access controls, audit logging, and regular penetration testing." },
-      { subtitle: "Assistance", text: "DIGI-FARMS will provide reasonable assistance to the Controller in fulfilling obligations under applicable data protection law, including responding to data subject requests." },
+      { subtitle: "Lawful Basis", text: "Digi Farms will only process personal data according to documented instructions from the Controller, unless required to do so by applicable law." },
+      { subtitle: "Confidentiality", text: "All Digi Farms staff authorised to process personal data are bound by contractual confidentiality obligations." },
+      { subtitle: "Security Measures", text: "Digi Farms implements appropriate technical and organisational security measures including end-to-end encryption, access controls, audit logging, and regular penetration testing." },
+      { subtitle: "Assistance", text: "Digi Farms will provide reasonable assistance to the Controller in fulfilling obligations under applicable data protection law, including responding to data subject requests." },
     ],
   },
   {
     id: "sub-processors",
     title: "4. Sub-processors",
     content: [
-      { subtitle: "Authorisation", text: "The Controller provides general authorisation for DIGI-FARMS to use sub-processors. DIGI-FARMS maintains an up-to-date list of sub-processors at digi-farms.com/legal/sub-processors." },
-      { subtitle: "Notification", text: "DIGI-FARMS will notify Controllers of any intended changes to sub-processors at least 30 days before the change takes effect, giving Controllers the opportunity to object." },
-      { subtitle: "Liability", text: "DIGI-FARMS remains fully liable to the Controller for sub-processor performance of data protection obligations." },
+      { subtitle: "Authorisation", text: "The Controller provides general authorisation for Digi Farms to use sub-processors. Digi Farms maintains an up-to-date list of sub-processors at digi-farms.com/legal/sub-processors." },
+      { subtitle: "Notification", text: "Digi Farms will notify Controllers of any intended changes to sub-processors at least 30 days before the change takes effect, giving Controllers the opportunity to object." },
+      { subtitle: "Liability", text: "Digi Farms remains fully liable to the Controller for sub-processor performance of data protection obligations." },
     ],
   },
   {
     id: "data-subject-rights",
     title: "5. Data Subject Rights",
     content: [
-      { subtitle: "", text: "DIGI-FARMS will promptly notify the Controller of any data subject requests (access, rectification, erasure, portability, restriction, objection) received directly. DIGI-FARMS will provide technical assistance to help Controllers fulfil such requests within applicable statutory timeframes (typically 30 days under the Kenya DPA)." },
+      { subtitle: "", text: "Digi Farms will promptly notify the Controller of any data subject requests (access, rectification, erasure, portability, restriction, objection) received directly. Digi Farms will provide technical assistance to help Controllers fulfil such requests within applicable statutory timeframes (typically 30 days under the Kenya DPA)." },
     ],
   },
   {
     id: "international-transfers",
     title: "6. International Data Transfers",
     content: [
-      { subtitle: "", text: "DIGI-FARMS primarily stores and processes data within Kenya and the African Union region. Any transfer of personal data outside Kenya is conducted under Standard Contractual Clauses or equivalent safeguards as recognised under the Kenya Data Protection Act 2019. Controllers will be notified of any changes to data residency." },
+      { subtitle: "", text: "Digi Farms primarily stores and processes data within Kenya and the African Union region. Any transfer of personal data outside Kenya is conducted under Standard Contractual Clauses or equivalent safeguards as recognised under the Kenya Data Protection Act 2019. Controllers will be notified of any changes to data residency." },
     ],
   },
   {
     id: "breach-notification",
     title: "7. Data Breach Notification",
     content: [
-      { subtitle: "", text: "In the event of a personal data breach, DIGI-FARMS will notify the affected Controller without undue delay and, where feasible, within 72 hours of becoming aware of the breach. Notifications will include the nature of the breach, categories and approximate number of data subjects affected, likely consequences, and measures taken or proposed to address the breach." },
+      { subtitle: "", text: "In the event of a personal data breach, Digi Farms will notify the affected Controller without undue delay and, where feasible, within 72 hours of becoming aware of the breach. Notifications will include the nature of the breach, categories and approximate number of data subjects affected, likely consequences, and measures taken or proposed to address the breach." },
     ],
   },
   {
     id: "audits",
     title: "8. Audits & Compliance",
     content: [
-      { subtitle: "", text: "DIGI-FARMS makes available to Controllers all information necessary to demonstrate compliance with this DPA. Controllers may conduct audits (or appoint an auditor) with 30 days prior written notice, subject to confidentiality obligations. DIGI-FARMS undergoes annual third-party security audits, the summary reports of which are available on request." },
+      { subtitle: "", text: "Digi Farms makes available to Controllers all information necessary to demonstrate compliance with this DPA. Controllers may conduct audits (or appoint an auditor) with 30 days prior written notice, subject to confidentiality obligations. Digi Farms undergoes annual third-party security audits, the summary reports of which are available on request." },
     ],
   },
   {
     id: "termination",
     title: "9. Termination & Data Return",
     content: [
-      { subtitle: "", text: "Upon termination of the service agreement, DIGI-FARMS will, at the Controller's election, either return all personal data in machine-readable format or securely delete it within 30 days. DIGI-FARMS will provide written confirmation of deletion upon request. Data retained due to legal obligations will be clearly identified." },
+      { subtitle: "", text: "Upon termination of the service agreement, Digi Farms will, at the Controller's election, either return all personal data in machine-readable format or securely delete it within 30 days. Digi Farms will provide written confirmation of deletion upon request. Data retained due to legal obligations will be clearly identified." },
     ],
   },
   {
     id: "contact",
     title: "10. Contact & Supervisory Authority",
     content: [
-      { subtitle: "Data Protection Officer", text: "DIGI-FARMS DPO can be reached at dpo@digi-farms.com. We aim to respond to all DPA-related inquiries within 5 business days." },
+      { subtitle: "Data Protection Officer", text: "Digi Farms DPO can be reached at dpo@digi-farms.com. We aim to respond to all DPA-related inquiries within 5 business days." },
       { subtitle: "Supervisory Authority", text: "The supervisory authority for data protection in Kenya is the Office of the Data Protection Commissioner (ODPC). Data subjects and Controllers have the right to lodge complaints with the ODPC if they believe data protection rights have been violated." },
     ],
   },
@@ -171,7 +171,7 @@ export function DpaContentSection() {
               </div>
             </div>
             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-8">
-              This Data Processing Agreement (&ldquo;DPA&rdquo;) forms part of the service agreement between DIGI-FARMS Ltd (&ldquo;Processor&rdquo;) and its business customers (&ldquo;Controller&rdquo;). It governs the processing of personal data carried out by DIGI-FARMS on behalf of the Controller in connection with DIGI-FARMS services, in compliance with the Kenya Data Protection Act 2019 and the EU General Data Protection Regulation (GDPR) where applicable.
+              This Data Processing Agreement (&ldquo;DPA&rdquo;) forms part of the service agreement between Digi Farms Ltd (&ldquo;Processor&rdquo;) and its business customers (&ldquo;Controller&rdquo;). It governs the processing of personal data carried out by Digi Farms on behalf of the Controller in connection with Digi Farms services, in compliance with the Kenya Data Protection Act 2019 and the EU General Data Protection Regulation (GDPR) where applicable.
             </p>
             {sections.map((s) => (
               <div key={s.id} id={s.id} className="mb-10 scroll-mt-24">
