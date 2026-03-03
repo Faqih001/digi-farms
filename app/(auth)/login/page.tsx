@@ -3,7 +3,8 @@
 import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn, getSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
+import { getCurrentUserRole } from "@/lib/actions/user";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/lib/validations";
@@ -46,8 +47,7 @@ function LoginForm() {
       if (callbackUrl && callbackUrl !== "/") {
         router.push(callbackUrl);
       } else {
-        const session = await getSession();
-        const role = session?.user?.role as string | undefined;
+        const role = await getCurrentUserRole();
         router.push(role ? (ROLE_DASHBOARDS[role] ?? "/") : "/");
       }
       router.refresh();

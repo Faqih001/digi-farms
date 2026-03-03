@@ -76,14 +76,15 @@ export default function FloatingChat() {
     if (seen === "1") setShowPrompts(false);
   }, []);
 
-  // Silently get user location for Maps grounding
+  // Request location only after the user opens the chat (satisfies browser user-gesture requirement)
   useEffect(() => {
+    if (!open || userCoords) return;
     if (typeof navigator === "undefined" || !navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(
       (pos) => setUserCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
       () => {}
     );
-  }, []);
+  }, [open]);
 
   async function sendPrompt(text: string) {
     if (!text.trim() || sending) return;

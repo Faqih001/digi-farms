@@ -8,7 +8,7 @@ export default async function LandingLayout({ children }: { children: React.Reac
   return (
     <SessionProvider session={session}>
       <Header />
-      <main className="min-h-screen pb-16 md:pb-0">{children}</main>
+      <main className="min-h-screen">{children}</main>
       <Footer />
     </SessionProvider>
   );

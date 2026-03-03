@@ -6,6 +6,11 @@ import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { createNotification } from "@/lib/actions/notifications";
 
+export async function getCurrentUserRole(): Promise<string | null> {
+  const session = await auth();
+  return (session?.user?.role as string) ?? null;
+}
+
 export async function getUserProfile() {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
