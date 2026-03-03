@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Camera, Trash2, Upload, ZoomIn, ZoomOut, Check } from "lucide-react";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 // ─── canvas helper ────────────────────────────────────────────────────────────
 async function getCroppedBlob(imageSrc: string, pixelCrop: Area): Promise<Blob> {
@@ -41,6 +42,7 @@ interface AvatarUploadDialogProps {
 }
 
 export function AvatarUploadDialog({ currentImage, initials, onAvatarChange }: AvatarUploadDialogProps) {
+  const { update: updateSession } = useSession();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<"view" | "crop">("view");
   const [rawSrc, setRawSrc] = useState<string | null>(null);
@@ -76,7 +78,9 @@ export function AvatarUploadDialog({ currentImage, initials, onAvatarChange }: A
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Upload failed");
       onAvatarChange(json.imageUrl);
-      // Notify other parts of the app (header/topbar) that the avatar changed
+      // Refresh the JWT cookie so the new image is persisted across page reloads
+      await updateSession({ picture: json.imageUrl }).catch(() => null);
+      // Notify header/topbar/sidebar immediately
       try {
         if (typeof window !== "undefined") {
           window.dispatchEvent(new CustomEvent("df:avatar-updated", { detail: { imageUrl: json.imageUrl } }));
@@ -101,6 +105,9 @@ export function AvatarUploadDialog({ currentImage, initials, onAvatarChange }: A
       const res = await fetch("/api/upload/avatar", { method: "DELETE" });
       if (!res.ok) throw new Error("Delete failed");
       onAvatarChange(null);
+      // Refresh the JWT cookie to clear the image
+      await updateSession({ picture: null }).catch(() => null);
+      // Notify header/topbar/sidebar immediately
       try {
         if (typeof window !== "undefined") {
           window.dispatchEvent(new CustomEvent("df:avatar-updated", { detail: { imageUrl: null } }));

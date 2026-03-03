@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { DashboardTopbar } from "@/components/dashboard/topbar";
 
@@ -12,8 +12,23 @@ export type SessionUser = {
   role?: string;
 };
 
-export default function DashboardShell({ children, role, user }: { children: React.ReactNode; role: string; user: SessionUser }) {
+export default function DashboardShell({ children, role, user: initialUser }: { children: React.ReactNode; role: string; user: SessionUser }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<SessionUser>(initialUser);
+
+  // Keep image in sync when avatar is uploaded/deleted
+  useEffect(() => {
+    function onAvatarEvent(e: Event) {
+      try {
+        const evt = e as CustomEvent;
+        setUser((prev) => ({ ...prev, image: evt.detail?.imageUrl ?? null }));
+      } catch {
+        // noop
+      }
+    }
+    window.addEventListener("df:avatar-updated", onAvatarEvent as EventListener);
+    return () => window.removeEventListener("df:avatar-updated", onAvatarEvent as EventListener);
+  }, []);
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">

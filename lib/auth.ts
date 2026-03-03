@@ -46,10 +46,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session: updateData }) {
+      // On first sign-in, copy all fields from the user object
       if (user) {
         token.role = (user as { role?: Role }).role;
         token.id = user.id;
+        token.picture = user.image ?? token.picture;
+      }
+      // When client calls useSession().update({ picture: url }), refresh the token
+      if (trigger === "update" && updateData?.picture !== undefined) {
+        token.picture = updateData.picture;
       }
       return token;
     },
@@ -57,6 +63,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (token && session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as Role;
+        // Ensure the image from the JWT token is passed through to session
+        if (token.picture !== undefined) {
+          session.user.image = (token.picture as string | null) ?? null;
+        }
       }
       return session;
     },
