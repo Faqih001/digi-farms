@@ -22,12 +22,23 @@ export default function DashboardShell({ children, role, user: initialUser }: { 
       try {
         const evt = e as CustomEvent;
         setUser((prev) => ({ ...prev, image: evt.detail?.imageUrl ?? null }));
+        // Also re-fetch authoritative user record from server to ensure DB value
+        fetch('/api/users/me').then((r) => r.ok ? r.json() : null).then((data) => {
+          if (data?.user?.image !== undefined) setUser((p) => ({ ...p, image: data.user.image }));
+        }).catch(() => null);
       } catch {
         // noop
       }
     }
     window.addEventListener("df:avatar-updated", onAvatarEvent as EventListener);
     return () => window.removeEventListener("df:avatar-updated", onAvatarEvent as EventListener);
+  }, []);
+
+  // On mount, fetch authoritative user record (covers case where JWT/session wasn't updated)
+  useEffect(() => {
+    fetch('/api/users/me').then((r) => r.ok ? r.json() : null).then((data) => {
+      if (data?.user) setUser((p) => ({ ...p, ...data.user }));
+    }).catch(() => null);
   }, []);
 
   return (
