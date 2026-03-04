@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { GoogleGenAI } from "@google/genai";
+import { checkAndConsumePrompt } from "@/lib/actions/promptUsage";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
@@ -25,6 +26,14 @@ Return ONLY valid JSON: { "current": {...}, "forecast": [...], "advisories": [..
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+
+  const quota = await checkAndConsumePrompt(session.user.id);
+  if (!quota.allowed) {
+    return NextResponse.json(
+      { error: `Quota exceeded: you've used all ${quota.limit} AI prompts for this month (${quota.tier} plan). Upgrade to continue.`, quota },
+      { status: 403 }
+    );
+  }
 
   const { lat, lng, location } = await req.json();
   const hasCoords = typeof lat === "number" && typeof lng === "number";

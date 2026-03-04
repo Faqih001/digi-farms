@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { consumePromptIfAllowed } from "@/lib/actions/promptUsage";
+import { checkAndConsumePrompt } from "@/lib/actions/promptUsage";
 
 const SYSTEM_INSTRUCTION = `You are DIGI Assistant, an expert AI farming companion for the Digi Farms precision agriculture platform serving smallholder farmers in East Africa.
 You help with crop diagnostics, soil health, planting schedules, pest and disease management, input recommendations, market prices, and agri-finance.
@@ -43,19 +42,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Determine subscription tier and limits
-    const subscription = await db.subscription.findUnique({ where: { userId: session.user.id } });
-    const tier = subscription?.tier ?? "FREE";
-    const tierLimits: Record<string, number> = { FREE: 5, BASIC: 1000, PRO: 5000, ENTERPRISE: 0 };
-    const limit = tierLimits[tier] ?? 5;
-
-    if (limit > 0) {
-      const quota = await consumePromptIfAllowed(session.user.id, limit);
-      if (!quota.allowed) {
+    const quota = await checkAndConsumePrompt(session.user.id);
+    if (!quota.allowed) {
         const encoder = new TextEncoder();
         const stream = new ReadableStream({
           start(controller) {
-            const line = JSON.stringify({ t: "error", d: "Quota exceeded: please upgrade your subscription or wait for reset." });
+            const msg = `You've used all ${quota.limit} AI prompts for this month on the ${quota.tier} plan. Upgrade to get more.`;
+            const line = JSON.stringify({ t: "quota", d: msg, used: quota.used, limit: quota.limit, tier: quota.tier });
             controller.enqueue(encoder.encode(line + "\n"));
             controller.close();
           },
@@ -69,7 +62,6 @@ export async function POST(req: Request) {
             "Cache-Control": "no-store",
           },
         });
-      }
     }
 
     const ai = new GoogleGenAI({ apiKey });

@@ -3,6 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { put } from "@vercel/blob";
+import { checkAndConsumePrompt } from "@/lib/actions/promptUsage";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
@@ -27,6 +28,14 @@ export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const quota = await checkAndConsumePrompt(session.user.id);
+  if (!quota.allowed) {
+    return NextResponse.json(
+      { error: `Quota exceeded: you've used all ${quota.limit} AI prompts for this month (${quota.tier} plan). Upgrade your subscription to continue.`, quota },
+      { status: 403 }
+    );
   }
 
   const formData = await req.formData();

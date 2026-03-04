@@ -2,6 +2,52 @@
 
 import { db } from "@/lib/db";
 
+// Per-month prompt limits per subscription tier. 0 = unlimited.
+export const TIER_LIMITS: Record<string, number> = {
+  FREE:       5,
+  BASIC:      200,
+  PRO:        1000,
+  ENTERPRISE: 0,
+};
+
+export function getTierLimit(tier: string): number {
+  return TIER_LIMITS[tier] ?? TIER_LIMITS.FREE;
+}
+
+/** Fetch the user's subscription tier, then atomically consume one prompt.
+ *  Call this from every AI route handler. */
+export async function checkAndConsumePrompt(userId: string): Promise<{
+  allowed: boolean;
+  used: number;
+  limit: number;
+  tier: string;
+}> {
+  const sub = await db.subscription.findUnique({ where: { userId } });
+  const tier = sub?.tier ?? "FREE";
+  const limit = getTierLimit(tier);
+
+  const result = await consumePromptIfAllowed(userId, limit);
+  return { ...result, limit, tier };
+}
+
+/** Return current usage stats for a user without consuming a prompt. */
+export async function getUsageStats(userId: string) {
+  const sub = await db.subscription.findUnique({ where: { userId } });
+  const tier = sub?.tier ?? "FREE";
+  const limit = getTierLimit(tier);
+  const periodStart = getMonthPeriodStart();
+  const periodEnd = getMonthPeriodEnd();
+
+  const record = await db.promptUsage.findUnique({
+    where: { userId_periodStart: { userId, periodStart } },
+  });
+
+  const used = record?.used ?? 0;
+  const remaining = limit === 0 ? null : Math.max(0, limit - used);
+
+  return { used, limit, tier, remaining, periodStart, periodEnd };
+}
+
 function getMonthPeriodStart(date = new Date()) {
   const y = date.getUTCFullYear();
   const m = date.getUTCMonth();

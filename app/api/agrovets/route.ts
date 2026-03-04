@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import { auth } from "@/lib/auth";
+import { checkAndConsumePrompt } from "@/lib/actions/promptUsage";
 
 const SYSTEM_PROMPT = `You are a helpful farming assistant. The user wants to find agrovets (agricultural supply shops) near their location.
 Search for agrovets, farm supply stores, and agricultural input dealers near the given coordinates.
@@ -26,6 +27,14 @@ export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const quota = await checkAndConsumePrompt(session.user.id);
+  if (!quota.allowed) {
+    return NextResponse.json(
+      { error: `Quota exceeded: you've used all ${quota.limit} AI prompts for this month (${quota.tier} plan). Upgrade to continue.`, quota },
+      { status: 403 }
+    );
   }
 
   const { latitude, longitude, query } = await req.json();
