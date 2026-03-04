@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { toast } from "sonner";
 import { Store, TrendingUp, Package, Plus, X, ShoppingCart, Loader2, Clock, Trash2, ImagePlus, AlertCircle } from "lucide-react";
 import { DatePicker } from "@/components/ui/date-picker";
+import ImageUploadDialog from "@/components/ui/image-upload-dialog";
 import { getFarmerOrders } from "@/lib/actions/order";
 import {
   getProduceListings,
@@ -60,10 +61,8 @@ export default function SellProducePage() {
   const [loading, setLoading] = useState(true);
   const [pending, startTransition] = useTransition();
   const [form, setForm] = useState(emptyForm);
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     Promise.all([getProduceListings(), getFarmerOrders()])
@@ -75,7 +74,6 @@ export default function SellProducePage() {
   function openCreate() {
     setEditTarget(null);
     setForm(emptyForm);
-    setImageFiles([]);
     setImagePreviews([]);
     setShowForm(true);
   }
@@ -92,58 +90,19 @@ export default function SellProducePage() {
       location: l.location ?? "",
       expiresAt: l.expiresAt ? new Date(l.expiresAt).toISOString().split("T")[0] : "",
     });
-    setImageFiles([]);
     setImagePreviews(l.imageUrls);
     setShowForm(true);
   }
-
-  function handleImagePick(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files ?? []);
-    if (files.length === 0) return;
-    setImageFiles((prev) => [...prev, ...files]);
-    const urls = files.map((f) => URL.createObjectURL(f));
-    setImagePreviews((prev) => [...prev, ...urls]);
-  }
-
   function removeImage(idx: number) {
     setImagePreviews((prev) => prev.filter((_, i) => i !== idx));
-    setImageFiles((prev) => {
-      // Only newly added files track with imageFiles array
-      // Offset by existing DB images count when editing
-      const dbCount = editTarget ? editTarget.imageUrls.length : 0;
-      const fileIdx = idx - dbCount;
-      if (fileIdx < 0) return prev; // removing a DB image — just update previews
-      return prev.filter((_, i) => i !== fileIdx);
-    });
-  }
-
-  async function uploadImages(): Promise<string[]> {
-    if (imageFiles.length === 0) return [];
-    setUploading(true);
-    try {
-      const uploaded: string[] = [];
-      for (const file of imageFiles) {
-        const fd = new FormData();
-        fd.append("file", file);
-        const res = await fetch("/api/upload/produce", { method: "POST", body: fd });
-        if (!res.ok) throw new Error("Image upload failed");
-        const { imageUrl } = await res.json();
-        uploaded.push(imageUrl);
-      }
-      return uploaded;
-    } finally {
-      setUploading(false);
-    }
   }
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     startTransition(async () => {
       try {
-        const newUrls = await uploadImages();
-        // Retained DB images = previews that were already URLs (not blob:)
-        const retained = imagePreviews.filter((p) => !p.startsWith("blob:"));
-        const allUrls = [...retained, ...newUrls];
+        // imagePreviews already contains uploaded URLs (ImageUploadDialog uploads before returning)
+        const allUrls = [...imagePreviews];
 
         const payload = {
           name: form.name,
@@ -381,7 +340,6 @@ export default function SellProducePage() {
               {/* Image upload */}
               <div className="space-y-2 sm:col-span-2">
                 <Label>Photos</Label>
-                <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" multiple className="hidden" onChange={handleImagePick} />
                 <div className="flex flex-wrap gap-2">
                   {imagePreviews.map((src, idx) => (
                     <div key={idx} className="relative w-20 h-20 rounded-xl overflow-hidden border border-slate-200">
@@ -397,11 +355,9 @@ export default function SellProducePage() {
                       </button>
                     </div>
                   ))}
-                  <button type="button" onClick={() => fileRef.current?.click()}
-                    className="w-20 h-20 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 flex flex-col items-center justify-center text-slate-400 hover:border-green-500 hover:text-green-500 transition-colors">
-                    <ImagePlus className="w-6 h-6" />
-                    <span className="text-xs mt-1">Add</span>
-                  </button>
+                  <div className="w-20 h-20 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 flex items-center justify-center">
+                    <ImageUploadDialog label="Add" onChange={(url) => { if (url) setImagePreviews((p) => [...p, url]); }} />
+                  </div>
                 </div>
               </div>
             </div>
