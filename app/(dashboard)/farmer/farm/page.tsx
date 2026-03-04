@@ -299,7 +299,13 @@ export default function FarmProfilePage() {
                         <CardContent className="p-0">
                           <div className="flex items-start justify-between">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center"><Sprout className="w-5 h-5 text-green-600" /></div>
+                              {crop.imageUrl ? (
+                                <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0">
+                                  <Image src={crop.imageUrl} alt={crop.name} width={40} height={40} className="object-cover" />
+                                </div>
+                              ) : (
+                                <div className="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center"><Sprout className="w-5 h-5 text-green-600" /></div>
+                              )}
                               <div>
                                 <div className="flex items-center gap-2">
                                   <h4 className="font-bold text-sm text-slate-900 dark:text-white">{crop.name}</h4>
