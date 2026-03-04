@@ -385,13 +385,11 @@ export default function SellProducePage() {
                 <div className="flex flex-wrap gap-2">
                   {imagePreviews.map((src, idx) => (
                     <div key={idx} className="relative w-20 h-20 rounded-xl overflow-hidden border border-slate-200">
-                      <Image
+                      <AppImage
                         src={src}
                         alt="preview"
                         fill
                         className="object-cover"
-                        // Bypass Next image optimizer for local blob URLs or any external HTTP URLs
-                        unoptimized={src.startsWith("blob:") || src.startsWith("http")}
                       />
                       <button type="button" onClick={() => removeImage(idx)}
                         className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80">
