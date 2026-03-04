@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -319,13 +321,21 @@ export default function ClimateInsightsPage() {
                         ? "bg-green-600 text-white rounded-tr-sm"
                         : "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-tl-sm"
                     }`}>
-                      {msg.text || (qaLoading && i === qaMessages.length - 1 ? (
-                        <span className="flex gap-1 items-center">
-                          <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0ms]" />
-                          <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:150ms]" />
-                          <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:300ms]" />
-                        </span>
-                      ) : "")}
+                      {msg.role === "ai" ? (
+                        msg.text ? (
+                          <div className="prose prose-sm max-w-none dark:prose-invert prose-p:my-1 prose-p:leading-relaxed prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-headings:my-1 prose-strong:font-semibold">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.text}</ReactMarkdown>
+                          </div>
+                        ) : (qaLoading && i === qaMessages.length - 1 ? (
+                          <span className="flex gap-1 items-center">
+                            <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0ms]" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:150ms]" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:300ms]" />
+                          </span>
+                        ) : "")
+                      ) : (
+                        <span>{msg.text}</span>
+                      )}
                     </div>
                     {msg.role === "user" && (
                       <div className="w-7 h-7 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0 mt-0.5">
