@@ -130,9 +130,9 @@ function CropModal({ farmId, crop, onClose }: { farmId: string; crop?: Crop | nu
         <div className="space-y-1.5 sm:col-span-2">
           <Label>Photo</Label>
           <div className="flex items-center gap-3">
-            {form.imageUrl ? (
+              {form.imageUrl ? (
               <div className="w-20 h-20 rounded-md overflow-hidden relative border">
-                <Image src={form.imageUrl} alt={form.name || "crop"} fill className="object-cover" />
+                <Image src={form.imageUrl} alt={form.name || "crop"} fill className="object-cover" unoptimized />
               </div>
             ) : (
               <div className="w-20 h-20 rounded-md bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">No image</div>
@@ -301,7 +301,7 @@ export default function FarmProfilePage() {
                             <div className="flex items-center gap-3">
                               {crop.imageUrl ? (
                                 <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0">
-                                  <Image src={crop.imageUrl} alt={crop.name} width={40} height={40} className="object-cover" />
+                                  <Image src={crop.imageUrl} alt={crop.name} width={40} height={40} className="object-cover" unoptimized />
                                 </div>
                               ) : (
                                 <div className="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center"><Sprout className="w-5 h-5 text-green-600" /></div>
