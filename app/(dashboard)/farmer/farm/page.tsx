@@ -139,7 +139,10 @@ function CropModal({ farmId, crop, onClose }: { farmId: string; crop?: Crop | nu
               <div className="w-20 h-20 rounded-md bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">No image</div>
             )}
             <div className="flex flex-col">
-              <input type="file" accept="image/*" onChange={handleImageChange} />
+              {/* Reusable cropping upload dialog */}
+              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+              {/* @ts-ignore */}
+              <ImageUploadDialog currentImage={form.imageUrl} onChange={(url) => setForm(f => ({ ...f, imageUrl: url }))} />
               {uploadingImage && <span className="text-xs text-slate-500">Uploading...</span>}
               {form.imageUrl && <Button variant="outline" size="sm" onClick={() => setForm(f => ({ ...f, imageUrl: undefined }))} className="mt-2">Remove</Button>}
             </div>
