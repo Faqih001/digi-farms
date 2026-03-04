@@ -44,8 +44,6 @@ function LoginForm() {
     } else {
       toast.success("Welcome back!");
 
-      const router = useRouter();
-
       const fetchUserWithRetry = async (tries = 3, delay = 150) => {
         for (let i = 0; i < tries; i++) {
           try {
