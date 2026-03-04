@@ -162,19 +162,30 @@ export async function updateSupplierProfile(data: {
   const supplier = await db.supplier.findUnique({ where: { userId: session.user.id } });
   if (!supplier) throw new Error("Supplier profile not found");
 
-  const updated = await db.supplier.update({
-    where: { id: supplier.id },
-    data: {
-      ...(data.companyName !== undefined ? { companyName: data.companyName } : {}),
-      ...(data.description !== undefined ? { description: data.description } : {}),
-      ...(data.phone !== undefined ? { phone: data.phone } : {}),
-      ...(data.address !== undefined ? { address: data.address } : {}),
-      ...(data.website !== undefined ? { website: data.website } : {}),
-    },
-  });
+  try {
+    const updated = await db.supplier.update({
+      where: { id: supplier.id },
+      data: {
+        ...(data.companyName !== undefined ? { companyName: data.companyName } : {}),
+        ...(data.description !== undefined ? { description: data.description } : {}),
+        ...(data.phone !== undefined ? { phone: data.phone } : {}),
+        ...(data.address !== undefined ? { address: data.address } : {}),
+        ...(data.website !== undefined ? { website: data.website } : {}),
+      },
+    });
 
-  revalidatePath("/supplier/settings");
-  return { success: true, supplier: updated };
+    revalidatePath("/supplier/settings");
+    return { success: true, supplier: updated };
+  } catch (error) {
+    // Log detailed Prisma error info for debugging
+    try {
+      // @ts-ignore
+      console.error("prisma:error", error?.message ?? String(error), { code: error?.code, meta: error?.meta, stack: error?.stack });
+    } catch (logErr) {
+      console.error("prisma:error (logging failed)", logErr);
+    }
+    throw error;
+  }
 }
 
 export async function getSupplierProfile() {
