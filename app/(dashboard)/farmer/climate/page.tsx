@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CloudSun, CloudRain, Sun, Wind, Droplets, Thermometer, Loader2, RefreshCw, MapPin, Send, ChevronDown, ChevronUp, Bot, User } from "lucide-react";
+import { CloudSun, CloudRain, Sun, Wind, Droplets, Thermometer, Loader2, RefreshCw, MapPin, Send, ChevronDown, ChevronUp, Bot, User, Zap } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
