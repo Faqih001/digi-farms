@@ -96,9 +96,17 @@ export default function AgrovetLocatorPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-black text-slate-900 dark:text-white">Agrovet Locator</h2>
-        <p className="text-slate-500 dark:text-slate-400 text-sm">Find certified agrovets near your farm using AI-powered search</p>
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h2 className="text-2xl font-black text-slate-900 dark:text-white">Agrovet Locator</h2>
+          <p className="text-slate-500 dark:text-slate-400 text-sm">Find certified agrovets near your farm using AI-powered search</p>
+        </div>
+        {quota && quota.limit > 0 && (
+          <div className={`flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-full border ${quotaExhausted ? "bg-red-50 border-red-200 text-red-600 dark:bg-red-950/30 dark:border-red-800 dark:text-red-400" : "bg-slate-50 border-slate-200 text-slate-500 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400"}`}>
+            <Zap className="w-3 h-3" />
+            <span>{quotaExhausted ? `Limit reached (${quota.tier})` : `${quota.remaining} AI search${quota.remaining === 1 ? "" : "es"} left`}</span>
+          </div>
+        )}
       </div>
 
       {/* Map / location prompt */}
@@ -115,7 +123,7 @@ export default function AgrovetLocatorPage() {
               <MapPin className="w-10 h-10 text-green-600 mx-auto mb-2" />
               <p className="font-semibold text-slate-700 dark:text-slate-300">Location Found</p>
               <p className="text-xs text-slate-400">{coords.lat.toFixed(4)}°, {coords.lng.toFixed(4)}°</p>
-              <Button size="sm" className="mt-3" onClick={() => findAgrovets(coords.lat, coords.lng)} disabled={loading}>
+              <Button size="sm" className="mt-3" onClick={() => findAgrovets(coords.lat, coords.lng)} disabled={loading || quotaExhausted}>
                 {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Search className="w-3.5 h-3.5" />}
                 Refresh Results
               </Button>
@@ -125,7 +133,7 @@ export default function AgrovetLocatorPage() {
               <MapPin className="w-10 h-10 text-green-600 mx-auto mb-2" />
               <p className="font-semibold text-slate-700 dark:text-slate-300">Interactive Map</p>
               <p className="text-xs text-slate-400">Enable location to find agrovets near you</p>
-              <Button size="sm" className="mt-3" onClick={enableLocation}>
+              <Button size="sm" className="mt-3" onClick={enableLocation} disabled={quotaExhausted}>
                 <Navigation className="w-3.5 h-3.5" /> Enable Location
               </Button>
             </>
