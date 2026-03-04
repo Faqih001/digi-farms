@@ -13,7 +13,9 @@ import { useSession } from "next-auth/react";
 // ─── canvas helper ────────────────────────────────────────────────────────────
 async function getCroppedBlob(imageSrc: string, pixelCrop: Area): Promise<Blob> {
   const image = await new Promise<HTMLImageElement>((resolve, reject) => {
-    const img = new Image();
+    const ImgCtor = (globalThis as any).Image ?? (typeof window !== "undefined" ? (window as any).Image : undefined);
+    if (!ImgCtor) return reject(new Error("Image constructor not available"));
+    const img = new ImgCtor();
     img.addEventListener("load", () => resolve(img));
     img.addEventListener("error", reject);
     img.src = imageSrc;
