@@ -251,9 +251,9 @@ export default function SellProducePage() {
               </div>
             ) : listings.map((l) => (
               <div key={l.id} className="px-4 py-4 flex items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors flex-wrap sm:flex-nowrap">
-                {l.imageUrls[0] ? (
+                  {l.imageUrls[0] ? (
                   <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-slate-100">
-                    <Image src={l.imageUrls[0]} alt={l.name} width={48} height={48} className="object-cover w-full h-full" />
+                    <Image src={l.imageUrls[0]} alt={l.name} width={48} height={48} className="object-cover w-full h-full" unoptimized={l.imageUrls[0]?.startsWith("blob:") || l.imageUrls[0]?.startsWith("http")} />
                   </div>
                 ) : (
                   <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/20 flex items-center justify-center flex-shrink-0">
