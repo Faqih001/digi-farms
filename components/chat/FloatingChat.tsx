@@ -64,7 +64,18 @@ export default function FloatingChat() {
   const [model, setModel] = useState<string>("gemini-2.5-flash");
   const [showPrompts, setShowPrompts] = useState(true);
   const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [quota, setQuota] = useState<{ used: number; limit: number; tier: string; remaining: number | null } | null>(null);
   const scroller = useRef<HTMLDivElement | null>(null);
+
+  const refreshQuota = useCallback(async () => {
+    try {
+      const res = await fetch("/api/usage/me");
+      if (res.ok) {
+        const data = await res.json();
+        setQuota(data);
+      }
+    } catch {}
+  }, []);
 
   useEffect(() => {
     if (scroller.current) scroller.current.scrollTop = scroller.current.scrollHeight;
@@ -75,6 +86,11 @@ export default function FloatingChat() {
     const seen = window.localStorage.getItem("df_chat_seen");
     if (seen === "1") setShowPrompts(false);
   }, []);
+
+  // Fetch quota when chat opens
+  useEffect(() => {
+    if (open) refreshQuota();
+  }, [open, refreshQuota]);
 
   // Request location only after the user opens the chat (satisfies browser user-gesture requirement)
   useEffect(() => {
