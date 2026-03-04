@@ -12,6 +12,7 @@ export default function AppImage(props: ImageProps) {
   // don't break the aspect ratio (avoids the Next/Image aspect-ratio warning).
   const mergedStyle: React.CSSProperties | undefined = fill
     ? style
-    : { height: "auto", ...style };
+    : { width: "100%", height: "auto", ...style };
+
   return <Image {...props} unoptimized={unoptimized} style={mergedStyle} />;
 }
