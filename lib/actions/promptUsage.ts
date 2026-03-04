@@ -36,7 +36,7 @@ export async function getUsageStats(userId: string) {
   const periodStart = getMonthPeriodStart();
   const periodEnd = getMonthPeriodEnd();
 
-  const record = await (db as any).promptUsage.findUnique({
+  const record = await db.promptUsage.findUnique({
     where: { userId_periodStart: { userId, periodStart } },
   });
 
@@ -60,7 +60,7 @@ function getMonthPeriodEnd(date = new Date()) {
 
 export async function getPromptUsageRecord(userId: string) {
   const periodStart = getMonthPeriodStart();
-  const record = await (db as any).promptUsage.findUnique({
+  const record = await db.promptUsage.findUnique({
     where: { userId_periodStart: { userId, periodStart } },
   });
   return record;
@@ -69,7 +69,7 @@ export async function getPromptUsageRecord(userId: string) {
 export async function ensurePromptUsageRecord(userId: string) {
   const periodStart = getMonthPeriodStart();
   const periodEnd = getMonthPeriodEnd();
-  const rec = await (db as any).promptUsage.upsert({
+  const rec = await db.promptUsage.upsert({
     where: { userId_periodStart: { userId, periodStart } },
     create: { userId, used: 0, periodStart, periodEnd },
     update: {},
@@ -84,7 +84,7 @@ export async function consumePromptIfAllowed(userId: string, limit: number) {
   const periodStart = getMonthPeriodStart();
 
   return await db.$transaction(async (tx) => {
-    const existing = await (tx as any).promptUsage.findUnique({
+    const existing = await tx.promptUsage.findUnique({
       where: { userId_periodStart: { userId, periodStart } },
     });
 
@@ -93,13 +93,13 @@ export async function consumePromptIfAllowed(userId: string, limit: number) {
     }
 
     if (!existing) {
-      const created = await (tx as any).promptUsage.create({
+      const created = await tx.promptUsage.create({
         data: { userId, used: 1, periodStart, periodEnd: getMonthPeriodEnd() },
       });
       return { allowed: true, used: created.used };
     }
 
-    const updated = await (tx as any).promptUsage.update({
+    const updated = await tx.promptUsage.update({
       where: { id: existing.id },
       data: { used: existing.used + 1 },
     });
@@ -109,11 +109,11 @@ export async function consumePromptIfAllowed(userId: string, limit: number) {
 }
 
 export async function resetPromptUsageForUser(userId: string) {
-  await (db as any).promptUsage.deleteMany({ where: { userId } });
+  await db.promptUsage.deleteMany({ where: { userId } });
   return { success: true };
 }
 
 export async function resetAllPromptUsage() {
-  await (db as any).promptUsage.deleteMany({});
+  await db.promptUsage.deleteMany({});
   return { success: true };
 }
