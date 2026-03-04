@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Store, TrendingUp, Package, Plus, X, ShoppingCart, Loader2, Clock, Trash2, ImagePlus, AlertCircle } from "lucide-react";
+import { DatePicker } from "@/components/ui/date-picker";
 import { getFarmerOrders } from "@/lib/actions/order";
 import {
   getProduceListings,
@@ -367,7 +368,11 @@ export default function SellProducePage() {
               </div>
               <div className="space-y-1.5 sm:col-span-2">
                 <Label>Listing Expiry Date</Label>
-                <Input type="date" value={form.expiresAt} onChange={(e) => setForm(f => ({ ...f, expiresAt: e.target.value }))} />
+                <DatePicker
+                  value={form.expiresAt}
+                  onChange={(v) => setForm(f => ({ ...f, expiresAt: v }))}
+                  placeholder="Select expiry date"
+                />
               </div>
               <div className="space-y-1.5 sm:col-span-2">
                 <Label>Description</Label>

@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Shield, FileText, AlertTriangle, CheckCircle, Plus, Loader2, X, Trash2 } from "lucide-react";
+import { DatePicker } from "@/components/ui/date-picker";
 import { getUserPolicies, getUserClaims, fileClaim, createPolicy, deletePolicy } from "@/lib/actions/insurance";
 
 type Policy = Awaited<ReturnType<typeof getUserPolicies>>[number];
@@ -158,11 +159,19 @@ export default function InsurancePage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1.5">
                     <Label>Start Date *</Label>
-                    <Input type="date" value={policyForm.startDate} onChange={(e) => setPolicyForm(f => ({ ...f, startDate: e.target.value }))} required />
+                    <DatePicker
+                      value={policyForm.startDate}
+                      onChange={(v) => setPolicyForm(f => ({ ...f, startDate: v }))}
+                      placeholder="Select start date"
+                    />
                   </div>
                   <div className="space-y-1.5">
                     <Label>End Date *</Label>
-                    <Input type="date" value={policyForm.endDate} onChange={(e) => setPolicyForm(f => ({ ...f, endDate: e.target.value }))} required />
+                    <DatePicker
+                      value={policyForm.endDate}
+                      onChange={(v) => setPolicyForm(f => ({ ...f, endDate: v }))}
+                      placeholder="Select end date"
+                    />
                   </div>
                 </div>
                 <div className="flex gap-3">

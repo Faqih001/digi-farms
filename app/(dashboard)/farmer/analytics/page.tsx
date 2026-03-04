@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
 import { Loader2, BarChart3, Download, Calendar, RefreshCw } from "lucide-react";
+import { DatePicker } from "@/components/ui/date-picker";
 import { toast } from "sonner";
 import { getYieldAnalytics } from "@/lib/actions/analytics";
 
@@ -90,11 +91,11 @@ export default function YieldAnalyticsPage() {
           <div className="flex flex-wrap items-end gap-4">
             <div className="space-y-1.5">
               <Label className="text-xs text-slate-500"><Calendar className="w-3 h-3 inline mr-1" />Start Date</Label>
-              <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="h-9 text-sm" />
+              <DatePicker value={startDate} onChange={setStartDate} placeholder="Start date" className="h-9 text-sm" />
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs text-slate-500">End Date</Label>
-              <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="h-9 text-sm" />
+              <DatePicker value={endDate} onChange={setEndDate} placeholder="End date" className="h-9 text-sm" />
             </div>
             <Button size="sm" onClick={handleFilter} disabled={loading}>
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Apply Filter"}

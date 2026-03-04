@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Sprout, MapPin, Plus, Edit2, Trash2, Save, Loader2, Wheat, CalendarDays, Ruler, AlertCircle } from "lucide-react";
+import { DatePicker } from "@/components/ui/date-picker";
 import { getUserFarms, createFarm, updateFarm, deleteFarm, createCrop, updateCrop, deleteCrop } from "@/lib/actions/farm";
 
 type Farm = Awaited<ReturnType<typeof getUserFarms>>[number];
@@ -123,7 +124,7 @@ function CropModal({ farmId, crop, onClose }: { farmId: string; crop?: Crop | nu
         <div className="space-y-1.5"><Label>Crop Name *</Label><Input value={form.name} onChange={set("name")} placeholder="Maize, Tomatoes..." required /></div>
         <div className="space-y-1.5"><Label>Variety</Label><Input value={form.variety} onChange={set("variety")} placeholder="H614D, Anna F1..." /></div>
         <div className="space-y-1.5"><Label>Area (Hectares) *</Label><Input type="number" step="0.1" value={form.areaHectares} onChange={set("areaHectares")} placeholder="1.0" required /></div>
-        <div className="space-y-1.5"><Label>Planted Date *</Label><Input type="date" value={form.plantedAt} onChange={set("plantedAt")} required /></div>
+        <div className="space-y-1.5"><Label>Planted Date *</Label><DatePicker value={form.plantedAt} onChange={(v) => setForm(f => ({ ...f, plantedAt: v }))} placeholder="Select planted date" /></div>
         <div className="space-y-1.5"><Label>Expected Yield (kg)</Label><Input type="number" value={form.expectedYield} onChange={set("expectedYield")} placeholder="500" /></div>
         <div className="space-y-1.5"><Label>Season</Label><Input value={form.season} onChange={set("season")} placeholder="Long rains 2026" /></div>
         <div className="space-y-1.5 sm:col-span-2"><Label>Notes</Label><Textarea value={form.notes} onChange={set("notes")} placeholder="Cropping notes..." className="min-h-[60px]" /></div>
