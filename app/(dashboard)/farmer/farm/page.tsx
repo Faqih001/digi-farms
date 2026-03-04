@@ -79,7 +79,7 @@ function CropModal({ farmId, crop, onClose }: { farmId: string; crop?: Crop | nu
     plantedAt: crop?.plantedAt ? new Date(crop.plantedAt).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10),
     expectedYield: crop?.expectedYield?.toString() ?? "",
     season: crop?.season ?? "", notes: crop?.notes ?? "",
-    imageUrl: crop?.imageUrl ?? null,
+    imageUrl: crop?.imageUrl ?? undefined,
   });
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm(f => ({ ...f, [k]: e.target.value }));
@@ -140,7 +140,7 @@ function CropModal({ farmId, crop, onClose }: { farmId: string; crop?: Crop | nu
             <div className="flex flex-col">
               <input type="file" accept="image/*" onChange={handleImageChange} />
               {uploadingImage && <span className="text-xs text-slate-500">Uploading...</span>}
-              {form.imageUrl && <Button variant="outline" size="sm" onClick={() => setForm(f => ({ ...f, imageUrl: null }))} className="mt-2">Remove</Button>}
+              {form.imageUrl && <Button variant="outline" size="sm" onClick={() => setForm(f => ({ ...f, imageUrl: undefined }))} className="mt-2">Remove</Button>}
             </div>
           </div>
         </div>
