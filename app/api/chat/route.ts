@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
+import { auth } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { consumePromptIfAllowed } from "@/lib/actions/promptUsage";
 
 const SYSTEM_INSTRUCTION = `You are DIGI Assistant, an expert AI farming companion for the Digi Farms precision agriculture platform serving smallholder farmers in East Africa.
 You help with crop diagnostics, soil health, planting schedules, pest and disease management, input recommendations, market prices, and agri-finance.
@@ -33,6 +36,41 @@ export async function POST(req: Request) {
 
     // gemini-2.5-flash: best balance of speed, cost, and deep reasoning with dynamic thinking
     const modelName = clientModel ?? process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+
+    // Authentication & quota check (per-user)
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Determine subscription tier and limits
+    const subscription = await db.subscription.findUnique({ where: { userId: session.user.id } });
+    const tier = subscription?.tier ?? "FREE";
+    const tierLimits: Record<string, number> = { FREE: 5, BASIC: 1000, PRO: 5000, ENTERPRISE: 0 };
+    const limit = tierLimits[tier] ?? 5;
+
+    if (limit > 0) {
+      const quota = await consumePromptIfAllowed(session.user.id, limit);
+      if (!quota.allowed) {
+        const encoder = new TextEncoder();
+        const stream = new ReadableStream({
+          start(controller) {
+            const line = JSON.stringify({ t: "error", d: "Quota exceeded: please upgrade your subscription or wait for reset." });
+            controller.enqueue(encoder.encode(line + "\n"));
+            controller.close();
+          },
+        });
+
+        return new NextResponse(stream, {
+          status: 403,
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+            "X-Content-Type-Options": "nosniff",
+            "Cache-Control": "no-store",
+          },
+        });
+      }
+    }
 
     const ai = new GoogleGenAI({ apiKey });
 
