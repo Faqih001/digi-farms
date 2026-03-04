@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -220,7 +222,9 @@ export default function ScanHistoryPage() {
                     <AlertTriangle className="w-4 h-4 text-amber-600" />
                     <span className="font-bold text-amber-700 dark:text-amber-400 text-sm">Treatment</span>
                   </div>
-                  <p className="text-sm text-amber-700 dark:text-amber-300">{selectedScan.treatment}</p>
+                  <div className="text-sm text-amber-700 dark:text-amber-300 prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-strong:font-semibold prose-p:leading-relaxed">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{selectedScan.treatment}</ReactMarkdown>
+                  </div>
                 </div>
               )}
               {selectedScan.prevention && (
@@ -229,7 +233,9 @@ export default function ScanHistoryPage() {
                     <Sprout className="w-4 h-4 text-green-600" />
                     <span className="font-bold text-green-700 dark:text-green-400 text-sm">Prevention</span>
                   </div>
-                  <p className="text-sm text-green-700 dark:text-green-300">{selectedScan.prevention}</p>
+                  <div className="text-sm text-green-700 dark:text-green-300 prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-strong:font-semibold prose-p:leading-relaxed">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{selectedScan.prevention}</ReactMarkdown>
+                  </div>
                 </div>
               )}
             </div>
