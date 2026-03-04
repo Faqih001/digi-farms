@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
+import { formatPrismaError, retryAsync } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { createNotification } from "@/lib/actions/notifications";
@@ -159,11 +160,12 @@ export async function updateSupplierProfile(data: {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  const supplier = await db.supplier.findUnique({ where: { userId: session.user.id } });
+  // Try to fetch supplier with transient retry (Neon may occasionally timeout)
+  const supplier = await retryAsync(() => db.supplier.findUnique({ where: { userId: session.user.id } }));
   if (!supplier) throw new Error("Supplier profile not found");
 
   try {
-    const updated = await db.supplier.update({
+    const updated = await retryAsync(() => db.supplier.update({
       where: { id: supplier.id },
       data: {
         ...(data.companyName !== undefined ? { companyName: data.companyName } : {}),
@@ -172,17 +174,18 @@ export async function updateSupplierProfile(data: {
         ...(data.address !== undefined ? { address: data.address } : {}),
         ...(data.website !== undefined ? { website: data.website } : {}),
       },
-    });
+    }));
 
     revalidatePath("/supplier/settings");
     return { success: true, supplier: updated };
   } catch (error) {
-    // Log detailed Prisma error info for debugging
+    const info = formatPrismaError(error);
     try {
-      // @ts-ignore
-      console.error("prisma:error", error?.message ?? String(error), { code: error?.code, meta: error?.meta, stack: error?.stack });
+      // eslint-disable-next-line no-console
+      console.error("prisma:error", info);
     } catch (logErr) {
-      console.error("prisma:error (logging failed)", logErr);
+      // eslint-disable-next-line no-console
+      console.error("prisma:error (logging failed)", String(logErr));
     }
     throw error;
   }

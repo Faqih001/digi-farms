@@ -78,3 +78,40 @@ export function getStatusColor(status: string) {
   };
   return map[status] ?? "text-gray-600 bg-gray-50";
 }
+
+export function formatPrismaError(err: unknown) {
+  try {
+    if (!err) return { message: String(err) };
+    // Prisma sometimes throws non-Error objects (AggregateError, ErrorEvent, plain objects)
+    if (err instanceof Error) {
+      // attempt to extract code/meta if present on the error
+      // @ts-ignore
+      const code = (err as any).code ?? undefined;
+      // @ts-ignore
+      const meta = (err as any).meta ?? undefined;
+      return { message: err.message, code, meta, stack: err.stack };
+    }
+    // If it's an object, shallow clone serializable fields
+    if (typeof err === "object") {
+      // @ts-ignore
+      const { code, meta, message, stack, ...rest } = err || {};
+      return { message: message ?? JSON.stringify(rest || err), code, meta, stack };
+    }
+    return { message: String(err) };
+  } catch (e) {
+    return { message: "(failed to format error)", raw: String(err) };
+  }
+}
+
+export async function retryAsync<T>(fn: () => Promise<T>, attempts = 3, delayMs = 200): Promise<T> {
+  let lastErr: unknown;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (e) {
+      lastErr = e;
+      if (i < attempts - 1) await new Promise((r) => setTimeout(r, delayMs));
+    }
+  }
+  throw lastErr;
+}
