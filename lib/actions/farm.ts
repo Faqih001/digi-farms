@@ -10,6 +10,7 @@ import { createNotification } from "@/lib/actions/notifications";
 const cropSchema = z.object({
   name: z.string().min(1),
   variety: z.string().optional(),
+  imageUrl: z.string().url().optional(),
   areaHectares: z.number().positive(),
   plantedAt: z.string(),
   expectedYield: z.number().positive().optional(),

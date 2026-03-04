@@ -250,6 +250,7 @@ model Crop {
   farmId      String
   name        String
   variety     String?
+  imageUrl    String?
   plantedAt   DateTime
   harvestedAt DateTime?
   areaHectares Float

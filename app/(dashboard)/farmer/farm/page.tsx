@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useTransition } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -78,9 +79,33 @@ function CropModal({ farmId, crop, onClose }: { farmId: string; crop?: Crop | nu
     plantedAt: crop?.plantedAt ? new Date(crop.plantedAt).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10),
     expectedYield: crop?.expectedYield?.toString() ?? "",
     season: crop?.season ?? "", notes: crop?.notes ?? "",
+    imageUrl: crop?.imageUrl ?? null,
   });
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm(f => ({ ...f, [k]: e.target.value }));
+
+  const [uploadingImage, setUploadingImage] = useState(false);
+
+  async function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingImage(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload/produce", { method: "POST", body: fd });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json?.error ?? "Upload failed");
+      setForm(f => ({ ...f, imageUrl: json.imageUrl }));
+      toast.success("Image uploaded");
+    } catch (err) {
+      toast.error((err as Error).message ?? "Image upload failed");
+    } finally {
+      setUploadingImage(false);
+      // reset input so same file can be reselected
+      if (e.target) e.target.value = "";
+    }
+  }
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     startTransition(async () => {
@@ -102,6 +127,23 @@ function CropModal({ farmId, crop, onClose }: { farmId: string; crop?: Crop | nu
         <div className="space-y-1.5"><Label>Expected Yield (kg)</Label><Input type="number" value={form.expectedYield} onChange={set("expectedYield")} placeholder="500" /></div>
         <div className="space-y-1.5"><Label>Season</Label><Input value={form.season} onChange={set("season")} placeholder="Long rains 2026" /></div>
         <div className="space-y-1.5 sm:col-span-2"><Label>Notes</Label><Textarea value={form.notes} onChange={set("notes")} placeholder="Cropping notes..." className="min-h-[60px]" /></div>
+        <div className="space-y-1.5 sm:col-span-2">
+          <Label>Photo</Label>
+          <div className="flex items-center gap-3">
+            {form.imageUrl ? (
+              <div className="w-20 h-20 rounded-md overflow-hidden relative border">
+                <Image src={form.imageUrl} alt={form.name || "crop"} fill className="object-cover" />
+              </div>
+            ) : (
+              <div className="w-20 h-20 rounded-md bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">No image</div>
+            )}
+            <div className="flex flex-col">
+              <input type="file" accept="image/*" onChange={handleImageChange} />
+              {uploadingImage && <span className="text-xs text-slate-500">Uploading...</span>}
+              {form.imageUrl && <Button variant="outline" size="sm" onClick={() => setForm(f => ({ ...f, imageUrl: null }))} className="mt-2">Remove</Button>}
+            </div>
+          </div>
+        </div>
       </div>
       <div className="flex gap-3">
         <Button type="submit" disabled={pending} className="flex-1">
