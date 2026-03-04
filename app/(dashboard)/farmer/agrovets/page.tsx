@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MapPin, Phone, Star, Navigation, Loader2, Search, ExternalLink } from "lucide-react";
+import { MapPin, Phone, Star, Navigation, Loader2, Search, ExternalLink, Zap } from "lucide-react";
 import { toast } from "sonner";
 
 type Agrovet = {
@@ -25,6 +25,18 @@ export default function AgrovetLocatorPage() {
   const [loading, setLoading] = useState(false);
   const [located, setLocated] = useState(false);
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [quota, setQuota] = useState<{ used: number; limit: number; tier: string; remaining: number | null } | null>(null);
+
+  const refreshQuota = useCallback(async () => {
+    try {
+      const res = await fetch("/api/usage/me");
+      if (res.ok) setQuota(await res.json());
+    } catch {}
+  }, []);
+
+  useEffect(() => { refreshQuota(); }, [refreshQuota]);
+
+  const quotaExhausted = quota !== null && quota.limit > 0 && quota.remaining !== null && quota.remaining <= 0;
 
   const findAgrovets = async (lat: number, lng: number) => {
     setLoading(true);
@@ -35,11 +47,17 @@ export default function AgrovetLocatorPage() {
         body: JSON.stringify({ latitude: lat, longitude: lng }),
       });
       const data = await res.json();
+      if (res.status === 403) {
+        toast.error(data.error ?? "AI prompt quota reached. Upgrade your plan to continue.");
+        refreshQuota();
+        return;
+      }
       if (!res.ok) throw new Error(data.error || "Search failed");
       setAgrovets(Array.isArray(data) ? data : []);
       if (Array.isArray(data) && data.length === 0) {
         toast.info("No agrovets found nearby. Try a different area.");
       }
+      refreshQuota();
     } catch (err: any) {
       toast.error(err?.message ?? "Failed to find agrovets");
     } finally {
