@@ -216,6 +216,52 @@ export default function SoilHealthPage() {
         </div>
       )}
 
+      {/* Edit dialog */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader><DialogTitle>Edit Soil Test Report</DialogTitle></DialogHeader>
+          <form onSubmit={(e) => { e.preventDefault();
+            startTransition(async () => {
+              try {
+                if (!editTarget) throw new Error('No report selected');
+                await updateSoilReport(editTarget.id, {
+                  ph: editForm.ph ? parseFloat(editForm.ph) : undefined,
+                  nitrogen: editForm.nitrogen ? parseFloat(editForm.nitrogen) : undefined,
+                  phosphorus: editForm.phosphorus ? parseFloat(editForm.phosphorus) : undefined,
+                  potassium: editForm.potassium ? parseFloat(editForm.potassium) : undefined,
+                  organicMatter: editForm.organicMatter ? parseFloat(editForm.organicMatter) : undefined,
+                  moisture: editForm.moisture ? parseFloat(editForm.moisture) : undefined,
+                });
+                toast.success('Report updated');
+                setEditOpen(false);
+                setEditTarget(null);
+                await load();
+              } catch (err) { toast.error((err as Error).message); }
+            });
+          }} className="space-y-4 pt-2">
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { key: 'ph', label: 'Soil pH', placeholder: '6.5' },
+                { key: 'nitrogen', label: 'Nitrogen (%)', placeholder: '70' },
+                { key: 'phosphorus', label: 'Phosphorus (%)', placeholder: '50' },
+                { key: 'potassium', label: 'Potassium (%)', placeholder: '80' },
+                { key: 'organicMatter', label: 'Organic Matter (%)', placeholder: '3.5' },
+                { key: 'moisture', label: 'Moisture (%)', placeholder: '60' },
+              ].map(({ key, label, placeholder }) => (
+                <div key={key} className="space-y-1.5">
+                  <Label className="text-xs">{label}</Label>
+                  <Input type="number" step="0.1" placeholder={placeholder} value={(editForm as any)[key]} onChange={(e) => setEditForm((f) => ({ ...f, [key]: e.target.value }))} />
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <Button type="submit" className="flex-1">Save Changes</Button>
+              <Button variant="outline" className="flex-1" onClick={() => { setEditOpen(false); setEditTarget(null); }}>Cancel</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
       {allRecs.length > 0 && (
         <Card>
           <CardHeader><CardTitle className="text-base">Soil Recommendations</CardTitle></CardHeader>
