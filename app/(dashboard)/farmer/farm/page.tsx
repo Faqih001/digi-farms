@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Sprout, MapPin, Plus, Edit2, Trash2, Save, Loader2, Wheat, CalendarDays, Ruler, AlertCircle } from "lucide-react";
 import { DatePicker } from "@/components/ui/date-picker";
+import ImageUploadDialog from "@/components/ui/image-upload-dialog";
 import { getUserFarms, createFarm, updateFarm, deleteFarm, createCrop, updateCrop, deleteCrop } from "@/lib/actions/farm";
 
 type Farm = Awaited<ReturnType<typeof getUserFarms>>[number];
