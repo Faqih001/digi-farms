@@ -150,10 +150,18 @@ export default function ScanHistoryPage() {
           <CardContent className="p-0">
             <div className="divide-y divide-slate-100 dark:divide-slate-800">
               {filtered.map((scan) => (
-                <button
+                <div
                   key={scan.id}
+                  role="button"
+                  tabIndex={0}
                   onClick={() => setSelectedScan(scan)}
-                  className="w-full flex items-center gap-4 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-left"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setSelectedScan(scan);
+                    }
+                  }}
+                  className="w-full flex items-center gap-4 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-left cursor-pointer"
                 >
                   {/* Thumbnail */}
                   <div className="relative w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 border border-slate-200 dark:border-slate-700">
@@ -182,7 +190,7 @@ export default function ScanHistoryPage() {
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
-                </button>
+                </div>
               ))}
             </div>
           </CardContent>
