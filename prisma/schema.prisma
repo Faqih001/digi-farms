@@ -131,6 +131,7 @@ model User {
   supportTickets      SupportTicket[]
   produceListings     ProduceListing[]
   creditScores        CreditScore[]
+  promptUsage         PromptUsage[]
 
   @@index([email])
   @@index([role])
