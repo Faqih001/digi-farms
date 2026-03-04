@@ -57,12 +57,19 @@ export default function ClimateInsightsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lat, lng, location }),
       });
+      if (res.status === 403) {
+        const err = await res.json().catch(() => ({}));
+        toast.error(err.error ?? "AI prompt quota reached. Upgrade your plan to continue.");
+        refreshQuota();
+        return;
+      }
       if (!res.ok) throw new Error("Failed to fetch weather");
       const data = await res.json();
       setCurrent(data.current ?? null);
       setForecast(data.forecast ?? []);
       setAdvisories(data.advisories ?? []);
       setSeasonal(data.seasonal ?? null);
+      refreshQuota();
     } catch { toast.error("Failed to load weather data"); }
     finally { setLoading(false); }
   };
@@ -165,6 +172,7 @@ export default function ClimateInsightsPage() {
       });
     } finally {
       setQaLoading(false);
+      refreshQuota();
     }
   };
 
