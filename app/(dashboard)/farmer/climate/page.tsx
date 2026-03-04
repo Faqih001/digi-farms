@@ -32,12 +32,22 @@ export default function ClimateInsightsPage() {
   const [loading, setLoading] = useState(false);
   const [locationInput, setLocationInput] = useState("");
   const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [quota, setQuota] = useState<{ used: number; limit: number; tier: string; remaining: number | null } | null>(null);
 
   // Q&A state
   const [qaOpen, setQaOpen] = useState(false);
   const [qaMessages, setQaMessages] = useState<QAMessage[]>([]);
   const [qaInput, setQaInput] = useState("");
   const [qaLoading, setQaLoading] = useState(false);
+
+  const refreshQuota = useCallback(async () => {
+    try {
+      const res = await fetch("/api/usage/me");
+      if (res.ok) setQuota(await res.json());
+    } catch {}
+  }, []);
+
+  useEffect(() => { refreshQuota(); }, [refreshQuota]);
 
   const fetchWeather = async (lat?: number, lng?: number, location?: string) => {
     setLoading(true);
