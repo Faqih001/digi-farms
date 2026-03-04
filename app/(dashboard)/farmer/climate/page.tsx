@@ -177,6 +177,7 @@ export default function ClimateInsightsPage() {
   };
 
   const CondIcon = current ? conditionIcon(current.condition) : CloudSun;
+  const quotaExhausted = quota !== null && quota.limit > 0 && quota.remaining !== null && quota.remaining <= 0;
 
   return (
     <div className="space-y-6">
@@ -185,15 +186,23 @@ export default function ClimateInsightsPage() {
           <h2 className="text-2xl font-black text-slate-900 dark:text-white">Climate Insights</h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm">Weather forecasts and farming advisories for your location</p>
         </div>
-        <form onSubmit={handleSearch} className="flex gap-2">
-          <div className="relative">
-            <MapPin className="absolute left-2.5 top-2.5 w-4 h-4 text-slate-400" />
-            <Input placeholder="Enter location..." value={locationInput} onChange={(e) => setLocationInput(e.target.value)} className="pl-8 w-48" />
-          </div>
-          <Button type="submit" size="sm" variant="outline" disabled={loading}>
-            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
-          </Button>
-        </form>
+        <div className="flex items-center gap-3 flex-wrap">
+          {quota && quota.limit > 0 && (
+            <div className={`flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-full border ${quotaExhausted ? "bg-red-50 border-red-200 text-red-600 dark:bg-red-950/30 dark:border-red-800 dark:text-red-400" : "bg-slate-50 border-slate-200 text-slate-500 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400"}`}>
+              <Zap className="w-3 h-3" />
+              <span>{quotaExhausted ? `Limit reached (${quota.tier})` : `${quota.remaining} AI prompt${quota.remaining === 1 ? "" : "s"} left`}</span>
+            </div>
+          )}
+          <form onSubmit={handleSearch} className="flex gap-2">
+            <div className="relative">
+              <MapPin className="absolute left-2.5 top-2.5 w-4 h-4 text-slate-400" />
+              <Input placeholder="Enter location..." value={locationInput} onChange={(e) => setLocationInput(e.target.value)} className="pl-8 w-48" />
+            </div>
+            <Button type="submit" size="sm" variant="outline" disabled={loading}>
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+            </Button>
+          </form>
+        </div>
       </div>
 
       {loading && !current && (

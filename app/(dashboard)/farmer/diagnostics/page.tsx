@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -37,6 +37,14 @@ export default function DiagnosticsPage() {
   const [historyLoading, setHistoryLoading] = useState(true);
   const [viewScan, setViewScan] = useState<HistoryScan | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [quota, setQuota] = useState<{ used: number; limit: number; tier: string; remaining: number | null } | null>(null);
+
+  const refreshQuota = useCallback(async () => {
+    try {
+      const res = await fetch("/api/usage/me");
+      if (res.ok) setQuota(await res.json());
+    } catch {}
+  }, []);
 
   const loadHistory = async () => {
     try {
@@ -46,7 +54,7 @@ export default function DiagnosticsPage() {
     finally { setHistoryLoading(false); }
   };
 
-  useEffect(() => { loadHistory(); }, []);
+  useEffect(() => { loadHistory(); refreshQuota(); }, [refreshQuota]);
 
   const handleFile = async (file: File) => {
     if (!file.type.startsWith("image/")) {
@@ -69,6 +77,14 @@ export default function DiagnosticsPage() {
       const res = await fetch("/api/diagnostics", { method: "POST", body: formData });
       const data = await res.json();
 
+      if (res.status === 403) {
+        toast.error(data.error ?? "AI prompt quota reached. Upgrade your plan to continue.");
+        setStage("upload");
+        setPreview(null);
+        refreshQuota();
+        return;
+      }
+
       if (!res.ok) {
         throw new Error(data.error || `Analysis failed (${res.status})`);
       }
@@ -77,6 +93,7 @@ export default function DiagnosticsPage() {
       setStage("result");
       toast.success("Diagnosis complete!");
       loadHistory();
+      refreshQuota();
     } catch (err: any) {
       toast.error(err?.message ?? "Diagnosis failed. Please try again.");
       setStage("upload");
@@ -109,18 +126,28 @@ export default function DiagnosticsPage() {
     finally { setDeleting(null); }
   };
 
+  const quotaExhausted = quota !== null && quota.limit > 0 && quota.remaining !== null && quota.remaining <= 0;
+
   return (
     <div className="space-y-6 max-w-4xl">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h2 className="text-2xl font-black text-slate-900 dark:text-white">AI Crop Diagnostics</h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm">Upload a photo of your crop to detect diseases, pests, and deficiencies</p>
         </div>
-        <Link href="/farmer/scans">
-          <Button variant="outline" size="sm">
-            <History className="w-4 h-4" /> Scan History
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          {quota && quota.limit > 0 && (
+            <div className={`flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-full border ${quotaExhausted ? "bg-red-50 border-red-200 text-red-600 dark:bg-red-950/30 dark:border-red-800 dark:text-red-400" : "bg-slate-50 border-slate-200 text-slate-500 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400"}`}>
+              <Zap className="w-3 h-3" />
+              <span>{quotaExhausted ? `Limit reached (${quota.tier})` : `${quota.remaining} AI scan${quota.remaining === 1 ? "" : "s"} left`}</span>
+            </div>
+          )}
+          <Link href="/farmer/scans">
+            <Button variant="outline" size="sm">
+              <History className="w-4 h-4" /> Scan History
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {stage === "upload" && (
