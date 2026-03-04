@@ -175,6 +175,9 @@ export default function SoilHealthPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <Badge variant={statusVariant(status)}>{status}</Badge>
+                      <button onClick={() => { setEditTarget(r); setEditForm({ ph: r.ph?.toString() ?? "", nitrogen: r.nitrogen?.toString() ?? "", phosphorus: r.phosphorus?.toString() ?? "", potassium: r.potassium?.toString() ?? "", organicMatter: r.organicMatter?.toString() ?? "", moisture: r.moisture?.toString() ?? "" }); setEditOpen(true); }} className="text-slate-600 hover:text-slate-800" title="Edit">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      </button>
                       <button onClick={() => handleDelete(r.id)} className="text-red-400 hover:text-red-600" title="Delete">
                         <Trash2 className="w-4 h-4" />
                       </button>
