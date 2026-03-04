@@ -1,5 +1,3 @@
-"use server";
-
 import { db } from "@/lib/db";
 
 // Per-month prompt limits per subscription tier. 0 = unlimited.
