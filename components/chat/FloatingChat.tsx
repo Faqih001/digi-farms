@@ -127,10 +127,6 @@ export default function FloatingChat() {
         body: JSON.stringify({ messages: allMsgs, model, ...(userCoords ?? {}) }),
       });
 
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-        throw new Error(err.error || `HTTP ${res.status}`);
-      }
       if (!res.body) throw new Error("No response body");
 
       const reader = res.body.getReader();
@@ -149,7 +145,7 @@ export default function FloatingChat() {
         for (const line of lines) {
           if (!line.trim()) continue;
           try {
-            const event = JSON.parse(line) as { t: "thought" | "answer" | "error"; d: string };
+            const event = JSON.parse(line) as { t: "thought" | "answer" | "error" | "quota"; d: string; used?: number; limit?: number; tier?: string };
             if (event.t === "thought") {
               setMessages((prev) =>
                 prev.map((m) =>
@@ -162,6 +158,15 @@ export default function FloatingChat() {
                   m.id === assistantId ? { ...m, text: m.text + event.d, thinking: false } : m
                 )
               );
+            } else if (event.t === "quota") {
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId ? { ...m, text: event.d, streaming: false, thinking: false } : m
+                )
+              );
+              if (event.used !== undefined && event.limit !== undefined) {
+                setQuota((q) => q ? { ...q, used: event.used!, remaining: Math.max(0, event.limit! - event.used!) } : q);
+              }
             } else if (event.t === "error") {
               throw new Error(event.d);
             }
@@ -172,6 +177,8 @@ export default function FloatingChat() {
       setMessages((prev) =>
         prev.map((m) => (m.id === assistantId ? { ...m, streaming: false, thinking: false } : m))
       );
+      // Refresh quota count after successful reply
+      refreshQuota();
     } catch (err: any) {
       setMessages((prev) =>
         prev.map((m) =>
@@ -186,6 +193,7 @@ export default function FloatingChat() {
   }
 
   const initials = (session?.user?.name || "U").slice(0, 2).toUpperCase();
+  const quotaExhausted = quota !== null && quota.limit > 0 && quota.remaining !== null && quota.remaining <= 0;
 
   return (
     <div className="fixed bottom-6 right-6 z-[60]">
