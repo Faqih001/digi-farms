@@ -11,7 +11,7 @@ export default function AppImage(props: ImageProps) {
   // When not using fill, allow height to auto-adjust so CSS-driven width changes
   // don't break the aspect ratio (avoids the Next/Image aspect-ratio warning).
   const mergedStyleBase: React.CSSProperties = fill
-    ? (style as React.CSSProperties) ?? {}
+    ? ({ width: "100%", height: "100%", ...(style as React.CSSProperties) } as React.CSSProperties)
     : ({ width: "100%", height: "auto", ...(style as React.CSSProperties) } as React.CSSProperties);
 
   // If the consumer passed explicit width/height props but CSS may override one
