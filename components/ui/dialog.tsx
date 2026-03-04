@@ -40,6 +40,9 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
+      {/* Provide a visually-hidden description element so Radix' warning about missing
+          DialogDescription / aria-describedby is avoided when consumers omit it. */}
+      <DialogPrimitive.Description className={cn("sr-only")} />
       <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-white transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-slate-100 data-[state=open]:text-slate-500 dark:text-slate-400 dark:ring-offset-slate-950 dark:focus:ring-green-400 dark:data-[state=open]:bg-slate-800 dark:data-[state=open]:text-slate-400">
         <X className="h-4 w-4" />
         <span className="sr-only">Close</span>
