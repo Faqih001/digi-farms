@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -239,14 +241,18 @@ export default function DiagnosticsPage() {
                   <AlertTriangle className="w-4 h-4 text-amber-600" />
                   <span className="font-bold text-amber-700 dark:text-amber-400 text-sm">Recommended Treatment</span>
                 </div>
-                <p className="text-sm text-amber-700 dark:text-amber-300">{result.treatment}</p>
+                <div className="text-sm text-amber-700 dark:text-amber-300 prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-strong:font-semibold prose-p:leading-relaxed">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{result.treatment}</ReactMarkdown>
+                </div>
               </div>
               <div className="p-4 bg-green-50 dark:bg-green-950/20 rounded-xl border border-green-200 dark:border-green-900">
                 <div className="flex items-center gap-2 mb-2">
                   <Sprout className="w-4 h-4 text-green-600" />
                   <span className="font-bold text-green-700 dark:text-green-400 text-sm">Prevention Tips</span>
                 </div>
-                <p className="text-sm text-green-700 dark:text-green-300">{result.prevention}</p>
+                <div className="text-sm text-green-700 dark:text-green-300 prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-strong:font-semibold prose-p:leading-relaxed">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{result.prevention}</ReactMarkdown>
+                </div>
               </div>
               <div className="flex gap-3">
                 <Link href="/farmer/buy" className="flex-1">
@@ -338,11 +344,15 @@ export default function DiagnosticsPage() {
               </div>
               <div className="p-3 bg-amber-50 dark:bg-amber-950/20 rounded-xl border border-amber-200">
                 <p className="text-xs font-bold text-amber-700 mb-1">Treatment</p>
-                <p className="text-sm text-amber-700 dark:text-amber-300">{viewScan.treatment}</p>
+                <div className="text-sm text-amber-700 dark:text-amber-300 prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-strong:font-semibold prose-p:leading-relaxed">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{viewScan.treatment}</ReactMarkdown>
+                </div>
               </div>
               <div className="p-3 bg-green-50 dark:bg-green-950/20 rounded-xl border border-green-200">
                 <p className="text-xs font-bold text-green-700 mb-1">Prevention</p>
-                <p className="text-sm text-green-700 dark:text-green-300">{viewScan.prevention}</p>
+                <div className="text-sm text-green-700 dark:text-green-300 prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-strong:font-semibold prose-p:leading-relaxed">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{viewScan.prevention}</ReactMarkdown>
+                </div>
               </div>
               <p className="text-xs text-slate-400">Scanned on {new Date(viewScan.createdAt).toLocaleDateString("en-KE", { day: "numeric", month: "long", year: "numeric" })}</p>
             </div>
