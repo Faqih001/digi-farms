@@ -233,6 +233,34 @@ export default function FloatingChat() {
               </div>
             </div>
 
+            {/* ── Quota bar ───────────────────────────────────────── */}
+            {quota && quota.limit > 0 && (
+              <div className={cn(
+                "px-4 py-2 flex items-center gap-2 text-xs shrink-0",
+                quotaExhausted
+                  ? "bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400"
+                  : "bg-slate-50 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400"
+              )}>
+                <Zap className="w-3.5 h-3.5 shrink-0" />
+                <div className="flex-1">
+                  <div className="flex justify-between mb-0.5">
+                    <span>
+                      {quotaExhausted
+                        ? `Limit reached — ${quota.tier} plan`
+                        : `${quota.remaining} prompt${quota.remaining === 1 ? "" : "s"} left this month`}
+                    </span>
+                    <span className="font-medium">{quota.used}/{quota.limit}</span>
+                  </div>
+                  <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1">
+                    <div
+                      className={cn("h-1 rounded-full transition-all", quotaExhausted ? "bg-red-500" : "bg-green-500")}
+                      style={{ width: `${Math.min(100, (quota.used / quota.limit) * 100)}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* ── Messages ────────────────────────────────────────── */}
             <div ref={scroller} className="flex-1 px-3 py-3 overflow-y-auto space-y-4 min-h-0">
               {messages.length === 0 && (
