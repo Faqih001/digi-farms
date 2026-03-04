@@ -128,6 +128,11 @@ export async function POST(req: NextRequest) {
     };
     const cropStatus = statusMap[diagnosis.status] ?? "UNKNOWN";
 
+    // Validate parsed diagnosis fields
+    if (!diagnosis || typeof diagnosis.disease !== "string" || typeof diagnosis.confidence !== "number") {
+      return NextResponse.json({ error: "AI returned invalid diagnosis format", raw: text }, { status: 502 });
+    }
+
     // Save to database
     const diagnostic = await db.diagnostic.create({
       data: {
@@ -159,19 +164,26 @@ export async function POST(req: NextRequest) {
       createdAt: diagnostic.createdAt,
     });
   } catch (err: unknown) {
-    // Neon WebSocket errors surface as ErrorEvent objects — serialize them properly
+    // Neon / Prisma errors can be non-Error objects; make best-effort logging
+    const util = await import("node:util");
     let message = "Diagnosis failed";
-    if (err instanceof Error) {
-      message = err.message;
-    } else if (err && typeof err === "object") {
-      const ev = err as Record<string, unknown>;
-      if (typeof ev.message === "string") message = ev.message;
-      else if (typeof ev.type === "string") message = `Connection error: ${ev.type}`;
-      else message = String(ev);
-    } else if (typeof err === "string") {
-      message = err;
+    try {
+      if (err instanceof Error) {
+        message = err.message;
+        console.error("/api/diagnostics error stack:", err.stack);
+      } else if (err && typeof err === "object") {
+        // Try to stringify useful properties
+        const ev = err as Record<string, unknown>;
+        if (typeof ev.message === "string") message = ev.message;
+        else if (typeof ev.type === "string") message = `Connection error: ${ev.type}`;
+        else message = util.inspect(ev, { depth: 5 });
+        console.error("/api/diagnostics error object:", util.inspect(ev, { depth: 5 }));
+      } else if (typeof err === "string") {
+        message = err;
+      }
+    } catch (logErr) {
+      console.error("/api/diagnostics logging failed:", logErr);
     }
-    console.error("/api/diagnostics error:", err);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
