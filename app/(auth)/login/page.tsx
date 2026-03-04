@@ -2,7 +2,7 @@
 
 import { Suspense, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { getCurrentUserRole } from "@/lib/actions/user";
 import { useForm } from "react-hook-form";
@@ -19,6 +19,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
@@ -42,14 +43,40 @@ function LoginForm() {
       toast.error("Invalid email or password. Please try again.");
     } else {
       toast.success("Welcome back!");
-      // Use hard redirect so the browser sends the fresh session cookie with the
-      // next GET request — client-side router.push can miss newly-set cookies.
-      if (callbackUrl && callbackUrl !== "/") {
-        window.location.href = callbackUrl;
-      } else {
-        const role = await getCurrentUserRole();
-        window.location.href = role ? (ROLE_DASHBOARDS[role] ?? "/") : "/";
-      }
+
+      const router = useRouter();
+
+      const fetchUserWithRetry = async (tries = 3, delay = 150) => {
+        for (let i = 0; i < tries; i++) {
+          try {
+            const r = await fetch("/api/users/me", { cache: "no-store" });
+            if (!r.ok) throw new Error("no user");
+            const j = await r.json();
+            return j.user ?? null;
+          } catch (e) {
+            // small delay before retrying
+            // eslint-disable-next-line no-await-in-loop
+            await new Promise((res) => setTimeout(res, delay));
+          }
+        }
+        return null;
+      };
+
+      const proceedRedirect = async () => {
+        const roleUser = await fetchUserWithRetry();
+        if (callbackUrl && callbackUrl !== "/") {
+          router.push(callbackUrl);
+        } else if (roleUser?.role) {
+          const rolePath = ROLE_DASHBOARDS[roleUser.role] ?? "/";
+          router.push(rolePath);
+        } else {
+          // Fallback to root — full reload if server still doesn't see session
+          // (very rare); this avoids leaving the user on a stale UI.
+          window.location.href = "/";
+        }
+      };
+
+      await proceedRedirect();
     }
   };
 
