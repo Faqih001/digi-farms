@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { AlertTriangle, CheckCircle, Info, Loader2, Plus, Trash2 } from "lucide-react";
-import { getSoilReports, createSoilReport, deleteSoilReport } from "@/lib/actions/soil";
+import { getSoilReports, createSoilReport, deleteSoilReport, updateSoilReport } from "@/lib/actions/soil";
 
 type Report = Awaited<ReturnType<typeof getSoilReports>>[number];
 
@@ -38,6 +38,9 @@ export default function SoilHealthPage() {
   const [pending, startTransition] = useTransition();
   const [farms, setFarms] = useState<{ id: string; name: string }[]>([]);
   const [form, setForm] = useState({ farmId: "", ph: "", nitrogen: "", phosphorus: "", potassium: "", organicMatter: "", moisture: "" });
+  const [editOpen, setEditOpen] = useState(false);
+  const [editTarget, setEditTarget] = useState<Report | null>(null);
+  const [editForm, setEditForm] = useState({ ph: "", nitrogen: "", phosphorus: "", potassium: "", organicMatter: "", moisture: "" });
 
   const load = async () => {
     try {
