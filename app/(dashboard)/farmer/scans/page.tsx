@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import AppImage from "@/components/ui/app-image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -165,7 +165,7 @@ export default function ScanHistoryPage() {
                 >
                   {/* Thumbnail */}
                   <div className="relative w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 border border-slate-200 dark:border-slate-700">
-                    <Image src={scan.imageUrl} alt={scan.disease ?? "Scan"} fill className="object-cover" sizes="40px" unoptimized={scan.imageUrl?.startsWith("blob:") || scan.imageUrl?.startsWith("http")} />
+                    <AppImage src={scan.imageUrl} alt={scan.disease ?? "Scan"} fill className="object-cover" sizes="40px" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
@@ -212,7 +212,7 @@ export default function ScanHistoryPage() {
             <div className="p-5 space-y-4">
               {selectedScan.imageUrl && (
                 <div className="relative w-full h-48 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700">
-                  <Image src={selectedScan.imageUrl} alt={selectedScan.disease ?? "Crop scan"} fill className="object-cover" sizes="(max-width: 512px) 100vw, 512px" unoptimized={selectedScan.imageUrl?.startsWith("blob:") || selectedScan.imageUrl?.startsWith("http")} />
+                  <AppImage src={selectedScan.imageUrl} alt={selectedScan.disease ?? "Crop scan"} fill className="object-cover" sizes="(max-width: 512px) 100vw, 512px" />
                 </div>
               )}
               <div className="flex items-start justify-between gap-3">

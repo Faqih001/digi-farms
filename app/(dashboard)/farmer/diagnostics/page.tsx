@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import Image from "next/image";
+import AppImage from "@/components/ui/app-image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -224,7 +224,7 @@ export default function DiagnosticsPage() {
           <CardContent className="py-16 text-center">
             {preview && (
                 <div className="relative w-32 h-32 rounded-2xl overflow-hidden mx-auto mb-4 border border-slate-200 dark:border-slate-700">
-                <Image src={preview} alt="Uploaded crop" fill className="object-cover" sizes="128px" unoptimized />
+                <AppImage src={preview as string} alt="Uploaded crop" fill className="object-cover" sizes="128px" />
               </div>
             )}
             <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mx-auto mb-4 animate-pulse">
@@ -247,7 +247,7 @@ export default function DiagnosticsPage() {
               <div className="flex items-start gap-4">
                 {result.imageUrl && (
                   <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 border border-slate-200 dark:border-slate-700">
-                      <Image src={result.imageUrl} alt="Scanned crop" fill className="object-cover" sizes="80px" unoptimized />
+                      <AppImage src={result.imageUrl} alt="Scanned crop" fill className="object-cover" sizes="80px" />
                     </div>
                 )}
                 <div className="flex-1 min-w-0">
@@ -311,7 +311,7 @@ export default function DiagnosticsPage() {
                 <div key={scan.id} className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                   {scan.imageUrl ? (
                     <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
-                      <Image src={scan.imageUrl} alt={scan.disease} fill className="object-cover" sizes="40px" unoptimized />
+                      <AppImage src={scan.imageUrl} alt={scan.disease} fill className="object-cover" sizes="40px" />
                     </div>
                   ) : (
                     <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
@@ -361,7 +361,7 @@ export default function DiagnosticsPage() {
             <div className="space-y-4">
               {viewScan.imageUrl && (
                 <div className="relative w-full h-48 rounded-xl overflow-hidden">
-                  <Image src={viewScan.imageUrl} alt={viewScan.disease} fill className="object-cover" sizes="100%" unoptimized />
+                  <AppImage src={viewScan.imageUrl} alt={viewScan.disease} fill className="object-cover" sizes="100%" />
                 </div>
               )}
               <div className="flex gap-2 flex-wrap">
