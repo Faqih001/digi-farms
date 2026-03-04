@@ -326,9 +326,10 @@ export default function SellProducePage() {
 
       {/* Create / Edit Modal */}
       <Dialog open={showForm} onOpenChange={(open) => { if (!open) setShowForm(false); }}>
-        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>{editTarget ? "Edit Listing" : "Create New Listing"}</DialogTitle></DialogHeader>
-          <form onSubmit={handleSave} className="space-y-4 pt-1">
+        <DialogContent className="max-w-lg">
+          <div className="max-h-[90vh] overflow-y-auto">
+            <DialogHeader><DialogTitle>{editTarget ? "Edit Listing" : "Create New Listing"}</DialogTitle></DialogHeader>
+            <form onSubmit={handleSave} className="space-y-4 pt-1">
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="space-y-1.5 sm:col-span-2">
                 <Label>Produce Name <span className="text-red-500">*</span></Label>
@@ -401,7 +402,8 @@ export default function SellProducePage() {
               </Button>
               <Button type="button" variant="outline" onClick={() => setShowForm(false)}>Cancel</Button>
             </div>
-          </form>
+            </form>
+          </div>
         </DialogContent>
       </Dialog>
 
