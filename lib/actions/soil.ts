@@ -91,3 +91,56 @@ export async function deleteSoilReport(reportId: string) {
 
   await db.soilReport.delete({ where: { id: reportId } });
 }
+
+export async function updateSoilReport(reportId: string, data: {
+  ph?: number;
+  nitrogen?: number;
+  phosphorus?: number;
+  potassium?: number;
+  organicMatter?: number;
+  moisture?: number;
+}) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Not authenticated");
+
+  const report = await db.soilReport.findUnique({ where: { id: reportId }, include: { farm: { select: { userId: true } } } });
+  if (!report || report.farm.userId !== session.user.id) throw new Error("Not authorized");
+
+  const recs: string[] = [];
+  if (data.ph != null) {
+    if (data.ph < 5.5) recs.push("Soil is too acidic. Apply agricultural lime at 2 tons/acre to raise pH.");
+    else if (data.ph > 7.5) recs.push("Soil is too alkaline. Apply sulphur or organic matter to lower pH.");
+  }
+  if (data.nitrogen != null && data.nitrogen < 40) recs.push("Nitrogen deficiency. Apply CAN fertilizer at 50kg/acre.");
+  if (data.phosphorus != null && data.phosphorus < 30) recs.push("Low phosphorus. Apply DAP or TSP fertilizer.");
+  if (data.potassium != null && data.potassium < 50) recs.push("Low potassium. Apply MOP (Muriate of Potash) fertilizer.");
+  if (data.moisture != null && data.moisture < 30) recs.push("Very low soil moisture. Irrigate immediately.");
+
+  const updated = await db.soilReport.update({
+    where: { id: reportId },
+    data: {
+      ph: data.ph,
+      nitrogen: data.nitrogen,
+      phosphorus: data.phosphorus,
+      potassium: data.potassium,
+      organicMatter: data.organicMatter,
+      moisture: data.moisture,
+      recommendations: recs.length > 0 ? JSON.stringify(recs) : null,
+    },
+    include: { farm: { select: { name: true } } },
+  });
+
+  return {
+    id: updated.id,
+    farmId: updated.farmId,
+    farmName: updated.farm.name,
+    ph: updated.ph,
+    nitrogen: updated.nitrogen,
+    phosphorus: updated.phosphorus,
+    potassium: updated.potassium,
+    organicMatter: updated.organicMatter,
+    moisture: updated.moisture,
+    recommendations: updated.recommendations,
+    testedAt: updated.testedAt.toISOString(),
+  };
+}
