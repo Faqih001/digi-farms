@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { writeFile, mkdir, unlink } from "fs/promises";
-import { existsSync } from "fs";
-import path from "path";
+import { put, del, list } from "@vercel/blob";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
@@ -29,20 +27,16 @@ export async function POST(request: NextRequest) {
 
   const buffer = Buffer.from(await file.arrayBuffer());
   const ext = file.type === "image/png" ? ".png" : file.type === "image/webp" ? ".webp" : ".jpg";
-  const filename = `${session.user.id}${ext}`;
+  const filename = `avatars/${session.user.id}${ext}`;
 
-  const uploadsDir = path.join(process.cwd(), "public", "uploads", "avatars");
-  await mkdir(uploadsDir, { recursive: true });
-
-  // Remove any previous avatar file for this user (other extensions)
-  for (const old of [".jpg", ".png", ".webp"]) {
-    const oldPath = path.join(uploadsDir, `${session.user.id}${old}`);
-    if (existsSync(oldPath)) await unlink(oldPath).catch(() => null);
+  // Remove any previous avatar blobs for this user
+  const { blobs } = await list({ prefix: `avatars/${session.user.id}` });
+  if (blobs.length > 0) {
+    await del(blobs.map((b) => b.url));
   }
 
-  await writeFile(path.join(uploadsDir, filename), buffer);
-
-  const imageUrl = `/uploads/avatars/${filename}`;
+  const blob = await put(filename, buffer, { access: "public", contentType: file.type });
+  const imageUrl = blob.url;
   await db.user.update({ where: { id: session.user.id }, data: { image: imageUrl } });
 
   return NextResponse.json({ success: true, imageUrl });
@@ -54,10 +48,9 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const uploadsDir = path.join(process.cwd(), "public", "uploads", "avatars");
-  for (const ext of [".jpg", ".png", ".webp"]) {
-    const filePath = path.join(uploadsDir, `${session.user.id}${ext}`);
-    if (existsSync(filePath)) await unlink(filePath).catch(() => null);
+  const { blobs } = await list({ prefix: `avatars/${session.user.id}` });
+  if (blobs.length > 0) {
+    await del(blobs.map((b) => b.url));
   }
 
   await db.user.update({ where: { id: session.user.id }, data: { image: null } });

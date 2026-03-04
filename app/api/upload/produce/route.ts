@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { put } from "@vercel/blob";
 import { randomBytes } from "crypto";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -29,12 +28,9 @@ export async function POST(request: NextRequest) {
   const buffer = Buffer.from(await file.arrayBuffer());
   const ext = file.type === "image/png" ? ".png" : file.type === "image/webp" ? ".webp" : ".jpg";
   const id = randomBytes(12).toString("hex");
-  const filename = `${session.user.id}-${id}${ext}`;
+  const filename = `produce/${session.user.id}-${id}${ext}`;
 
-  const uploadsDir = path.join(process.cwd(), "public", "uploads", "produce");
-  await mkdir(uploadsDir, { recursive: true });
-  await writeFile(path.join(uploadsDir, filename), buffer);
-
-  const imageUrl = `/uploads/produce/${filename}`;
+  const blob = await put(filename, buffer, { access: "public", contentType: file.type });
+  const imageUrl = blob.url;
   return NextResponse.json({ success: true, imageUrl });
 }

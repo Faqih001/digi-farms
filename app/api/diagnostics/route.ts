@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { put } from "@vercel/blob";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
@@ -64,13 +63,11 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(await file.arrayBuffer());
     const base64 = buffer.toString("base64");
 
-    // Save image to disk
+    // Upload image to Vercel Blob
     const ext = file.type === "image/png" ? ".png" : file.type === "image/webp" ? ".webp" : ".jpg";
-    const filename = `diag_${session.user.id}_${Date.now()}${ext}`;
-    const uploadsDir = path.join(process.cwd(), "public", "uploads", "diagnostics");
-    await mkdir(uploadsDir, { recursive: true });
-    await writeFile(path.join(uploadsDir, filename), buffer);
-    const imageUrl = `/uploads/diagnostics/${filename}`;
+    const filename = `diagnostics/diag_${session.user.id}_${Date.now()}${ext}`;
+    const blob = await put(filename, buffer, { access: "public", contentType: file.type });
+    const imageUrl = blob.url;
 
     // Call Gemini with inline image data
     const ai = new GoogleGenAI({ apiKey });
