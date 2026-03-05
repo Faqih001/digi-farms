@@ -208,8 +208,31 @@ export async function getSupplierProfile() {
   if (!session?.user?.id) throw new Error("Unauthorized");
   return retryAsync(() => db.supplier.findUnique({
     where: { userId: session.user.id },
-    select: { companyName: true, description: true, phone: true, address: true, website: true, logoUrl: true, rating: true, isVerified: true },
+    select: { companyName: true, description: true, phone: true, address: true, website: true, logoUrl: true, rating: true, isVerified: true, shippingSettings: true },
   })).catch(() => null);
+}
+
+export async function saveSupplierShipping(data: {
+  shippingFee: number;
+  freeShippingThreshold: number;
+  deliveryDays: string;
+  deliveryCounties: string[];
+}) {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Unauthorized" };
+  try {
+    await retryAsync(() =>
+      db.supplier.update({
+        where: { userId: session.user.id },
+        data: { shippingSettings: data },
+      })
+    );
+    revalidatePath("/supplier/settings");
+    return { success: true };
+  } catch (error) {
+    console.error("prisma:error", formatPrismaError(error));
+    return { error: formatPrismaError(error) };
+  }
 }
 
 export async function updateAvatar(imageUrl: string | null) {
