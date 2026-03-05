@@ -49,7 +49,7 @@ export async function updateNotificationPrefs(data: {
     return { success: true, prefs };
   } catch (error) {
     console.error("prisma:error", formatPrismaError(error));
-    throw new Error(formatPrismaError(error));
+    throw new Error(formatPrismaError(error).message ?? String(error));
   }
 }
 
@@ -114,7 +114,7 @@ export async function updateUserProfile(data: {
     return { success: true, user };
   } catch (error) {
     console.error("prisma:error", formatPrismaError(error));
-    throw new Error(formatPrismaError(error));
+    throw new Error(formatPrismaError(error).message ?? String(error));
   }
 }
 
@@ -149,7 +149,7 @@ export async function updatePassword(currentPassword: string, newPassword: strin
     })).catch(() => null);
   } catch (error) {
     console.error("prisma:error", formatPrismaError(error));
-    throw new Error(formatPrismaError(error));
+    throw new Error(formatPrismaError(error).message ?? String(error));
   }
 
   await createNotification({
@@ -231,7 +231,7 @@ export async function saveSupplierShipping(data: {
     return { success: true };
   } catch (error) {
     console.error("prisma:error", formatPrismaError(error));
-    return { error: formatPrismaError(error) };
+    return { error: formatPrismaError(error).message ?? String(error) };
   }
 }
 
@@ -246,7 +246,7 @@ export async function updateAvatar(imageUrl: string | null) {
     }));
   } catch (error) {
     console.error("prisma:error", formatPrismaError(error));
-    throw new Error(formatPrismaError(error));
+    throw new Error(formatPrismaError(error).message ?? String(error));
   }
 
   revalidatePath("/farmer/settings");

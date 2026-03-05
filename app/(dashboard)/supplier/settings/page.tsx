@@ -445,7 +445,7 @@ export default function SupplierSettingsPage() {
                   deliveryDays: deliveryDays,
                   deliveryCounties: Array.from(deliveryCounties),
                 });
-                if (res?.error) toast.error(res.error);
+                if (res?.error) toast.error(typeof res.error === "string" ? res.error : "Failed to save shipping settings");
                 else toast.success("Shipping settings saved!");
               });
             }} disabled={isPendingShip}>
