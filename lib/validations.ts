@@ -42,6 +42,8 @@ export const productSchema = z.object({
   price: z.number().positive("Price must be positive"),
   unit: z.string().min(1, "Unit is required"),
   stock: z.number().int().min(0, "Stock cannot be negative"),
+  imageUrls: z.array(z.string()).optional(),
+  tags: z.array(z.string()).optional(),
 });
 
 export const loanApplicationSchema = z.object({
