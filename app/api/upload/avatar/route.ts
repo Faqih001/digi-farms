@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { put, del, list } from "@vercel/blob";
+import { retryAsync } from "@/lib/utils";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
@@ -45,7 +46,7 @@ export async function POST(request: NextRequest) {
     const imageUrl = blob.url;
 
     try {
-      await db.user.update({ where: { id: session.user.id }, data: { image: imageUrl } });
+      await retryAsync(() => db.user.update({ where: { id: session.user.id }, data: { image: imageUrl } }));
     } catch (err) {
       // Log Prisma/DB errors with helpful structure for debugging
       try {

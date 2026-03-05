@@ -49,7 +49,7 @@ export async function updateNotificationPrefs(data: {
     return { success: true, prefs };
   } catch (error) {
     console.error("prisma:error", formatPrismaError(error));
-    throw new Error(formatPrismaError(error).message ?? String(error));
+    throw new Error(formatPrismaError(error).message);
   }
 }
 
@@ -114,7 +114,7 @@ export async function updateUserProfile(data: {
     return { success: true, user };
   } catch (error) {
     console.error("prisma:error", formatPrismaError(error));
-    throw new Error(formatPrismaError(error).message ?? String(error));
+    throw new Error(formatPrismaError(error).message);
   }
 }
 
@@ -149,7 +149,7 @@ export async function updatePassword(currentPassword: string, newPassword: strin
     })).catch(() => null);
   } catch (error) {
     console.error("prisma:error", formatPrismaError(error));
-    throw new Error(formatPrismaError(error).message ?? String(error));
+    throw new Error(formatPrismaError(error).message);
   }
 
   await createNotification({
@@ -192,14 +192,8 @@ export async function updateSupplierProfile(data: {
     return { success: true, supplier: updated };
   } catch (error) {
     const info = formatPrismaError(error);
-    try {
-      // eslint-disable-next-line no-console
-      console.error("prisma:error", info);
-    } catch (logErr) {
-      // eslint-disable-next-line no-console
-      console.error("prisma:error (logging failed)", String(logErr));
-    }
-    throw error;
+    console.error("prisma:error", info);
+    throw new Error(info.message);
   }
 }
 
@@ -231,7 +225,7 @@ export async function saveSupplierShipping(data: {
     return { success: true };
   } catch (error) {
     console.error("prisma:error", formatPrismaError(error));
-    return { error: formatPrismaError(error).message ?? String(error) };
+    return { error: formatPrismaError(error).message };
   }
 }
 
@@ -246,7 +240,7 @@ export async function updateAvatar(imageUrl: string | null) {
     }));
   } catch (error) {
     console.error("prisma:error", formatPrismaError(error));
-    throw new Error(formatPrismaError(error).message ?? String(error));
+    throw new Error(formatPrismaError(error).message);
   }
 
   revalidatePath("/farmer/settings");

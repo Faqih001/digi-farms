@@ -79,39 +79,49 @@ export function getStatusColor(status: string) {
   return map[status] ?? "text-gray-600 bg-gray-50";
 }
 
-export function formatPrismaError(err: unknown) {
+export function formatPrismaError(err: unknown): { message: string; code?: string; meta?: unknown; stack?: string } {
   try {
-    if (!err) return { message: String(err) };
-    // Prisma sometimes throws non-Error objects (AggregateError, ErrorEvent, plain objects)
+    if (!err) return { message: "Unknown database error" };
     if (err instanceof Error) {
-      // attempt to extract code/meta if present on the error
       // @ts-ignore
-      const code = (err as any).code ?? undefined;
+      const code = (err as any).code as string | undefined;
       // @ts-ignore
-      const meta = (err as any).meta ?? undefined;
-      return { message: err.message, code, meta, stack: err.stack };
+      const meta = (err as any).meta;
+      const msg = err.message?.trim();
+      return {
+        message: msg || "Database connection error. Please try again.",
+        code,
+        meta,
+        stack: err.stack,
+      };
     }
-    // If it's an object, shallow clone serializable fields
     if (typeof err === "object") {
-      // @ts-ignore
-      const { code, meta, message, stack, ...rest } = err || {};
-      return { message: message ?? JSON.stringify(rest || err), code, meta, stack };
+      const o = err as Record<string, unknown>;
+      const msg = typeof o.message === "string" ? o.message.trim() : "";
+      return {
+        message: msg || "Database connection error. Please try again.",
+        code: o.code as string | undefined,
+        meta: o.meta,
+        stack: o.stack as string | undefined,
+      };
     }
-    return { message: String(err) };
-  } catch (e) {
-    return { message: "(failed to format error)", raw: String(err) };
+    return { message: String(err) || "Unknown database error" };
+  } catch {
+    return { message: "Database error" };
   }
 }
 
-export async function retryAsync<T>(fn: () => Promise<T>, attempts = 3, delayMs = 200): Promise<T> {
+export async function retryAsync<T>(fn: () => Promise<T>, attempts = 4, delayMs = 400): Promise<T> {
   let lastErr: unknown;
   for (let i = 0; i < attempts; i++) {
     try {
       return await fn();
     } catch (e) {
       lastErr = e;
-      if (i < attempts - 1) await new Promise((r) => setTimeout(r, delayMs));
+      if (i < attempts - 1) await new Promise((r) => setTimeout(r, delayMs * (i + 1)));
     }
   }
-  throw lastErr;
+  // After all retries, throw a clean Error so callers always get an Error instance
+  const info = formatPrismaError(lastErr);
+  throw new Error(info.message);
 }
