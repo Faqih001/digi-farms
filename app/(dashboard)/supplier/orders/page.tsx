@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Truck, Package, Clock, CheckCircle, XCircle, Search, Loader2, ImageIcon, RefreshCw, Filter } from "lucide-react";
-import Image from "next/image";
+import AppImage from "@/components/ui/app-image";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getSupplierOrders, updateOrderStatus } from "@/lib/actions/order";
 
 type Order = Awaited<ReturnType<typeof getSupplierOrders>>[number];
@@ -114,21 +115,23 @@ export default function OrdersPage() {
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
-            <select
-              className="h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 text-sm"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="ALL">All Status</option>
-              {Object.entries(STATUS_CONFIG).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
-            </select>
-            <select
-              className="h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 text-sm"
-              value={periodDays}
-              onChange={(e) => setPeriodDays(Number(e.target.value))}
-            >
-              {PERIODS.map((p) => <option key={p.days} value={p.days}>{p.label}</option>)}
-            </select>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="h-10 w-44 rounded-xl">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ALL">All Status</SelectItem>
+                {Object.entries(STATUS_CONFIG).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}
+              </SelectContent>
+            </Select>
+            <Select value={String(periodDays)} onValueChange={(v) => setPeriodDays(Number(v))}>
+              <SelectTrigger className="h-10 w-44 rounded-xl">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {PERIODS.map((p) => <SelectItem key={p.days} value={String(p.days)}>{p.label}</SelectItem>)}
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>
@@ -156,7 +159,7 @@ export default function OrdersPage() {
                       {/* Product thumbnail */}
                       <div className="w-14 h-14 rounded-xl bg-slate-100 dark:bg-slate-800 flex-shrink-0 overflow-hidden">
                         {firstImage ? (
-                          <Image src={firstImage} alt="Product" width={56} height={56} className="w-full h-full object-cover" />
+                          <AppImage src={firstImage} alt="Product" width={56} height={56} className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
                             <ImageIcon className="w-5 h-5 text-slate-300" />
@@ -242,7 +245,7 @@ export default function OrdersPage() {
                     <div key={i.id} className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 overflow-hidden flex-shrink-0">
                         {thumb ? (
-                          <Image src={thumb} alt={i.product.name} width={40} height={40} className="w-full h-full object-cover" />
+                          <AppImage src={thumb} alt={i.product.name} width={40} height={40} className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center"><Package className="w-4 h-4 text-slate-300" /></div>
                         )}
