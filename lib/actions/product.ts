@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { productSchema } from "@/lib/validations";
 import { z } from "zod";
 import { createNotification } from "@/lib/actions/notifications";
+import { retryAsync, formatPrismaError } from "@/lib/utils";
 
 export async function createProduct(data: z.infer<typeof productSchema>) {
   const session = await auth();
@@ -13,71 +14,81 @@ export async function createProduct(data: z.infer<typeof productSchema>) {
 
   const validated = productSchema.parse(data);
 
-  const supplier = await db.supplier.findUnique({ where: { userId: session.user.id } });
+  const supplier = await retryAsync(() => db.supplier.findUnique({ where: { userId: session.user.id } }));
   if (!supplier) throw new Error("Supplier profile not found");
 
-  const product = await db.product.create({
-    data: {
-      ...validated,
-      supplierId: supplier.id,
-    },
-  });
+  try {
+    const product = await retryAsync(() => db.product.create({
+      data: { ...validated, supplierId: supplier.id },
+    }));
 
-  await createNotification({ userId: session.user.id, title: "Product Listed", message: `"${product.name}" is now live on the marketplace.`, type: "product", link: "/supplier/products" });
+    await createNotification({ userId: session.user.id, title: "Product Listed", message: `"${product.name}" is now live on the marketplace.`, type: "product", link: "/supplier/products" });
 
-  revalidatePath("/supplier/products");
-  return { success: true, product };
+    revalidatePath("/supplier/products");
+    return { success: true, product };
+  } catch (error) {
+    console.error("prisma:error", formatPrismaError(error));
+    throw error;
+  }
 }
 
 export async function updateProduct(productId: string, data: z.infer<typeof productSchema>) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  const supplier = await db.supplier.findUnique({ where: { userId: session.user.id } });
+  const supplier = await retryAsync(() => db.supplier.findUnique({ where: { userId: session.user.id } }));
   if (!supplier) throw new Error("Supplier profile not found");
 
-  const existing = await db.product.findUnique({ where: { id: productId } });
+  const existing = await retryAsync(() => db.product.findUnique({ where: { id: productId } }));
   if (!existing || existing.supplierId !== supplier.id) throw new Error("Not found or forbidden");
 
-  const validated = productSchema.parse(data);
-  const product = await db.product.update({ where: { id: productId }, data: validated });
+  try {
+    const validated = productSchema.parse(data);
+    const product = await retryAsync(() => db.product.update({ where: { id: productId }, data: validated }));
 
-  await createNotification({ userId: session.user.id, title: "Product Updated", message: `"${product.name}" has been updated.`, type: "product", link: "/supplier/products" });
+    await createNotification({ userId: session.user.id, title: "Product Updated", message: `"${product.name}" has been updated.`, type: "product", link: "/supplier/products" });
 
-  revalidatePath("/supplier/products");
-  return { success: true, product };
+    revalidatePath("/supplier/products");
+    return { success: true, product };
+  } catch (error) {
+    console.error("prisma:error", formatPrismaError(error));
+    throw error;
+  }
 }
 
 export async function deleteProduct(productId: string) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  const supplier = await db.supplier.findUnique({ where: { userId: session.user.id } });
+  const supplier = await retryAsync(() => db.supplier.findUnique({ where: { userId: session.user.id } }));
   if (!supplier) throw new Error("Supplier profile not found");
 
-  const existing = await db.product.findUnique({ where: { id: productId } });
+  const existing = await retryAsync(() => db.product.findUnique({ where: { id: productId } }));
   if (!existing || existing.supplierId !== supplier.id) throw new Error("Not found or forbidden");
 
-  const productName = existing.name;
-  await db.product.delete({ where: { id: productId } });
-
-  await createNotification({ userId: session.user.id, title: "Product Removed", message: `"${productName}" has been removed from the marketplace.`, type: "warning" });
-
-  revalidatePath("/supplier/products");
-  return { success: true };
+  try {
+    const productName = existing.name;
+    await retryAsync(() => db.product.delete({ where: { id: productId } }));
+    await createNotification({ userId: session.user.id, title: "Product Removed", message: `"${productName}" has been removed from the marketplace.`, type: "warning" });
+    revalidatePath("/supplier/products");
+    return { success: true };
+  } catch (error) {
+    console.error("prisma:error", formatPrismaError(error));
+    throw error;
+  }
 }
 
 export async function getSupplierProducts() {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  const supplier = await db.supplier.findUnique({ where: { userId: session.user.id } });
+  const supplier = await retryAsync(() => db.supplier.findUnique({ where: { userId: session.user.id } }));
   if (!supplier) return [];
 
-  return db.product.findMany({
+  return retryAsync(() => db.product.findMany({
     where: { supplierId: supplier.id },
     orderBy: { createdAt: "desc" },
-  });
+  }));
 }
 
 export async function getMarketplaceProducts(filters?: { category?: string; search?: string }) {
@@ -99,15 +110,19 @@ export async function updateProductStock(productId: string, stock: number) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  const supplier = await db.supplier.findUnique({ where: { userId: session.user.id } });
+  const supplier = await retryAsync(() => db.supplier.findUnique({ where: { userId: session.user.id } }));
   if (!supplier) throw new Error("Supplier profile not found");
 
-  const existing = await db.product.findUnique({ where: { id: productId } });
+  const existing = await retryAsync(() => db.product.findUnique({ where: { id: productId } }));
   if (!existing || existing.supplierId !== supplier.id) throw new Error("Not found or forbidden");
 
-  const product = await db.product.update({ where: { id: productId }, data: { stock } });
-
-  revalidatePath("/supplier/inventory");
-  revalidatePath("/supplier/products");
-  return { success: true, product };
+  try {
+    const product = await retryAsync(() => db.product.update({ where: { id: productId }, data: { stock } }));
+    revalidatePath("/supplier/inventory");
+    revalidatePath("/supplier/products");
+    return { success: true, product };
+  } catch (error) {
+    console.error("prisma:error", formatPrismaError(error));
+    throw error;
+  }
 }
