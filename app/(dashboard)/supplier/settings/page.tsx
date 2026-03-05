@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import {
   Store, Bell, Truck, Save, Shield, Loader2, Eye, EyeOff,
   CheckCircle2, XCircle, AlertTriangle, Monitor, RefreshCw, Lock, Clock,
-  ChevronDown, ChevronRight, MapPin,
+  ChevronDown, ChevronRight, MapPin, Phone,
 } from "lucide-react";
 import {
   getUserProfile, updateSupplierProfile, getSupplierProfile,
@@ -437,10 +437,11 @@ export default function SupplierSettingsPage() {
 
         <TabsContent value="security">
           <div className="space-y-6">
+            {/* Change Password */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2"><Lock className="w-5 h-5 text-green-600" />Change Password</CardTitle>
-                <CardDescription>Use a strong password to keep your account secure</CardDescription>
+                <CardDescription>Use a strong password with uppercase, numbers and symbols.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 max-w-md">
                 <div className="space-y-1.5">
@@ -466,6 +467,19 @@ export default function SupplierSettingsPage() {
                       {pwdStrength.label && <p className="text-xs text-slate-500">Strength: <span className="font-semibold">{pwdStrength.label}</span></p>}
                     </div>
                   )}
+                  <ul className="text-xs text-slate-400 space-y-0.5 pt-1">
+                    {([
+                      [newPwd.length >= 8, "At least 8 characters"],
+                      [/[A-Z]/.test(newPwd), "One uppercase letter"],
+                      [/[0-9]/.test(newPwd), "One number"],
+                      [/[^A-Za-z0-9]/.test(newPwd), "One special character"],
+                    ] as [boolean, string][]).map(([ok, text], i) => (
+                      <li key={i} className={`flex items-center gap-1.5 ${newPwd ? (ok ? "text-green-600" : "text-slate-400") : "text-slate-300 dark:text-slate-600"}`}>
+                        {newPwd ? (ok ? <CheckCircle2 className="w-3 h-3" /> : <XCircle className="w-3 h-3" />) : <div className="w-3 h-3 rounded-full border border-current opacity-40" />}
+                        {text}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
                 <div className="space-y-1.5">
                   <Label>Confirm New Password</Label>
@@ -478,62 +492,93 @@ export default function SupplierSettingsPage() {
                   {confirmPwd && newPwd !== confirmPwd && <p className="flex items-center gap-1 text-xs text-red-500"><XCircle className="w-3.5 h-3.5" />Passwords do not match</p>}
                   {confirmPwd && newPwd === confirmPwd && newPwd && <p className="flex items-center gap-1 text-xs text-green-600"><CheckCircle2 className="w-3.5 h-3.5" />Passwords match</p>}
                 </div>
-                <div className="pt-2">
-                  <p className="text-xs text-slate-400 mb-3">Requirements: 8+ characters, uppercase letter, number</p>
-                  <Button onClick={savePassword} disabled={isPendingPwd || !currentPwd || !newPwd || newPwd !== confirmPwd} className="bg-green-600 hover:bg-green-700 text-white">
-                    {isPendingPwd ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Updating…</> : <><Shield className="w-4 h-4 mr-2" />Update Password</>}
-                  </Button>
-                </div>
+                <Button onClick={savePassword} disabled={isPendingPwd || !currentPwd || !newPwd || !confirmPwd || newPwd !== confirmPwd} className="bg-green-600 hover:bg-green-700 text-white">
+                  {isPendingPwd ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Updating…</> : <><Shield className="w-4 h-4 mr-2" />Update Password</>}
+                </Button>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader><CardTitle className="flex items-center gap-2"><Monitor className="w-5 h-5 text-blue-600" />Two-Factor Authentication</CardTitle><CardDescription>Add an extra layer of security</CardDescription></CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-xl">
-                  <div><p className="text-sm font-medium text-slate-900 dark:text-white">Authenticator App (TOTP)</p><p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Use Google Authenticator, Authy, or similar</p></div>
-                  <Badge variant="secondary" className="text-xs">Coming Soon</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
+            {/* Recent Activity */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                  <CardTitle className="flex items-center gap-2"><Clock className="w-5 h-5 text-slate-500" />Recent Activity</CardTitle>
-                  <CardDescription>Latest actions on your account</CardDescription>
+                  <CardTitle className="flex items-center gap-2"><Clock className="w-5 h-5 text-slate-500" />Recent Account Activity</CardTitle>
+                  <CardDescription>Last 10 actions on your account</CardDescription>
                 </div>
-                <Button variant="ghost" size="sm" onClick={() => { setLoadingActivity(true); getRecentActivity().then(setActivity).finally(() => setLoadingActivity(false)); }}>
-                  <RefreshCw className="w-4 h-4" />
+                <Button variant="outline" size="sm" onClick={() => { setLoadingActivity(true); getRecentActivity().then(setActivity).finally(() => setLoadingActivity(false)); }} disabled={loadingActivity}>
+                  <RefreshCw className={`w-4 h-4 mr-1.5 ${loadingActivity ? "animate-spin" : ""}`} />Refresh
                 </Button>
               </CardHeader>
               <CardContent>
                 {loadingActivity ? (
-                  <div className="flex items-center gap-3 py-4"><Loader2 className="w-5 h-5 animate-spin text-green-600" /><span className="text-sm text-slate-500">Loading…</span></div>
+                  <div className="flex items-center gap-3 py-4"><Loader2 className="w-5 h-5 animate-spin text-green-600" /><span className="text-sm text-slate-500">Loading activity…</span></div>
                 ) : activity.length === 0 ? (
-                  <p className="text-sm text-slate-400 text-center py-4">No recent activity recorded</p>
+                  <div className="text-center py-8">
+                    <Monitor className="w-10 h-10 text-slate-300 mx-auto mb-2" />
+                    <p className="text-sm text-slate-500">No activity recorded yet.</p>
+                  </div>
                 ) : (
                   <div className="space-y-2">
                     {activity.map((a) => {
-                      const isWarn = a.action?.toLowerCase().includes("fail") || a.action?.toLowerCase().includes("error");
+                      const isSecurity = a.action?.includes("PASSWORD") || a.action?.includes("LOGIN") || a.action?.includes("AUTH");
                       return (
                         <div key={a.id} className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${isWarn ? "bg-red-100 dark:bg-red-900/30" : "bg-green-100 dark:bg-green-900/30"}`}>
-                            {isWarn ? <AlertTriangle className="w-4 h-4 text-red-500" /> : <CheckCircle2 className="w-4 h-4 text-green-600" />}
+                          <div className={`mt-0.5 w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${isSecurity ? "bg-amber-100 dark:bg-amber-900/30" : "bg-green-100 dark:bg-green-900/30"}`}>
+                            {isSecurity ? <Shield className="w-3.5 h-3.5 text-amber-600" /> : <CheckCircle2 className="w-3.5 h-3.5 text-green-600" />}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-slate-900 dark:text-white">{a.action?.replace(/_/g, " ")}</p>
-                            <div className="flex items-center gap-2 mt-0.5">
-                              <span className="text-xs text-slate-400">{formatUA(a.userAgent)}</span>
-                              {a.ipAddress && <><span className="text-xs text-slate-300 dark:text-slate-600">·</span><span className="text-xs text-slate-400">{a.ipAddress}</span></>}
+                            <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
+                              {a.action?.replace(/_/g, " ").toLowerCase().replace(/\b\w/g, (c: string) => c.toUpperCase())}
+                            </p>
+                            <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                              <span className="text-xs text-slate-400 flex items-center gap-1"><Monitor className="w-3 h-3" /> {formatUA(a.userAgent)}</span>
+                              {a.ipAddress && <span className="text-xs text-slate-400">· {a.ipAddress}</span>}
                             </div>
                           </div>
-                          <span className="text-xs text-slate-400 flex-shrink-0">{timeAgo(a.createdAt)}</span>
+                          <span className="text-xs text-slate-400 shrink-0 flex items-center gap-1"><Clock className="w-3 h-3" /> {timeAgo(a.createdAt)}</span>
                         </div>
                       );
                     })}
                   </div>
                 )}
+              </CardContent>
+            </Card>
+
+            {/* 2FA */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2"><Monitor className="w-5 h-5 text-blue-600" />Two-Factor Authentication</CardTitle>
+                <CardDescription>Add an extra layer of security to your account</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-xl">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                      <Phone className="w-4 h-4 text-amber-600" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-slate-900 dark:text-white text-sm">SMS 2FA</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Require a code texted to {storePhone || userProfile?.phone || "your phone"} on login</p>
+                    </div>
+                  </div>
+                  <Badge variant="warning" className="text-xs">Coming Soon</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Danger Zone */}
+            <Card className="border-red-200 dark:border-red-900">
+              <CardHeader><CardTitle className="text-red-600">Danger Zone</CardTitle></CardHeader>
+              <CardContent>
+                <div className="flex items-center justify-between p-4 bg-red-50 dark:bg-red-950/20 rounded-xl">
+                  <div>
+                    <p className="font-medium text-red-700 dark:text-red-400 text-sm">Delete Account</p>
+                    <p className="text-xs text-red-500">Permanently delete your account and all associated data. This cannot be undone.</p>
+                  </div>
+                  <Button variant="destructive" size="sm" onClick={() => toast.error("Please contact support at support@digi-farms.com to delete your account.")}>
+                    Delete
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>
