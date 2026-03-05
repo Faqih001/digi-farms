@@ -9,15 +9,17 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { getSupplierAnalytics } from "@/lib/actions/supplier";
+import { DatePicker } from "@/components/ui/date-picker";
 
 type Analytics = Awaited<ReturnType<typeof getSupplierAnalytics>>;
-type Period = "week" | "month" | "year" | "all";
+type Period = "week" | "month" | "year" | "all" | "custom";
 
 const PERIODS: { value: Period; label: string }[] = [
   { value: "week", label: "This Week" },
   { value: "month", label: "This Month" },
   { value: "year", label: "This Year" },
   { value: "all", label: "All Time" },
+  { value: "custom", label: "Custom Range" },
 ];
 
 function ChangeChip({ pct }: { pct: number }) {
@@ -33,13 +35,20 @@ function ChangeChip({ pct }: { pct: number }) {
 
 export default function SupplierAnalyticsPage() {
   const [period, setPeriod] = useState<Period>("month");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
   const [data, setData] = useState<Analytics | null>(null);
   const [loading, setLoading] = useState(true);
 
-  async function load(p: Period) {
+  async function load(p: Period, from: string, to: string) {
+    if (p === "custom" && (!from || !to)) return;
     setLoading(true);
     try {
-      const result = await getSupplierAnalytics(p);
+      const result = await getSupplierAnalytics(
+        p === "custom" ? "all" : p,
+        p === "custom" ? from : undefined,
+        p === "custom" ? to : undefined,
+      );
       setData(result);
     } catch {
       toast.error("Failed to load analytics");
@@ -48,7 +57,7 @@ export default function SupplierAnalyticsPage() {
     }
   }
 
-  useEffect(() => { load(period); }, [period]);
+  useEffect(() => { load(period, dateFrom, dateTo); }, [period, dateFrom, dateTo]);
 
   const maxTrend = data?.trend.length ? Math.max(...data.trend.map((t) => t.count), 1) : 1;
   const totalCatRevenue = data?.categories.reduce((s, c) => s + c.revenue, 0) ?? 0;
@@ -92,13 +101,13 @@ export default function SupplierAnalyticsPage() {
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Analytics</h1>
           <p className="text-sm text-slate-500 dark:text-slate-400">Insights into your store performance</p>
         </div>
-        <Button variant="outline" onClick={() => load(period)} disabled={loading} className="rounded-xl self-start sm:self-auto">
+        <Button variant="outline" onClick={() => load(period, dateFrom, dateTo)} disabled={loading} className="rounded-xl self-start sm:self-auto">
           <RefreshCw className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} /> Refresh
         </Button>
       </div>
 
       {/* Period selector */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex flex-wrap items-center gap-2">
         {PERIODS.map(({ value, label }) => (
           <button
             key={value}
@@ -109,6 +118,18 @@ export default function SupplierAnalyticsPage() {
           </button>
         ))}
       </div>
+      {period === "custom" && (
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">From</span>
+            <DatePicker value={dateFrom} onChange={setDateFrom} />
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">To</span>
+            <DatePicker value={dateTo} onChange={setDateTo} />
+          </div>
+        </div>
+      )}
 
       {/* Metric cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
