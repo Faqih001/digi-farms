@@ -11,7 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Save, ArrowLeft, ImageIcon, X, Package, Star } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
+import AppImage from "@/components/ui/app-image";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { createProduct } from "@/lib/actions/product";
 import ImageUploadDialog from "@/components/ui/image-upload-dialog";
 
@@ -104,18 +105,26 @@ export default function NewProductPage() {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <Label htmlFor="category">Category *</Label>
-                  <select id="category" required value={category} onChange={(e) => { setCategory(e.target.value); setSubcategory(""); }} className="flex h-10 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-green-500">
-                    <option value="">Select category</option>
-                    {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </select>
+                  <Select required value={category} onValueChange={(v) => { setCategory(v); setSubcategory(""); }}>
+                    <SelectTrigger id="category" className="h-10 rounded-xl">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
                 </div>
                 {subs.length > 0 && (
                   <div className="space-y-1.5">
                     <Label htmlFor="subcategory">Subcategory</Label>
-                    <select id="subcategory" value={subcategory} onChange={(e) => setSubcategory(e.target.value)} className="flex h-10 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-green-500">
-                      <option value="">Select subcategory</option>
-                      {subs.map((s) => <option key={s} value={s}>{s}</option>)}
-                    </select>
+                    <Select value={subcategory} onValueChange={setSubcategory}>
+                      <SelectTrigger id="subcategory" className="h-10 rounded-xl">
+                        <SelectValue placeholder="Select subcategory" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {subs.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
                   </div>
                 )}
               </div>
@@ -147,9 +156,14 @@ export default function NewProductPage() {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <Label htmlFor="unit">Unit *</Label>
-                  <select id="unit" value={unit} onChange={(e) => setUnit(e.target.value)} className="flex h-10 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-green-500">
-                    {UNITS.map((u) => <option key={u} value={u}>{u}</option>)}
-                  </select>
+                  <Select value={unit} onValueChange={setUnit}>
+                    <SelectTrigger id="unit" className="h-10 rounded-xl">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {UNITS.map((u) => <SelectItem key={u} value={u}>{u}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="minOrder">Minimum Order Quantity</Label>
@@ -165,7 +179,7 @@ export default function NewProductPage() {
               <div className="flex flex-wrap gap-3">
                 {imageUrls.map((url, i) => (
                   <div key={i} className="relative w-24 h-24 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700">
-                    <Image src={url} alt={`Image ${i + 1}`} fill className="object-cover" sizes="96px" />
+                    <AppImage src={url} alt={`Image ${i + 1}`} fill className="object-cover" sizes="96px" />
                     {i === 0 && <div className="absolute bottom-0 left-0 right-0 text-center bg-green-600/80 text-white text-xs py-0.5">Main</div>}
                     <button type="button" onClick={() => removeImage(i)} className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600">
                       <X className="w-3 h-3" />
@@ -196,7 +210,7 @@ export default function NewProductPage() {
           <Card className="overflow-hidden">
             <div className="aspect-square bg-slate-100 dark:bg-slate-800 relative">
               {imageUrls[0] ? (
-                <Image src={imageUrls[0]} alt={name || "Product"} fill className="object-cover" sizes="300px" />
+                <AppImage src={imageUrls[0]} alt={name || "Product"} fill className="object-cover" sizes="300px" />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center gap-2">
                   <ImageIcon className="w-12 h-12 text-slate-300" />

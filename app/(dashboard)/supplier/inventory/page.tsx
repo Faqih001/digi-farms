@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition, useEffect } from "react";
-import Image from "next/image";
+import AppImage from "@/components/ui/app-image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -207,7 +207,7 @@ export default function InventoryPage() {
                 {/* Thumbnail */}
                 <div className="relative w-full aspect-video bg-slate-100 dark:bg-slate-800">
                   {thumb ? (
-                    <Image src={thumb} alt={product.name} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />
+                    <AppImage src={thumb} alt={product.name} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <Package className="w-10 h-10 text-slate-300 dark:text-slate-600" />
@@ -275,7 +275,7 @@ export default function InventoryPage() {
               <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
                 {(editProduct as any).imageUrls?.[0] ? (
                   <div className="relative w-14 h-14 rounded-lg overflow-hidden flex-shrink-0">
-                    <Image src={(editProduct as any).imageUrls[0]} alt={editProduct.name} fill className="object-cover" sizes="56px" />
+                    <AppImage src={(editProduct as any).imageUrls[0]} alt={editProduct.name} fill className="object-cover" sizes="56px" />
                   </div>
                 ) : (
                   <div className="w-14 h-14 rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center flex-shrink-0">

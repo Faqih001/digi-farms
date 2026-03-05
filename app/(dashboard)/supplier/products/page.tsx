@@ -10,7 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Package, Plus, Edit, Trash2, Search, Loader2, RotateCcw, Clock, ImageIcon, X } from "lucide-react";
-import Image from "next/image";
+import AppImage from "@/components/ui/app-image";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   getSupplierProducts, createProduct, updateProduct, deleteProduct,
 } from "@/lib/actions/product";
@@ -160,15 +161,25 @@ export default function ProductsPage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <Input className="pl-10" placeholder="Search products…" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
-            <select className="h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 text-sm" value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
-              {usedCategories.map((c) => <option key={c} value={c}>{c}</option>)}
-            </select>
-            <select className="h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 text-sm" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-              <option value="All">All Status</option>
-              <option value="In Stock">In Stock</option>
-              <option value="Low Stock">Low Stock</option>
-              <option value="Out of Stock">Out of Stock</option>
-            </select>
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <SelectTrigger className="h-10 w-44 rounded-xl">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {usedCategories.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+              </SelectContent>
+            </Select>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="h-10 w-44 rounded-xl">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All">All Status</SelectItem>
+                <SelectItem value="In Stock">In Stock</SelectItem>
+                <SelectItem value="Low Stock">Low Stock</SelectItem>
+                <SelectItem value="Out of Stock">Out of Stock</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>
@@ -204,7 +215,7 @@ export default function ProductsPage() {
               <Card key={p.id} className="card-hover overflow-hidden">
                 <div className="aspect-square bg-slate-100 dark:bg-slate-800 relative">
                   {thumb ? (
-                    <Image src={thumb} alt={p.name} fill className="object-cover" sizes="300px" />
+                    <AppImage src={thumb} alt={p.name} fill className="object-cover" sizes="300px" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
                       <ImageIcon className="w-10 h-10 text-slate-300" />
@@ -251,10 +262,14 @@ export default function ProductsPage() {
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <Label>Category *</Label>
-                <select required value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="flex h-10 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-green-500">
-                  <option value="">Select category</option>
-                  {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
-                </select>
+                <Select required value={form.category} onValueChange={(v) => setForm({ ...form, category: v })}>
+                  <SelectTrigger className="h-10 rounded-xl">
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-1.5">
                 <Label>Subcategory</Label>
@@ -276,9 +291,14 @@ export default function ProductsPage() {
               </div>
               <div className="space-y-1.5">
                 <Label>Unit *</Label>
-                <select required value={form.unit} onChange={(e) => setForm({ ...form, unit: e.target.value })} className="flex h-10 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-green-500">
-                  {UNITS.map((u) => <option key={u} value={u}>{u}</option>)}
-                </select>
+                <Select value={form.unit} onValueChange={(v) => setForm({ ...form, unit: v })}>
+                  <SelectTrigger className="h-10 rounded-xl">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {UNITS.map((u) => <SelectItem key={u} value={u}>{u}</SelectItem>)}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-1.5">
                 <Label>Stock *</Label>
@@ -292,7 +312,7 @@ export default function ProductsPage() {
               <div className="flex flex-wrap gap-2">
                 {form.imageUrls.map((url, i) => (
                   <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700">
-                    <Image src={url} alt={`Image ${i + 1}`} fill className="object-cover" sizes="80px" />
+                    <AppImage src={url} alt={`Image ${i + 1}`} fill className="object-cover" sizes="80px" />
                     <button type="button" onClick={() => removeImage(i)} className="absolute top-0.5 right-0.5 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600">
                       <X className="w-3 h-3" />
                     </button>
