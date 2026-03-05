@@ -134,7 +134,7 @@ export function AvatarUploadDialog({ currentImage, initials, onAvatarChange }: A
         onClick={() => { setStep("view"); setOpen(true); }}
         className="relative group w-20 h-20 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500"
       >
-        <Avatar className="w-20 h-20">
+        <Avatar key={currentImage ?? "no-avatar"} className="w-20 h-20">
           <AvatarImage src={currentImage ?? ""} />
           <AvatarFallback className="text-xl bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300">{initials}</AvatarFallback>
         </Avatar>
@@ -151,7 +151,7 @@ export function AvatarUploadDialog({ currentImage, initials, onAvatarChange }: A
 
           {step === "view" && (
             <div className="flex flex-col items-center gap-6 py-4">
-              <Avatar className="w-32 h-32">
+              <Avatar key={currentImage ?? "no-avatar-lg"} className="w-32 h-32">
                 <AvatarImage src={currentImage ?? ""} />
                 <AvatarFallback className="text-4xl bg-green-100 dark:bg-green-900 text-green-700">{initials}</AvatarFallback>
               </Avatar>

@@ -13,9 +13,9 @@ export async function getNotificationPrefs() {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  const prefs = await db.notificationPreference.findUnique({
+  const prefs = await retryAsync(() => db.notificationPreference.findUnique({
     where: { userId: session.user.id },
-  });
+  })).catch(() => null);
 
   // Return defaults if no record yet
   return prefs ?? {
@@ -39,14 +39,18 @@ export async function updateNotificationPrefs(data: {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  const prefs = await db.notificationPreference.upsert({
-    where: { userId: session.user.id },
-    create: { userId: session.user.id, ...data },
-    update: data,
-  });
-
-  revalidatePath("/farmer/settings");
-  return { success: true, prefs };
+  try {
+    const prefs = await retryAsync(() => db.notificationPreference.upsert({
+      where: { userId: session.user.id },
+      create: { userId: session.user.id, ...data },
+      update: data,
+    }));
+    revalidatePath("/farmer/settings");
+    return { success: true, prefs };
+  } catch (error) {
+    console.error("prisma:error", formatPrismaError(error));
+    throw new Error(formatPrismaError(error));
+  }
 }
 
 // ─── Activity Log / Security ──────────────────────────────────────────────────
@@ -55,7 +59,7 @@ export async function getRecentActivity() {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  return db.activityLog.findMany({
+  return retryAsync(() => db.activityLog.findMany({
     where: { userId: session.user.id },
     orderBy: { createdAt: "desc" },
     take: 10,
@@ -68,7 +72,7 @@ export async function getRecentActivity() {
       createdAt: true,
       metadata: true,
     },
-  });
+  })).catch(() => []);
 }
 
 export async function getCurrentUserRole(): Promise<string | null> {
@@ -79,10 +83,10 @@ export async function getCurrentUserRole(): Promise<string | null> {
 export async function getUserProfile() {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
-  return db.user.findUnique({
+  return retryAsync(() => db.user.findUnique({
     where: { id: session.user.id },
     select: { id: true, name: true, email: true, phone: true, country: true, image: true, role: true },
-  });
+  })).catch(() => null);
 }
 
 export async function updateUserProfile(data: {
@@ -93,21 +97,25 @@ export async function updateUserProfile(data: {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  const user = await db.user.update({
-    where: { id: session.user.id },
-    data: {
-      ...(data.name !== undefined ? { name: data.name } : {}),
-      ...(data.phone !== undefined ? { phone: data.phone } : {}),
-      ...(data.country !== undefined ? { country: data.country } : {}),
-    },
-    select: { id: true, name: true, email: true, phone: true, country: true },
-  });
-
-  revalidatePath("/farmer/settings");
-  revalidatePath("/supplier/settings");
-  revalidatePath("/lender/settings");
-  await createNotification({ userId: session.user.id, title: "Profile Updated", message: "Your profile information has been saved.", type: "profile", link: `/${(session.user.role ?? "farmer").toLowerCase()}/settings` });
-  return { success: true, user };
+  try {
+    const user = await retryAsync(() => db.user.update({
+      where: { id: session.user.id },
+      data: {
+        ...(data.name !== undefined ? { name: data.name } : {}),
+        ...(data.phone !== undefined ? { phone: data.phone } : {}),
+        ...(data.country !== undefined ? { country: data.country } : {}),
+      },
+      select: { id: true, name: true, email: true, phone: true, country: true },
+    }));
+    revalidatePath("/farmer/settings");
+    revalidatePath("/supplier/settings");
+    revalidatePath("/lender/settings");
+    await createNotification({ userId: session.user.id, title: "Profile Updated", message: "Your profile information has been saved.", type: "profile", link: `/${(session.user.role ?? "farmer").toLowerCase()}/settings` });
+    return { success: true, user };
+  } catch (error) {
+    console.error("prisma:error", formatPrismaError(error));
+    throw new Error(formatPrismaError(error));
+  }
 }
 
 export async function updatePassword(currentPassword: string, newPassword: string) {
@@ -116,10 +124,10 @@ export async function updatePassword(currentPassword: string, newPassword: strin
 
   if (newPassword.length < 8) throw new Error("Password must be at least 8 characters");
 
-  const user = await db.user.findUnique({
+  const user = await retryAsync(() => db.user.findUnique({
     where: { id: session.user.id },
     select: { password: true },
-  });
+  }));
 
   if (!user?.password) throw new Error("No password set — use social login");
 
@@ -127,18 +135,22 @@ export async function updatePassword(currentPassword: string, newPassword: strin
   if (!valid) throw new Error("Current password is incorrect");
 
   const hashed = await bcrypt.hash(newPassword, 12);
-  await db.user.update({ where: { id: session.user.id }, data: { password: hashed } });
-
-  // Log the security event
-  await db.activityLog.create({
-    data: {
-      userId: session.user.id,
-      action: "PASSWORD_CHANGED",
-      entity: "User",
-      entityId: session.user.id,
-      metadata: { timestamp: new Date().toISOString() },
-    },
-  });
+  try {
+    await retryAsync(() => db.user.update({ where: { id: session.user.id }, data: { password: hashed } }));
+    // Log the security event
+    await retryAsync(() => db.activityLog.create({
+      data: {
+        userId: session.user.id,
+        action: "PASSWORD_CHANGED",
+        entity: "User",
+        entityId: session.user.id,
+        metadata: { timestamp: new Date().toISOString() },
+      },
+    })).catch(() => null);
+  } catch (error) {
+    console.error("prisma:error", formatPrismaError(error));
+    throw new Error(formatPrismaError(error));
+  }
 
   await createNotification({
     userId: session.user.id,
@@ -194,20 +206,25 @@ export async function updateSupplierProfile(data: {
 export async function getSupplierProfile() {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
-  return db.supplier.findUnique({
+  return retryAsync(() => db.supplier.findUnique({
     where: { userId: session.user.id },
     select: { companyName: true, description: true, phone: true, address: true, website: true, logoUrl: true, rating: true, isVerified: true },
-  });
+  })).catch(() => null);
 }
 
 export async function updateAvatar(imageUrl: string | null) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  await db.user.update({
-    where: { id: session.user.id },
-    data: { image: imageUrl },
-  });
+  try {
+    await retryAsync(() => db.user.update({
+      where: { id: session.user.id },
+      data: { image: imageUrl },
+    }));
+  } catch (error) {
+    console.error("prisma:error", formatPrismaError(error));
+    throw new Error(formatPrismaError(error));
+  }
 
   revalidatePath("/farmer/settings");
   revalidatePath("/supplier/settings");

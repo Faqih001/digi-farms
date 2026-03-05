@@ -21,10 +21,15 @@ export default function DashboardShell({ children, role, user: initialUser }: { 
     function onAvatarEvent(e: Event) {
       try {
         const evt = e as CustomEvent;
-        setUser((prev) => ({ ...prev, image: evt.detail?.imageUrl ?? null }));
-        // Also re-fetch authoritative user record from server to ensure DB value
+        const freshUrl: string | null = evt.detail?.imageUrl ?? null;
+        // Apply new URL immediately from the event payload
+        setUser((prev) => ({ ...prev, image: freshUrl }));
+        // Also verify from DB — but only update if it's not a downgrade to empty/null
+        // (guards against race where session JWT hasn't refreshed yet)
         fetch('/api/users/me').then((r) => r.ok ? r.json() : null).then((data) => {
-          if (data?.user?.image !== undefined) setUser((p) => ({ ...p, image: data.user.image }));
+          if (data?.user?.image) {
+            setUser((p) => ({ ...p, image: data.user.image }));
+          }
         }).catch(() => null);
       } catch {
         // noop
