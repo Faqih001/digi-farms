@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { PaymentStatus } from "@prisma/client";
+import { retryAsync, formatPrismaError } from "@/lib/utils";
 
 async function getSupplier() {
   const session = await auth();
@@ -16,33 +17,47 @@ async function getSupplier() {
 // ─── Payouts ──────────────────────────────────────────────────────────────────
 
 export async function getSupplierPayouts() {
-  const supplier = await getSupplier();
-  return db.payout.findMany({
-    where: { supplierId: supplier.id },
-    orderBy: { createdAt: "desc" },
+  return retryAsync(async () => {
+    try {
+      const supplier = await getSupplier();
+      return db.payout.findMany({
+        where: { supplierId: supplier.id },
+        orderBy: { createdAt: "desc" },
+      });
+    } catch (error) {
+      console.error("prisma:error", formatPrismaError(error));
+      throw new Error(formatPrismaError(error));
+    }
   });
 }
 
 export async function requestPayout(data: { amount: number; method?: string }) {
-  const supplier = await getSupplier();
-  if (data.amount <= 0) throw new Error("Amount must be greater than 0");
-
-  const payout = await db.payout.create({
-    data: {
-      supplierId: supplier.id,
-      amount: data.amount,
-      status: PaymentStatus.PENDING,
-      reference: `REQ-${Date.now().toString(36).toUpperCase()}`,
-    },
+  return retryAsync(async () => {
+    try {
+      const supplier = await getSupplier();
+      if (data.amount <= 0) throw new Error("Amount must be greater than 0");
+      const payout = await db.payout.create({
+        data: {
+          supplierId: supplier.id,
+          amount: data.amount,
+          status: PaymentStatus.PENDING,
+          reference: `REQ-${Date.now().toString(36).toUpperCase()}`,
+        },
+      });
+      revalidatePath("/supplier/payouts");
+      return { success: true, payout };
+    } catch (error) {
+      if (error instanceof Error) throw error;
+      console.error("prisma:error", formatPrismaError(error));
+      throw new Error(formatPrismaError(error));
+    }
   });
-
-  revalidatePath("/supplier/payouts");
-  return { success: true, payout };
 }
 
 // ─── Revenue / Orders analytics ───────────────────────────────────────────────
 
-export async function getSupplierRevenueStats(period: "week" | "month" | "year" | "all" = "month") {
+export async function getSupplierRevenueStats(period: "week" | "month" | "year" | "all" = "month", dateFrom?: string, dateTo?: string) {
+  return retryAsync(async () => { try {
   const supplier = await getSupplier();
 
   const productIds = (
@@ -51,13 +66,19 @@ export async function getSupplierRevenueStats(period: "week" | "month" | "year" 
 
   const now = new Date();
   let since: Date | undefined;
-  if (period === "week") since = new Date(now.getTime() - 7 * 86400000);
-  else if (period === "month") since = new Date(now.getFullYear(), now.getMonth(), 1);
-  else if (period === "year") since = new Date(now.getFullYear(), 0, 1);
+  let until: Date | undefined;
+  if (dateFrom) {
+    since = new Date(dateFrom);
+    if (dateTo) until = new Date(dateTo + "T23:59:59.999Z");
+  } else {
+    if (period === "week") since = new Date(now.getTime() - 7 * 86400000);
+    else if (period === "month") since = new Date(now.getFullYear(), now.getMonth(), 1);
+    else if (period === "year") since = new Date(now.getFullYear(), 0, 1);
+  }
 
   const whereClause = {
     productId: { in: productIds },
-    ...(since ? { order: { createdAt: { gte: since } } } : {}),
+    ...(since || until ? { order: { createdAt: { ...(since ? { gte: since } : {}), ...(until ? { lte: until } : {}) } } } : {}),
   };
 
   const [items, payouts] = await Promise.all([
@@ -102,11 +123,13 @@ export async function getSupplierRevenueStats(period: "week" | "month" | "year" 
     byCategory: Object.entries(catMap).map(([category, revenue]) => ({ category, revenue })).sort((a, b) => b.revenue - a.revenue),
     payouts: payouts.slice(0, 10),
   };
+  } catch (error) { console.error("prisma:error", formatPrismaError(error)); throw new Error(formatPrismaError(error)); } });
 }
 
 // ─── Customers ────────────────────────────────────────────────────────────────
 
 export async function getSupplierCustomers() {
+  return retryAsync(async () => { try {
   const supplier = await getSupplier();
 
   const productIds = (
@@ -141,11 +164,13 @@ export async function getSupplierCustomers() {
   }
 
   return Object.values(customerMap).sort((a, b) => b.totalSpent - a.totalSpent);
+  } catch (error) { console.error("prisma:error", formatPrismaError(error)); throw new Error(formatPrismaError(error)); } });
 }
 
 // ─── Analytics ────────────────────────────────────────────────────────────────
 
-export async function getSupplierAnalytics(period: "week" | "month" | "year" | "all" = "month") {
+export async function getSupplierAnalytics(period: "week" | "month" | "year" | "all" = "month", dateFrom?: string, dateTo?: string) {
+  return retryAsync(async () => { try {
   const supplier = await getSupplier();
 
   const productIds = (
@@ -154,15 +179,21 @@ export async function getSupplierAnalytics(period: "week" | "month" | "year" | "
 
   const now = new Date();
   let since: Date | undefined;
-  if (period === "week") since = new Date(now.getTime() - 7 * 86400000);
-  else if (period === "month") since = new Date(now.getFullYear(), now.getMonth(), 1);
-  else if (period === "year") since = new Date(now.getFullYear(), 0, 1);
+  let until: Date | undefined;
+  if (dateFrom) {
+    since = new Date(dateFrom);
+    if (dateTo) until = new Date(dateTo + "T23:59:59.999Z");
+  } else {
+    if (period === "week") since = new Date(now.getTime() - 7 * 86400000);
+    else if (period === "month") since = new Date(now.getFullYear(), now.getMonth(), 1);
+    else if (period === "year") since = new Date(now.getFullYear(), 0, 1);
+  }
 
   const [currentItems, prevItems, orders] = await Promise.all([
     db.orderItem.findMany({
       where: {
         productId: { in: productIds },
-        ...(since ? { order: { createdAt: { gte: since } } } : {}),
+        ...(since || until ? { order: { createdAt: { ...(since ? { gte: since } : {}), ...(until ? { lte: until } : {}) } } } : {}),
       },
       include: { order: { select: { createdAt: true, status: true, userId: true } }, product: { select: { category: true } } },
     }),
@@ -230,11 +261,13 @@ export async function getSupplierAnalytics(period: "week" | "month" | "year" | "
       .sort((a, b) => b.revenue - a.revenue),
     trend: Object.entries(trendMap).map(([label, count]) => ({ label, count })),
   };
+  } catch (error) { console.error("prisma:error", formatPrismaError(error)); throw new Error(formatPrismaError(error)); } });
 }
 
 // ─── Dashboard overview ───────────────────────────────────────────────────────
 
 export async function getSupplierDashboardStats() {
+  return retryAsync(async () => { try {
   const supplier = await getSupplier();
 
   const productIds = (
@@ -280,4 +313,5 @@ export async function getSupplierDashboardStats() {
     rating: supplier.rating,
     recentOrders: orders,
   };
+  } catch (error) { console.error("prisma:error", formatPrismaError(error)); throw new Error(formatPrismaError(error)); } });
 }

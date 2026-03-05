@@ -10,26 +10,35 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { getSupplierRevenueStats } from "@/lib/actions/supplier";
+import { DatePicker } from "@/components/ui/date-picker";
 
 type Stats = Awaited<ReturnType<typeof getSupplierRevenueStats>>;
-type Period = "week" | "month" | "year" | "all";
+type Period = "week" | "month" | "year" | "all" | "custom";
 
 const PERIODS: { value: Period; label: string }[] = [
   { value: "week", label: "This Week" },
   { value: "month", label: "This Month" },
   { value: "year", label: "This Year" },
   { value: "all", label: "All Time" },
+  { value: "custom", label: "Custom Range" },
 ];
 
 export default function RevenuePage() {
   const [period, setPeriod] = useState<Period>("month");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
 
-  async function load(p: Period) {
+  async function load(p: Period, from: string, to: string) {
+    if (p === "custom" && (!from || !to)) return;
     setLoading(true);
     try {
-      const data = await getSupplierRevenueStats(p);
+      const data = await getSupplierRevenueStats(
+        p === "custom" ? "all" : p,
+        p === "custom" ? from : undefined,
+        p === "custom" ? to : undefined,
+      );
       setStats(data);
     } catch {
       toast.error("Failed to load revenue data");
@@ -38,7 +47,7 @@ export default function RevenuePage() {
     }
   }
 
-  useEffect(() => { load(period); }, [period]);
+  useEffect(() => { load(period, dateFrom, dateTo); }, [period, dateFrom, dateTo]);
 
   const maxMonthlyRevenue = stats?.monthly.length ? Math.max(...stats.monthly.map((m) => m.revenue), 1) : 1;
   const totalCategoryRevenue = stats?.byCategory.reduce((s, c) => s + c.revenue, 0) ?? 0;
@@ -51,13 +60,13 @@ export default function RevenuePage() {
           <h1 className="text-2xl font-black text-slate-900 dark:text-white">Revenue</h1>
           <p className="text-sm text-slate-500 dark:text-slate-400">Track your earnings and financial performance</p>
         </div>
-        <Button variant="outline" onClick={() => load(period)} disabled={loading} className="rounded-xl self-start sm:self-auto">
+        <Button variant="outline" onClick={() => load(period, dateFrom, dateTo)} disabled={loading} className="rounded-xl self-start sm:self-auto">
           <RefreshCw className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} /> Refresh
         </Button>
       </div>
 
       {/* Period selector */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex flex-wrap items-center gap-2">
         {PERIODS.map(({ value, label }) => (
           <button
             key={value}
@@ -68,6 +77,18 @@ export default function RevenuePage() {
           </button>
         ))}
       </div>
+      {period === "custom" && (
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">From</span>
+            <DatePicker value={dateFrom} onChange={setDateFrom} />
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">To</span>
+            <DatePicker value={dateTo} onChange={setDateTo} />
+          </div>
+        </div>
+      )}
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
