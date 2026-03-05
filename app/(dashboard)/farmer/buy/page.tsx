@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import AppImage from "@/components/ui/app-image";
 import { getMarketplaceProducts } from "@/lib/actions/product";
 import { createOrder } from "@/lib/actions/order";
 
@@ -176,7 +177,7 @@ export default function BuyPage() {
             const { label: stockLbl, cls: stockCls } = stockLabel(product.stock);
             return (
               <Card key={product.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                <div className="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 h-40 flex items-center justify-center relative">
+                <div className="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 h-40 flex items-center justify-center relative overflow-hidden">
                   {product.isFeatured && (
                     <span className="absolute top-2 left-2 bg-amber-400 text-amber-900 text-xs font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
                       <Star className="w-3 h-3 fill-current" /> Featured
@@ -187,7 +188,13 @@ export default function BuyPage() {
                       <ShieldCheck className="w-3 h-3" /> Verified
                     </span>
                   )}
-                  <span className="text-5xl">🌱</span>
+                  {product.imageUrls && product.imageUrls.length > 0 ? (
+                    <div className="absolute inset-0">
+                      <AppImage src={product.imageUrls[0]} alt={product.name} fill className="object-cover" />
+                    </div>
+                  ) : (
+                    <span className="text-5xl">🌱</span>
+                  )}
                 </div>
                 <CardContent className="p-3 space-y-2">
                   <div>
