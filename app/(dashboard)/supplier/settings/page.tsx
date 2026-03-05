@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import {
   getUserProfile, updateSupplierProfile, getSupplierProfile,
-  updatePassword, getNotificationPrefs, updateNotificationPrefs, getRecentActivity,
+  updatePassword, getNotificationPrefs, updateNotificationPrefs, getRecentActivity, saveSupplierShipping,
 } from "@/lib/actions/user";
 import { AvatarUploadDialog } from "@/components/dashboard/avatar-upload-dialog";
 
@@ -232,6 +232,7 @@ export default function SupplierSettingsPage() {
   const [isPendingStore, startStoreTransition] = useTransition();
   const [isPendingPwd, startPwdTransition] = useTransition();
   const [isPendingPrefs, startPrefsTransition] = useTransition();
+  const [isPendingShip, startShipTransition] = useTransition();
 
   useEffect(() => {
     Promise.all([getUserProfile(), getSupplierProfile()])
@@ -244,6 +245,13 @@ export default function SupplierSettingsPage() {
           setStorePhone(supplier.phone ?? "");
           setAddress(supplier.address ?? "");
           setWebsite(supplier.website ?? "");
+          const s = supplier.shippingSettings as any;
+          if (s) {
+            if (s.shippingFee != null) setShippingFee(String(s.shippingFee));
+            if (s.freeShippingThreshold != null) setFreeThreshold(String(s.freeShippingThreshold));
+            if (s.deliveryDays) setDeliveryDays(s.deliveryDays);
+            if (Array.isArray(s.deliveryCounties)) setDeliveryCounties(new Set(s.deliveryCounties));
+          }
         }
         setAvatarUrl(user?.image ?? null);
       })
@@ -429,8 +437,19 @@ export default function SupplierSettingsPage() {
                 <CountyChecklist selected={deliveryCounties} onChange={setDeliveryCounties} />
               </CardContent>
             </Card>
-            <Button className="bg-green-600 hover:bg-green-700 text-white" onClick={() => toast.success("Shipping settings saved")}>
-              <Save className="w-4 h-4 mr-2" /> Save Shipping Settings
+            <Button className="bg-green-600 hover:bg-green-700 text-white" onClick={() => {
+              startShipTransition(async () => {
+                const res = await saveSupplierShipping({
+                  shippingFee: Number(shippingFee) || 0,
+                  freeShippingThreshold: Number(freeThreshold) || 0,
+                  deliveryDays: deliveryDays,
+                  deliveryCounties: Array.from(deliveryCounties),
+                });
+                if (res?.error) toast.error(res.error);
+                else toast.success("Shipping settings saved!");
+              });
+            }} disabled={isPendingShip}>
+              {isPendingShip ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Saving…</> : <><Save className="w-4 h-4 mr-2" /> Save Shipping Settings</>}
             </Button>
           </div>
         </TabsContent>
