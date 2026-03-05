@@ -256,7 +256,7 @@ export async function getSupplierDashboardStats() {
     }),
     db.order.findMany({
       where: { items: { some: { productId: { in: productIds } } } },
-      include: { items: { where: { productId: { in: productIds } } }, user: { select: { name: true } } },
+      include: { items: { where: { productId: { in: productIds } }, include: { product: { select: { name: true } } } }, user: { select: { name: true } } },
       orderBy: { createdAt: "desc" },
       take: 5,
     }),
