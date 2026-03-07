@@ -245,8 +245,6 @@ export default function PortfolioPage() {
   );
 }
 
-const loans = [
-  { id: "LN-1021", farmer: "James Mwangi", county: "Meru", amount: "KES 500,000", disbursed: "Aug 1, 2025", maturity: "Aug 1, 2027", balance: "KES 342,000", paid: "KES 158,000", pct: 31.6, rate: "12%", status: "Current", nextPayment: "Mar 1, 2026", crop: "Tea" },
   { id: "LN-1018", farmer: "Peter Odhiambo", county: "Kisumu", amount: "KES 250,000", disbursed: "Jun 15, 2025", maturity: "Mar 15, 2026", balance: "KES 52,000", paid: "KES 198,000", pct: 79.2, rate: "10.5%", status: "Current", nextPayment: "Mar 15, 2026", crop: "Rice" },
   { id: "LN-1015", farmer: "Mary Wanjiku", county: "Kiambu", amount: "KES 85,000", disbursed: "Mar 10, 2025", maturity: "Mar 10, 2026", balance: "KES 78,000", paid: "KES 7,000", pct: 8.2, rate: "14%", status: "Overdue", nextPayment: "Feb 10, 2026", crop: "Coffee" },
   { id: "LN-1012", farmer: "David Njoroge", county: "Nyandarua", amount: "KES 180,000", disbursed: "Jan 20, 2025", maturity: "Jul 20, 2026", balance: "KES 110,000", paid: "KES 70,000", pct: 38.9, rate: "11%", status: "Current", nextPayment: "Mar 20, 2026", crop: "Tomatoes" },
