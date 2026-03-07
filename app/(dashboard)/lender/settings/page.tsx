@@ -5,9 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Save, Building2, Bell, Shield, CreditCard, Loader2 } from "lucide-react";
+import { Save, Building2, Bell, Shield, CreditCard, Loader2, Eye, EyeOff, CheckCircle2, XCircle, AlertTriangle, Monitor, RefreshCw, Lock, Clock } from "lucide-react";
 import { toast } from "sonner";
-import { getUserProfile, updateUserProfile, updatePassword } from "@/lib/actions/user";
+import { getUserProfile, updateUserProfile, updatePassword, getRecentActivity } from "@/lib/actions/user";
 import { AvatarUploadDialog } from "@/components/dashboard/avatar-upload-dialog";
 
 const tabs = [
@@ -51,6 +51,13 @@ export default function LenderSettingsPage() {
   const [newPw,      setNewPw]      = useState("");
   const [confirmPw,  setConfirmPw]  = useState("");
   const [pwSaving, startPwSave] = useTransition();
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  // Recent activity
+  const [activity, setActivity] = useState<any[]>([]);
+  const [loadingActivity, setLoadingActivity] = useState(true);
 
   // Lender-specific local fields (no DB model backing)
   const [licenseNo,  setLicenseNo]  = useState("CBK/DFI/023");
@@ -106,6 +113,56 @@ export default function LenderSettingsPage() {
       }
     });
   }
+
+  // ── Security helpers (password strength, UA formatting) ─────────────────
+  function getPasswordStrength(pwd: string) {
+    if (!pwd) return { score: 0, label: "", color: "" } as any;
+    let score = 0;
+    if (pwd.length >= 8) score++;
+    if (pwd.length >= 12) score++;
+    if (/[A-Z]/.test(pwd)) score++;
+    if (/[0-9]/.test(pwd)) score++;
+    if (/[^A-Za-z0-9]/.test(pwd)) score++;
+    if (score <= 1) return { score, label: "Weak", color: "bg-red-500" };
+    if (score <= 3) return { score, label: "Fair", color: "bg-amber-500" };
+    if (score === 4) return { score, label: "Good", color: "bg-blue-500" };
+    return { score, label: "Strong", color: "bg-green-500" };
+  }
+
+  function formatUA(ua: string | null | undefined) {
+    if (!ua) return "Unknown device";
+    if (/iPhone|iPad/.test(ua)) return "iOS device";
+    if (/Android/.test(ua)) return "Android device";
+    if (/Windows/.test(ua)) return "Windows PC";
+    if (/Mac/.test(ua)) return "Mac";
+    if (/Linux/.test(ua)) return "Linux";
+    return "Unknown device";
+  }
+
+  function timeAgo(date: Date | string) {
+    const diff = Date.now() - new Date(date).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return "just now";
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    const days = Math.floor(hrs / 24);
+    return `${days}d ago`;
+  }
+
+  async function refreshActivity() {
+    setLoadingActivity(true);
+    try {
+      const logs = await getRecentActivity();
+      setActivity(logs ?? []);
+    } catch (e) {
+      toast.error("Failed to load activity");
+    } finally {
+      setLoadingActivity(false);
+    }
+  }
+
+  useEffect(() => { refreshActivity(); }, []);
 
   return (
     <div className="space-y-6">
@@ -224,7 +281,8 @@ export default function LenderSettingsPage() {
       )}
 
       {activeTab === "security" && (
-        <div className="space-y-4">
+        <div className="space-y-6">
+
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-bold">Change Password</CardTitle>
@@ -232,33 +290,120 @@ export default function LenderSettingsPage() {
             <CardContent className="space-y-4">
               <div className="space-y-1.5">
                 <Label>Current Password</Label>
-                <Input type="password" placeholder="••••••••" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} />
+                <div className="relative">
+                  <Input type={showCurrent ? "text" : "password"} placeholder="••••••••" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} className="pr-10" />
+                  <button type="button" onClick={() => setShowCurrent(!showCurrent)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                    {showCurrent ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
+
               <div className="space-y-1.5">
                 <Label>New Password</Label>
-                <Input type="password" placeholder="••••••••" value={newPw} onChange={(e) => setNewPw(e.target.value)} />
+                <div className="relative">
+                  <Input type={showNew ? "text" : "password"} placeholder="••••••••" value={newPw} onChange={(e) => setNewPw(e.target.value)} className="pr-10" />
+                  <button type="button" onClick={() => setShowNew(!showNew)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                    {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+                {newPw && (
+                  <div className="space-y-1 pt-1">
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map((i) => (
+                        <div key={i} className={`h-1.5 flex-1 rounded-full transition-all ${i <= getPasswordStrength(newPw).score ? getPasswordStrength(newPw).color : "bg-slate-200 dark:bg-slate-700"}`} />
+                      ))}
+                    </div>
+                    <p className={`text-xs font-medium ${getPasswordStrength(newPw).color.replace("bg-", "text-")}`}>{getPasswordStrength(newPw).label}</p>
+                  </div>
+                )}
               </div>
+
               <div className="space-y-1.5">
                 <Label>Confirm New Password</Label>
-                <Input type="password" placeholder="••••••••" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} />
-                {newPw && confirmPw && newPw !== confirmPw && (
+                <div className="relative">
+                  <Input type={showConfirm ? "text" : "password"} placeholder="••••••••" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} className="pr-10" />
+                  <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                    {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+                {confirmPw && newPw !== confirmPw && (
                   <p className="text-xs text-red-500">Passwords do not match</p>
                 )}
               </div>
+
               <Button onClick={handleUpdatePassword} disabled={pwSaving} className="bg-green-600 hover:bg-green-700 text-white">
-                {pwSaving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-                Update Password
+                {pwSaving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />} Update Password
               </Button>
             </CardContent>
           </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base font-bold">Recent Account Activity</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-end mb-3">
+                <Button variant="outline" size="sm" onClick={refreshActivity} disabled={loadingActivity}>
+                  <RefreshCw className={`w-4 h-4 mr-1.5 ${loadingActivity ? "animate-spin" : ""}`} /> Refresh
+                </Button>
+              </div>
+              {loadingActivity ? (
+                <div className="flex items-center gap-3 py-4"><Loader2 className="w-5 h-5 animate-spin text-green-600" /><span className="text-sm text-slate-500">Loading activity…</span></div>
+              ) : activity.length === 0 ? (
+                <div className="text-center py-8"><Monitor className="w-10 h-10 text-slate-300 mx-auto mb-2" /><p className="text-sm text-slate-500">No activity recorded yet.</p></div>
+              ) : (
+                <div className="space-y-2">
+                  {activity.map((log: any) => {
+                    const isSecurity = log.action.includes("PASSWORD") || log.action.includes("LOGIN") || log.action.includes("AUTH");
+                    return (
+                      <div key={log.id} className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
+                        <div className={`mt-0.5 w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${isSecurity ? "bg-amber-100 dark:bg-amber-900/30" : "bg-green-100 dark:bg-green-900/30"}`}>
+                          {isSecurity ? <Shield className="w-3.5 h-3.5 text-amber-600" /> : <CheckCircle2 className="w-3.5 h-3.5 text-green-600" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-slate-900 dark:text-white truncate">{String(log.action).replace(/_/g, " ").toLowerCase().replace(/\b\w/g, (c: string) => c.toUpperCase())}</p>
+                          <div className="flex items-center gap-2 mt-0.5 flex-wrap"><span className="text-xs text-slate-400 flex items-center gap-1"><Monitor className="w-3 h-3" /> {formatUA(log.userAgent)}</span>{log.ipAddress && <span className="text-xs text-slate-400">· {log.ipAddress}</span>}</div>
+                        </div>
+                        <span className="text-xs text-slate-400 shrink-0 flex items-center gap-1"><Clock className="w-3 h-3" /> {timeAgo(log.createdAt)}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-bold">Two-Factor Authentication</CardTitle>
             </CardHeader>
             <CardContent>
-              <Toggle label="Enable 2FA" description="Add an extra layer of security to your account" />
+              <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-xl">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center"><Monitor className="w-4 h-4 text-amber-600" /></div>
+                  <div>
+                    <p className="font-medium text-slate-900 dark:text-white text-sm">SMS 2FA</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Require a code texted to your phone on login</p>
+                  </div>
+                </div>
+                <div className="text-xs text-slate-500"><em>Coming Soon</em></div>
+              </div>
             </CardContent>
           </Card>
+
+          <Card className="border-red-200 dark:border-red-900">
+            <CardHeader><CardTitle className="text-red-600">Danger Zone</CardTitle></CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between p-4 bg-red-50 dark:bg-red-950/20 rounded-xl">
+                <div>
+                  <p className="font-medium text-red-700 dark:text-red-400 text-sm">Delete Organization Account</p>
+                  <p className="text-xs text-red-500">Permanently delete your lender account and all associated data. This cannot be undone.</p>
+                </div>
+                <Button variant="destructive" size="sm" onClick={() => toast.error("Please contact support at support@digi-farms.com to delete your account.")}>Delete</Button>
+              </div>
+            </CardContent>
+          </Card>
+
         </div>
       )}
 
