@@ -231,6 +231,25 @@ export default function AdminOrdersPage() {
           </div>
         </div>
       )}
+
+      {/* AI Insights */}
+      {!loading && (
+        <AIInsightPanel
+          module="admin_orders"
+          contextData={JSON.stringify({
+            totalOrders,
+            pendingCount,
+            deliveredCount,
+            cancelledCount,
+            confirmedCount: orders.filter(o => o.status === "CONFIRMED").length,
+            shippedCount: orders.filter(o => o.status === "SHIPPED").length,
+            totalRevenue: orders.reduce((s, o) => s + o.totalAmount, 0),
+          })}
+          title="AI Order Insights"
+          description="Get AI analysis of order patterns, fulfilment rates, and revenue trends"
+          defaultPrompt="Analyze these order statistics. Identify fulfilment bottlenecks, revenue patterns, and recommend operational improvements."
+        />
+      )}
     </div>
   );
 }
