@@ -132,6 +132,7 @@ model User {
   produceListings     ProduceListing[]
   creditScores        CreditScore[]
   promptUsage         PromptUsage[]
+  aiConversations     AIConversation[]
 
   @@index([email])
   @@index([role])
@@ -734,6 +735,31 @@ model Agrovet {
 
   @@index([latitude, longitude])
   @@index([isVerified])
+}
+
+// ===========================================================================
+// AI CONVERSATIONS (Prompt / Response history)
+// ===========================================================================
+
+model AIConversation {
+  id          String   @id @default(cuid())
+  userId      String
+  module      String   // e.g. "lender_underwriting", "lender_analytics", "farmer_soil"
+  entityId    String?  // optional reference (loan ID, farm ID, profile ID, etc.)
+  entityLabel String?  // human-readable label for the entity
+  prompt      String   @db.Text
+  response    String   @db.Text
+  model       String   @default("gemini-2.5-flash")
+  inputTokens  Int?
+  outputTokens Int?
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([module])
+  @@index([entityId])
+  @@index([createdAt])
 }
 
 // ===========================================================================
