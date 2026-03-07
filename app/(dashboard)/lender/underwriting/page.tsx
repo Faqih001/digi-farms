@@ -8,8 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Brain, Shield, AlertTriangle, CheckCircle, Clock, Search, Eye, RefreshCw, XCircle } from "lucide-react";
+import { Brain, Shield, AlertTriangle, CheckCircle, Clock, Search, Eye, RefreshCw, XCircle, Sparkles } from "lucide-react";
 import { getUnderwritingQueue, approveApplication, rejectApplication, setUnderReview } from "@/lib/actions/lender";
+import AIInsightPanel from "@/components/dashboard/ai-insight-panel";
 
 type UnderwritingApp = Awaited<ReturnType<typeof getUnderwritingQueue>>["applications"][number];
 
@@ -58,6 +59,9 @@ export default function UnderwritingPage() {
   // View modal
   const [viewApp, setViewApp] = useState<UnderwritingApp | null>(null);
 
+  // AI modal
+  const [aiApp, setAiApp] = useState<UnderwritingApp | null>(null);
+
   const load = useCallback(async () => {
     setLoading(true);
     const result = await getUnderwritingQueue();
@@ -78,7 +82,7 @@ export default function UnderwritingPage() {
 
   function openApprove(a: UnderwritingApp) {
     setApproveApp(a);
-    setApprovedAmount(a.requestedAmount?.toString() ?? "");
+    setApprovedAmount(a.amount?.toString() ?? "");
     setInterestRate("12");
     setApproveNotes("");
   }
@@ -194,7 +198,7 @@ export default function UnderwritingPage() {
                         <span className="text-xs text-slate-400">{a.id.slice(0, 8).toUpperCase()}</span>
                       </div>
                       <p className="text-sm text-slate-500 dark:text-slate-400">
-                        {a.requestedAmount != null ? fmt.format(Number(a.requestedAmount)) : "—"}
+                        {a.amount != null ? fmt.format(Number(a.amount)) : "—"}
                         {a.purpose ? ` • ${a.purpose}` : ""}
                         {a.farm?.name ? ` • ${a.farm.name}` : ""}
                         {a.farm?.location ? `, ${a.farm.location}` : ""}
@@ -224,6 +228,9 @@ export default function UnderwritingPage() {
                             <Clock className="w-3 h-3 mr-1" /> Review
                           </Button>
                         )}
+                        <Button size="sm" className="w-full bg-purple-600 hover:bg-purple-700 text-white" onClick={() => setAiApp(a)}>
+                          <Sparkles className="w-3 h-3 mr-1" /> AI Analyze
+                        </Button>
                         <Button size="sm" className="w-full bg-green-600 hover:bg-green-700 text-white" onClick={() => openApprove(a)} disabled={isPending}>
                           <CheckCircle className="w-3 h-3 mr-1" /> Approve
                         </Button>
@@ -251,10 +258,10 @@ export default function UnderwritingPage() {
               <div className="grid grid-cols-2 gap-2">
                 <div><p className="text-slate-400 text-xs">Farmer</p><p className="font-semibold">{viewApp.user.name}</p></div>
                 <div><p className="text-slate-400 text-xs">Email</p><p className="font-semibold">{viewApp.user.email}</p></div>
-                <div><p className="text-slate-400 text-xs">Requested Amount</p><p className="font-semibold">{viewApp.requestedAmount != null ? fmt.format(Number(viewApp.requestedAmount)) : "—"}</p></div>
+                <div><p className="text-slate-400 text-xs">Requested Amount</p><p className="font-semibold">{viewApp.amount != null ? fmt.format(Number(viewApp.amount)) : "—"}</p></div>
                 <div><p className="text-slate-400 text-xs">Status</p><p className="font-semibold">{viewApp.status}</p></div>
                 <div><p className="text-slate-400 text-xs">Purpose</p><p className="font-semibold">{viewApp.purpose ?? "—"}</p></div>
-                <div><p className="text-slate-400 text-xs">Tenure (months)</p><p className="font-semibold">{viewApp.tenureMonths ?? "—"}</p></div>
+                <div><p className="text-slate-400 text-xs">Tenure (months)</p><p className="font-semibold">{viewApp.tenure ?? "—"}</p></div>
                 <div><p className="text-slate-400 text-xs">Farm</p><p className="font-semibold">{viewApp.farm?.name ?? "—"}</p></div>
                 <div><p className="text-slate-400 text-xs">Farm Location</p><p className="font-semibold">{viewApp.farm?.location ?? "—"}</p></div>
               </div>
@@ -287,7 +294,7 @@ export default function UnderwritingPage() {
           {approveApp && (
             <div className="space-y-4">
               <p className="text-sm text-slate-500">
-                Approving loan for <strong>{approveApp.user.name}</strong> — requested {approveApp.requestedAmount != null ? fmt.format(Number(approveApp.requestedAmount)) : "—"}
+                Approving loan for <strong>{approveApp.user.name}</strong> — requested {approveApp.amount != null ? fmt.format(Number(approveApp.amount)) : "—"}
               </p>
               <div className="space-y-2">
                 <Label>Approved Amount (KES)</Label>
@@ -308,6 +315,46 @@ export default function UnderwritingPage() {
             <Button className="bg-green-600 hover:bg-green-700 text-white" onClick={handleApprove} disabled={isPending || !approvedAmount || !interestRate}>
               {isPending ? "Approving..." : "Approve Loan"}
             </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* AI Analysis Dialog */}
+      <Dialog open={!!aiApp} onOpenChange={() => setAiApp(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-purple-600" /> AI Underwriting Analysis
+            </DialogTitle>
+          </DialogHeader>
+          {aiApp && (
+            <AIInsightPanel
+              module="lender_underwriting"
+              entityId={aiApp.id}
+              entityLabel={`${aiApp.user.name} — ${aiApp.amount != null ? fmt.format(Number(aiApp.amount)) : ""}`}
+              contextData={JSON.stringify({
+                applicationId: aiApp.id,
+                farmer: aiApp.user.name,
+                email: aiApp.user.email,
+                requestedAmount: aiApp.amount,
+                purpose: aiApp.purpose,
+                tenure: aiApp.tenure,
+                status: aiApp.status,
+                farm: aiApp.farm ? { name: aiApp.farm.name, location: aiApp.farm.location, sizeHectares: aiApp.farm.sizeHectares } : null,
+                creditScore: aiApp.creditScores?.[0] ? {
+                  score: aiApp.creditScores[0].score,
+                  riskLevel: aiApp.creditScores[0].riskLevel,
+                  repaymentCapacity: aiApp.creditScores[0].repaymentCapacity,
+                  farmViability: aiApp.creditScores[0].farmViability,
+                } : null,
+              })}
+              title="Loan Risk Analysis"
+              description="AI-powered underwriting assessment for this loan application"
+              defaultPrompt="Perform a comprehensive risk assessment of this loan application. Evaluate creditworthiness, recommend approval or rejection with reasoning, and suggest optimal loan terms."
+            />
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setAiApp(null)}>Close</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
