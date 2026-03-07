@@ -1,7 +1,15 @@
+"use client";
+
+import { useEffect, useState, useCallback, useTransition } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Brain, Shield, AlertTriangle, CheckCircle, TrendingUp, Clock, Search, Eye } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Brain, Shield, AlertTriangle, CheckCircle, Clock, Search, Eye, RefreshCw, XCircle } from "lucide-react";
+import { getUnderwritingQueue, approveApplication, rejectApplication, setUnderReview } from "@/lib/actions/lender";
 
 const decisions = [
   { id: "UW-2081", farmer: "John Kamau", amount: "KES 150,000", aiScore: 82, repaymentCapacity: 94, farmViability: 78, weatherRisk: 12, recommendation: "Approve", confidence: 91, factors: ["Strong repayment history", "Favorable soil conditions", "Adequate insurance"], collateral: "Farm equipment", date: "Feb 24, 2026" },
