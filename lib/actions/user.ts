@@ -48,6 +48,7 @@ export async function updateNotificationPrefs(data: {
     revalidatePath("/farmer/settings");
     return { success: true, prefs };
   } catch (error) {
+    console.error("prisma:raw-error", error);
     console.error("prisma:error", formatPrismaError(error));
     throw new Error(formatPrismaError(error).message);
   }
@@ -113,6 +114,7 @@ export async function updateUserProfile(data: {
     await createNotification({ userId: session.user.id, title: "Profile Updated", message: "Your profile information has been saved.", type: "profile", link: `/${(session.user.role ?? "farmer").toLowerCase()}/settings` });
     return { success: true, user };
   } catch (error) {
+    console.error("prisma:raw-error", error);
     console.error("prisma:error", formatPrismaError(error));
     throw new Error(formatPrismaError(error).message);
   }
@@ -191,6 +193,7 @@ export async function updateSupplierProfile(data: {
     revalidatePath("/supplier/settings");
     return { success: true, supplier: updated };
   } catch (error) {
+    console.error("prisma:raw-error", error);
     const info = formatPrismaError(error);
     console.error("prisma:error", info);
     throw new Error(info.message);
@@ -239,6 +242,7 @@ export async function updateAvatar(imageUrl: string | null) {
       data: { image: imageUrl },
     }));
   } catch (error) {
+    console.error("prisma:raw-error", error);
     console.error("prisma:error", formatPrismaError(error));
     throw new Error(formatPrismaError(error).message);
   }
