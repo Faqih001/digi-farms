@@ -230,7 +230,7 @@ export default function ForecastsPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Create Forecast Modal */}}
+      {/* Create Forecast Modal */}
       <Dialog open={showCreate} onOpenChange={setShowCreate}>
         <DialogContent>
           <DialogHeader>
