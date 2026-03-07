@@ -11,28 +11,16 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Brain, Shield, AlertTriangle, CheckCircle, Clock, Search, Eye, RefreshCw, XCircle } from "lucide-react";
 import { getUnderwritingQueue, approveApplication, rejectApplication, setUnderReview } from "@/lib/actions/lender";
 
-const decisions = [
-  { id: "UW-2081", farmer: "John Kamau", amount: "KES 150,000", aiScore: 82, repaymentCapacity: 94, farmViability: 78, weatherRisk: 12, recommendation: "Approve", confidence: 91, factors: ["Strong repayment history", "Favorable soil conditions", "Adequate insurance"], collateral: "Farm equipment", date: "Feb 24, 2026" },
-  { id: "UW-2080", farmer: "David Njoroge", amount: "KES 180,000", aiScore: 79, repaymentCapacity: 72, farmViability: 85, weatherRisk: 18, recommendation: "Approve", confidence: 84, factors: ["Good crop diversity", "Experienced farmer", "Moderate debt ratio"], collateral: "Land title", date: "Feb 23, 2026" },
-  { id: "UW-2079", farmer: "Alice Chebet", amount: "KES 75,000", aiScore: 45, repaymentCapacity: 38, farmViability: 52, weatherRisk: 45, recommendation: "Reject", confidence: 88, factors: ["High default probability", "Drought-prone region", "No insurance cover"], collateral: "None", date: "Feb 22, 2026" },
-  { id: "UW-2078", farmer: "Grace Akinyi", amount: "KES 45,000", aiScore: 58, repaymentCapacity: 65, farmViability: 48, weatherRisk: 30, recommendation: "Manual Review", confidence: 62, factors: ["Small farm size", "Limited credit history", "Growing market demand"], collateral: "Produce contract", date: "Feb 21, 2026" },
-  { id: "UW-2077", farmer: "Peter Odhiambo", amount: "KES 250,000", aiScore: 91, repaymentCapacity: 96, farmViability: 88, weatherRisk: 8, recommendation: "Approve", confidence: 95, factors: ["Excellent credit score", "Large diversified farm", "Strong cash flow"], collateral: "Land title + Equipment", date: "Feb 20, 2026" },
-];
+type UnderwritingApp = Awaited<ReturnType<typeof getUnderwritingQueue>>["applications"][number];
 
-const recConfig: Record<string, { variant: "success" | "warning" | "destructive"; icon: typeof CheckCircle }> = {
-  Approve: { variant: "success", icon: CheckCircle },
-  Reject: { variant: "destructive", icon: AlertTriangle },
-  "Manual Review": { variant: "warning", icon: Clock },
-};
-
-function ScoreBar({ label, value, max = 100 }: { label: string; value: number; max?: number }) {
-  const pct = (value / max) * 100;
+function ScoreBar({ label, value }: { label: string; value: number }) {
+  const pct = Math.min(Math.max(value, 0), 100);
   const color = pct >= 70 ? "bg-green-500" : pct >= 50 ? "bg-amber-500" : "bg-red-500";
   return (
     <div>
       <div className="flex justify-between text-xs mb-1">
         <span className="text-slate-500 dark:text-slate-400">{label}</span>
-        <span className="font-medium text-slate-700 dark:text-slate-300">{value}%</span>
+        <span className="font-medium text-slate-700 dark:text-slate-300">{pct}%</span>
       </div>
       <div className="h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
         <div className={`h-full ${color} rounded-full`} style={{ width: `${pct}%` }} />
@@ -41,20 +29,110 @@ function ScoreBar({ label, value, max = 100 }: { label: string; value: number; m
   );
 }
 
+const RISK_COLOR: Record<string, string> = {
+  LOW: "text-green-600",
+  MEDIUM: "text-amber-600",
+  HIGH: "text-red-600",
+  VERY_HIGH: "text-red-700",
+};
+
+const fmt = new Intl.NumberFormat("en-KE", { style: "currency", currency: "KES", maximumFractionDigits: 0 });
+
 export default function UnderwritingPage() {
+  const [data, setData] = useState<Awaited<ReturnType<typeof getUnderwritingQueue>> | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("ALL");
+  const [isPending, startTransition] = useTransition();
+
+  // Approve modal
+  const [approveApp, setApproveApp] = useState<UnderwritingApp | null>(null);
+  const [approvedAmount, setApprovedAmount] = useState("");
+  const [interestRate, setInterestRate] = useState("");
+  const [approveNotes, setApproveNotes] = useState("");
+
+  // Reject modal
+  const [rejectApp, setRejectApp] = useState<UnderwritingApp | null>(null);
+  const [rejectNotes, setRejectNotes] = useState("");
+
+  // View modal
+  const [viewApp, setViewApp] = useState<UnderwritingApp | null>(null);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    const result = await getUnderwritingQueue();
+    setData(result);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  const filtered = (data?.applications ?? []).filter((a) => {
+    const matchSearch =
+      !search ||
+      a.user.name?.toLowerCase().includes(search.toLowerCase()) ||
+      a.purpose?.toLowerCase().includes(search.toLowerCase());
+    const matchStatus = statusFilter === "ALL" || a.status === statusFilter;
+    return matchSearch && matchStatus;
+  });
+
+  function openApprove(a: UnderwritingApp) {
+    setApproveApp(a);
+    setApprovedAmount(a.requestedAmount?.toString() ?? "");
+    setInterestRate("12");
+    setApproveNotes("");
+  }
+
+  function openReject(a: UnderwritingApp) {
+    setRejectApp(a);
+    setRejectNotes("");
+  }
+
+  function handleApprove() {
+    if (!approveApp) return;
+    startTransition(async () => {
+      await approveApplication(approveApp.id, parseFloat(approvedAmount), parseFloat(interestRate), approveNotes || undefined);
+      setApproveApp(null);
+      await load();
+    });
+  }
+
+  function handleReject() {
+    if (!rejectApp) return;
+    startTransition(async () => {
+      await rejectApplication(rejectApp.id, rejectNotes);
+      setRejectApp(null);
+      await load();
+    });
+  }
+
+  function handleSetUnderReview(id: string) {
+    startTransition(async () => {
+      await setUnderReview(id);
+      await load();
+    });
+  }
+
+  const stats = data?.stats;
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-black text-slate-900 dark:text-white">AI Underwriting</h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400">Automated risk assessment and loan decisions</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-black text-slate-900 dark:text-white">AI Underwriting</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Automated risk assessment and loan decisions</p>
+        </div>
+        <Button variant="outline" size="sm" onClick={load} disabled={loading}>
+          <RefreshCw className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} /> Refresh
+        </Button>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { icon: Brain, label: "AI Decisions (MTD)", value: "34", color: "text-purple-600", bg: "bg-purple-50 dark:bg-purple-950" },
-          { icon: CheckCircle, label: "Auto-Approved", value: "22", color: "text-green-600", bg: "bg-green-50 dark:bg-green-950" },
-          { icon: AlertTriangle, label: "Manual Review", value: "5", color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-950" },
-          { icon: Shield, label: "Avg. Confidence", value: "86%", color: "text-blue-600", bg: "bg-blue-50 dark:bg-blue-950" },
+          { icon: Brain, label: "Total in Queue", value: stats?.total ?? "—", color: "text-purple-600", bg: "bg-purple-50 dark:bg-purple-950" },
+          { icon: Clock, label: "Submitted", value: stats?.submitted ?? "—", color: "text-blue-600", bg: "bg-blue-50 dark:bg-blue-950" },
+          { icon: AlertTriangle, label: "Under Review", value: stats?.underReview ?? "—", color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-950" },
+          { icon: Shield, label: "Avg Credit Score", value: stats?.avgCreditScore != null ? stats.avgCreditScore.toFixed(0) : "—", color: "text-green-600", bg: "bg-green-50 dark:bg-green-950" },
         ].map(({ icon: Icon, label, value, color, bg }) => (
           <Card key={label}>
             <CardContent className="p-4 flex items-center gap-3">
@@ -62,7 +140,7 @@ export default function UnderwritingPage() {
                 <Icon className={`w-5 h-5 ${color}`} />
               </div>
               <div>
-                <p className={`text-xl font-bold ${color}`}>{value}</p>
+                <p className={`text-xl font-bold ${color}`}>{String(value)}</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
               </div>
             </CardContent>
@@ -75,58 +153,190 @@ export default function UnderwritingPage() {
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <input className="w-full h-10 pl-10 pr-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Search decisions..." />
+              <Input className="pl-10" placeholder="Search by farmer or purpose..." value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
-            <select className="h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 text-sm">
-              <option>All Recommendations</option>
-              <option>Approve</option>
-              <option>Reject</option>
-              <option>Manual Review</option>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 text-sm"
+            >
+              <option value="ALL">All Statuses</option>
+              <option value="SUBMITTED">Submitted</option>
+              <option value="UNDER_REVIEW">Under Review</option>
             </select>
           </div>
         </CardContent>
       </Card>
 
-      <div className="space-y-4">
-        {decisions.map((d: any) => {
-          const rc = recConfig[d.recommendation];
-          return (
-            <Card key={d.id}>
-              <CardContent className="p-4">
-                <div className="flex flex-col lg:flex-row gap-4">
-                  <div className="flex-1 space-y-3">
-                    <div className="flex items-center gap-2">
-                      <Brain className="w-5 h-5 text-purple-500" />
-                      <span className="font-bold text-slate-900 dark:text-white">{d.farmer}</span>
-                      <Badge variant={rc.variant}>{d.recommendation}</Badge>
-                      <span className="text-xs text-slate-400">{d.id}</span>
+      {loading ? (
+        <div className="text-center py-16 text-slate-400">Loading underwriting queue...</div>
+      ) : filtered.length === 0 ? (
+        <div className="text-center py-16 text-slate-400">No applications in queue.</div>
+      ) : (
+        <div className="space-y-4">
+          {filtered.map((a) => {
+            const creditScore = a.creditScores?.[0];
+            const repaymentCapacity = creditScore?.repaymentCapacity ?? 0;
+            const farmViability = creditScore?.farmViability ?? 0;
+            const score = creditScore?.score ?? 0;
+            const riskLevel = creditScore?.riskLevel ?? "N/A";
+            return (
+              <Card key={a.id}>
+                <CardContent className="p-4">
+                  <div className="flex flex-col lg:flex-row gap-4">
+                    <div className="flex-1 space-y-3">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <Brain className="w-5 h-5 text-purple-500" />
+                        <span className="font-bold text-slate-900 dark:text-white">{a.user.name}</span>
+                        <Badge variant={a.status === "SUBMITTED" ? "secondary" : "warning"}>
+                          {a.status === "UNDER_REVIEW" ? "Under Review" : "Submitted"}
+                        </Badge>
+                        <span className="text-xs text-slate-400">{a.id.slice(0, 8).toUpperCase()}</span>
+                      </div>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        {a.requestedAmount != null ? fmt.format(Number(a.requestedAmount)) : "—"}
+                        {a.purpose ? ` • ${a.purpose}` : ""}
+                        {a.farm?.name ? ` • ${a.farm.name}` : ""}
+                        {a.farm?.location ? `, ${a.farm.location}` : ""}
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <ScoreBar label="Repayment Capacity" value={repaymentCapacity} />
+                        <ScoreBar label="Farm Viability" value={farmViability} />
+                      </div>
+                      {a.notes && (
+                        <p className="text-xs text-slate-500 dark:text-slate-400 italic">Notes: {a.notes}</p>
+                      )}
                     </div>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">{d.amount} • Collateral: {d.collateral} • {d.date}</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                      <ScoreBar label="Repayment Capacity" value={d.repaymentCapacity} />
-                      <ScoreBar label="Farm Viability" value={d.farmViability} />
-                      <ScoreBar label="Weather Risk" value={100 - d.weatherRisk} />
-                    </div>
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {d.factors.map((f: any) => (
-                        <span key={f} className="text-xs px-2 py-0.5 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-600 dark:text-slate-400">{f}</span>
-                      ))}
+                    <div className="flex flex-col items-center justify-center gap-3 min-w-[120px]">
+                      <div className="text-center">
+                        <p className="text-3xl font-black text-slate-900 dark:text-white">{score > 0 ? score.toFixed(0) : "—"}</p>
+                        <p className="text-xs text-slate-400">Credit Score</p>
+                        {riskLevel !== "N/A" && (
+                          <p className={`text-xs font-semibold mt-0.5 ${RISK_COLOR[riskLevel] ?? "text-slate-500"}`}>{riskLevel} RISK</p>
+                        )}
+                      </div>
+                      <div className="flex flex-col gap-1.5 w-full">
+                        <Button size="sm" variant="outline" className="w-full" onClick={() => setViewApp(a)}>
+                          <Eye className="w-3 h-3 mr-1" /> View
+                        </Button>
+                        {a.status === "SUBMITTED" && (
+                          <Button size="sm" variant="outline" className="w-full text-amber-600 border-amber-300" onClick={() => handleSetUnderReview(a.id)} disabled={isPending}>
+                            <Clock className="w-3 h-3 mr-1" /> Review
+                          </Button>
+                        )}
+                        <Button size="sm" className="w-full bg-green-600 hover:bg-green-700 text-white" onClick={() => openApprove(a)} disabled={isPending}>
+                          <CheckCircle className="w-3 h-3 mr-1" /> Approve
+                        </Button>
+                        <Button size="sm" variant="destructive" className="w-full" onClick={() => openReject(a)} disabled={isPending}>
+                          <XCircle className="w-3 h-3 mr-1" /> Reject
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-col items-center justify-center gap-2 min-w-[100px]">
-                    <div className="text-center">
-                      <p className="text-3xl font-black text-slate-900 dark:text-white">{d.aiScore}</p>
-                      <p className="text-xs text-slate-400">AI Score</p>
-                    </div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{d.confidence}% confidence</p>
-                    <Button variant="outline" size="sm"><Eye className="w-3 h-3 mr-1" /> Details</Button>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
+
+      {/* View Details Modal */}
+      <Dialog open={!!viewApp} onOpenChange={() => setViewApp(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Application Details</DialogTitle>
+          </DialogHeader>
+          {viewApp && (
+            <div className="space-y-3 text-sm">
+              <div className="grid grid-cols-2 gap-2">
+                <div><p className="text-slate-400 text-xs">Farmer</p><p className="font-semibold">{viewApp.user.name}</p></div>
+                <div><p className="text-slate-400 text-xs">Email</p><p className="font-semibold">{viewApp.user.email}</p></div>
+                <div><p className="text-slate-400 text-xs">Requested Amount</p><p className="font-semibold">{viewApp.requestedAmount != null ? fmt.format(Number(viewApp.requestedAmount)) : "—"}</p></div>
+                <div><p className="text-slate-400 text-xs">Status</p><p className="font-semibold">{viewApp.status}</p></div>
+                <div><p className="text-slate-400 text-xs">Purpose</p><p className="font-semibold">{viewApp.purpose ?? "—"}</p></div>
+                <div><p className="text-slate-400 text-xs">Tenure (months)</p><p className="font-semibold">{viewApp.tenureMonths ?? "—"}</p></div>
+                <div><p className="text-slate-400 text-xs">Farm</p><p className="font-semibold">{viewApp.farm?.name ?? "—"}</p></div>
+                <div><p className="text-slate-400 text-xs">Farm Location</p><p className="font-semibold">{viewApp.farm?.location ?? "—"}</p></div>
+              </div>
+              {viewApp.creditScores?.[0] && (
+                <div className="border-t pt-3 space-y-2">
+                  <p className="font-semibold text-slate-700 dark:text-slate-300">Credit Score Details</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div><p className="text-slate-400 text-xs">Score</p><p className="font-semibold">{viewApp.creditScores[0].score.toFixed(1)}</p></div>
+                    <div><p className="text-slate-400 text-xs">Risk Level</p><p className={`font-semibold ${RISK_COLOR[viewApp.creditScores[0].riskLevel] ?? ""}`}>{viewApp.creditScores[0].riskLevel}</p></div>
+                    <div><p className="text-slate-400 text-xs">Repayment Capacity</p><p className="font-semibold">{viewApp.creditScores[0].repaymentCapacity}%</p></div>
+                    <div><p className="text-slate-400 text-xs">Farm Viability</p><p className="font-semibold">{viewApp.creditScores[0].farmViability}%</p></div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+              )}
+              {viewApp.notes && <div className="border-t pt-3"><p className="text-slate-400 text-xs">Notes</p><p>{viewApp.notes}</p></div>}
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setViewApp(null)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Approve Modal */}
+      <Dialog open={!!approveApp} onOpenChange={() => setApproveApp(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Approve Application</DialogTitle>
+          </DialogHeader>
+          {approveApp && (
+            <div className="space-y-4">
+              <p className="text-sm text-slate-500">
+                Approving loan for <strong>{approveApp.user.name}</strong> — requested {approveApp.requestedAmount != null ? fmt.format(Number(approveApp.requestedAmount)) : "—"}
+              </p>
+              <div className="space-y-2">
+                <Label>Approved Amount (KES)</Label>
+                <Input type="number" value={approvedAmount} onChange={(e) => setApprovedAmount(e.target.value)} placeholder="e.g. 150000" />
+              </div>
+              <div className="space-y-2">
+                <Label>Interest Rate (%)</Label>
+                <Input type="number" value={interestRate} onChange={(e) => setInterestRate(e.target.value)} placeholder="e.g. 12" />
+              </div>
+              <div className="space-y-2">
+                <Label>Notes (optional)</Label>
+                <Textarea value={approveNotes} onChange={(e) => setApproveNotes(e.target.value)} placeholder="Any conditions or remarks..." rows={3} />
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setApproveApp(null)}>Cancel</Button>
+            <Button className="bg-green-600 hover:bg-green-700 text-white" onClick={handleApprove} disabled={isPending || !approvedAmount || !interestRate}>
+              {isPending ? "Approving..." : "Approve Loan"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Reject Modal */}
+      <Dialog open={!!rejectApp} onOpenChange={() => setRejectApp(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reject Application</DialogTitle>
+          </DialogHeader>
+          {rejectApp && (
+            <div className="space-y-4">
+              <p className="text-sm text-slate-500">
+                Rejecting loan for <strong>{rejectApp.user.name}</strong>
+              </p>
+              <div className="space-y-2">
+                <Label>Reason for Rejection <span className="text-red-500">*</span></Label>
+                <Textarea value={rejectNotes} onChange={(e) => setRejectNotes(e.target.value)} placeholder="Explain the reason for rejection..." rows={4} />
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setRejectApp(null)}>Cancel</Button>
+            <Button variant="destructive" onClick={handleReject} disabled={isPending || !rejectNotes.trim()}>
+              {isPending ? "Rejecting..." : "Reject Application"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
