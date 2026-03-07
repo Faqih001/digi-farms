@@ -157,3 +157,108 @@ export async function getAdminSubscriptions() {
   });
 }
 
+export async function getRoleUserCounts(): Promise<Record<string, number>> {
+  await requireAdmin();
+  const counts = await db.user.groupBy({ by: ["role"], _count: { id: true } });
+  const result: Record<string, number> = { FARMER: 0, SUPPLIER: 0, LENDER: 0, ADMIN: 0 };
+  for (const c of counts) result[c.role] = c._count.id;
+  return result;
+}
+
+export async function getAdminRevenueStats() {
+  await requireAdmin();
+  const [orderAgg, paymentAgg, activeSubCount, loanAgg] = await Promise.all([
+    db.order.aggregate({ _sum: { totalAmount: true }, _count: { id: true } }),
+    db.payment.aggregate({
+      _sum: { amount: true },
+      _count: { id: true },
+      where: { status: "COMPLETED" },
+    }),
+    db.subscription.count({ where: { status: "ACTIVE" } }),
+    db.loanApplication.aggregate({
+      _sum: { amount: true },
+      _count: { id: true },
+      where: { status: { in: ["DISBURSED", "REPAID"] } },
+    }),
+  ]);
+  return {
+    totalOrderRevenue: orderAgg._sum.totalAmount ?? 0,
+    totalOrders: orderAgg._count.id,
+    totalPayments: paymentAgg._sum.amount ?? 0,
+    completedPayments: paymentAgg._count.id,
+    activeSubscriptions: activeSubCount,
+    totalLoanVolume: loanAgg._sum.amount ?? 0,
+    disbursedLoans: loanAgg._count.id,
+  };
+}
+
+export async function getAdminRevenuePlatform() {
+  await requireAdmin();
+  return db.platformRevenue.findMany({ orderBy: { createdAt: "desc" }, take: 500 });
+}
+
+export async function getPartnerships() {
+  await requireAdmin();
+  return db.partnership.findMany({ orderBy: { createdAt: "desc" } });
+}
+
+export async function createPartnership(data: {
+  name: string;
+  type: string;
+  tier?: string;
+  contactName?: string;
+  contactEmail?: string;
+  country?: string;
+  notes?: string;
+}) {
+  await requireAdmin();
+  const partner = await db.partnership.create({ data });
+  revalidatePath("/admin/partnerships");
+  return { success: true, partner };
+}
+
+export async function updatePartnership(
+  id: string,
+  data: Partial<{
+    name: string;
+    type: string;
+    tier: string;
+    contactName: string;
+    contactEmail: string;
+    country: string;
+    isActive: boolean;
+    revenue: number;
+    notes: string;
+  }>
+) {
+  await requireAdmin();
+  const partner = await db.partnership.update({ where: { id }, data });
+  revalidatePath("/admin/partnerships");
+  return { success: true, partner };
+}
+
+export async function deletePartnership(id: string) {
+  await requireAdmin();
+  await db.partnership.delete({ where: { id } });
+  revalidatePath("/admin/partnerships");
+  return { success: true };
+}
+
+export async function getActivityLogs(filters?: { search?: string; limit?: number }) {
+  await requireAdmin();
+  return db.activityLog.findMany({
+    where: filters?.search
+      ? {
+          OR: [
+            { action: { contains: filters.search, mode: "insensitive" } },
+            { entity: { contains: filters.search, mode: "insensitive" } },
+            { user: { email: { contains: filters.search, mode: "insensitive" } } },
+          ],
+        }
+      : undefined,
+    include: { user: { select: { email: true, name: true, role: true } } },
+    orderBy: { createdAt: "desc" },
+    take: filters?.limit ?? 200,
+  });
+}
+
