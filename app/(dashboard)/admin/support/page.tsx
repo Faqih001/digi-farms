@@ -247,16 +247,29 @@ export default function AdminSupportPage() {
           </div>
         </div>
       )}
+
+      {/* AI Insights */}
+      {!loading && (
+        <AIInsightPanel
+          module="admin_support"
+          contextData={JSON.stringify({
+            totalTickets: tickets.length,
+            openCount,
+            inProgressCount,
+            resolvedCount,
+            closedCount: tickets.filter(t => t.status === "CLOSED").length,
+            highPriority: tickets.filter(t => t.priority === "high" || t.priority === "critical").length,
+            categories: tickets.reduce((acc, t) => {
+              if (t.category) acc[t.category] = (acc[t.category] ?? 0) + 1;
+              return acc;
+            }, {} as Record<string, number>),
+          })}
+          title="AI Support Analysis"
+          description="Get AI insights on support trends, recurring issues, and resolution patterns"
+          defaultPrompt="Analyze the support ticket data. Identify the most common issue categories, flag any concerning patterns, and suggest improvements to reduce ticket volume and improve resolution time."
+        />
+      )}
     </div>
   );
 }
-
-const tickets = [
-  { id: "T-1284", user: "Wanjiku Agro", role: "SUPPLIER", subject: "Payment processing issue — M-Pesa timeout", category: "Payments", priority: "High", status: "Open", created: "Feb 24, 2026", lastUpdate: "2 hrs ago" },
-  { id: "T-1283", user: "John Kamau", role: "FARMER", subject: "AI scan giving incorrect disease diagnosis for my maize", category: "AI Diagnostics", priority: "Medium", status: "In Progress", created: "Feb 23, 2026", lastUpdate: "5 hrs ago" },
-  { id: "T-1282", user: "KCB AgriFinance", role: "LENDER", subject: "Unable to access bulk loan application download", category: "Technical", priority: "Medium", status: "Resolved", created: "Feb 22, 2026", lastUpdate: "Feb 23, 2026" },
-  { id: "T-1281", user: "Grace Akinyi", role: "FARMER", subject: "How do I upgrade from Free to Pro plan?", category: "Billing", priority: "Low", status: "Resolved", created: "Feb 21, 2026", lastUpdate: "Feb 22, 2026" },
-  { id: "T-1280", user: "Peter Ochieng", role: "SUPPLIER", subject: "Product listing rejected — no reason given", category: "Marketplace", priority: "High", status: "Open", created: "Feb 20, 2026", lastUpdate: "Feb 21, 2026" },
-  { id: "T-1279", user: "Alice Chebet", role: "FARMER", subject: "Soil report data doesn't match field observations", category: "AI Diagnostics", priority: "Low", status: "Closed", created: "Feb 18, 2026", lastUpdate: "Feb 20, 2026" },
-];
 
