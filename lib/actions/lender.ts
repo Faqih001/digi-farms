@@ -528,9 +528,15 @@ export async function createForecast(data: {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
+  const { factors, ...rest } = data;
   try {
     const forecast = await retryAsync(() =>
-      db.yieldForecast.create({ data })
+      db.yieldForecast.create({
+        data: {
+          ...rest,
+          ...(factors !== undefined ? { factors: factors as object } : {}),
+        },
+      })
     );
     revalidatePath("/lender/forecasts");
     return { success: true, forecast };
