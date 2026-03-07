@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useEffect } from "react";
+import { AvatarUploadDialog } from "@/components/dashboard/avatar-upload-dialog";
 import { Save, Globe, Bell, Shield, CreditCard, Cpu } from "lucide-react";
 import { toast } from "sonner";
 
@@ -35,6 +37,17 @@ function Toggle({ label, description, defaultChecked = false }: { label: string;
 
 export default function AdminSettingsPage() {
   const [activeTab, setActiveTab] = useState("general");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [adminName, setAdminName] = useState<string>("");
+
+  useEffect(() => {
+    fetch("/api/users/me").then((r) => r.ok ? r.json() : null).then((data) => {
+      if (data?.user) {
+        setAvatarUrl(data.user.image ?? null);
+        setAdminName(data.user.name ?? "");
+      }
+    }).catch(() => null);
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -68,6 +81,16 @@ export default function AdminSettingsPage() {
               <div className="space-y-1.5"><Label>Default Currency</Label><Input defaultValue="KES" /></div>
               <div className="space-y-1.5"><Label>Marketplace Commission (%)</Label><Input type="number" defaultValue="3.5" /></div>
               <div className="space-y-1.5"><Label>Max File Upload Size (MB)</Label><Input type="number" defaultValue="50" /></div>
+            </div>
+            <div className="mt-4">
+              <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Administrator Avatar</p>
+              <div className="flex items-center gap-4">
+                <AvatarUploadDialog currentImage={avatarUrl} initials={(adminName || "A").split(" ").map(s=>s[0]).join("") || "A"} onAvatarChange={(url) => setAvatarUrl(url)} />
+                <div>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white">{adminName || "Administrator"}</p>
+                  <p className="text-xs text-slate-400">Profile photo used across admin interfaces</p>
+                </div>
+              </div>
             </div>
             <div>
               <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Platform Toggles</p>
