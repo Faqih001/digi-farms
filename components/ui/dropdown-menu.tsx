@@ -72,6 +72,8 @@ const DropdownMenuItem = React.forwardRef<
     ref={ref}
     className={cn(
       "relative flex cursor-default select-none items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none transition-colors focus:bg-slate-100 focus:text-slate-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:focus:bg-slate-800 dark:focus:text-slate-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+      // show green background + white text when item is highlighted (hover or keyboard)
+      "data-[highlighted]:bg-green-600 data-[highlighted]:text-white dark:data-[highlighted]:bg-green-600 dark:data-[highlighted]:text-white",
       inset && "pl-8",
       className
     )}
