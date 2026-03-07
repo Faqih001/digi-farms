@@ -10,6 +10,7 @@ import {
   MapPin, Phone, Mail, ChevronDown, ChevronUp,
 } from "lucide-react";
 import { toast } from "sonner";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { getSupplierCustomers } from "@/lib/actions/supplier";
 
 type Customer = Awaited<ReturnType<typeof getSupplierCustomers>>[number];
@@ -44,6 +45,15 @@ export default function CustomersPage() {
   }
 
   useEffect(() => { load(); }, []);
+
+  // reload customers when an avatar is updated elsewhere in this session
+  useEffect(() => {
+    function onAvatarUpdated() { load(); }
+    if (typeof window !== "undefined") {
+      window.addEventListener("df:avatar-updated", onAvatarUpdated as EventListener);
+    }
+    return () => { if (typeof window !== "undefined") { window.removeEventListener("df:avatar-updated", onAvatarUpdated as EventListener); } };
+  }, []);
 
   const filtered = customers.filter((c) => {
     const q = search.toLowerCase();
@@ -152,9 +162,10 @@ export default function CustomersPage() {
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         {/* Avatar */}
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm ${vip ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"}`}>
-                          {(c.user.name ?? c.user.email)[0].toUpperCase()}
-                        </div>
+                        <Avatar className={`w-10 h-10 ${vip ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"}`}>
+                          <AvatarImage src={c.user.image ?? ""} />
+                          <AvatarFallback className="font-bold text-sm">{(c.user.name ?? c.user.email)[0].toUpperCase()}</AvatarFallback>
+                        </Avatar>
                         <div className="min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
                             <span className="font-semibold text-sm text-slate-900 dark:text-white truncate">{c.user.name ?? "Unknown"}</span>
