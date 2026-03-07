@@ -167,7 +167,7 @@ export default function AIInsightPanel({
                       <span className="text-xs text-slate-400">{new Date(conv.createdAt).toLocaleDateString()} {new Date(conv.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
                       {conv.entityLabel && <Badge variant="secondary" className="text-xs py-0 px-1.5">{conv.entityLabel}</Badge>}
                     </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 truncate">{conv.prompt.replace(/^## Context.*?## Request\n\n/s, "").slice(0, 100)}…</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 truncate">{conv.prompt.replace(/^[\s\S]*?## Request\n\n/, "").slice(0, 100)}…</p>
                   </div>
                   <div className="flex gap-1 flex-shrink-0">
                     <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-slate-400 hover:text-purple-600" onClick={() => setViewConv(conv)}>

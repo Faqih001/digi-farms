@@ -66,7 +66,7 @@ export default function AIPerformancePage() {
 
   useEffect(() => { load(); }, [load]);
 
-  const totalModuleCount = stats?.byModule.reduce((s, m) => s + m._count.id, 0) ?? 0;
+  const totalModuleCount = stats?.byModule.reduce((s: number, m: { _count: { id: number } }) => s + m._count.id, 0) ?? 0;
 
   return (
     <div className="space-y-6">
@@ -112,7 +112,7 @@ export default function AIPerformancePage() {
           </CardHeader>
           <CardContent>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {stats.byModule.map(({ module, _count }) => {
+              {stats.byModule.map(({ module, _count }: { module: string; _count: { id: number } }) => {
                 const pct = totalModuleCount > 0 ? Math.round((_count.id / totalModuleCount) * 100) : 0;
                 const colorClass = MODULE_COLORS[module] ?? "bg-slate-100 text-slate-700";
                 return (
