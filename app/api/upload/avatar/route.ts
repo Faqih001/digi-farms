@@ -29,7 +29,8 @@ export async function POST(request: NextRequest) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const ext = file.type === "image/png" ? ".png" : file.type === "image/webp" ? ".webp" : ".jpg";
-    const filename = `avatars/${session.user.id}${ext}`;
+    // include a timestamp to force a new blob URL on each upload (avoids client caching)
+    const filename = `avatars/${session.user.id}-${Date.now()}${ext}`;
 
     // Remove any previous avatar blobs for this user
     try {
