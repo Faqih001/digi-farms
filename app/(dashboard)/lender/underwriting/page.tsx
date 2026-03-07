@@ -133,10 +133,10 @@ export default function UnderwritingPage() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { icon: Brain, label: "Total in Queue", value: stats?.total ?? "—", color: "text-purple-600", bg: "bg-purple-50 dark:bg-purple-950" },
-          { icon: Clock, label: "Submitted", value: stats?.submitted ?? "—", color: "text-blue-600", bg: "bg-blue-50 dark:bg-blue-950" },
-          { icon: AlertTriangle, label: "Under Review", value: stats?.underReview ?? "—", color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-950" },
-          { icon: Shield, label: "Avg Credit Score", value: stats?.avgCreditScore != null ? stats.avgCreditScore.toFixed(0) : "—", color: "text-green-600", bg: "bg-green-50 dark:bg-green-950" },
+          { icon: Brain, label: "Total in Queue", value: stats?.pending ?? "—", color: "text-purple-600", bg: "bg-purple-50 dark:bg-purple-950" },
+          { icon: Clock, label: "Auto Approved", value: stats?.autoApproved ?? "—", color: "text-blue-600", bg: "bg-blue-50 dark:bg-blue-950" },
+          { icon: AlertTriangle, label: "Under Review", value: stats?.manualReview ?? "—", color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-950" },
+          { icon: Shield, label: "Total Decisions", value: stats?.totalDecisions ?? "—", color: "text-green-600", bg: "bg-green-50 dark:bg-green-950" },
         ].map(({ icon: Icon, label, value, color, bg }) => (
           <Card key={label}>
             <CardContent className="p-4 flex items-center gap-3">
@@ -179,7 +179,7 @@ export default function UnderwritingPage() {
       ) : (
         <div className="space-y-4">
           {filtered.map((a) => {
-            const creditScore = a.creditScores?.[0];
+            const creditScore = a.user.creditScores?.[0];
             const repaymentCapacity = creditScore?.repaymentCapacity ?? 0;
             const farmViability = creditScore?.farmViability ?? 0;
             const score = creditScore?.score ?? 0;
@@ -200,8 +200,8 @@ export default function UnderwritingPage() {
                       <p className="text-sm text-slate-500 dark:text-slate-400">
                         {a.amount != null ? fmt.format(Number(a.amount)) : "—"}
                         {a.purpose ? ` • ${a.purpose}` : ""}
-                        {a.farm?.name ? ` • ${a.farm.name}` : ""}
-                        {a.farm?.location ? `, ${a.farm.location}` : ""}
+                        {a.user.farm?.name ? ` • ${a.user.farm.name}` : ""}
+                        {a.user.farm?.location ? `, ${a.user.farm.location}` : ""}
                       </p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <ScoreBar label="Repayment Capacity" value={repaymentCapacity} />
@@ -262,17 +262,17 @@ export default function UnderwritingPage() {
                 <div><p className="text-slate-400 text-xs">Status</p><p className="font-semibold">{viewApp.status}</p></div>
                 <div><p className="text-slate-400 text-xs">Purpose</p><p className="font-semibold">{viewApp.purpose ?? "—"}</p></div>
                 <div><p className="text-slate-400 text-xs">Tenure (months)</p><p className="font-semibold">{viewApp.tenure ?? "—"}</p></div>
-                <div><p className="text-slate-400 text-xs">Farm</p><p className="font-semibold">{viewApp.farm?.name ?? "—"}</p></div>
-                <div><p className="text-slate-400 text-xs">Farm Location</p><p className="font-semibold">{viewApp.farm?.location ?? "—"}</p></div>
+                <div><p className="text-slate-400 text-xs">Farm</p><p className="font-semibold">{viewApp.user.farm?.name ?? "—"}</p></div>
+                <div><p className="text-slate-400 text-xs">Farm Location</p><p className="font-semibold">{viewApp.user.farm?.location ?? "—"}</p></div>
               </div>
-              {viewApp.creditScores?.[0] && (
+              {viewApp.user.creditScores?.[0] && (
                 <div className="border-t pt-3 space-y-2">
                   <p className="font-semibold text-slate-700 dark:text-slate-300">Credit Score Details</p>
                   <div className="grid grid-cols-2 gap-2">
-                    <div><p className="text-slate-400 text-xs">Score</p><p className="font-semibold">{viewApp.creditScores[0].score.toFixed(1)}</p></div>
-                    <div><p className="text-slate-400 text-xs">Risk Level</p><p className={`font-semibold ${RISK_COLOR[viewApp.creditScores[0].riskLevel] ?? ""}`}>{viewApp.creditScores[0].riskLevel}</p></div>
-                    <div><p className="text-slate-400 text-xs">Repayment Capacity</p><p className="font-semibold">{viewApp.creditScores[0].repaymentCapacity}%</p></div>
-                    <div><p className="text-slate-400 text-xs">Farm Viability</p><p className="font-semibold">{viewApp.creditScores[0].farmViability}%</p></div>
+                    <div><p className="text-slate-400 text-xs">Score</p><p className="font-semibold">{viewApp.user.creditScores[0].score.toFixed(1)}</p></div>
+                    <div><p className="text-slate-400 text-xs">Risk Level</p><p className={`font-semibold ${RISK_COLOR[viewApp.user.creditScores[0].riskLevel] ?? ""}`}>{viewApp.user.creditScores[0].riskLevel}</p></div>
+                    <div><p className="text-slate-400 text-xs">Repayment Capacity</p><p className="font-semibold">{viewApp.user.creditScores[0].repaymentCapacity}%</p></div>
+                    <div><p className="text-slate-400 text-xs">Farm Viability</p><p className="font-semibold">{viewApp.user.creditScores[0].farmViability}%</p></div>
                   </div>
                 </div>
               )}
@@ -340,12 +340,12 @@ export default function UnderwritingPage() {
                 purpose: aiApp.purpose,
                 tenure: aiApp.tenure,
                 status: aiApp.status,
-                farm: aiApp.farm ? { name: aiApp.farm.name, location: aiApp.farm.location, sizeHectares: aiApp.farm.sizeHectares } : null,
-                creditScore: aiApp.creditScores?.[0] ? {
-                  score: aiApp.creditScores[0].score,
-                  riskLevel: aiApp.creditScores[0].riskLevel,
-                  repaymentCapacity: aiApp.creditScores[0].repaymentCapacity,
-                  farmViability: aiApp.creditScores[0].farmViability,
+                farm: aiApp.user.farm ? { name: aiApp.user.farm.name, location: aiApp.user.farm.location, sizeHectares: aiApp.user.farm.sizeHectares } : null,
+                creditScore: aiApp.user.creditScores?.[0] ? {
+                  score: aiApp.user.creditScores[0].score,
+                  riskLevel: aiApp.user.creditScores[0].riskLevel,
+                  repaymentCapacity: aiApp.user.creditScores[0].repaymentCapacity,
+                  farmViability: aiApp.user.creditScores[0].farmViability,
                 } : null,
               })}
               title="Loan Risk Analysis"
