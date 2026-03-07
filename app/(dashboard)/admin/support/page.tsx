@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Search, MessageSquare, Eye, Clock, CheckCircle, User, X, Loader2, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import { getSupportTickets, updateSupportTicketStatus } from "@/lib/actions/admin";
+import AIInsightPanel from "@/components/dashboard/ai-insight-panel";
 
 type Ticket = Awaited<ReturnType<typeof getSupportTickets>>[number];
 
