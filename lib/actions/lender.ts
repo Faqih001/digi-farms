@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { formatPrismaError, retryAsync } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
-import { LoanStatus, ClaimStatus } from "@prisma/client";
+import { LoanStatus, ClaimStatus, Prisma } from "@prisma/client";
 
 // ─── Analytics ────────────────────────────────────────────────────────────────
 
@@ -534,7 +534,7 @@ export async function createForecast(data: {
       db.yieldForecast.create({
         data: {
           ...rest,
-          ...(factors !== undefined ? { factors: factors as object } : {}),
+          ...(factors !== undefined ? { factors: factors as Prisma.InputJsonValue } : {}),
         },
       })
     );
