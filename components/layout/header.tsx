@@ -354,7 +354,7 @@ export default function Header() {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })} className="text-red-500 focus:text-red-500 focus:bg-red-50">
+                    <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/login" })} className="text-red-500 focus:text-red-500 focus:bg-red-50">
                       <LogOut className="w-4 h-4" /> Sign Out
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -461,7 +461,7 @@ export default function Header() {
                         <LayoutDashboard className="w-4 h-4" /> Dashboard
                       </Link>
                     </Button>
-                    <Button variant="ghost" className="w-full justify-start text-red-500 hover:text-red-500" onClick={() => { setMobileOpen(false); signOut({ callbackUrl: "/" }); }}>
+                    <Button variant="ghost" className="w-full justify-start text-red-500 hover:text-red-500" onClick={() => { setMobileOpen(false); signOut({ callbackUrl: "/login" }); }}>
                       <LogOut className="w-4 h-4" /> Sign Out
                     </Button>
                   </>

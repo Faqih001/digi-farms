@@ -152,7 +152,7 @@ export function Sidebar({ role, user, onNavigate }: { role: string; user: Sessio
       <Separator />
       <div className="p-3">
         <Button
-          onClick={() => signOut({ callbackUrl: "/" })}
+          onClick={() => signOut({ callbackUrl: "/login" })}
           variant="destructive"
           className="w-full justify-start"
         >

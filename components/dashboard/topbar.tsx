@@ -122,7 +122,7 @@ export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen, user }: 
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })} className="text-red-500 focus:text-red-500 focus:bg-red-50">
+            <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/login" })} className="text-red-500 focus:text-red-500 focus:bg-red-50">
               <LogOut className="w-4 h-4" /> Sign Out
             </DropdownMenuItem>
           </DropdownMenuContent>
