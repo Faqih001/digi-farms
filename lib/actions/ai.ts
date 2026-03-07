@@ -112,3 +112,13 @@ export async function getAIUsageStats() {
     activeUsers: promptUsageAll._count.id,
   };
 }
+
+export async function getAdminAIModels() {
+  const session = await auth();
+  const user = session?.user as any;
+  if (!session?.user?.id || user?.role !== "ADMIN") throw new Error("Unauthorized");
+
+  return db.aIModel.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+}
