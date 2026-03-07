@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Search, ShoppingCart, Eye, X, Loader2, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import { getAdminOrders, updateAdminOrderStatus } from "@/lib/actions/admin";
+import AIInsightPanel from "@/components/dashboard/ai-insight-panel";
 
 type Order = Awaited<ReturnType<typeof getAdminOrders>>[number];
 type OrderItem = Order['items'][number];
@@ -163,8 +164,7 @@ export default function AdminOrdersPage() {
       )}
 
       {/* Order Detail Modal */}
-      {selectedOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {selectedOrder && (        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50" onClick={() => !isPending && setSelectedOrder(null)} />
           <div className="relative z-10 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between p-5 border-b border-slate-200 dark:border-slate-700 sticky top-0 bg-white dark:bg-slate-900">
