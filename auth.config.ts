@@ -22,6 +22,8 @@ export const authConfig = {
         token.id = user.id;
         token.picture =
           (user as { image?: string | null }).image ?? token.picture;
+        token.isVerified = (user as { isVerified?: boolean }).isVerified ?? false;
+        token.isActive = (user as { isActive?: boolean }).isActive ?? true;
       }
       if (trigger === "update" && updateData?.picture !== undefined) {
         token.picture = updateData.picture;
@@ -35,6 +37,8 @@ export const authConfig = {
         if (token.picture !== undefined) {
           session.user.image = (token.picture as string | null) ?? null;
         }
+        session.user.isVerified = token.isVerified as boolean | undefined;
+        session.user.isActive = token.isActive as boolean | undefined;
       }
       return session;
     },

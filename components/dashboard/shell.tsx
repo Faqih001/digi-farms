@@ -10,6 +10,8 @@ export type SessionUser = {
   email?: string | null;
   image?: string | null;
   role?: string;
+  isVerified?: boolean;
+  isActive?: boolean;
 };
 
 export default function DashboardShell({ children, role, user: initialUser }: { children: React.ReactNode; role: string; user: SessionUser }) {

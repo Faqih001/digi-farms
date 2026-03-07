@@ -13,6 +13,8 @@ async function requireAdmin() {
 
 export async function getUsers(filters?: { role?: string; search?: string }) {
   await requireAdmin();
+  const now = new Date();
+  const periodStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
   return db.user.findMany({
     where: {
       ...(filters?.role ? { role: filters.role as "FARMER" | "SUPPLIER" | "LENDER" | "ADMIN" } : {}),
@@ -25,9 +27,18 @@ export async function getUsers(filters?: { role?: string; search?: string }) {
           }
         : {}),
     },
-    include: { subscription: true },
+    include: {
+      subscription: true,
+      supplier: { select: { id: true, isVerified: true, companyName: true } },
+      lenderProfile: { select: { id: true, institutionName: true, licenseNo: true } },
+      promptUsage: {
+        where: { periodStart: { gte: periodStart } },
+        take: 1,
+        orderBy: { periodStart: "desc" },
+      },
+    },
     orderBy: { createdAt: "desc" },
-    take: 100,
+    take: 200,
   });
 }
 
@@ -43,6 +54,40 @@ export async function deleteUser(userId: string) {
   await db.user.delete({ where: { id: userId } });
   revalidatePath("/admin/users");
   return { success: true };
+}
+
+export async function verifyUser(userId: string, isVerified: boolean) {
+  await requireAdmin();
+  await db.user.update({ where: { id: userId }, data: { isVerified } });
+  revalidatePath("/admin/users");
+  return { success: true };
+}
+
+export async function toggleUserActive(userId: string, isActive: boolean) {
+  await requireAdmin();
+  await db.user.update({
+    where: { id: userId },
+    data: { isActive, suspendedAt: isActive ? null : new Date() },
+  });
+  revalidatePath("/admin/users");
+  return { success: true };
+}
+
+export async function resetUserPrompts(userId: string) {
+  await requireAdmin();
+  await db.promptUsage.deleteMany({ where: { userId } });
+  revalidatePath("/admin/users");
+  return { success: true };
+}
+
+export async function adminUpdateUser(
+  userId: string,
+  data: Partial<{ name: string; email: string; phone: string; country: string; role: "FARMER" | "SUPPLIER" | "LENDER" | "ADMIN" }>
+) {
+  await requireAdmin();
+  const user = await db.user.update({ where: { id: userId }, data });
+  revalidatePath("/admin/users");
+  return { success: true, user };
 }
 
 export async function getProducts(filters?: { category?: string; search?: string }) {

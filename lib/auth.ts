@@ -31,12 +31,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!isValid) return null;
 
+        if (!user.isActive) return null;
+
         return {
           id: user.id,
           email: user.email,
           name: user.name,
           image: user.image,
           role: user.role,
+          isVerified: user.isVerified,
+          isActive: user.isActive,
         };
       },
     }),
