@@ -140,7 +140,7 @@ export async function getSupplierCustomers() {
   const orders = await db.order.findMany({
     where: { items: { some: { productId: { in: productIds } } } },
     include: {
-      user: { select: { id: true, name: true, email: true, phone: true, country: true } },
+      user: { select: { id: true, name: true, email: true, phone: true, country: true, image: true } },
       items: { where: { productId: { in: productIds } } },
     },
     orderBy: { createdAt: "desc" },
