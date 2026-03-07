@@ -310,19 +310,19 @@ export default function ProductsPage() {
             <div className="space-y-2">
               <Label>Product Images</Label>
               <div className="flex flex-wrap gap-2">
-                {form.imageUrls.map((url, i) => (
-                  <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700">
-                    <AppImage src={url} alt={`Image ${i + 1}`} fill className="object-cover" sizes="80px" />
-                    <button type="button" onClick={() => removeImage(i)} className="absolute top-0.5 right-0.5 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600">
+                {form.imageUrls.length > 0 && (
+                  <div className="relative w-20 h-20 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700">
+                    <AppImage src={form.imageUrls[0]} alt={`Image 1`} fill className="object-cover" sizes="80px" />
+                    <button type="button" onClick={() => removeImage(0)} className="absolute top-0.5 right-0.5 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600">
                       <X className="w-3 h-3" />
                     </button>
                   </div>
-                ))}
-                {form.imageUrls.length < 5 && (
-                  <ImageUploadDialog aspect={1} label="Add Image" onChange={(url) => { if (url) addImage(url); }} />
+                )}
+                {form.imageUrls.length < 1 && (
+                  <ImageUploadDialog aspect={1} label="Add" onChange={(url) => { if (url) addImage(url); }} />
                 )}
               </div>
-              <p className="text-xs text-slate-400">Up to 5 images. First image is the thumbnail.</p>
+              <p className="text-xs text-slate-400">Add 1 image. First image is the thumbnail.</p>
             </div>
 
             <div className="flex gap-3 pt-2">
