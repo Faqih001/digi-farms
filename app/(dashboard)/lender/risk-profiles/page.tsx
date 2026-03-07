@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { UserCheck, Eye, Search, TrendingUp, Shield, Sprout, BarChart3, RefreshCw, RotateCcw } from "lucide-react";
+import { UserCheck, Eye, Search, TrendingUp, Shield, Sprout, BarChart3, RefreshCw, RotateCcw, Sparkles } from "lucide-react";
 import { getRiskProfiles, recalculateCreditScore } from "@/lib/actions/lender";
+import AIInsightPanel from "@/components/dashboard/ai-insight-panel";
 
 type Profile = Awaited<ReturnType<typeof getRiskProfiles>>["profiles"][number];
 
@@ -33,6 +34,7 @@ export default function RiskProfilesPage() {
   const [isPending, startTransition] = useTransition();
   const [viewProfile, setViewProfile] = useState<Profile | null>(null);
   const [recalcUserId, setRecalcUserId] = useState<string | null>(null);
+  const [aiProfile, setAiProfile] = useState<Profile | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -158,6 +160,9 @@ export default function RiskProfilesPage() {
                         <Button variant="outline" size="sm" className="text-amber-600 border-amber-300 hover:bg-amber-50" onClick={() => handleRecalculate(p.user!.id)} disabled={isPending}>
                           <RotateCcw className="w-3 h-3 mr-1" /> Recalc
                         </Button>
+                        <Button variant="outline" size="sm" className="text-purple-600 border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-950" onClick={() => setAiProfile(p)}>
+                          <Sparkles className="w-3 h-3 mr-1" /> AI
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -208,18 +213,83 @@ export default function RiskProfilesPage() {
                   </div>
                 </div>
               )}
-              {viewProfile.factors && (
+              {viewProfile.factors && typeof viewProfile.factors === "object" && !Array.isArray(viewProfile.factors) && (
                 <div className="border-t pt-3">
-                  <p className="font-semibold text-slate-700 dark:text-slate-300 mb-2">Score Factors</p>
-                  <pre className="text-xs bg-slate-50 dark:bg-slate-800 rounded-lg p-3 overflow-auto max-h-24">
-                    {JSON.stringify(viewProfile.factors, null, 2)}
-                  </pre>
+                  <p className="font-semibold text-slate-700 dark:text-slate-300 mb-3">Score Factors</p>
+                  <div className="space-y-2.5">
+                    {Object.entries(viewProfile.factors as Record<string, number>)
+                      .filter(([k]) => k !== "maxLoanEligible")
+                      .map(([key, val]) => {
+                        const pct = Math.min(Math.max(Number(val), 0), 100);
+                        const label = key.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase());
+                        const barColor = pct >= 70 ? "bg-green-500" : pct >= 45 ? "bg-amber-500" : "bg-red-500";
+                        const textColor = pct >= 70 ? "text-green-600" : pct >= 45 ? "text-amber-600" : "text-red-600";
+                        return (
+                          <div key={key}>
+                            <div className="flex justify-between text-xs mb-1">
+                              <span className="text-slate-500 dark:text-slate-400">{label}</span>
+                              <span className={`font-semibold ${textColor}`}>{pct}%</span>
+                            </div>
+                            <div className="h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                              <div className={`h-full ${barColor} rounded-full transition-all`} style={{ width: `${pct}%` }} />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    {(viewProfile.factors as any).maxLoanEligible != null && (
+                      <div className="flex items-center justify-between pt-2 mt-1 border-t border-slate-100 dark:border-slate-700">
+                        <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Max Loan Eligible</span>
+                        <span className="text-sm font-bold text-green-600">
+                          KES {Number((viewProfile.factors as any).maxLoanEligible).toLocaleString()}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
           )}
           <DialogFooter>
             <Button variant="outline" onClick={() => setViewProfile(null)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* AI Risk Analysis Dialog */}
+      <Dialog open={!!aiProfile} onOpenChange={() => setAiProfile(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-purple-600" /> AI Risk Analysis
+            </DialogTitle>
+          </DialogHeader>
+          {aiProfile && (
+            <AIInsightPanel
+              module="lender_risk_profiles"
+              entityId={aiProfile.id}
+              entityLabel={`${aiProfile.user?.name ?? "Farmer"} — Score ${Number(aiProfile.score).toFixed(0)}`}
+              contextData={JSON.stringify({
+                farmer: aiProfile.user?.name,
+                creditScore: Number(aiProfile.score).toFixed(0),
+                riskLevel: aiProfile.riskLevel,
+                repaymentCapacity: Number(aiProfile.repaymentCapacity ?? 0).toFixed(0),
+                farmViability: Number(aiProfile.farmViability ?? 0).toFixed(0),
+                farm: aiProfile.user?.farm
+                  ? { name: aiProfile.user.farm.name, location: aiProfile.user.farm.location, sizeHectares: aiProfile.user.farm.sizeHectares, crops: aiProfile.user.farm.crops?.map((c) => c.name) }
+                  : null,
+                loanHistory: {
+                  total: aiProfile.user?.loanApplications?.length ?? 0,
+                  defaults: aiProfile.user?.loanApplications?.filter((l) => l.status === "DEFAULTED").length ?? 0,
+                },
+                factors: aiProfile.factors,
+              })}
+              title="Credit Risk Analysis"
+              description="AI assessment of this farmer's creditworthiness and risk factors"
+              defaultPrompt="Analyze this farmer's credit risk profile. Evaluate key strengths and weaknesses, explain what's driving the score, and recommend specific actions to improve creditworthiness."
+            />
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setAiProfile(null)}>Close</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
