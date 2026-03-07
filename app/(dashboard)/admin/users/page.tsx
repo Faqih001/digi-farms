@@ -193,7 +193,7 @@ export default function AdminUsersPage() {
                             <div className="min-w-0">
                               <div className="flex items-center gap-1.5">
                                 <span className="font-semibold text-slate-900 dark:text-white truncate max-w-[160px]">{u.name ?? "—"}</span>
-                                {u.isVerified && <BadgeCheck className="w-3.5 h-3.5 text-green-500 flex-shrink-0" title="Verified account" />}
+                                {u.isVerified && <BadgeCheck className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />}
                               </div>
                               <p className="text-xs text-slate-400 truncate max-w-[200px]">{u.email}</p>
                             </div>

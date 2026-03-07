@@ -10,7 +10,7 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
   DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, X, Settings, LogOut, User, ChevronDown, Sun, Moon, Home } from "lucide-react";
+import { Menu, X, Settings, LogOut, User, ChevronDown, Sun, Moon, Home, BadgeCheck } from "lucide-react";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
@@ -101,8 +101,12 @@ export function DashboardTopbar({ onMobileMenuToggle, isMobileMenuOpen, user }: 
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col">
-                <p className="text-sm font-semibold">{user?.name}</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="text-sm font-semibold">{user?.name}</p>
+                  {user?.isVerified && <BadgeCheck className="w-3.5 h-3.5 text-green-500" />}
+                </div>
                 <p className="text-xs text-slate-400">{user?.email}</p>
+                {!user?.isActive && <p className="text-xs text-red-500 font-medium mt-0.5">Account suspended</p>}
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />

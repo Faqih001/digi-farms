@@ -15,7 +15,7 @@ import {
   LayoutDashboard, Sprout, ScanLine, BarChart3, Droplets, CloudSun, ShoppingCart,
   Store, MapPin, Wallet, FileText, Shield, CreditCard, Settings, LogOut,
   Package, Truck, Users, DollarSign, TrendingUp, ClipboardList, PieChart,
-  UserCheck, BrainCircuit, Leaf
+  UserCheck, BrainCircuit, Leaf, BadgeCheck
 } from "lucide-react";
 
 const farmerNav = [
@@ -127,7 +127,10 @@ export function Sidebar({ role, user, onNavigate }: { role: string; user: Sessio
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{user?.name || "Farmer"}</p>
+            <div className="flex items-center gap-1">
+              <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{user?.name || "Farmer"}</p>
+              {user?.isVerified && <BadgeCheck className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />}
+            </div>
             <p className="text-xs text-slate-400 truncate">{user?.email}</p>
           </div>
           <Badge variant={roleBadgeVariant[role] || "default"} className="text-xs flex-shrink-0">{roleLabel[role]}</Badge>
