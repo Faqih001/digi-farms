@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { getUsers, updateUserRole, deleteUser } from "@/lib/actions/admin";
 
@@ -98,11 +99,15 @@ export default function AdminUsersPage() {
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent side="bottom" className="w-44 rounded-xl">
-                  <DropdownMenuItem onClick={() => handleRoleFilter("")}>All Roles</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleRoleFilter("FARMER")}>Farmers</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleRoleFilter("SUPPLIER")}>Suppliers</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleRoleFilter("LENDER")}>Lenders</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleRoleFilter("ADMIN")}>Admins</DropdownMenuItem>
+                  <DropdownMenuItem className="justify-center text-center rounded-md data-[highlighted]:bg-green-600 data-[highlighted]:text-white" onClick={() => handleRoleFilter("")}>All Roles</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="justify-center text-center rounded-md data-[highlighted]:bg-green-600 data-[highlighted]:text-white" onClick={() => handleRoleFilter("FARMER")}>Farmers</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="justify-center text-center rounded-md data-[highlighted]:bg-green-600 data-[highlighted]:text-white" onClick={() => handleRoleFilter("SUPPLIER")}>Suppliers</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="justify-center text-center rounded-md data-[highlighted]:bg-green-600 data-[highlighted]:text-white" onClick={() => handleRoleFilter("LENDER")}>Lenders</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="justify-center text-center rounded-md data-[highlighted]:bg-green-600 data-[highlighted]:text-white" onClick={() => handleRoleFilter("ADMIN")}>Admins</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -142,8 +147,11 @@ export default function AdminUsersPage() {
                             </button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent side="bottom" className="w-36 rounded-xl">
-                            {(["FARMER", "SUPPLIER", "LENDER", "ADMIN"] as const).map((r) => (
-                              <DropdownMenuItem key={r} onClick={() => handleRoleChange(u.id, r)}>{r}</DropdownMenuItem>
+                            {(["FARMER", "SUPPLIER", "LENDER", "ADMIN"] as const).map((r, idx) => (
+                              <div key={r}>
+                                <DropdownMenuItem className="justify-center text-center rounded-md data-[highlighted]:bg-green-600 data-[highlighted]:text-white" onClick={() => handleRoleChange(u.id, r)}>{r}</DropdownMenuItem>
+                                {idx < 3 && <DropdownMenuSeparator />}
+                              </div>
                             ))}
                           </DropdownMenuContent>
                         </DropdownMenu>
