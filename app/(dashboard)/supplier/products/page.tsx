@@ -215,7 +215,7 @@ export default function ProductsPage() {
               <Card key={p.id} className="card-hover overflow-hidden">
                 <div className="h-28 bg-slate-100 dark:bg-slate-800 relative overflow-hidden flex items-center justify-center">
                   {thumb ? (
-                    <AppImage src={thumb} alt={p.name} fill className="object-cover" sizes="160px" />
+                    <AppImage src={thumb} alt={p.name} fill className="object-contain object-center" sizes="160px" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
                       <ImageIcon className="w-8 h-8 text-slate-300" />
