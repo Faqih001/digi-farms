@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { toast } from "sonner";
 import { AlertTriangle, CheckCircle, Info, Loader2, Plus, Trash2 } from "lucide-react";
 import { getSoilReports, createSoilReport, deleteSoilReport, updateSoilReport } from "@/lib/actions/soil";
+import AIInsightPanel from "@/components/dashboard/ai-insight-panel";
 
 type Report = Awaited<ReturnType<typeof getSoilReports>>[number];
 
@@ -277,6 +278,28 @@ export default function SoilHealthPage() {
             ))}
           </CardContent>
         </Card>
+      )}
+
+      {reports.length > 0 && (
+        <AIInsightPanel
+          module="farmer_soil"
+          contextData={JSON.stringify({
+            reports: reports.map((r) => ({
+              farm: r.farmName,
+              status: getStatus(r),
+              ph: r.ph,
+              nitrogen: r.nitrogen,
+              phosphorus: r.phosphorus,
+              potassium: r.potassium,
+              organicMatter: r.organicMatter,
+              moisture: r.moisture,
+              testedAt: r.testedAt,
+            })),
+          })}
+          title="AI Soil Recommendations"
+          description="Get personalized agronomic advice from AI"
+          defaultPrompt="Analyze my soil test results. Identify deficiencies, recommend fertilizer applications with quantities, suggest pH adjustments, and advise on the best crops to plant given these soil conditions."
+        />
       )}
     </div>
   );

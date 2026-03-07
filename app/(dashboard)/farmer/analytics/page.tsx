@@ -12,6 +12,7 @@ import { Loader2, BarChart3, Download, Calendar, RefreshCw } from "lucide-react"
 import { DatePicker } from "@/components/ui/date-picker";
 import { toast } from "sonner";
 import { getYieldAnalytics } from "@/lib/actions/analytics";
+import AIInsightPanel from "@/components/dashboard/ai-insight-panel";
 
 type Analytics = Awaited<ReturnType<typeof getYieldAnalytics>>;
 
@@ -181,6 +182,22 @@ export default function YieldAnalyticsPage() {
           </TabsContent>
         </Tabs>
       )}
+
+      <AIInsightPanel
+        module="farmer_analytics"
+        contextData={!data ? "{}" : JSON.stringify({
+          totalYield: data.stats?.totalYield,
+          totalRevenue: data.stats?.totalRevenue,
+          bestCrop: data.stats?.bestCrop,
+          avgYieldPerHa: data.stats?.avgYieldPerHa,
+          crops: data.crops,
+          yieldByMonth: data.yieldByMonth.slice(-6),
+          revenueByMonth: data.revenueByMonth.slice(-6),
+        })}
+        title="AI Farm Performance Insights"
+        description="AI analysis of your yield trends and revenue optimization"
+        defaultPrompt="Analyze my farm's yield and revenue data. Identify which crops are most profitable, highlight seasonal patterns, and recommend strategies to maximize yield and income in the next season."
+      />
     </div>
   );
 }
