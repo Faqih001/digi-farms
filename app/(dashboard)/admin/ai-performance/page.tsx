@@ -66,7 +66,9 @@ export default function AIPerformancePage() {
 
   useEffect(() => { load(); }, [load]);
 
-  const totalModuleCount = stats?.byModule.reduce((s: number, m: { _count: { id: number } }) => s + m._count.id, 0) ?? 0;
+  type ByModuleItem = { module: string; _count: { id: number } };
+  const byModule: ByModuleItem[] = (stats?.byModule ?? []) as ByModuleItem[];
+  const totalModuleCount = byModule.reduce((s, m) => s + m._count.id, 0);
 
   return (
     <div className="space-y-6">
@@ -103,7 +105,7 @@ export default function AIPerformancePage() {
       </div>
 
       {/* Module breakdown */}
-      {!loading && stats && stats.byModule.length > 0 && (
+      {!loading && stats && byModule.length > 0 && (
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
@@ -112,7 +114,7 @@ export default function AIPerformancePage() {
           </CardHeader>
           <CardContent>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {stats.byModule.map(({ module, _count }: { module: string; _count: { id: number } }) => {
+              {byModule.map(({ module, _count }: { module: string; _count: { id: number } }) => {
                 const pct = totalModuleCount > 0 ? Math.round((_count.id / totalModuleCount) * 100) : 0;
                 const colorClass = MODULE_COLORS[module] ?? "bg-slate-100 text-slate-700";
                 return (
