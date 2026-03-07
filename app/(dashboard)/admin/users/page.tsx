@@ -9,6 +9,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Search, Trash2, Loader2, AlertCircle, Users } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import { getUsers, updateUserRole, deleteUser } from "@/lib/actions/admin";
 
 type User = Awaited<ReturnType<typeof getUsers>>[number];
@@ -84,13 +90,22 @@ export default function AdminUsersPage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <Input className="pl-10" placeholder="Search users by name or email..." value={search} onChange={e => handleSearch(e.target.value)} />
             </div>
-            <select className="h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 text-sm" value={roleFilter} onChange={e => handleRoleFilter(e.target.value)}>
-              <option value="">All Roles</option>
-              <option value="FARMER">Farmers</option>
-              <option value="SUPPLIER">Suppliers</option>
-              <option value="LENDER">Lenders</option>
-              <option value="ADMIN">Admins</option>
-            </select>
+            <div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 text-sm text-left w-44">
+                    {roleFilter || "All Roles"}
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-44">
+                  <DropdownMenuItem onClick={() => handleRoleFilter("")}>All Roles</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleRoleFilter("FARMER")}>Farmers</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleRoleFilter("SUPPLIER")}>Suppliers</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleRoleFilter("LENDER")}>Lenders</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleRoleFilter("ADMIN")}>Admins</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -120,14 +135,18 @@ export default function AdminUsersPage() {
                         <p className="text-xs text-slate-400">{u.email}</p>
                       </td>
                       <td className="px-4 py-3">
-                        <select
-                          className="text-xs border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 bg-white dark:bg-slate-900"
-                          value={u.role}
-                          onChange={e => handleRoleChange(u.id, e.target.value as "FARMER" | "SUPPLIER" | "LENDER" | "ADMIN")}
-                          disabled={pending}
-                        >
-                          {["FARMER", "SUPPLIER", "LENDER", "ADMIN"].map((r: any) => <option key={r} value={r}>{r}</option>)}
-                        </select>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <button className="text-xs border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 bg-white dark:bg-slate-900" disabled={pending}>
+                              {u.role}
+                            </button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="w-36">
+                            {(["FARMER", "SUPPLIER", "LENDER", "ADMIN"] as const).map((r) => (
+                              <DropdownMenuItem key={r} onClick={() => handleRoleChange(u.id, r)}>{r}</DropdownMenuItem>
+                            ))}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </td>
                       <td className="px-4 py-3 text-slate-500 dark:text-slate-400 text-xs">{new Date(u.createdAt).toLocaleDateString()}</td>
                       <td className="px-4 py-3">
