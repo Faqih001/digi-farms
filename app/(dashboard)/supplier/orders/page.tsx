@@ -243,7 +243,7 @@ export default function OrdersPage() {
                   const thumb = (i as any).product?.imageUrls?.[0];
                   return (
                     <div key={i.id} className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 overflow-hidden flex-shrink-0">
+                      <div className="w-10 h-10 rounded-lg bg-white dark:bg-slate-800 overflow-hidden flex-shrink-0">
                         {thumb ? (
                           <AppImage src={thumb} alt={i.product.name} width={40} height={40} className="w-full h-full object-cover" />
                         ) : (

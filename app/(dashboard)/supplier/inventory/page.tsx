@@ -205,7 +205,7 @@ export default function InventoryPage() {
             return (
               <Card key={product.id} className="overflow-hidden hover:shadow-md transition-shadow">
                 {/* Thumbnail */}
-                <div className="relative w-full aspect-video bg-slate-100 dark:bg-slate-800">
+                <div className="relative w-full aspect-video bg-white dark:bg-slate-800">
                   {thumb ? (
                     <AppImage src={thumb} alt={product.name} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />
                   ) : (
