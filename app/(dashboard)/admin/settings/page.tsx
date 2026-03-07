@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Save, Globe, Bell, Shield, CreditCard, Cpu } from "lucide-react";
+import { toast } from "sonner";
 
 const tabs = [
   { id: "general", label: "General", icon: Globe },
@@ -74,7 +75,7 @@ export default function AdminSettingsPage() {
               <Toggle label="New User Registrations" description="Allow new users to register on the platform" defaultChecked />
               <Toggle label="Marketplace Active" description="Enable buying and selling on the marketplace" defaultChecked />
             </div>
-            <Button className="bg-green-600 hover:bg-green-700 text-white"><Save className="w-4 h-4 mr-2" /> Save Changes</Button>
+            <Button onClick={() => toast.success("General settings saved")} className="bg-green-600 hover:bg-green-700 text-white"><Save className="w-4 h-4 mr-2" /> Save Changes</Button>
           </CardContent>
         </Card>
       )}
@@ -119,7 +120,7 @@ export default function AdminSettingsPage() {
                 <div className="space-y-1.5"><Label>Max Login Attempts</Label><Input type="number" defaultValue="5" /></div>
                 <div className="space-y-1.5"><Label>Lockout Duration (minutes)</Label><Input type="number" defaultValue="30" /></div>
               </div>
-              <Button className="bg-green-600 hover:bg-green-700 text-white"><Save className="w-4 h-4 mr-2" /> Save Security Settings</Button>
+              <Button onClick={() => toast.success("Security settings saved")} className="bg-green-600 hover:bg-green-700 text-white"><Save className="w-4 h-4 mr-2" /> Save Security Settings</Button>
             </CardContent>
           </Card>
         </div>
@@ -147,7 +148,7 @@ export default function AdminSettingsPage() {
               <Toggle label="Auto Payout to Suppliers" description="Automatically process supplier payouts on schedule" defaultChecked />
               <Toggle label="Require Invoice for Payout" description="Suppliers must upload invoice before payout" />
             </div>
-            <Button className="bg-green-600 hover:bg-green-700 text-white"><Save className="w-4 h-4 mr-2" /> Save Billing Config</Button>
+            <Button onClick={() => toast.success("Billing configuration saved")} className="bg-green-600 hover:bg-green-700 text-white"><Save className="w-4 h-4 mr-2" /> Save Billing Config</Button>
           </CardContent>
         </Card>
       )}
@@ -175,7 +176,7 @@ export default function AdminSettingsPage() {
               <Toggle label="Disease Alert Push Notifications" description="Instant alerts when AI detects disease outbreaks in a region" defaultChecked />
               <Toggle label="Collect Training Data" description="Allow anonymized farm data to improve AI model accuracy" defaultChecked />
             </div>
-            <Button className="bg-green-600 hover:bg-green-700 text-white"><Save className="w-4 h-4 mr-2" /> Save AI Config</Button>
+            <Button onClick={() => toast.success("AI configuration saved")} className="bg-green-600 hover:bg-green-700 text-white"><Save className="w-4 h-4 mr-2" /> Save AI Config</Button>
           </CardContent>
         </Card>
       )}
