@@ -186,13 +186,13 @@ export default function NewProductPage() {
                     </button>
                   </div>
                 ))}
-                {imageUrls.length < 5 && (
+                {imageUrls.length < 1 && (
                   <div className="w-24 h-24 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 flex items-center justify-center">
                     <ImageUploadDialog aspect={1} label="Add" onChange={(url) => { if (url) addImage(url); }} />
                   </div>
                 )}
               </div>
-              <p className="text-xs text-slate-400">Add up to 5 images. The first image becomes the main product thumbnail.</p>
+              <p className="text-xs text-slate-400">Add 1 image. This becomes the main product thumbnail.</p>
             </CardContent>
           </Card>
 
