@@ -1,147 +1,217 @@
+"use client";
+
+import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BarChart2, TrendingDown, AlertTriangle, Activity, MapPin, Cloud } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { BarChart2, TrendingDown, AlertTriangle, Activity, Cloud, RefreshCw } from "lucide-react";
+import { getLenderAnalytics } from "@/lib/actions/lender";
 
-const riskMetrics = [
-  { region: "Uasin Gishu", defaultRate: 1.2, avgScore: 78, activeLoan: 24, weatherRisk: "Low", trend: "stable" },
-  { region: "Nakuru", defaultRate: 2.8, avgScore: 72, activeLoan: 19, weatherRisk: "Low", trend: "improving" },
-  { region: "Kisumu", defaultRate: 5.6, avgScore: 61, activeLoan: 14, weatherRisk: "Medium", trend: "worsening" },
-  { region: "Meru", defaultRate: 0.9, avgScore: 84, activeLoan: 16, weatherRisk: "Low", trend: "stable" },
-  { region: "Nyandarua", defaultRate: 3.4, avgScore: 68, activeLoan: 11, weatherRisk: "Medium", trend: "stable" },
-  { region: "Kiambu", defaultRate: 4.1, avgScore: 65, activeLoan: 9, weatherRisk: "Low", trend: "worsening" },
-];
+type Analytics = Awaited<ReturnType<typeof getLenderAnalytics>>;
 
-const cropRisk = [
-  { crop: "Maize", borrowers: 48, defaultRate: 2.1, avgLoan: "KES 95K", risk: "Low" },
-  { crop: "Tea", borrowers: 22, defaultRate: 0.8, avgLoan: "KES 380K", risk: "Low" },
-  { crop: "Rice", borrowers: 18, defaultRate: 6.4, avgLoan: "KES 142K", risk: "High" },
-  { crop: "Tomatoes", borrowers: 34, defaultRate: 3.9, avgLoan: "KES 88K", risk: "Medium" },
-  { crop: "Coffee", borrowers: 12, defaultRate: 2.5, avgLoan: "KES 210K", risk: "Low" },
-  { crop: "Wheat", borrowers: 8, defaultRate: 8.2, avgLoan: "KES 76K", risk: "High" },
-];
+function StatCard({ icon: Icon, label, value, color, bg }: { icon: React.ElementType; label: string; value: string; color: string; bg: string }) {
+  return (
+    <Card>
+      <CardContent className="p-4 flex items-center gap-3">
+        <div className={`w-10 h-10 rounded-xl ${bg} flex items-center justify-center`}>
+          <Icon className={`w-5 h-5 ${color}`} />
+        </div>
+        <div>
+          <p className={`text-xl font-bold ${color}`}>{value}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
 
 export default function LenderAnalyticsPage() {
+  const [data, setData] = useState<Analytics | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    try {
+      const result = await getLenderAnalytics();
+      setData(result);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  const statusLabels: Record<string, string> = {
+    DRAFT: "Draft", SUBMITTED: "Submitted", UNDER_REVIEW: "Under Review",
+    APPROVED: "Approved", REJECTED: "Rejected", DISBURSED: "Disbursed",
+    REPAID: "Repaid", DEFAULTED: "Defaulted",
+  };
+
+  const riskEntries = data ? Object.entries(data.riskDistribution) : [];
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-black text-slate-900 dark:text-white">Risk Analytics</h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400">Portfolio risk distribution and trend analysis</p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-black text-slate-900 dark:text-white">Risk Analytics</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Portfolio risk distribution and trend analysis</p>
+        </div>
+        <Button variant="outline" size="sm" onClick={load} disabled={loading}>
+          <RefreshCw className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} /> Refresh
+        </Button>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {[
-          { icon: Activity, label: "Portfolio Default Rate", value: "3.2%", color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-950" },
-          { icon: TrendingDown, label: "Non-Performing Loans", value: "4", color: "text-red-600", bg: "bg-red-50 dark:bg-red-950" },
-          { icon: Cloud, label: "Weather Risk Exposure", value: "18%", color: "text-blue-600", bg: "bg-blue-50 dark:bg-blue-950" },
-          { icon: BarChart2, label: "Avg. Credit Score", value: "73.4", color: "text-green-600", bg: "bg-green-50 dark:bg-green-950" },
-        ].map(({ icon: Icon, label, value, color, bg }) => (
-          <Card key={label}>
-            <CardContent className="p-4 flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-xl ${bg} flex items-center justify-center`}>
-                <Icon className={`w-5 h-5 ${color}`} />
-              </div>
-              <div>
-                <p className={`text-xl font-bold ${color}`}>{value}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        <StatCard icon={Activity} label="Default Rate" value={loading ? "..." : `${data?.defaultRate ?? 0}%`} color="text-amber-600" bg="bg-amber-50 dark:bg-amber-950" />
+        <StatCard icon={TrendingDown} label="Defaulted Loans" value={loading ? "..." : String(data?.defaultedLoans ?? 0)} color="text-red-600" bg="bg-red-50 dark:bg-red-950" />
+        <StatCard icon={Cloud} label="Active Loans" value={loading ? "..." : String(data?.activeLoans ?? 0)} color="text-blue-600" bg="bg-blue-50 dark:bg-blue-950" />
+        <StatCard icon={BarChart2} label="Avg. Credit Score" value={loading ? "..." : String(data?.avgCreditScore ?? 0)} color="text-green-600" bg="bg-green-50 dark:bg-green-950" />
       </div>
 
       <div className="grid lg:grid-cols-2 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-bold flex items-center gap-2"><MapPin className="w-4 h-4" /> Risk by Region</CardTitle>
+            <CardTitle className="text-base font-bold">Loans by Status</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
-            <div className="divide-y divide-slate-100 dark:divide-slate-800">
-              {riskMetrics.map((r: any) => (
-                <div key={r.region} className="flex items-center justify-between px-4 py-3">
-                  <div>
-                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{r.region}</p>
-                    <p className="text-xs text-slate-400">{r.activeLoan} active loans • Weather: {r.weatherRisk}</p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="text-right">
-                      <p className={`text-sm font-bold ${r.defaultRate > 4 ? "text-red-600" : r.defaultRate > 2 ? "text-amber-600" : "text-green-600"}`}>{r.defaultRate}%</p>
-                      <p className="text-xs text-slate-400">default rate</p>
+            {loading ? (
+              <div className="p-6 text-center text-slate-400 text-sm">Loading…</div>
+            ) : data?.loansByStatus.length === 0 ? (
+              <div className="p-6 text-center text-slate-400 text-sm">No loan data yet.</div>
+            ) : (
+              <div className="divide-y divide-slate-100 dark:divide-slate-800">
+                {data?.loansByStatus.map((row) => (
+                  <div key={row.status} className="flex items-center justify-between px-4 py-3">
+                    <div>
+                      <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{statusLabels[row.status] ?? row.status}</p>
+                      <p className="text-xs text-slate-400">{row._count.status} loan(s)</p>
                     </div>
-                    <Badge variant={r.trend === "improving" ? "success" : r.trend === "worsening" ? "destructive" : "secondary"} className="text-xs capitalize">{r.trend}</Badge>
+                    <p className="text-sm font-bold text-slate-700 dark:text-slate-300">
+                      KES {((row._sum.amount ?? 0) / 1000).toFixed(0)}K
+                    </p>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-bold">Risk by Crop Type</CardTitle>
+            <CardTitle className="text-base font-bold">Risk Level Distribution</CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y divide-slate-100 dark:divide-slate-800">
-              {cropRisk.map((c: any) => (
-                <div key={c.crop} className="flex items-center justify-between px-4 py-3">
-                  <div>
-                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{c.crop}</p>
-                    <p className="text-xs text-slate-400">{c.borrowers} borrowers • Avg: {c.avgLoan}</p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <p className={`text-sm font-bold ${c.defaultRate > 5 ? "text-red-600" : c.defaultRate > 3 ? "text-amber-600" : "text-green-600"}`}>{c.defaultRate}%</p>
-                    <Badge variant={c.risk === "Low" ? "success" : c.risk === "Medium" ? "warning" : "destructive"} className="text-xs">{c.risk}</Badge>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <CardContent>
+            {loading ? (
+              <div className="p-6 text-center text-slate-400 text-sm">Loading…</div>
+            ) : riskEntries.length === 0 ? (
+              <div className="p-6 text-center text-slate-400 text-sm">No credit score data yet.</div>
+            ) : (
+              <div className="space-y-3">
+                {riskEntries.map(([level, count]) => {
+                  const total = riskEntries.reduce((s, [, c]) => s + c, 0);
+                  const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                  const color = level === "low" ? "bg-green-500" : level === "medium" ? "bg-amber-500" : "bg-red-500";
+                  return (
+                    <div key={level}>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="text-slate-600 dark:text-slate-400 capitalize">{level} Risk</span>
+                        <span className="font-medium text-slate-800 dark:text-slate-200">{count} ({pct}%)</span>
+                      </div>
+                      <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                        <div className={`h-full ${color} rounded-full`} style={{ width: `${pct}%` }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
 
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-base font-bold">Default Rate Trend (6 months)</CardTitle>
+          <CardTitle className="text-base font-bold">Recent Loan Activity</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-end gap-2 h-28">
-            {[2.8, 3.5, 4.1, 3.8, 3.4, 3.2].map((rate, i) => {
-              const labels = ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb"];
-              return (
-                <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <div className="flex-1 flex items-end w-full">
-                    <div
-                      className={`w-full rounded-t-md ${rate > 4 ? "bg-red-400" : rate > 3 ? "bg-amber-400" : "bg-green-400"}`}
-                      style={{ height: `${(rate / 5) * 100}%` }}
-                    />
+          {loading ? (
+            <div className="text-center text-slate-400 text-sm py-6">Loading…</div>
+          ) : (data?.recentLoans ?? []).length === 0 ? (
+            <div className="text-center text-slate-400 text-sm py-6">No loans recorded yet.</div>
+          ) : (
+            <div className="flex items-end gap-2 h-28">
+              {(data?.recentLoans ?? []).map((l, i) => {
+                const maxAmt = Math.max(...(data?.recentLoans ?? []).map((x) => x.amount), 1);
+                const pct = (l.amount / maxAmt) * 100;
+                return (
+                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                    <div className="flex-1 flex items-end w-full">
+                      <div
+                        className={`w-full rounded-t-md ${l.status === "DEFAULTED" ? "bg-red-400" : l.status === "REPAID" ? "bg-green-400" : "bg-blue-400"}`}
+                        style={{ height: `${pct}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-slate-400">{new Date(l.createdAt).toLocaleDateString("en-KE", { month: "short" })}</span>
+                    <span className="text-xs text-slate-500">{(l.amount / 1000).toFixed(0)}K</span>
                   </div>
-                  <span className="text-xs text-slate-400">{labels[i]}</span>
-                  <span className="text-xs font-medium text-slate-600 dark:text-slate-400">{rate}%</span>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-base font-bold flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-amber-500" /> Risk Alerts</CardTitle>
+          <CardTitle className="text-base font-bold flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-amber-500" /> Risk Summary
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
-          {[
-            { severity: "High", message: "Kisumu region default rate exceeded 5% threshold — review 3 borderline accounts", time: "2 hours ago" },
-            { severity: "Medium", message: "El Niño forecast may affect 12 borrowers in Kisumu and Homabay counties", time: "1 day ago" },
-            { severity: "Low", message: "Wheat borrowers in Uasin Gishu showing yield stress — consider loan restructuring", time: "3 days ago" },
-          ].map(({ severity, message, time }) => (
-            <div key={message} className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
-              <AlertTriangle className={`w-4 h-4 mt-0.5 flex-shrink-0 ${severity === "High" ? "text-red-500" : severity === "Medium" ? "text-amber-500" : "text-blue-400"}`} />
-              <div className="flex-1">
-                <p className="text-sm text-slate-700 dark:text-slate-300">{message}</p>
-                <p className="text-xs text-slate-400">{time}</p>
-              </div>
-              <Badge variant={severity === "High" ? "destructive" : severity === "Medium" ? "warning" : "info"} className="text-xs">{severity}</Badge>
-            </div>
-          ))}
+          {loading ? (
+            <div className="text-center text-slate-400 text-sm py-4">Loading…</div>
+          ) : (
+            <>
+              {(data?.defaultedLoans ?? 0) > 0 && (
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-red-50 dark:bg-red-950/30">
+                  <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0 text-red-500" />
+                  <div className="flex-1">
+                    <p className="text-sm text-slate-700 dark:text-slate-300">
+                      {data?.defaultedLoans} defaulted loan(s) require immediate attention
+                    </p>
+                  </div>
+                  <Badge variant="destructive" className="text-xs">High</Badge>
+                </div>
+              )}
+              {(data?.defaultRate ?? 0) > 5 && (
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30">
+                  <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0 text-amber-500" />
+                  <div className="flex-1">
+                    <p className="text-sm text-slate-700 dark:text-slate-300">
+                      Portfolio default rate at {data?.defaultRate}% — above 5% threshold
+                    </p>
+                  </div>
+                  <Badge variant="warning" className="text-xs">Medium</Badge>
+                </div>
+              )}
+              {(data?.defaultedLoans ?? 0) === 0 && (data?.activeLoans ?? 0) > 0 && (
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-green-50 dark:bg-green-950/30">
+                  <Activity className="w-4 h-4 mt-0.5 flex-shrink-0 text-green-500" />
+                  <div className="flex-1">
+                    <p className="text-sm text-slate-700 dark:text-slate-300">
+                      Portfolio is healthy — {data?.activeLoans} active loans, 0 defaults
+                    </p>
+                  </div>
+                  <Badge variant="success" className="text-xs">Good</Badge>
+                </div>
+              )}
+              {(data?.totalLoans ?? 0) === 0 && (
+                <div className="p-3 text-center text-slate-400 text-sm">No loan data available yet.</div>
+              )}
+            </>
+          )}
         </CardContent>
       </Card>
     </div>
