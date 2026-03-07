@@ -131,7 +131,7 @@ export async function POST(req: Request) {
 
           // Save to DB after streaming completes
           try {
-            await db.aIConversation.create({
+            await (db as any).aIConversation.create({
               data: {
                 userId: session.user!.id,
                 module,

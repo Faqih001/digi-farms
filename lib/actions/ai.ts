@@ -17,7 +17,7 @@ export async function saveAIConversation(data: {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  return db.aIConversation.create({
+  return (db as any).aIConversation.create({
     data: {
       userId: session.user.id,
       module: data.module,
@@ -36,7 +36,7 @@ export async function getAIConversations(module: string, entityId?: string) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  return db.aIConversation.findMany({
+  return (db as any).aIConversation.findMany({
     where: {
       userId: session.user.id,
       module,
@@ -62,7 +62,7 @@ export async function deleteAIConversation(id: string) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  await db.aIConversation.delete({
+  await (db as any).aIConversation.delete({
     where: { id, userId: session.user.id },
   });
 }
@@ -73,7 +73,7 @@ export async function getAdminAIConversations(filters?: { module?: string; limit
   const user = session?.user as any;
   if (!session?.user?.id || user?.role !== "ADMIN") throw new Error("Unauthorized");
 
-  return db.aIConversation.findMany({
+  return (db as any).aIConversation.findMany({
     where: filters?.module ? { module: filters.module } : {},
     orderBy: { createdAt: "desc" },
     take: filters?.limit ?? 50,
@@ -98,9 +98,9 @@ export async function getAIUsageStats() {
   if (!session?.user?.id || user?.role !== "ADMIN") throw new Error("Unauthorized");
 
   const [total, byModule, todayCount, promptUsageAll] = await Promise.all([
-    db.aIConversation.count(),
-    db.aIConversation.groupBy({ by: ["module"], _count: { id: true }, orderBy: { _count: { id: "desc" } } }),
-    db.aIConversation.count({ where: { createdAt: { gte: new Date(new Date().setHours(0, 0, 0, 0)) } } }),
+    (db as any).aIConversation.count(),
+    (db as any).aIConversation.groupBy({ by: ["module"], _count: { id: true }, orderBy: { _count: { id: "desc" } } }),
+    (db as any).aIConversation.count({ where: { createdAt: { gte: new Date(new Date().setHours(0, 0, 0, 0)) } } }),
     db.promptUsage.aggregate({ _sum: { used: true }, _count: { id: true } }),
   ]);
 
@@ -118,7 +118,7 @@ export async function getAdminAIModels() {
   const user = session?.user as any;
   if (!session?.user?.id || user?.role !== "ADMIN") throw new Error("Unauthorized");
 
-  return db.aIModel.findMany({
+  return (db as any).aIModel.findMany({
     orderBy: { createdAt: "desc" },
   });
 }
