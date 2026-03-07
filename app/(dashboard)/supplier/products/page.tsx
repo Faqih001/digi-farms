@@ -213,7 +213,7 @@ export default function ProductsPage() {
             const thumb = p.imageUrls?.[0];
             return (
               <Card key={p.id} className="card-hover overflow-hidden">
-                <div className="h-40 bg-slate-100 dark:bg-slate-800 relative overflow-hidden flex items-center justify-center">
+                <div className="h-40 bg-white dark:bg-slate-800 relative overflow-hidden flex items-center justify-center">
                   {thumb ? (
                     <AppImage src={thumb} alt={p.name} fill className="object-contain object-center" sizes="240px" />
                   ) : (
