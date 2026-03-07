@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { TrendingUp, TrendingDown, Leaf, Droplets, Sun, CloudRain, Search, Plus, Trash2, RefreshCw } from "lucide-react";
+import { TrendingUp, TrendingDown, Leaf, Droplets, Sun, CloudRain, Search, Plus, Trash2, RefreshCw, Sparkles } from "lucide-react";
 import { getLenderForecasts, createForecast, deleteForecast, getFarmsForSelect } from "@/lib/actions/lender";
+import AIInsightPanel from "@/components/dashboard/ai-insight-panel";
 
 type Forecast = Awaited<ReturnType<typeof getLenderForecasts>>["forecasts"][number];
 type FarmOption = Awaited<ReturnType<typeof getFarmsForSelect>>[number];
@@ -41,6 +42,7 @@ export default function ForecastsPage() {
 
   // Delete confirm
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [aiForecast, setAiForecast] = useState<Forecast | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -176,6 +178,9 @@ export default function ForecastsPage() {
                         </div>
                         <p className="text-xs text-slate-400">confidence</p>
                       </div>
+                      <Button size="sm" variant="outline" className="text-purple-600 border-purple-200 hover:bg-purple-50" onClick={() => setAiForecast(f)}>
+                        <Sparkles className="w-3 h-3" />
+                      </Button>
                       <Button size="sm" variant="outline" className="text-red-500 border-red-200 hover:bg-red-50" onClick={() => setDeleteId(f.id)}>
                         <Trash2 className="w-3 h-3" />
                       </Button>
@@ -188,7 +193,44 @@ export default function ForecastsPage() {
         </div>
       )}
 
-      {/* Create Forecast Modal */}
+      {/* AI Forecast Analysis Dialog */}
+      <Dialog open={!!aiForecast} onOpenChange={() => setAiForecast(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-purple-600" /> AI Yield Analysis
+            </DialogTitle>
+          </DialogHeader>
+          {aiForecast && (
+            <AIInsightPanel
+              module="lender_forecasts"
+              entityId={aiForecast.id}
+              entityLabel={`${aiForecast.farm?.user?.name ?? ""} — ${aiForecast.cropName}`}
+              contextData={JSON.stringify({
+                farmer: aiForecast.farm?.user?.name,
+                farm: aiForecast.farm?.name,
+                location: aiForecast.farm?.location,
+                sizeHectares: aiForecast.farm?.sizeHectares,
+                cropName: aiForecast.cropName,
+                season: aiForecast.season,
+                predictedYield: aiForecast.predictedYield,
+                confidence: aiForecast.confidence,
+                healthScore: aiForecast.healthScore,
+                moisture: aiForecast.moisture,
+                forecastDate: aiForecast.forecastDate,
+              })}
+              title="Crop Yield Analysis"
+              description="AI interpretation of this yield forecast and lending risk"
+              defaultPrompt="Analyze this crop yield forecast. Assess the reliability of the prediction, identify weather or agronomic risks, and advise whether this farm's output is sufficient to support loan repayment."
+            />
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setAiForecast(null)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Create Forecast Modal */}}
       <Dialog open={showCreate} onOpenChange={setShowCreate}>
         <DialogContent>
           <DialogHeader>

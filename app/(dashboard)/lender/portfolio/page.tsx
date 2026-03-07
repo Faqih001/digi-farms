@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { DollarSign, TrendingUp, AlertCircle, CheckCircle, Search, Eye, Calendar, RefreshCw } from "lucide-react";
 import { getLenderPortfolio, updateLoanStatus } from "@/lib/actions/lender";
 import type { LoanStatus } from "@prisma/client";
+import AIInsightPanel from "@/components/dashboard/ai-insight-panel";
 
 type PortfolioData = Awaited<ReturnType<typeof getLenderPortfolio>>;
 type LoanItem = PortfolioData["loans"][number];
@@ -241,6 +242,26 @@ export default function PortfolioPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <AIInsightPanel
+        module="lender_portfolio"
+        contextData={loading || !data ? "{}" : JSON.stringify({
+          totalDisbursed: data.stats.totalDisbursed,
+          activeLoans: data.stats.activeCount,
+          overdueLoans: data.stats.overdueCount,
+          topLoans: loans.slice(0, 12).map((l) => ({
+            farmer: l.user?.name,
+            amount: l.approvedAmount ?? l.amount,
+            repaymentPct: l.repaymentPct,
+            status: l.status,
+            purpose: l.purpose,
+            dueDate: l.dueDate,
+          })),
+        })}
+        title="Portfolio AI Analysis"
+        description="AI-powered overview of your entire loan portfolio"
+        defaultPrompt="Analyze this loan portfolio. Identify underperforming loans, repayment trends, and overdue risks. Suggest prioritization for collections and portfolio health improvements."
+      />
     </div>
   );
 }

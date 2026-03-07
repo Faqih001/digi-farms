@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BarChart2, TrendingDown, AlertTriangle, Activity, Cloud, RefreshCw } from "lucide-react";
 import { getLenderAnalytics } from "@/lib/actions/lender";
+import AIInsightPanel from "@/components/dashboard/ai-insight-panel";
 
 type Analytics = Awaited<ReturnType<typeof getLenderAnalytics>>;
 
@@ -214,6 +215,22 @@ export default function LenderAnalyticsPage() {
           )}
         </CardContent>
       </Card>
+
+      <AIInsightPanel
+        module="lender_analytics"
+        contextData={loading || !data ? "{}" : JSON.stringify({
+          defaultRate: data.defaultRate,
+          defaultedLoans: data.defaultedLoans,
+          activeLoans: data.activeLoans,
+          avgCreditScore: data.avgCreditScore,
+          riskDistribution: data.riskDistribution,
+          loansByStatus: data.loansByStatus.map((r) => ({ status: r.status, count: r._count.status, totalKES: r._sum.amount })),
+          recentLoans: data.recentLoans.slice(0, 10).map((l) => ({ status: l.status, amount: l.amount })),
+        })}
+        title="Portfolio Risk Analysis"
+        description="AI-powered insights on your lending portfolio health"
+        defaultPrompt="Analyze this portfolio's risk profile. Identify concerning trends, highest-risk segments, and provide actionable recommendations to reduce default rates and improve portfolio health."
+      />
     </div>
   );
 }
