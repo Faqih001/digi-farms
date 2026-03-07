@@ -97,7 +97,7 @@ export default function AdminUsersPage() {
                     {roleFilter || "All Roles"}
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-44">
+                <DropdownMenuContent side="bottom" className="w-44 rounded-xl">
                   <DropdownMenuItem onClick={() => handleRoleFilter("")}>All Roles</DropdownMenuItem>
                   <DropdownMenuItem onClick={() => handleRoleFilter("FARMER")}>Farmers</DropdownMenuItem>
                   <DropdownMenuItem onClick={() => handleRoleFilter("SUPPLIER")}>Suppliers</DropdownMenuItem>
@@ -141,7 +141,7 @@ export default function AdminUsersPage() {
                               {u.role}
                             </button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent className="w-36">
+                          <DropdownMenuContent side="bottom" className="w-36 rounded-xl">
                             {(["FARMER", "SUPPLIER", "LENDER", "ADMIN"] as const).map((r) => (
                               <DropdownMenuItem key={r} onClick={() => handleRoleChange(u.id, r)}>{r}</DropdownMenuItem>
                             ))}
